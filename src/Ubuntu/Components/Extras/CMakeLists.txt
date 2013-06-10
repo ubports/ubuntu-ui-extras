@@ -31,3 +31,4 @@ set(PLUGIN_DIR ${QT_IMPORTS_DIR}/Ubuntu/Components/Extras)
 install(TARGETS ubuntu-ui-extras-plugin DESTINATION ${PLUGIN_DIR})
 install(FILES qmldir DESTINATION ${PLUGIN_DIR})
 
+add_subdirectory(Browser)

@@ -1,4 +1,4 @@
-Source: ubuntu-ui-extras
+Source: qtdeclarative5-ubuntu-ui-extras-plugin
 Section: x11
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>

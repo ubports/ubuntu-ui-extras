@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="webbrowser-plugin-translations" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Sql\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Quick\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Qml\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Network\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Test\;CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5QuickTest\;CMake Files\src\;CMake Files\src\Ubuntu\;CMake Files\src\Ubuntu\Components\;CMake Files\src\Ubuntu\Components\Extras\;CMake Files\src\Ubuntu\Components\Extras\Browser\;CMake Files\src\Ubuntu\Components\Extras\Browser\po\;CMake Files\tests\;CMake Files\tests\autopilot\;CMake Files\tests\unittests\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_1">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_1" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_10">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_10" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_11">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_11" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_12">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_12" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_13">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_13" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_14">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_14" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_15">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_15" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_16">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_16" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_17">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_17" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_18">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_18" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_19">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_19" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_2">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_2" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_20">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_20" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_21">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_21" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_22">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_22" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_23">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_23" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_24">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_24" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_25">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_25" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_26">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_26" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_27">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_27" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_28">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_28" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_29">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_29" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_3">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_3" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_4">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_4" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_5">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_5" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_6">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_6" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_7">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_7" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_8">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_8" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="pofiles_9">
+         <Option working_dir="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 pofiles_9" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Sql/Qt5SqlConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Sql\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Sql/Qt5SqlConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Sql\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Quick/Qt5QuickConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Quick\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Quick/Qt5QuickConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Quick\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Qml/Qt5QmlConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Qml\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Qml/Qt5QmlConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Qml\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Network/Qt5NetworkConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Network\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Network/Qt5NetworkConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Network\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Test/Qt5TestConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Test\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5Test/Qt5TestConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5Test\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5QuickTest/Qt5QuickTestConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5QuickTest\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/../../../../../../usr/lib/i386-linux-gnu/cmake/Qt5QuickTest/Qt5QuickTestConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\lib\i386-linux-gnu\cmake\Qt5QuickTest\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/src/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\Ubuntu\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\Ubuntu\Components\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\Ubuntu\Components\Extras\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\Ubuntu\Components\Extras\Browser\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\Ubuntu\Components\Extras\Browser\po\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/src/Ubuntu/Components/Extras/Browser/po/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\Ubuntu\Components\Extras\Browser\po\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/tests/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\tests\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/tests/autopilot/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\tests\autopilot\" />
+      </Unit>
+      <Unit filename="/home/nerochiaro/projects/phone/browser/browser-component/tests/unittests/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\tests\unittests\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>
