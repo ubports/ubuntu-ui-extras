@@ -5,7 +5,7 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-"""webbrowser-app autopilot tests."""
+"""browser autopilot tests."""
 
 import os, glob
 import os.path
@@ -21,7 +21,7 @@ from autopilot.testcase import AutopilotTestCase
 
 import http_server
 
-from webbrowser_app.emulators.main_window import MainWindow
+from browser.emulators.main_window import MainWindow
 
 
 HTTP_SERVER_PORT = 8129
@@ -32,7 +32,7 @@ class BrowserTestCaseBase(AutopilotTestCase):
 
     """
     A common test case class that provides several useful methods
-    for webbrowser-app tests.
+    for the browser component tests.
     """
 
     if model() == 'Desktop':
@@ -42,7 +42,7 @@ class BrowserTestCaseBase(AutopilotTestCase):
 
     ARGS = []
     _temp_pages = []
-    local_location = "webbrowser_app/emulators/runner.qml"
+    local_location = "browser/emulators/runner.qml"
 
     def setUp(self):
         self.pointing_device = Pointer(self.input_device_class.create())
@@ -135,9 +135,6 @@ class BrowserTestCaseBase(AutopilotTestCase):
     def assert_chrome_eventually_hidden(self):
         view = self.main_window.get_qml_view()
         chrome = self.main_window.get_chrome()
-        print "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"
-        print chrome.globalRect
-        print view.globalRect
         self.assertThat(lambda: chrome.globalRect[1],
                         Eventually(Equals(view.y + view.height)))
 
