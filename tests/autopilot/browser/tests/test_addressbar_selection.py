@@ -13,7 +13,7 @@ import time
 from testtools.matchers import Equals, GreaterThan
 from autopilot.matchers import Eventually
 
-from webbrowser_app.tests import StartOpenRemotePageTestCaseBase
+from browser.tests import StartOpenRemotePageTestCaseBase
 
 
 class TestAddressBarSelection(StartOpenRemotePageTestCaseBase):

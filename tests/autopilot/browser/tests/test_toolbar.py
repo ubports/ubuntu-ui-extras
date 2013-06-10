@@ -8,7 +8,7 @@
 
 from __future__ import absolute_import
 
-from webbrowser_app.tests import BrowserTestCaseBase
+from browser.tests import BrowserTestCaseBase
 
 
 class TestToolbar(BrowserTestCaseBase):

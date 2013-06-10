@@ -11,7 +11,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from webbrowser_app.tests import StartOpenRemotePageTestCaseBase
+from browser.tests import StartOpenRemotePageTestCaseBase
 
 
 class TestAddressBarStates(StartOpenRemotePageTestCaseBase):

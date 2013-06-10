@@ -11,7 +11,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from webbrowser_app.tests import StartOpenLocalPageTestCaseBase
+from browser.tests import StartOpenLocalPageTestCaseBase
 
 
 LOREMIPSUM = "<p>Lorem ipsum dolor sit amet.</p>"

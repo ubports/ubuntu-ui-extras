@@ -10,7 +10,7 @@ from __future__ import absolute_import
 
 from testtools.matchers import Equals
 
-from webbrowser_app.tests import BrowserTestCaseBase
+from browser.tests import BrowserTestCaseBase
 
 
 class TestChromeless(BrowserTestCaseBase):
