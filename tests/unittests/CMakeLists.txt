@@ -30,3 +30,8 @@ add_executable(tst_HistoryMatchesModelTests ${HMM_SRC})
 include_directories(${BROWSER_SOURCE_DIR})
 qt5_use_modules(tst_HistoryMatchesModelTests Core Sql Test)
 add_test(tst_HistoryMatchesModelTests ${CMAKE_CURRENT_BINARY_DIR}/tst_HistoryMatchesModelTests)
+
+# copy qml files over to build dir to be able to import them in tests
+foreach(qmlFile ${QML_FILES})
+  file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/src/Ubuntu/Browser/)
+endforeach(qmlFile)
