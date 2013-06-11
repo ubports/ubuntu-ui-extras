@@ -33,5 +33,5 @@ add_test(tst_HistoryMatchesModelTests ${CMAKE_CURRENT_BINARY_DIR}/tst_HistoryMat
 
 # copy qml files over to build dir to be able to import them in tests
 foreach(qmlFile ${QML_FILES})
-  file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/src/Ubuntu/Browser/)
+  file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/src/Ubuntu/Components/Extras/Browser)
 endforeach(qmlFile)
