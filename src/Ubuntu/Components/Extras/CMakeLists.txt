@@ -11,7 +11,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-file(GLOB QML_FILES *.qml *.qmltheme Browser)
+file(GLOB QML_FILES *.qml *.qmltheme qmldir Browser)
 
 add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS} ${BROWSER_PLUGIN_SRC})
 qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick Network Sql)
@@ -33,7 +33,18 @@ install(FILES qmldir DESTINATION ${PLUGIN_DIR})
 
 # copy qml files over to build dir to be able to import them in tests
 foreach(qmlFile ${QML_FILES})
+  message(STATUS ${qmlFile})
   file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 endforeach(qmlFile)
+install(TARGETS ubuntu-ui-extras-plugin DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
+
+# copy the product of the build (plugin binary) to the test directory before
+# unit tests are run, so it can be loaded by them.
+add_custom_command(
+            TARGET ubuntu-ui-extras-plugin
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+                $<TARGET_FILE:ubuntu-ui-extras-plugin>
+                ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 
 add_subdirectory(Browser)
