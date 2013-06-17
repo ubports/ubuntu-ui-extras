@@ -8,6 +8,9 @@
 
 from __future__ import absolute_import
 
+from autopilot.matchers import Eventually
+from testtools.matchers import Equals
+
 from browser.tests import BrowserTestCaseBase
 
 
@@ -15,21 +18,10 @@ class TestToolbar(BrowserTestCaseBase):
 
     """Tests interaction with the toolbar."""
 
-    def test_reveal_chrome(self):
-        self.ensure_chrome_is_hidden()
-        self.reveal_chrome()
-        self.assert_chrome_eventually_shown()
-
-    def test_hide_chrome(self):
-        self.ensure_chrome_is_hidden()
-        self.reveal_chrome()
-        self.hide_chrome()
-        self.assert_chrome_eventually_hidden()
-
     def test_unfocus_chrome_hides_it(self):
         webview = self.main_window.get_web_view()
+        panel = self.main_window.get_panel()
         self.ensure_chrome_is_hidden()
         self.reveal_chrome()
-        self.pointing_device.move_to_object(webview)
-        self.pointing_device.click()
-        self.assert_chrome_eventually_hidden()
+        self.pointing_device.click_object(webview)
+        self.assertThat(panel.state, Eventually(Equals("")))

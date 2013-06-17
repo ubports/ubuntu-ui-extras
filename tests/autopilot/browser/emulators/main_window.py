@@ -62,6 +62,4 @@ class MainWindow(object):
         return listview.get_children()[0].get_children_by_type("Base")
 
     def get_panel(self):
-        print "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-        print self.app.select_single("Panel")
         return self.app.select_single("Panel")
