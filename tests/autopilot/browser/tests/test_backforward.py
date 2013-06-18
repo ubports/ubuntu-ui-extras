@@ -11,15 +11,19 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from browser.tests import StartOpenLocalPageTestCaseBase
+from browser.tests import BrowserTestCaseBase
 
 
 LOREMIPSUM = "<p>Lorem ipsum dolor sit amet.</p>"
 
 
-class TestBackForward(StartOpenLocalPageTestCaseBase):
+class TestBackForward(BrowserTestCaseBase):
 
     """Tests the back and forward functionality."""
+
+    def setUp(self):
+        super(TestBackForward, self).setUp()
+        self.open_html_page()
 
     def click_back_button(self):
         self.ensure_chrome_is_hidden()

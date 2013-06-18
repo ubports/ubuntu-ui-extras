@@ -11,10 +11,13 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
+from time import sleep
+
 from browser.tests import StartOpenRemotePageTestCaseBase
 
 
 class TestAddressBarStates(StartOpenRemotePageTestCaseBase):
+
 
     """Tests the address bar states."""
 
@@ -31,14 +34,14 @@ class TestAddressBarStates(StartOpenRemotePageTestCaseBase):
 
     def test_cancel_state_loading(self):
         address_bar = self.main_window.get_address_bar()
-        action_button = self.main_window.get_address_bar_action_button()
         url = self.base_url + "/wait/5"
         self.go_to_url(url)
         self.assertThat(address_bar.state, Eventually(Equals("loading")))
         self.ensure_chrome_is_hidden()
         self.reveal_chrome()
-        self.pointing_device.move_to_object(action_button)
-        self.pointing_device.click()
+        sleep(1)
+        action_button = self.main_window.get_address_bar_action_button()
+        self.pointing_device.click_object(action_button)
         self.assertThat(address_bar.state, Eventually(Equals("")))
 
     def test_state_editing(self):

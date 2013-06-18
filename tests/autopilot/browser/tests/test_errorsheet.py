@@ -11,12 +11,16 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from browser.tests import StartOpenLocalPageTestCaseBase
+from browser.tests import BrowserTestCaseBase
 
 
-class TestErrorSheet(StartOpenLocalPageTestCaseBase):
+class TestErrorSheet(BrowserTestCaseBase):
 
     """Tests the error message functionality."""
+
+    def setUp(self):
+    	super(TestErrorSheet, self).setUp()
+    	self.open_html_page()
 
     def test_invalid_url_triggers_error_message(self):
         error = self.main_window.get_error_sheet()

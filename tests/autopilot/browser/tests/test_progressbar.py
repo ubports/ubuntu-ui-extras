@@ -24,10 +24,10 @@ class TestProgressBarAtStartup(BrowserTestCaseBaseWithHTTPServer):
     initially visible when loading a page."""
 
     def setUp(self):
+        super(TestProgressBarAtStartup, self).setUp()
         self.base_url = "http://localhost:%d" % HTTP_SERVER_PORT
         self.url = self.base_url + "/wait/5"
-        self.ARGS = [self.url]
-        super(TestProgressBarAtStartup, self).setUp()
+        self.type_url(self.url)
 
     def test_chrome_initially_shown_then_hides_when_loaded(self):
         self.assert_chrome_eventually_shown()

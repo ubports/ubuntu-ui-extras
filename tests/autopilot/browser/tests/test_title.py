@@ -24,5 +24,5 @@ class TestWindowTitle(BrowserTestCaseBase):
         url = self.make_html_page(title, body)
         self.go_to_url(url)
         window = self.main_window.get_qml_view()
-        title = "Alice in Wonderland - Ubuntu Web Browser"
+        title = "Alice in Wonderland"
         self.assertThat(window.title, Eventually(Equals(title)))

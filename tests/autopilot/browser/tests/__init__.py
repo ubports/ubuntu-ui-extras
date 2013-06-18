@@ -25,7 +25,7 @@ from browser.emulators.main_window import MainWindow
 
 
 HTTP_SERVER_PORT = 8129
-TYPING_DELAY = 0.001
+TYPING_DELAY = 0.01
 
 
 class BrowserTestCaseBase(AutopilotTestCase):
@@ -116,34 +116,39 @@ class BrowserTestCaseBase(AutopilotTestCase):
 
     def reveal_chrome(self):
         panel = self.main_window.get_panel()
-        distance = self.main_window.get_chrome().height
-        view = self.main_window.get_qml_view()
-        x_line = int(view.x + view.width * 0.5)
-        start_y = int(view.y + view.height - 1)
-        stop_y = int(start_y - distance)
-        self.pointing_device.drag(x_line, start_y, x_line, stop_y)
+        
+        if panel.state != "spread":
+            x, y, w, h = panel.globalRect
+            tx = x + (w / 2)
+            ty = y + (h - 10)
+            self.pointing_device.drag(tx, ty, tx, ty - h)
+        
         self.assertThat(panel.state, Eventually(Equals("spread")))
 
     def hide_chrome(self):
-        distance = self.main_window.get_chrome().height
-        view = self.main_window.get_qml_view()
-        x_line = int(view.x + view.width * 0.5)
-        start_y = int(self.main_window.get_chrome().globalRect[1])
-        stop_y = int(start_y + distance)
-        self.pointing_device.drag(x_line, start_y, x_line, stop_y)
+        panel = self.main_window.get_panel()
+
+        x, y, w, h = panel.globalRect
+        tx = x + (w / 2)
+        ty = y + (h / 10)
+
+        self.pointing_device.drag(tx, ty, tx, ty + h - 10)
+        self.assertThat(panel.state, Eventually(Equals("")))
 
     def assert_chrome_eventually_hidden(self):
-        view = self.main_window.get_qml_view()
-        chrome = self.main_window.get_chrome()
-        self.assertThat(lambda: chrome.globalRect[1],
-                        Eventually(Equals(view.y + view.height)))
+        panel = self.main_window.get_panel()
+        self.assertThat(panel.state, Eventually(Equals("")))
 
 
     def ensure_chrome_is_hidden(self):
-        webview = self.main_window.get_web_view()
-        self.pointing_device.move_to_object(webview)
-        self.pointing_device.click()
-        self.assert_chrome_eventually_hidden()
+        panel = self.main_window.get_panel()
+
+        x, y, w, h = panel.globalRect
+        tx = x + (w / 2)
+        ty = y + (h / 10)
+
+        self.pointing_device.drag(tx, ty, tx, ty + h - 10)
+        self.assertThat(panel.state, Eventually(Equals("")))
 
     def focus_address_bar(self):
         address_bar = self.main_window.get_address_bar()
@@ -160,11 +165,8 @@ class BrowserTestCaseBase(AutopilotTestCase):
         self.assertThat(text_field.text, Eventually(Equals("")))
 
     def assert_chrome_eventually_shown(self):
-        view = self.main_window.get_qml_view()
-        chrome = self.main_window.get_chrome()
-        expected_y = view.y + view.height - chrome.height
-        self.assertThat(lambda: chrome.globalRect[1],
-                        Eventually(Equals(expected_y)))
+        panel = self.main_window.get_panel()
+        self.assertThat(panel.state, Eventually(Equals("spread")))
 
     def type_in_address_bar(self, text):
         address_bar = self.main_window.get_address_bar()
@@ -188,6 +190,31 @@ class BrowserTestCaseBase(AutopilotTestCase):
         webview = self.main_window.get_web_view()
         self.assertThat(webview.url, Eventually(Equals(url)))
         self.assertThat(webview.loading, Eventually(Equals(False)))
+
+    def open_html_page(self):
+        title = "start page"
+        body = "<p>Lorem ipsum dolor sit amet.</p>"
+        self.url = self.make_html_page(title, body)
+        address_bar = self.main_window.get_address_bar()
+        self.pointing_device.click_object(address_bar)
+        self.keyboard.type(self.url, delay=TYPING_DELAY)
+        self.keyboard.press_and_release("Enter")
+        self.assert_home_page_eventually_loaded()
+
+    def assert_home_page_eventually_loaded(self):
+        self.assert_page_eventually_loaded(self.url)
+
+    def open_remote_page(self):
+        self.base_url = "http://localhost:%d" % HTTP_SERVER_PORT
+        self.url = self.base_url + "/loremipsum"
+        address_bar = self.main_window.get_address_bar()
+        self.pointing_device.click_object(address_bar)
+        self.keyboard.type(self.url, delay=TYPING_DELAY)
+        self.keyboard.press_and_release("Enter")
+        self.assert_home_page_eventually_loaded()
+
+    def assert_home_page_eventually_loaded(self):
+        self.assert_page_eventually_loaded(self.url)
 
 
 class StartOpenLocalPageTestCaseBase(BrowserTestCaseBase):
@@ -223,6 +250,15 @@ class BrowserTestCaseBaseWithHTTPServer(BrowserTestCaseBase):
         super(BrowserTestCaseBaseWithHTTPServer, self).tearDown()
         self.server.shutdown()
 
+    def type_url(self, url):
+        address_bar = self.main_window.get_address_bar()
+        self.pointing_device.click_object(address_bar)
+        self.keyboard.type(self.url, delay=TYPING_DELAY)
+        self.keyboard.press_and_release("Enter")
+
+    def assert_home_page_eventually_loaded(self):
+        self.assert_page_eventually_loaded(self.url)
+
 
 class StartOpenRemotePageTestCaseBase(BrowserTestCaseBaseWithHTTPServer):
 
@@ -230,10 +266,10 @@ class StartOpenRemotePageTestCaseBase(BrowserTestCaseBaseWithHTTPServer):
     defaulting to the homepage."""
 
     def setUp(self):
+        super(StartOpenRemotePageTestCaseBase, self).setUp()
         self.base_url = "http://localhost:%d" % HTTP_SERVER_PORT
         self.url = self.base_url + "/loremipsum"
-        self.ARGS = [self.url]
-        super(StartOpenRemotePageTestCaseBase, self).setUp()
+        self.type_url(self.url)
         self.assert_home_page_eventually_loaded()
 
     def assert_home_page_eventually_loaded(self):
