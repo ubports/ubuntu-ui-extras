@@ -11,7 +11,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from browser.tests import BrowserTestCaseBase
+from ubuntu_ui_extras.browser.tests import BrowserTestCaseBase
 
 
 class TestWindowTitle(BrowserTestCaseBase):

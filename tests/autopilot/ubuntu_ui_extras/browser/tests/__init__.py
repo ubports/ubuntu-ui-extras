@@ -21,7 +21,7 @@ from autopilot.testcase import AutopilotTestCase
 
 import http_server
 
-from browser.emulators.main_window import MainWindow
+from ubuntu_ui_extras.browser.emulators.main_window import MainWindow
 
 
 HTTP_SERVER_PORT = 8129

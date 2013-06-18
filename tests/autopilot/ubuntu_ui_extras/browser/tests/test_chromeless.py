@@ -10,7 +10,7 @@
 
 # from testtools.matchers import Equals
 
-# from browser.tests import BrowserTestCaseBase
+# from ubuntu_ui_extras.browser.tests import BrowserTestCaseBase
 
 
 # class TestChromeless(BrowserTestCaseBase):

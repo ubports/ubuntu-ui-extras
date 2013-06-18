@@ -13,7 +13,7 @@ from autopilot.matchers import Eventually
 
 from time import sleep
 
-from browser.tests import StartOpenRemotePageTestCaseBase
+from ubuntu_ui_extras.browser.tests import StartOpenRemotePageTestCaseBase
 
 
 class TestAddressBarStates(StartOpenRemotePageTestCaseBase):
