@@ -36,7 +36,6 @@ foreach(qmlFile ${QML_FILES})
   message(STATUS ${qmlFile})
   file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 endforeach(qmlFile)
-install(TARGETS ubuntu-ui-extras-plugin DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 
 # copy the product of the build (plugin binary) to the test directory before
 # unit tests are run, so it can be loaded by them.
