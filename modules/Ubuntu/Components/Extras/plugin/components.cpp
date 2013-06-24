@@ -19,8 +19,8 @@
 #include <QStandardPaths>
 
 #include "components.h"
-#include "Browser/history-model.h"
-#include "Browser/history-matches-model.h"
+#include "browser/history-model.h"
+#include "browser/history-matches-model.h"
 
 void Components::registerTypes(const char *uri)
 {

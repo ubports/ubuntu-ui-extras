@@ -10,7 +10,7 @@ foreach(qmlTestFile ${qmlTestFiles})
   file(COPY ${qmlTestFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/)
 endforeach(qmlTestFile)
 
-set(BROWSER_SOURCE_DIR ../../modules/Ubuntu/Components/Extras/Browser)
+set(BROWSER_SOURCE_DIR ../../modules/Ubuntu/Components/Extras/plugin/browser)
 
 set(HM_SRC
     ${BROWSER_SOURCE_DIR}/history-model.cpp
