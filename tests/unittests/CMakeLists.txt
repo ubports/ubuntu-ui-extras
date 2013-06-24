@@ -1,7 +1,7 @@
 add_executable(tst_QmlTests tst_QmlTests.cpp)
 qt5_use_modules(tst_QmlTests Core Qml Quick Test QuickTest)
 target_link_libraries(tst_QmlTests ${TPL_QT5_LIBRARIES})
-add_test(tst_QmlTests ${CMAKE_CURRENT_BINARY_DIR}/tst_QmlTests -import ${CMAKE_BINARY_DIR}/src)
+add_test(tst_QmlTests ${CMAKE_CURRENT_BINARY_DIR}/tst_QmlTests -import ${CMAKE_BINARY_DIR}/modules)
 set_tests_properties(tst_QmlTests PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal")
 
 # copy qml test files to build dir
@@ -10,7 +10,7 @@ foreach(qmlTestFile ${qmlTestFiles})
   file(COPY ${qmlTestFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/)
 endforeach(qmlTestFile)
 
-set(BROWSER_SOURCE_DIR ../../src/Ubuntu/Components/Extras/Browser)
+set(BROWSER_SOURCE_DIR ../../modules/Ubuntu/Components/Extras/Browser)
 
 set(HM_SRC
     ${BROWSER_SOURCE_DIR}/history-model.cpp
@@ -33,5 +33,5 @@ add_test(tst_HistoryMatchesModelTests ${CMAKE_CURRENT_BINARY_DIR}/tst_HistoryMat
 
 # copy qml files over to build dir to be able to import them in tests
 foreach(qmlFile ${QML_FILES})
-  file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/src/Ubuntu/Components/Extras/Browser)
+  file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/modules/Ubuntu/Components/Extras/Browser)
 endforeach(qmlFile)

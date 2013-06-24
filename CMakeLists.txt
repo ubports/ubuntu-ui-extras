@@ -19,7 +19,7 @@ add_definitions(-DQT_NO_KEYWORDS)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-add_subdirectory(src)
+add_subdirectory(modules)
 
 enable_testing()
 add_subdirectory(tests)

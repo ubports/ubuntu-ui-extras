@@ -73,7 +73,7 @@ class BrowserTestCaseBase(AutopilotTestCase):
         return glob.glob("/usr/lib/*/qt5/bin/qmlscene")[0]
 
     def launch_test_local(self):
-        self.app = self.launch_test_application(self.qmlscene(), "-I", "../../src", self.local_location,
+        self.app = self.launch_test_application(self.qmlscene(), "-I", "../../modules", self.local_location,
                                                 *self.ARGS)
 
     def launch_test_installed(self):
