@@ -30,10 +30,18 @@ install(TARGETS ubuntu-ui-extras-plugin DESTINATION ${PLUGIN_DIR})
 
 # copy the product of the build (plugin binary) to the test directory before
 # unit tests are run, so it can be loaded by them.
+# Also copy it one directory up so it can be loaded by autopilot tests when
+# running them uninstalled.
 add_custom_command(
             TARGET ubuntu-ui-extras-plugin
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
                 $<TARGET_FILE:ubuntu-ui-extras-plugin>
                 ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
+add_custom_command(
+            TARGET ubuntu-ui-extras-plugin
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+                $<TARGET_FILE:ubuntu-ui-extras-plugin>
+                ../)
 
