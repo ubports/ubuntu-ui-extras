@@ -21,9 +21,11 @@
 #include "components.h"
 #include "browser/history-model.h"
 #include "browser/history-matches-model.h"
+#include "browser/tabs-model.h"
 
 void Components::registerTypes(const char *uri)
 {
+    qmlRegisterType<TabsModel>(uri, 0, 1, "TabsModel");
 }
 
 void Components::initializeEngine(QQmlEngine *engine, const char *uri)

@@ -31,6 +31,16 @@ include_directories(${BROWSER_SOURCE_DIR})
 qt5_use_modules(tst_HistoryMatchesModelTests Core Sql Test)
 add_test(tst_HistoryMatchesModelTests ${CMAKE_CURRENT_BINARY_DIR}/tst_HistoryMatchesModelTests)
 
+set(TM_SRC
+    ${BROWSER_SOURCE_DIR}/tabs-model.cpp
+    tst_TabsModelTests.cpp
+)
+add_executable(tst_TabsModelTests ${TM_SRC})
+include_directories(${BROWSER_SOURCE_DIR})
+qt5_use_modules(tst_TabsModelTests Core Quick Test)
+add_test(tst_TabsModelTests ${CMAKE_CURRENT_BINARY_DIR}/tst_TabsModelTests)
+set_tests_properties(tst_TabsModelTests PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal")
+
 # copy qml files over to build dir to be able to import them in tests
 foreach(qmlFile ${QML_FILES})
   file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/modules/Ubuntu/Components/Extras/Browser)

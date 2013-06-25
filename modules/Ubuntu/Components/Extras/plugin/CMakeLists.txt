@@ -3,6 +3,7 @@ set(PLUGIN_SRC
 )
 
 set(BROWSER_PLUGIN_SRC
+    browser/tabs-model.cpp
     browser/history-model.cpp
     browser/history-matches-model.cpp
 )
