@@ -19,7 +19,7 @@ class TestToolbar(BrowserTestCaseBase):
     """Tests interaction with the toolbar."""
 
     def test_unfocus_chrome_hides_it(self):
-        webview = self.main_window.get_web_view()
+        webview = self.main_window.get_current_webview()
         panel = self.main_window.get_panel()
         self.ensure_chrome_is_hidden()
         self.reveal_chrome()

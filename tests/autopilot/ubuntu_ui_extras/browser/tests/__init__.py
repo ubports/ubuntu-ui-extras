@@ -183,11 +183,11 @@ class BrowserTestCaseBase(AutopilotTestCase):
         self.keyboard.press_and_release("Enter")
 
     def assert_page_eventually_loading(self):
-        webview = self.main_window.get_web_view()
+        webview = self.main_window.get_current_webview()
         self.assertThat(webview.loading, Eventually(Equals(True)))
 
     def assert_page_eventually_loaded(self, url):
-        webview = self.main_window.get_web_view()
+        webview = self.main_window.get_current_webview()
         self.assertThat(webview.url, Eventually(Equals(url)))
         self.assertThat(webview.loading, Eventually(Equals(False)))
 
