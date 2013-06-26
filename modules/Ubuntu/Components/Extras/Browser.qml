@@ -170,6 +170,7 @@ FocusScope {
             Behavior on opacity {
                 UbuntuNumberAnimation {}
             }
+            enabled: opacity > 0
             anchors {
                 bottom: panel.top
                 horizontalCenter: parent.horizontalCenter
