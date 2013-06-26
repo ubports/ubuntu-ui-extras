@@ -43,7 +43,7 @@ class BrowserTestCaseBase(AutopilotTestCase):
 
     ARGS = []
     _temp_pages = []
-    local_location = "ubuntu_ui_extras/emulators/runner.qml"
+    local_location = "ubuntu_ui_extras/browser/emulators/runner.qml"
 
     def setUp(self):
         self.pointing_device = Pointer(self.input_device_class.create())
