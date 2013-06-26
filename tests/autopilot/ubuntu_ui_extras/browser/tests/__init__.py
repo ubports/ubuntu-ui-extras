@@ -11,6 +11,7 @@ import os, glob
 import os.path
 import shutil
 import tempfile
+from distutils.sysconfig import get_python_lib
 
 from testtools.matchers import Contains, Equals
 
@@ -77,22 +78,15 @@ class BrowserTestCaseBase(AutopilotTestCase):
                                                 *self.ARGS)
 
     def launch_test_installed(self):
+        runner = os.path.join(get_python_lib(), "ubuntu_ui_extras/browser/emulators/runner.qml")
+
         if model() == 'Desktop':
-            self.app = self.launch_test_application("webbrowser-app",
-                                                    *self.ARGS)
+            self.app = self.launch_test_application(self.qmlscene(), runner, *self.ARGS)
         else:
-            self.app = self.launch_test_application(
-                "webbrowser-app",
-                "--fullscreen",
+            self.app = self.launch_test_application(self.qmlscene(), runner,
                 self.d_f,
                 *self.ARGS,
                 app_type='qt')
-
-    def clear_cache(self):
-        cachedir = os.path.join(os.path.expanduser("~"), ".local", "share",
-                                "webbrowser-app")
-        shutil.rmtree(cachedir, True)
-        os.makedirs(cachedir)
 
     @property
     def main_window(self):
