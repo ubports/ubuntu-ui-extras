@@ -11,12 +11,13 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from ubuntu_ui_extras.browser.tests import BrowserTestCaseBase
+from ubuntu_ui_extras.browser.tests import StartOpenRemotePageTestCaseBase
 
 
-class TestMainWindowAddressBarActionButton(BrowserTestCaseBase):
+class TestMainWindowAddressBarActionButton(StartOpenRemotePageTestCaseBase):
 
     def test_button_disabled_when_text_is_empty(self):
+        self.assert_chrome_eventually_hidden()
         address_bar = self.main_window.get_address_bar()
         self.pointing_device.click_object(address_bar)
         action_button = self.main_window.get_address_bar_action_button()

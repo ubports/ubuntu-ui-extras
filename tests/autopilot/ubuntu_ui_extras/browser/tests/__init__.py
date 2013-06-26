@@ -256,8 +256,15 @@ class BrowserTestCaseBaseWithHTTPServer(BrowserTestCaseBase):
 
 class StartOpenRemotePageTestCaseBase(BrowserTestCaseBaseWithHTTPServer):
 
-    """Helper test class that opens the browser at a remote URL instead of
-    defaulting to the homepage."""
+    """
+    Helper test class that opens the browser at a remote URL instead of
+    defaulting to the homepage.
+
+    This class should be preferred to the base test case class, as it doesn’t
+    rely on a connection to the outside world (to open the default homepage),
+    and because it ensures the initial page is fully loaded before the tests
+    are executed, thus making them more robust.
+    """
 
     def setUp(self):
         super(StartOpenRemotePageTestCaseBase, self).setUp()
