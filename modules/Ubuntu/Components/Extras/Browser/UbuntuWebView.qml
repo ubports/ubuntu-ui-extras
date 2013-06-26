@@ -26,8 +26,6 @@ import Ubuntu.Components.Popups 0.1
 WebView {
     id: _webview
 
-    signal newTabRequested(url url)
-
     QtObject {
         // clumsy way of defining an enum in QML
         id: formFactor
@@ -59,9 +57,9 @@ WebView {
         // this should be changed to a more neutral user-agent in the
         // future as we don’t want websites to recommend installing
         // their iPhone/iPad apps.
-        if (_webview.formFactor === formFactor.phone) {
+        if (formFactor === formFactor.phone) {
             return "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3"
-        } else if (_webview.formFactor === formFactor.tablet) {
+        } else if (formFactor === formFactor.tablet) {
             return "Mozilla/5.0 (iPad; CPU OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3"
         } else {
             return ""
@@ -99,8 +97,6 @@ WebView {
                 }
                 selection.show(data.left * scale, data.top * scale,
                                data.width * scale, data.height * scale)
-            } else if (data.event === 'newtab') {
-                newTabRequested(data.url)
             }
         }
     }

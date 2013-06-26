@@ -11,7 +11,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from webbrowser_app.tests import StartOpenRemotePageTestCaseBase
+from ubuntu_ui_extras.browser.tests import StartOpenRemotePageTestCaseBase
 
 
 class TestTabs(StartOpenRemotePageTestCaseBase):
@@ -139,40 +139,3 @@ class TestTabs(StartOpenRemotePageTestCaseBase):
         self.assert_chrome_eventually_shown()
         address_bar = self.main_window.get_address_bar()
         self.assertThat(address_bar.activeFocus, Eventually(Equals(True)))
-
-    def test_open_target_blank_in_new_tab(self):
-        url = self.base_url + "/blanktargetlink"
-        self.go_to_url(url)
-        self.assert_page_eventually_loaded(url)
-        webview = self.main_window.get_current_webview()
-        self.pointing_device.move_to_object(webview)
-        self.pointing_device.click()
-        listview = self.main_window.get_tabslist_listview()
-        self.assertThat(listview.count, Eventually(Equals(2)))
-        self.assertThat(listview.currentIndex, Eventually(Equals(1)))
-        self.assert_current_url(self.base_url + "/aleaiactaest")
-
-    def test_open_iframe_target_blank_in_new_tab(self):
-        url = self.base_url + "/fulliframewithblanktargetlink"
-        self.go_to_url(url)
-        self.assert_page_eventually_loaded(url)
-        webview = self.main_window.get_current_webview()
-        self.pointing_device.move_to_object(webview)
-        self.pointing_device.click()
-        listview = self.main_window.get_tabslist_listview()
-        self.assertThat(listview.count, Eventually(Equals(2)))
-        self.assertThat(listview.currentIndex, Eventually(Equals(1)))
-        self.assert_current_url(self.base_url + "/aleaiactaest")
-
-    def test_error_only_for_current_tab(self):
-        self.ensure_activity_view_visible()
-        self.open_new_tab()
-        self.type_in_address_bar("htpp://invalid")
-        self.keyboard.press_and_release("Enter")
-        error = self.main_window.get_error_sheet()
-        self.assertThat(error.visible, Eventually(Equals(True)))
-        self.ensure_activity_view_visible()
-        tabs = self.main_window.get_tabslist_listview_delegates()
-        self.pointing_device.move_to_object(tabs[0])
-        self.pointing_device.click()
-        self.assertThat(error.visible, Eventually(Equals(False)))
