@@ -11,10 +11,10 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from ubuntu_ui_extras.browser.tests import BrowserTestCaseBase
+from ubuntu_ui_extras.browser.tests import StartOpenRemotePageTestCaseBase
 
 
-class TestWindowTitle(BrowserTestCaseBase):
+class TestWindowTitle(StartOpenRemotePageTestCaseBase):
 
     """Tests that the window’s title reflects the page title."""
 
