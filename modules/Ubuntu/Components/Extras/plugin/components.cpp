@@ -26,6 +26,8 @@
 void Components::registerTypes(const char *uri)
 {
     qmlRegisterType<TabsModel>(uri, 0, 1, "TabsModel");
+    qmlRegisterType<HistoryModel>(uri, 0, 1, "HistoryModel");
+    qmlRegisterType<HistoryMatchesModel>(uri, 0, 1, "HistoryMatchesModel");
 }
 
 void Components::initializeEngine(QQmlEngine *engine, const char *uri)
@@ -36,9 +38,7 @@ void Components::initializeEngine(QQmlEngine *engine, const char *uri)
     if (!dataLocation.exists()) {
         QDir::root().mkpath(dataLocation.absolutePath());
     }
-    HistoryModel* history = new HistoryModel(dataLocation.filePath("history.sqlite"), this);
-    engine->rootContext()->setContextProperty("historyModel", history);
-    HistoryMatchesModel* historyMatches = new HistoryMatchesModel(history, this);
-    engine->rootContext()->setContextProperty("historyMatches", historyMatches);
+    QQmlContext* context = engine->rootContext();
+    context->setContextProperty("dataLocation", dataLocation.absolutePath());
 }
 
