@@ -2,23 +2,21 @@ set(PLUGIN_SRC
     components.cpp
 )
 
-set(BROWSER_PLUGIN_SRC
-    browser/tabs-model.cpp
-    browser/history-model.cpp
-    browser/history-matches-model.cpp
+set(EXAMPLE_PLUGIN_SRC
+    example/example-model.cpp
 )
 
 include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS} ${BROWSER_PLUGIN_SRC})
-qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick Network Sql)
+add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS} ${EXAMPLE_PLUGIN_SRC})
+qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick)
 
 # Qt5's cmake does not export QT_IMPORTS_DIR, lets query qmake on our own for now
 get_target_property(QMAKE_EXECUTABLE Qt5::qmake LOCATION)
 function(QUERY_QMAKE VAR RESULT)
-  exec_program(${QMAKE_EXECUTABLE} ARGS "-query ${VAR}" RETURN_VALUE return_code OUTPUT_VARIABLE output )
+  exec_program(${QMAKE_EXECUTABLE} ARGS "-query ${VAR}" RETURN_VALUE retu   rn_code OUTPUT_VARIABLE output )
   if(NOT return_code)
     file(TO_CMAKE_PATH "${output}" output)
     set(${RESULT} ${output} PARENT_SCOPE)

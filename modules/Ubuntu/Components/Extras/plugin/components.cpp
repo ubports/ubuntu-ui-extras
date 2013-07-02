@@ -15,30 +15,17 @@
  */
 
 #include <QtQuick>
-#include <QDir>
-#include <QStandardPaths>
 
 #include "components.h"
-#include "browser/history-model.h"
-#include "browser/history-matches-model.h"
-#include "browser/tabs-model.h"
+#include "example/example-model.h"
 
 void Components::registerTypes(const char *uri)
 {
-    qmlRegisterType<TabsModel>(uri, 0, 1, "TabsModel");
-    qmlRegisterType<HistoryModel>(uri, 0, 1, "HistoryModel");
-    qmlRegisterType<HistoryMatchesModel>(uri, 0, 1, "HistoryMatchesModel");
+    qmlRegisterType<ExampleModel>(uri, 0, 1, "ExampleModel");
 }
 
 void Components::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
-
-    QDir dataLocation(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
-    if (!dataLocation.exists()) {
-        QDir::root().mkpath(dataLocation.absolutePath());
-    }
-    QQmlContext* context = engine->rootContext();
-    context->setContextProperty("dataLocation", dataLocation.absolutePath());
 }
 

@@ -16,6 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQuickTest/quicktest.h>
-QUICK_TEST_MAIN(QmlTests)
+// Qt
+#include <QtCore/QDir>
+#include <QtCore/QTemporaryFile>
+#include <QtTest/QSignalSpy>
+#include <QtTest/QtTest>
 
+// local
+#include "example-model.h"
+
+class ExampleModelTests : public QObject
+{
+    Q_OBJECT
+
+private:
+    ExampleModel* model;
+
+private Q_SLOTS:
+    void init()
+    {
+        model = new ExampleModel;
+    }
+
+    void cleanup()
+    {
+        delete model;
+    }
+
+    void shouldHaveThreeItems()
+    {
+        QCOMPARE(model->rowCount(), 3);
+    }
+
+};
+
+QTEST_MAIN(ExampleModelTests)
+#include "tst_ExampleModelTests.moc"

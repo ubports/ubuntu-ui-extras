@@ -3,10 +3,6 @@ level of quality for inclusion in the toolkit (https://launchpad.net/ubuntu-ui-t
 - lack of documentation
 - lack of automated tests
 
-It includes the following components:
-- Browser: a lightweight web browser component tailored for Ubuntu, based on the Webkit
-  rendering engine and using the Ubuntu UI components.
-
 = Building =
 
 The build system uses cmake.
@@ -27,14 +23,14 @@ To run the unit tests, you can use the commands below:
 
 = Automated UI tests =
 
-webbrowser-app uses autopilot (https://launchpad.net/autopilot) to test its UI.
+We use autopilot (https://launchpad.net/autopilot) to test the UI.
 To run the tests, you will need to install python-autopilot and libautopilot-qt.
 Then do the following:
 
     $ cd tests/autopilot/
-    $ autopilot run webbrowser_app
+    $ autopilot run ubuntu_ui_extras
 
 You can get a list of all available tests with the following command:
 
-    $ autopilot list webbrowser_app
+    $ autopilot list ubuntu_ui_extras
 

@@ -5,4 +5,4 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-"""browser component autopilot tests and emulators - top level package."""
+"""ubuntu-ui-extras components autopilot tests and emulators - top level package."""

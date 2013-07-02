@@ -16,6 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQuickTest/quicktest.h>
-QUICK_TEST_MAIN(QmlTests)
+import QtQuick 2.0
+import QtTest 1.0
+import Ubuntu.Components.Extras 0.1
 
+TestCase {
+    name: "ExampleDelegate"
+
+    function test_has_three_items() {
+        compare(example.model.count, 3)
+    }
+
+    Example {
+        id: example
+    }
+}

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013 Canonical Ltd.
  *
- * This file is part of ubuntu-ui-extras.
+ * This file is part of ubuntu-ui-extras
  *
- * webbrowser-app is free software; you can redistribute it and/or modify
+ * ubuntu-ui-extras is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
  *
- * webbrowser-app is distributed in the hope that it will be useful,
+ * ubuntu-ui-extras is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -17,11 +17,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components.Extras 0.1
+import Ubuntu.Components 0.1
 
-Browser {
-    height: 600
-    width: 800
+Label {
 
-    Component.onCompleted: newTab("", true)
 }

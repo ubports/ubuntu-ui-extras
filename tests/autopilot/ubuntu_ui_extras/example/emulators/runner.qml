@@ -16,6 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQuickTest/quicktest.h>
-QUICK_TEST_MAIN(QmlTests)
+import QtQuick 2.0
+import Ubuntu.Components.Extras 0.1
 
+Example {
+    height: 600
+    width: 800
+}
