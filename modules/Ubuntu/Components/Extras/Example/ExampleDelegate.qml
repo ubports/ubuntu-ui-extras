@@ -1,7 +1,7 @@
 /*
  * Copyright 2013 Canonical Ltd.
  *
- * This file is part of ubuntu-ui-extras.
+ * This file is part of ubuntu-ui-extras
  *
  * ubuntu-ui-extras is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQuickTest/quicktest.h>
-QUICK_TEST_MAIN(QmlTests)
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
+Label {
+
+}

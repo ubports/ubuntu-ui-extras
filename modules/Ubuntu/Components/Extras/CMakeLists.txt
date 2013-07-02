@@ -1,5 +1,5 @@
-file(GLOB QML_FILES *.qml *.qmltheme qmldir)
-file(GLOB BROWSER_QML_FILES Browser.qml)
+file(GLOB QML_FILES *.qml qmldir)
+file(GLOB EXAMPLE_QML_FILES Example.qml)
 
 # Qt5's cmake does not export QT_IMPORTS_DIR, lets query qmake on our own for now
 get_target_property(QMAKE_EXECUTABLE Qt5::qmake LOCATION)
@@ -17,9 +17,9 @@ install(FILES ${QML_FILES} DESTINATION ${PLUGIN_DIR})
 install(FILES ${BROWSER_QML_FILES} DESTINATION ${PLUGIN_DIR})
 
 # copy qml files over to build dir to be able to import them in tests
-foreach(qmlFile ${QML_FILES} ${BROWSER_QML_FILES} Browser)
+foreach(qmlFile ${QML_FILES} ${EXAMPLE_QML_FILES} Example)
   file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 endforeach(qmlFile)
 
 add_subdirectory(plugin)
-add_subdirectory(Browser)
+add_subdirectory(Example)
