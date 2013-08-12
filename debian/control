@@ -14,6 +14,7 @@ Build-Depends: cmake (>= 2.8.9),
                qtdeclarative5-qtquick2-plugin,
                qtdeclarative5-test-plugin,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
+               qtdeclarative5-accounts-plugin,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
 # If you aren't a member of ~phablet-team but need to upload packaging changes,
@@ -28,6 +29,7 @@ Depends: ${misc:Depends},
          libqt5webkit5-qmlwebkitplugin,
          qtdeclarative5-qtquick2-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         qtdeclarative5-accounts-plugin,
 Description: Ubuntu UI Extra Components
  A collection of UI components that for various reasons can't be included in
  the main Ubuntu UI toolkit.
