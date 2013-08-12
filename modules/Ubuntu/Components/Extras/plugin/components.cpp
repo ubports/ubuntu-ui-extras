@@ -19,9 +19,21 @@
 #include "components.h"
 #include "example/example-model.h"
 
+#include "share/accounts.h"
+#include "share/imagefilehack.h"
+#include "share/imageresizer.h"
+#include "share/notifyqml.h"
+
 void Components::registerTypes(const char *uri)
 {
+    // Example component
     qmlRegisterType<ExampleModel>(uri, 0, 1, "ExampleModel");
+
+    // Share component
+    qmlRegisterType<FacebookAccount>(uri, 0, 1, "FacebookAccount");
+    qmlRegisterType<Notify>(uri, 0, 1, "Notify");
+    qmlRegisterType<ImageFileHack>(uri, 0, 1, "ImageFileHack");
+    qmlRegisterType<ImageResizer>(uri, 0, 1, "ImageResizer");
 }
 
 void Components::initializeEngine(QQmlEngine *engine, const char *uri)
