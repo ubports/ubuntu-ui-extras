@@ -22,7 +22,7 @@ foreach(qmlFile ${QML_FILES} ${EXAMPLE_QML_FILES} Example)
 endforeach(qmlFile)
 
 # copy qml files over to build dir to be able to import them in tests
-foreach(qmlFile ${QML_FILES} ${SHARE_QML_FILES})
+foreach(qmlFile ${QML_FILES} ${SHARE_QML_FILES} Share)
   file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 endforeach(qmlFile)
 
