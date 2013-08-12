@@ -16,13 +16,18 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import ShareApp 0.1
 import Friends 0.1
 import Ubuntu.OnlineAccounts 0.1
+import Ubuntu.Components.Extras 0.1
 
 Item {
     id: shareApp
     objectName: "shareApp"
+    property string fileToShare
+    property string userAccountId
+
+    signal uploadCompleted(bool success)
+    signal canceled()
 
     FriendsDispatcher {
         id: friends
@@ -33,7 +38,7 @@ Item {
              } else {
                  notifyOSD.notify(i18n.tr("There was a problem uploading your photo"), null, "facebook");
              }
-             Qt.quit();
+             shareApp.uploadCompleted(success);
          }
     }
 
@@ -42,17 +47,9 @@ Item {
         serviceType: "microblogging"
     }
 
-    ImageFileHack {
-        id: fileToShare
-    }
-
-    Component.onCompleted: {
-        fileToShare.read()
-    }
-
     ImageResizer {
         id: resizer
-        file: fileToShare.path.replace("file://", "")
+        file: fileToShare.replace("file://", "")
         quality: 80
         largestSide: 2048
     }
@@ -81,7 +78,7 @@ Item {
                 width: parent.width
                 height: visible ? childrenRect.height : 0
                 anchors.fill: parent
-                visible: (accountId == fileToShare.account)
+                visible: (accountId == userAccountId)
                 AccountService {
                     id: accts
                     objectHandle: accountService
@@ -185,7 +182,7 @@ Item {
             height: units.gu(10)
 
             image: Image {
-                source: fileToShare.path
+                source: fileToShare
                 sourceSize.height: snapshot.width
                 sourceSize.width: snapshot.height
                 fillMode: Image.PreserveAspectCrop
@@ -210,7 +207,7 @@ Item {
             color: "#cccccc"
             width: units.gu(10)
             height: units.gu(4)
-            onClicked: Qt.quit()
+            onClicked: shareApp.canceled()
         }
 
         Button {
@@ -224,7 +221,7 @@ Item {
             enabled: !activitySpinner.visible
             onClicked: {
                 activitySpinner.visible = true;
-                friends.uploadForAccountAsync(fileToShare.account,
+                friends.uploadForAccountAsync(userAccountId,
                                               "file://" + resizer.resizedFile,
                                               message.text)
             }
@@ -285,4 +282,3 @@ Item {
             (Screen.orientation === Qt.InvertedLandscapeOrientation)) &&
            Qt.inputMethod.visible ? "landscape-with-keyborad" : ""
 }
-
