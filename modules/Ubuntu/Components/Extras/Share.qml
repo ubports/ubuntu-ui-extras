@@ -80,7 +80,6 @@ Rectangle {
             delegate: Rectangle {
                 width: parent.width
                 height: visible ? childrenRect.height : 0
-                anchors.fill: parent
                 visible: (accountId == userAccountId)
                 AccountService {
                     id: accts
@@ -98,7 +97,7 @@ Rectangle {
                         fillMode: Image.PreserveAspectFit
                         source: "image://gicon/" + accts.provider.iconName
                         sourceSize.height: logo.height
-                        sourceSize.width: logo.height
+                        sourceSize.width: logo.width
                     }
                 }
 
@@ -186,8 +185,8 @@ Rectangle {
 
             image: Image {
                 source: fileToShare
-                sourceSize.height: snapshot.width
-                sourceSize.width: snapshot.height
+                sourceSize.height: snapshot.height
+                sourceSize.width: snapshot.width
                 fillMode: Image.PreserveAspectCrop
             }
         }
