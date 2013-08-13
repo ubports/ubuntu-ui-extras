@@ -12,7 +12,6 @@ set(EXAMPLE_PLUGIN_SRC
 
 set(SHARE_PLUGIN_SRC
     share/accounts.cpp
-    share/imagefilehack.cpp
     share/imageresizer.cpp
     share/notifyqml.cpp
 )
