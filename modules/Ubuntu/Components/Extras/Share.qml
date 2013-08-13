@@ -21,9 +21,11 @@ import Friends 0.1
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.Components.Extras 0.1
 
-Item {
-    id: shareApp
-    objectName: "shareApp"
+Rectangle {
+    id: shareComponent
+    objectName: "shareComponent"
+    color: Theme.palette.normal.background
+
     property string fileToShare
     property string userAccountId
 
@@ -39,7 +41,7 @@ Item {
              } else {
                  notifyOSD.notify(i18n.tr("There was a problem uploading your photo"), null, "facebook");
              }
-             shareApp.uploadCompleted(success);
+             shareComponent.uploadCompleted(success);
          }
     }
 
@@ -208,7 +210,7 @@ Item {
             color: "#cccccc"
             width: units.gu(10)
             height: units.gu(4)
-            onClicked: shareApp.canceled()
+            onClicked: shareComponent.canceled()
         }
 
         Button {
