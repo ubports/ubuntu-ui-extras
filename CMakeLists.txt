@@ -18,7 +18,12 @@ add_definitions(-DQT_NO_KEYWORDS)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
+# for dh_translations to extract the domain
+# (regarding syntax consistency, see http://pad.lv/1181187)
+set (GETTEXT_PACKAGE "ubuntu-ui-extras")
+
 add_subdirectory(modules)
 
 enable_testing()
 add_subdirectory(tests)
+add_subdirectory(po)
