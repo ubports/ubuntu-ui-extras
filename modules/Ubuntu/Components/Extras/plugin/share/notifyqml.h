@@ -30,9 +30,6 @@ public:
     QString appName() const;
     void setAppName(const QString& appName);
 
-public Q_SLOTS:
-    bool sendDelayedNotification(const QString& title, const QString& icon, int delay);
-
 Q_SIGNALS:
     void appNameChanged();
 

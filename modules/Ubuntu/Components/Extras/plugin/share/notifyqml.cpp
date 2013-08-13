@@ -60,12 +60,3 @@ void Notify::notify(const QString &title, const QString &message, const QString 
     notify_notification_show(notification, NULL);
     g_object_unref(notification);
 }
-
-bool Notify::sendDelayedNotification(const QString& title, const QString& icon, int delay)
-{
-    QStringList arguments;
-    QString notifyCmd("sleep %1; /usr/bin/notify-send --icon=%2 '%3'");
-    arguments.append("-c");
-    arguments.append(notifyCmd.arg(delay).arg(icon).arg(title));
-    return QProcess::startDetached("/bin/sh", arguments);
-}
