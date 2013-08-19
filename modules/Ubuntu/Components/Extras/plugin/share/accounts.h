@@ -14,21 +14,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMPONENTS_H
-#define COMPONENTS_H
+#ifndef ACCOUNTSQML_H
+#define ACCOUNTSQML_H
 
-#include <QQmlExtensionPlugin>
-#include <QQmlEngine>
+#include <QObject>
+#include <Accounts/Manager>
+#include <Accounts/Account>
 
-class Components : public QQmlExtensionPlugin
+class FacebookAccount : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_PROPERTY(int id READ id)
+    Q_PROPERTY(QString name READ name)
 
 public:
-    void registerTypes(const char *uri);
-    void initializeEngine(QQmlEngine *engine, const char *uri);
+    explicit FacebookAccount(QObject *parent = 0);
+    int id() const { return m_accountId; }
+    QString name() const { return m_accountName; }
+
+private:
+    int m_accountId;
+    QString m_accountName;
 };
 
-#endif // COMPONENTS_H
-
+#endif // ACCOUNTSQML_H

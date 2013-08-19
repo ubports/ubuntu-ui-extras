@@ -14,21 +14,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMPONENTS_H
-#define COMPONENTS_H
+#ifndef NOTIFYQML_H
+#define NOTIFYQML_H
 
-#include <QQmlExtensionPlugin>
-#include <QQmlEngine>
+#include <QObject>
 
-class Components : public QQmlExtensionPlugin
+class Notify : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_PROPERTY(QString appName READ appName WRITE setAppName NOTIFY appNameChanged)
 
 public:
-    void registerTypes(const char *uri);
-    void initializeEngine(QQmlEngine *engine, const char *uri);
+    explicit Notify(QObject *parent = 0);
+    ~Notify();
+    QString appName() const;
+    void setAppName(const QString& appName);
+
+Q_SIGNALS:
+    void appNameChanged();
+
+public Q_SLOTS:
+    void notify(const QString& title, const QString& message, const QString& icon = QString());
 };
 
-#endif // COMPONENTS_H
-
+#endif // NOTIFYQML_H
