@@ -14,28 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQuick>
+#include "accounts.h"
 
-#include "components.h"
-#include "example/example-model.h"
+#include <QDebug>
 
-#include "share/accounts.h"
-#include "share/imageresizer.h"
-#include "share/notifyqml.h"
-
-void Components::registerTypes(const char *uri)
+FacebookAccount::FacebookAccount(QObject *parent) :
+    QObject(parent),
+    m_accountId(-1)
 {
-    // Example component
-    qmlRegisterType<ExampleModel>(uri, 0, 1, "ExampleModel");
-
-    // Share component
-    qmlRegisterType<FacebookAccount>(uri, 0, 1, "FacebookAccount");
-    qmlRegisterType<Notify>(uri, 0, 1, "Notify");
-    qmlRegisterType<ImageResizer>(uri, 0, 1, "ImageResizer");
-}
-
-void Components::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QQmlExtensionPlugin::initializeEngine(engine, uri);
+    Accounts::Manager manager;
+    Accounts::AccountIdList list = manager.accountList();
+    Q_FOREACH(unsigned int accountId, list) {
+        Accounts::Account* account = manager.account(accountId);
+        if (account->providerName() == "facebook") {
+            m_accountId = accountId;
+            m_accountName = account->displayName();
+            return;
+        }
+    }
 }
 

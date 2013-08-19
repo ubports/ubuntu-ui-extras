@@ -5,15 +5,20 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake (>= 2.8.9),
                debhelper (>= 9),
                gettext,
+               pkg-config,
                python,
                qt5-default,
                qt5-qmake,
                qtbase5-dev,
                qtdeclarative5-dev,
                libqt5sql5-sqlite,
+               libaccounts-qt5-dev,
+               libnotify-dev,
                qtdeclarative5-qtquick2-plugin,
                qtdeclarative5-test-plugin,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
+               qtdeclarative5-accounts-plugin,
+               qtdeclarative5-friends-plugin,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
 # If you aren't a member of ~phablet-team but need to upload packaging changes,
@@ -28,6 +33,11 @@ Depends: ${misc:Depends},
          libqt5webkit5-qmlwebkitplugin,
          qtdeclarative5-qtquick2-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         qtdeclarative5-accounts-plugin,
+         qtdeclarative5-friends-plugin,
+         qtdeclarative5-window-plugin,
+         libaccounts-qt5-1,
+         libnotify4,
 Description: Ubuntu UI Extra Components
  A collection of UI components that for various reasons can't be included in
  the main Ubuntu UI toolkit.

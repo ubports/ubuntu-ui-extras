@@ -1,23 +1,34 @@
-add_executable(tst_QmlTests tst_QmlTests.cpp)
-qt5_use_modules(tst_QmlTests Core Qml Quick Test QuickTest)
-target_link_libraries(tst_QmlTests ${TPL_QT5_LIBRARIES})
-add_test(tst_QmlTests ${CMAKE_CURRENT_BINARY_DIR}/tst_QmlTests -import ${CMAKE_BINARY_DIR}/modules)
-set_tests_properties(tst_QmlTests PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal")
+include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/share/
+    ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/example/
+    )
 
-# copy qml test files to build dir
-file(GLOB qmlTestFiles RELATIVE ${CMAKE_SOURCE_DIR}/tests/unittests/ *qml)
-foreach(qmlTestFile ${qmlTestFiles})
-  file(COPY ${qmlTestFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/)
-endforeach(qmlTestFile)
+qt5_add_resources(sampledata_rc_srcs sampledata.qrc)
 
-set(EXAMPLE_SOURCE_DIR ../../modules/Ubuntu/Components/Extras/plugin/example)
+macro(generate_tests)
+    foreach(test ${ARGN})
+        add_executable(${test} 
+            ${test}.cpp
+            ../../modules/Ubuntu/Components/Extras/plugin/share/imageresizer.cpp
+            ${sampledata_rc_srcs}
+            )
+        qt5_use_modules(${test} Core Qml Quick Test)
+        target_link_libraries(${test}
+            ${TPL_QT5_LIBRARIES}
+            ubuntu-ui-extras-plugin
+            )
+        add_test(${test} 
+            ${CMAKE_CURRENT_BINARY_DIR}/${test}
+            -xunitxml -o ${test}.xml
+            )
+        set_tests_properties(${test} PROPERTIES
+            ENVIRONMENT "QT_QPA_PLATFORM=minimal"
+            )
+    endforeach(test)
+endmacro(generate_tests)
 
-set(HM_SRC
-    ${EXAMPLE_SOURCE_DIR}/example-model.cpp
-    tst_ExampleModelTests.cpp
-)
-add_executable(tst_ExampleModelTests ${HM_SRC})
-include_directories(${EXAMPLE_SOURCE_DIR})
-qt5_use_modules(tst_ExampleModelTests Core Test)
-add_test(tst_ExampleModelTests ${CMAKE_CURRENT_BINARY_DIR}/tst_ExampleModelTests)
-
+generate_tests(
+    tst_ShareImageResizer
+    tst_ExampleModelTests
+    )

@@ -1,3 +1,7 @@
+include(FindPkgConfig)
+pkg_check_modules(ACCOUNTSQT REQUIRED accounts-qt5)
+pkg_check_modules(NOTIFY REQUIRED libnotify)
+
 set(PLUGIN_SRC
     components.cpp
 )
@@ -6,12 +10,24 @@ set(EXAMPLE_PLUGIN_SRC
     example/example-model.cpp
 )
 
-include_directories(
-    ${CMAKE_BINARY_DIR}
+set(SHARE_PLUGIN_SRC
+    share/accounts.cpp
+    share/imageresizer.cpp
+    share/notifyqml.cpp
 )
 
-add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS} ${EXAMPLE_PLUGIN_SRC})
-qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick)
+include_directories(
+    ${CMAKE_BINARY_DIR}
+    ${ACCOUNTSQT_INCLUDE_DIRS}
+    ${NOTIFY_INCLUDE_DIRS}
+)
+
+add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS} ${EXAMPLE_PLUGIN_SRC} ${SHARE_PLUGIN_SRC})
+qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick Xml)
+target_link_libraries(ubuntu-ui-extras-plugin
+    ${ACCOUNTSQT_LIBRARIES}
+    ${NOTIFY_LIBRARIES}
+    )
 
 # Qt5's cmake does not export QT_IMPORTS_DIR, lets query qmake on our own for now
 get_target_property(QMAKE_EXECUTABLE Qt5::qmake LOCATION)
