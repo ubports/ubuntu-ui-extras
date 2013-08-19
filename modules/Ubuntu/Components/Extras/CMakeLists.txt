@@ -15,12 +15,7 @@ set(PLUGIN_DIR ${QT_IMPORTS_DIR}/Ubuntu/Components/Extras)
 install(FILES ${QML_FILES} DESTINATION ${PLUGIN_DIR})
 
 # copy qml files over to build dir to be able to import them in tests
-foreach(qmlFile ${QML_FILES} Example.qml Example)
-  file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
-endforeach(qmlFile)
-
-# copy qml files over to build dir to be able to import them in tests
-foreach(qmlFile ${QML_FILES} Share.qml Share)
+foreach(qmlFile ${QML_FILES} Example.qml Share.qml Example Share)
   file(COPY ${qmlFile} DESTINATION ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 endforeach(qmlFile)
 
