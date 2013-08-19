@@ -37,9 +37,9 @@ Rectangle {
         onUploadComplete: {
              activitySpinner.visible = false;
              if (success) {
-                 notifyOSD.notify(i18n.tr("Your photo has been uploaded"), null, "facebook");
+                 notifyOSD.notify(i18n.dtr("ubuntu-ui-extras","Your photo has been uploaded"), null, "facebook");
              } else {
-                 notifyOSD.notify(i18n.tr("There was a problem uploading your photo"), null, "facebook");
+                 notifyOSD.notify(i18n.dtr("ubuntu-ui-extras", "There was a problem uploading your photo"), null, "facebook");
              }
              shareComponent.uploadCompleted(success);
          }
@@ -205,7 +205,7 @@ Rectangle {
         Button {
             objectName: "cancelButton"
             anchors.left: parent.left
-            text: i18n.tr("Cancel")
+            text: i18n.dtr("ubuntu-ui-extras", "Cancel")
             color: "#cccccc"
             width: units.gu(10)
             height: units.gu(4)
@@ -216,7 +216,7 @@ Rectangle {
             objectName: "postButton"
             anchors.right: parent.right
             anchors.top: parent.top
-            text: i18n.tr("Post")
+            text: i18n.dtr("ubuntu-ui-extras", "Post")
             color: "#dd4814"
             width: units.gu(10)
             height: units.gu(4)
@@ -262,7 +262,7 @@ Rectangle {
         anchors.baseline: useLocation.top
         anchors.baselineOffset: units.gu(3)
         anchors.leftMargin: units.gu(1)
-        text: i18n.tr("Include location")
+        text: i18n.dtr("ubuntu-ui-extras", "Include location")
         fontSize: "small"
     }
 
