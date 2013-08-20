@@ -21,12 +21,14 @@ Build-Depends: cmake (>= 2.8.9),
                qtdeclarative5-friends-plugin,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
-# If you aren't a member of ~phablet-team but need to upload packaging changes,
-# just go ahead.  ~phablet-team will notice and sync up the code again.
-Vcs-Bzr: https://code.launchpad.net/ubuntu-ui-extras
+# If you aren't a member of ~ubuntu-sdk-team but need to upload packaging 
+# changes, just go ahead. ~ubuntu-sdk-team will notice and sync up the code
+# again.
+Vcs-Bzr: https://code.launchpad.net/~ubuntu-sdk-team/ubuntu-ui-extras/trunk
+Vcs-Browser: http://bazaar.launchpad.net/~ubuntu-sdk-team/ubuntu-ui-extras/trunk/files
 
 Package: qtdeclarative5-ubuntu-ui-extras-plugin
-Architecture: i386 amd64 armhf
+Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          libqt5sql5-sqlite,

@@ -1,5 +1,9 @@
-qtdeclarative5-ubuntu-ui-extras-plugin (0.1) UNRELEASED; urgency=low
+qtdeclarative5-ubuntu-ui-extras-plugin (0.1-0ubuntu1) UNRELEASED; urgency=low
 
+  [ Ugo Riboni ]
   * Initial Release
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Automatic snapshot from revision 45 (bootstrap)
 
  -- Ugo Riboni <ugo.riboni@canonical.com>  Tue, 04 Jun 2013 18:04:36 +0200
