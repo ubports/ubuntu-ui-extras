@@ -44,12 +44,3 @@ Description: Ubuntu UI Extra Components
  A collection of UI components that for various reasons can't be included in
  the main Ubuntu UI toolkit.
 
-Package: qtdeclarative5-ubuntu-ui-extras-plugin-autopilot
-Architecture: all
-Depends: ${misc:Depends},
-         libautopilot-qt,
-         libqt5test5,
-         qtdeclarative5-ubuntu-ui-extras-plugin (= ${source:Version}),
-Description: Ubuntu UI Extra Components autopilot tests
- A collection of UI components that for various reasons can't be included in
- the main Ubuntu UI toolkit. This package contains autopilot tests for them.
