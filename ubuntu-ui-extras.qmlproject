@@ -1,0 +1,14 @@
+import QmlProject 1.1
+
+Project {
+    QmlFiles {
+        directory: "modules"
+    }
+    JavaScriptFiles {
+        directory: "modules"
+    }
+    Files {
+        filter: ["modules/Ubuntu/Components/Extras/qmldir"]
+    }
+}
+
