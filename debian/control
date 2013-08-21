@@ -41,5 +41,5 @@ Depends: ${misc:Depends},
          libaccounts-qt5-1,
 Description: Ubuntu UI Extra Components
  A collection of UI components that for various reasons can't be included in
- the main Ubuntu UI toolkit.
-
+ the main Ubuntu UI toolkit - mostly because of the level of quality, lack of
+ documentation and/or lack of automated tests.
