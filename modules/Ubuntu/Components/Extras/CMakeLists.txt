@@ -21,3 +21,4 @@ endforeach(qmlFile)
 
 add_subdirectory(plugin)
 add_subdirectory(Example)
+add_subdirectory(Share)
