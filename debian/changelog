@@ -1,3 +1,14 @@
+ubuntu-ui-extras (0.1+13.10.20130821.1-0ubuntu1) saucy; urgency=low
+
+  [ Ugo Riboni ]
+  * Add a SharePopover component that apps can use to let the user chose
+    to which service to share.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 50
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 16:18:58 +0000
+
 ubuntu-ui-extras (0.1+13.10.20130821-0ubuntu1) saucy; urgency=low
 
   [ Ugo Riboni ]
