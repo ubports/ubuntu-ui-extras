@@ -1,4 +1,4 @@
-Source: qtdeclarative5-ubuntu-ui-extras-plugin
+Source: ubuntu-ui-extras
 Section: x11
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
@@ -21,12 +21,14 @@ Build-Depends: cmake (>= 2.8.9),
                qtdeclarative5-friends-plugin,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
-# If you aren't a member of ~phablet-team but need to upload packaging changes,
-# just go ahead.  ~phablet-team will notice and sync up the code again.
-Vcs-Bzr: https://code.launchpad.net/ubuntu-ui-extras
+# If you aren't a member of ~ubuntu-sdk-team but need to upload packaging 
+# changes, just go ahead. ~ubuntu-sdk-team will notice and sync up the code
+# again.
+Vcs-Bzr: https://code.launchpad.net/~ubuntu-sdk-team/ubuntu-ui-extras/trunk
+Vcs-Browser: http://bazaar.launchpad.net/~ubuntu-sdk-team/ubuntu-ui-extras/trunk/files
 
-Package: qtdeclarative5-ubuntu-ui-extras-plugin
-Architecture: i386 amd64 armhf
+Package: qtdeclarative5-ubuntu-ui-extras0.1
+Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          libqt5sql5-sqlite,
@@ -37,17 +39,7 @@ Depends: ${misc:Depends},
          qtdeclarative5-friends-plugin,
          qtdeclarative5-window-plugin,
          libaccounts-qt5-1,
-         libnotify4,
 Description: Ubuntu UI Extra Components
  A collection of UI components that for various reasons can't be included in
- the main Ubuntu UI toolkit.
-
-Package: qtdeclarative5-ubuntu-ui-extras-plugin-autopilot
-Architecture: all
-Depends: ${misc:Depends},
-         libautopilot-qt,
-         libqt5test5,
-         qtdeclarative5-ubuntu-ui-extras-plugin (= ${source:Version}),
-Description: Ubuntu UI Extra Components autopilot tests
- A collection of UI components that for various reasons can't be included in
- the main Ubuntu UI toolkit. This package contains autopilot tests for them.
+ the main Ubuntu UI toolkit - mostly because of the level of quality, lack of
+ documentation and/or lack of automated tests.
