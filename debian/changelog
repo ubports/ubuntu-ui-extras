@@ -1,5 +1,20 @@
-qtdeclarative5-ubuntu-ui-extras-plugin (0.1) UNRELEASED; urgency=low
+ubuntu-ui-extras (0.1+13.10.20130821-0ubuntu1) saucy; urgency=low
 
+  [ Ugo Riboni ]
   * Initial Release
 
- -- Ugo Riboni <ugo.riboni@canonical.com>  Tue, 04 Jun 2013 18:04:36 +0200
+  [ Łukasz 'sil2100' Zemczak ]
+  * Automatic snapshot from revision 45 (bootstrap)
+
+  [ Ugo Riboni ]
+  * Remove the autopilot test and package, since they do nothing for
+    now.
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Remove the autopilot test and package, since they do nothing for
+    now.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 48
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 09:04:11 +0000
