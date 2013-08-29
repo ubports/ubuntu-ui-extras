@@ -18,7 +18,7 @@ Build-Depends: cmake (>= 2.8.9),
                qtdeclarative5-test-plugin,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-accounts-plugin,
-               qtdeclarative5-friends-plugin,
+               qtdeclarative5-friends0.2,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
 # If you aren't a member of ~ubuntu-sdk-team but need to upload packaging 
@@ -36,7 +36,7 @@ Depends: ${misc:Depends},
          qtdeclarative5-qtquick2-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-accounts-plugin,
-         qtdeclarative5-friends-plugin,
+         qtdeclarative5-friends0.2,
          qtdeclarative5-window-plugin,
          libaccounts-qt5-1,
 Description: Ubuntu UI Extra Components
