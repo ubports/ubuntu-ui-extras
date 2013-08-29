@@ -1,3 +1,13 @@
+ubuntu-ui-extras (0.1+13.10.20130829-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * Updated for qtdeclarative5-friends0.2 .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 52
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 29 Aug 2013 15:21:34 +0000
+
 ubuntu-ui-extras (0.1+13.10.20130821.1-0ubuntu1) saucy; urgency=low
 
   [ Ugo Riboni ]
