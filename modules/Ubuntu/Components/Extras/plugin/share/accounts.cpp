@@ -22,6 +22,17 @@ FacebookAccount::FacebookAccount(QObject *parent) :
     QObject(parent),
     m_accountId(-1)
 {
+    update();
+}
+
+/* Since we can't get a notification when the Accounts::AccountIdList changed
+ * we expose this function to be called whenever the user needs to check if the
+ * account still exists or if it was created.
+ * This is sufficient for now since this class is only a temporary hack anyway
+ * until we support all types of accounts and not just hardcode Facebook support.
+ */
+void FacebookAccount::update()
+{
     Accounts::Manager manager;
     Accounts::AccountIdList list = manager.accountList();
     Q_FOREACH(unsigned int accountId, list) {
@@ -32,5 +43,6 @@ FacebookAccount::FacebookAccount(QObject *parent) :
             return;
         }
     }
+    m_accountId = -1;
+    m_accountName.clear();
 }
-
