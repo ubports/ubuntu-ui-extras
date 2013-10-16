@@ -32,6 +32,9 @@ public:
     int id() const { return m_accountId; }
     QString name() const { return m_accountName; }
 
+public Q_SLOTS:
+    void update();
+
 private:
     int m_accountId;
     QString m_accountName;
