@@ -22,7 +22,30 @@ FacebookAccount::FacebookAccount(QObject *parent) :
     QObject(parent),
     m_accountId(-1)
 {
-    update();
+}
+
+/*!
+ * \brief FacebookAccount::id
+ * \return ID for that account
+ */
+int FacebookAccount::id() const
+{
+    if (m_accountId < 0)
+        update();
+
+    return m_accountId;
+}
+
+/*!
+ * \brief FacebookAccount::name
+ * \return display name for that account
+ */
+const QString &FacebookAccount::name() const
+{
+    if (m_accountName.isEmpty())
+        update();
+
+    return m_accountName;
 }
 
 /* Since we can't get a notification when the Accounts::AccountIdList changed
@@ -31,7 +54,7 @@ FacebookAccount::FacebookAccount(QObject *parent) :
  * This is sufficient for now since this class is only a temporary hack anyway
  * until we support all types of accounts and not just hardcode Facebook support.
  */
-void FacebookAccount::update()
+void FacebookAccount::update() const
 {
     Accounts::Manager manager;
     Accounts::AccountIdList list = manager.accountList();
