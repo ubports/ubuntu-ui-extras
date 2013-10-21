@@ -29,15 +29,15 @@ class FacebookAccount : public QObject
 
 public:
     explicit FacebookAccount(QObject *parent = 0);
-    int id() const { return m_accountId; }
-    QString name() const { return m_accountName; }
+    int id() const;
+    const QString &name() const;
 
 public Q_SLOTS:
-    void update();
+    void update() const;
 
 private:
-    int m_accountId;
-    QString m_accountName;
+    mutable int m_accountId;
+    mutable QString m_accountName;
 };
 
 #endif // ACCOUNTSQML_H
