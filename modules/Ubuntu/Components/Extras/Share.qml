@@ -17,14 +17,14 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import Friends 0.2
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.Components.Extras 0.1
 
-Rectangle {
+Item {
     id: shareComponent
     objectName: "shareComponent"
-    color: Theme.palette.normal.background
 
     property string fileToShare
     property string userAccountId
@@ -62,208 +62,180 @@ Rectangle {
         appName: "share-app"
     }
 
-    Item {
-        id: serviceHeader
-        y: 0
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.topMargin: units.gu(1)
-        anchors.leftMargin: units.gu(1)
-        anchors.rightMargin: units.gu(1)
-        height: accountsList.height + units.gu(3)
-
-        ListView {
-            id: accountsList
-            width: parent.width
-            anchors.fill: parent
-            model: accounts
-            delegate: Rectangle {
-                width: parent.width
-                height: visible ? childrenRect.height : 0
+    Component {
+        id: itemDelegate
+        Item {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            AccountService {
+                id: accts
+                objectHandle: accountServiceHandle
+            }
+            ListItem.Subtitled {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
                 visible: (accountId == userAccountId)
-                AccountService {
-                    id: accts
-                    objectHandle: accountService
-                }
-
-                UbuntuShape {
-                    id: logo
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    width: units.gu(5)
-                    height: units.gu(5)
-
-                    image: Image {
-                        fillMode: Image.PreserveAspectFit
-                        source: "image://gicon/" + accts.provider.iconName
-                        sourceSize.height: logo.height
-                        sourceSize.width: logo.width
-                    }
-                }
-
-                Label {
-                    id: serviceTitle
-                    anchors.top: parent.top
-                    anchors.left: logo.right
-                    anchors.leftMargin: units.gu(1)
-                    anchors.rightMargin: units.gu(1)
-
-                    text: accts.provider.displayName
-                    fontSize: "large"
-                    font.weight: Font.DemiBold
-                }
-
-                Label {
-                    anchors.top: serviceTitle.bottom
-                    anchors.left: logo.right
-                    anchors.right: parent.right
-                    anchors.leftMargin: units.gu(1)
-                    anchors.rightMargin: units.gu(1)
-
-                    elide: Text.ElideRight
-                    text: displayName
-                    fontSize: "medium"
-                }
+                iconName: accts.provider.iconName
+                text: accts.provider.displayName
+                subText: displayName
+                showDivider: false
             }
         }
     }
 
-    Rectangle {
-        id: topLine
-        color: "#cccccc"
-        height: units.dp(1)
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: serviceHeader.bottom
-    }
+    Column {
+        anchors.fill: parent
+        spacing: units.gu(1)
 
-    UbuntuShape {
-        id: messageArea
-        objectName: "messageArea"
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: topLine.bottom
-        anchors.topMargin: units.gu(1)
-        anchors.leftMargin: units.gu(1)
-        anchors.rightMargin: units.gu(1)
+        Item {
+            id: serviceHeader
+            y: 0
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.topMargin: units.gu(1)
+            anchors.leftMargin: units.gu(1)
+            anchors.rightMargin: units.gu(1)
+            height: accountsList.height + units.gu(3)
 
-        height: units.gu(20)
-        color: "#f2f2f2"
-
-        TextEdit {
-            id: message
-            color: "#333333"
-            anchors.top: parent.top
-            anchors.left: snapshot.right
-            anchors.bottom: parent.bottom
-            anchors.margins: units.gu(1)
-            wrapMode: Text.Wrap
-            width: parent.width - snapshot.width -
-                   snapshot.anchors.margins * 2 -
-                   message.anchors.leftMargin - message.anchors.rightMargin
-
-            clip: true
-            font.pixelSize: FontUtils.sizeToPixels("medium")
-            font.weight: Font.Light
-            focus: true
+            ListView {
+                id: accountsList
+                width: parent.width
+                anchors.fill: parent
+                model: accounts
+                delegate: itemDelegate
+            }
         }
 
-        ActivityIndicator {
-            id: activitySpinner
-            anchors.centerIn: message
-            visible: false
-            running: visible
+        ListItem.ThinDivider {}
+
+        UbuntuShape {
+            id: messageArea
+            objectName: "messageArea"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.topMargin: units.gu(1)
+            anchors.leftMargin: units.gu(1)
+            anchors.rightMargin: units.gu(1)
+
+            height: units.gu(20)
+            color: "#f2f2f2"
+
+            TextEdit {
+                id: message
+                color: "#333333"
+                anchors.top: parent.top
+                anchors.left: snapshot.right
+                anchors.bottom: parent.bottom
+                anchors.margins: units.gu(1)
+                wrapMode: Text.Wrap
+                width: parent.width - snapshot.width -
+                       snapshot.anchors.margins * 2 -
+                       message.anchors.leftMargin - message.anchors.rightMargin
+                clip: true
+                font.pixelSize: FontUtils.sizeToPixels("medium")
+                font.weight: Font.Light
+                focus: true
+            }
+
+            ActivityIndicator {
+                id: activitySpinner
+                anchors.centerIn: message
+                visible: false
+                running: visible
+            }
+
+            UbuntuShape {
+                id: snapshot
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: units.gu(1)
+                width: units.gu(10)
+                height: units.gu(10)
+
+                image: Image {
+                    source: fileToShare
+                    sourceSize.height: snapshot.height
+                    sourceSize.width: snapshot.width
+                    fillMode: Image.PreserveAspectCrop
+                }
+            }
+        }
+
+        Item {
+            id: actionsBar
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.topMargin: units.gu(2)
+            anchors.leftMargin: units.gu(1)
+            anchors.rightMargin: units.gu(1)
+            height: childrenRect.height
+
+            Button {
+                objectName: "cancelButton"
+                anchors.left: parent.left
+                text: i18n.dtr("ubuntu-ui-extras", "Cancel")
+                color: "#cccccc"
+                width: units.gu(10)
+                height: units.gu(4)
+                onClicked: shareComponent.canceled()
+            }
+
+            Button {
+                objectName: "postButton"
+                anchors.right: parent.right
+                anchors.top: parent.top
+                text: i18n.dtr("ubuntu-ui-extras", "Post")
+                color: "#dd4814"
+                width: units.gu(10)
+                height: units.gu(4)
+                enabled: !activitySpinner.visible
+                onClicked: {
+                    activitySpinner.visible = true;
+                    friends.uploadForAccountAsync(userAccountId,
+                                                  "file://" + resizer.resizedFile,
+                                                  message.text)
+                }
+            }
         }
 
         UbuntuShape {
-            id: snapshot
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.margins: units.gu(1)
-            width: units.gu(10)
-            height: units.gu(10)
-
-            image: Image {
-                source: fileToShare
-                sourceSize.height: snapshot.height
-                sourceSize.width: snapshot.width
-                fillMode: Image.PreserveAspectCrop
+            id: useLocation
+            anchors {
+                left: parent.left
+                leftMargin: units.gu(1)
+                topMargin: units.gu(1)
             }
-        }
-    }
-
-    Item {
-        id: actionsBar
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: messageArea.bottom
-        anchors.topMargin: units.gu(2)
-        anchors.leftMargin: units.gu(1)
-        anchors.rightMargin: units.gu(1)
-        height: childrenRect.height
-
-        Button {
-            objectName: "cancelButton"
-            anchors.left: parent.left
-            text: i18n.dtr("ubuntu-ui-extras", "Cancel")
-            color: "#cccccc"
-            width: units.gu(10)
+            color: selected ? "#cccccc" : "transparent"
+            property bool selected: false
+            width: units.gu(4.5)
             height: units.gu(4)
-            onClicked: shareComponent.canceled()
-        }
 
-        Button {
-            objectName: "postButton"
-            anchors.right: parent.right
-            anchors.top: parent.top
-            text: i18n.dtr("ubuntu-ui-extras", "Post")
-            color: "#dd4814"
-            width: units.gu(10)
-            height: units.gu(4)
-            enabled: !activitySpinner.visible
-            onClicked: {
-                activitySpinner.visible = true;
-                friends.uploadForAccountAsync(userAccountId,
-                                              "file://" + resizer.resizedFile,
-                                              message.text)
+            AbstractButton {
+                anchors.fill: parent
+                onClicked: parent.selected = !parent.selected
+                Image {
+                    source: "assets/icon_location.png"
+                    anchors.centerIn: parent
+                    height: parent.height * 0.75
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
+                }
             }
         }
-    }
 
-    UbuntuShape {
-        id: useLocation
-        anchors.left: parent.left
-        anchors.top: actionsBar.bottom
-        anchors.leftMargin: units.gu(1)
-        anchors.topMargin: units.gu(1)
-        color: selected ? "#cccccc" : "transparent"
-        property bool selected: false
-        width: units.gu(4.5)
-        height: units.gu(4)
-
-        AbstractButton {
-            anchors.fill: parent
-            onClicked: parent.selected = !parent.selected
-
-            Image {
-                source: "assets/icon_location.png"
-                anchors.top: parent.top
-                anchors.topMargin: units.gu(0.5)
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: units.gu(0.5)
-                anchors.horizontalCenter: parent.horizontalCenter
-                fillMode: Image.PreserveAspectFit
-            }
+        Label {
+            anchors.left: useLocation.right
+            anchors.baseline: useLocation.top
+            anchors.baselineOffset: units.gu(3)
+            anchors.leftMargin: units.gu(1)
+            text: i18n.dtr("ubuntu-ui-extras", "Include location")
+            fontSize: "small"
         }
-    }
 
-    Label {
-        anchors.left: useLocation.right
-        anchors.baseline: useLocation.top
-        anchors.baselineOffset: units.gu(3)
-        anchors.leftMargin: units.gu(1)
-        text: i18n.dtr("ubuntu-ui-extras", "Include location")
-        fontSize: "small"
     }
 
     states: [
