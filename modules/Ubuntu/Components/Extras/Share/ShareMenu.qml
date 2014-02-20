@@ -28,6 +28,39 @@ Item {
 
     signal selected(string accountId)
 
+    Component {
+        id: itemDelegate
+        Item {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            AccountService {
+                id: service
+                objectHandle: accountServiceHandle
+            }
+
+            height: childrenRect.height
+
+            ListItem.Subtitled {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
+                text: service.provider.displayName
+                subText: displayName
+                iconName: service.provider.iconName
+                __iconHeight: units.gu(5)
+                __iconWidth: units.gu(5)
+
+                onClicked: {
+                    sharemenu.selected(accountId);
+                }
+            }
+        }
+    }
+
     ListView {
         anchors {
             top: parent.top
@@ -36,38 +69,10 @@ Item {
         }
         height: childrenRect.height
         interactive: false
-
         model: AccountServiceModel {
             serviceType: "microblogging"
-            includeDisabled: true
+            provider: "facebook"
         }
-
-        delegate: Item {
-            width: parent.width
-            height: childrenRect.height
-            visible: serviceName == "Facebook"
-
-            AccountService {
-                id: service
-                objectHandle: accountService
-            }
-
-            ListItem.Subtitled {
-                text: service.provider.displayName
-                subText: displayName
-                icon: "image://gicon/" + service.provider.iconName
-                __iconHeight: units.gu(5)
-                __iconWidth: units.gu(5)
-
-                onClicked: {
-                    if (service.provider.displayName == "Facebook") {
-                        sharemenu.selected(accountId);
-                    } else {
-                        console.log("Sharing to this service is not supported yet.");
-                        sharemenu.selected(null);
-                    }
-                }
-            }
-        }
+        delegate: itemDelegate
     }
 }
