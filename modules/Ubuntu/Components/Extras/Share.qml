@@ -93,9 +93,11 @@ Rectangle {
                     width: units.gu(5)
                     height: units.gu(5)
 
+                    // FIXME: replace this by an Icon when UbuntuShape supports
+                    // masking its children
                     image: Image {
                         fillMode: Image.PreserveAspectFit
-                        source: "image://gicon/" + accts.provider.iconName
+                        source: "image://theme/%1".arg(accts.provider.iconName)
                         sourceSize.height: logo.height
                         sourceSize.width: logo.width
                     }
