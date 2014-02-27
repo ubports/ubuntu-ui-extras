@@ -1,3 +1,20 @@
+ubuntu-ui-extras (0.1+14.04.20140227-0ubuntu1) trusty; urgency=low
+
+  [ Arthur Mello ]
+  * fix facebook icon not appearing.
+
+  [ Ugo Riboni ]
+  * Allow checking if the Facebook account has been configured or
+    removed. (LP: #1240145)
+
+  [ Guenter Schwann ]
+  * Use lazy loading for facebook id and name. (LP: #1221266)
+
+  [ CI bot ]
+  * release trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 27 Feb 2014 02:23:40 +0000
+
 ubuntu-ui-extras (0.1+13.10.20130829-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]
