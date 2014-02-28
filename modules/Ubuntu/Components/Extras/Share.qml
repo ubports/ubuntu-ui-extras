@@ -22,9 +22,10 @@ import Friends 0.2
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.Components.Extras 0.1
 
-Item {
+Rectangle {
     id: shareComponent
     objectName: "shareComponent"
+    color: Theme.palette.normal.background
 
     property string fileToShare
     property string userAccountId
