@@ -1,3 +1,13 @@
+ubuntu-ui-extras (0.1+14.04.20140331-0ubuntu1) trusty; urgency=low
+
+  [ Ken VanDine ]
+  * Fixed deprecations, refactored a bit for simplicity. Use an Item
+    instead of a Rectangle to be more consistent with the toolkit.
+    Filter accounts by provider, limiting the model to just Facebook.
+    This lets us remove all the conditionals for facebook.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 31 Mar 2014 17:49:59 +0000
+
 ubuntu-ui-extras (0.1+14.04.20140306-0ubuntu1) trusty; urgency=low
 
   * New rebuild forced
