@@ -1,3 +1,14 @@
+ubuntu-ui-extras (0.1+15.04.20141110-0ubuntu1) vivid; urgency=low
+
+  [ Sebastien Bacher ]
+  * Update the translations template during the build, to use for
+    langpacks (LP: #1391200)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 10 Nov 2014 16:07:47 +0000
+
 ubuntu-ui-extras (0.1+14.04.20140331-0ubuntu2) trusty; urgency=medium
 
   * No-change rebuild for shlib changes in qtbase and qtdeclarative.
