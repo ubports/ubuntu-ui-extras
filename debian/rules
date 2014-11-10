@@ -7,4 +7,7 @@
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 
 %:
-	dh $@ --parallel --fail-missing
+	dh $@ --with translations --parallel --fail-missing
+	
+override_dh_translations:
+	$(MAKE) -C obj-$(DEB_HOST_GNU_TYPE) ubuntu-ui-extras.pot
