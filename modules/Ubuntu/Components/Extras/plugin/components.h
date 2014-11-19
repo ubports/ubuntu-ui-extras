@@ -28,6 +28,8 @@ class Components : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri);
     void initializeEngine(QQmlEngine *engine, const char *uri);
+    static QObject* exportFileUtilsSingleton(QQmlEngine *engine,
+                                             QJSEngine *scriptEngine);
 };
 
 #endif // COMPONENTS_H
