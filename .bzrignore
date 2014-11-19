@@ -1,6 +1,7 @@
 *.qmlproject.user
 
 CMakeCache.txt
+CMakeLists.txt.user
 CMakeFiles/
 cmake_install.cmake
 cmake_uninstall.cmake
