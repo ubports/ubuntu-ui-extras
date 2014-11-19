@@ -1,6 +1,7 @@
 include(FindPkgConfig)
-pkg_check_modules(ACCOUNTSQT REQUIRED accounts-qt5)
-pkg_check_modules(NOTIFY REQUIRED libnotify)
+pkg_check_modules(ACCOUNTSQT REQUIRED accounts-qt5) # share
+pkg_check_modules(NOTIFY REQUIRED libnotify)        # share
+pkg_check_modules(EXIV2 REQUIRED exiv2)             # photoeditor
 
 set(PLUGIN_SRC
     components.cpp
@@ -16,17 +17,29 @@ set(SHARE_PLUGIN_SRC
     share/notifyqml.cpp
 )
 
+set(PHOTO_EDITOR_PLUGIN_SRC
+    photoeditor/file-utils.cpp
+    photoeditor/orientation.cpp
+    photoeditor/photo.cpp
+    photoeditor/photo-image-provider.cpp
+    photoeditor/photo-metadata.cpp
+    photoeditor/imaging.cpp
+    photoeditor/photo-edit-thread.cpp
+    )
+
 include_directories(
     ${CMAKE_BINARY_DIR}
     ${ACCOUNTSQT_INCLUDE_DIRS}
     ${NOTIFY_INCLUDE_DIRS}
 )
 
-add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS} ${EXAMPLE_PLUGIN_SRC} ${SHARE_PLUGIN_SRC})
-qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick Xml)
+add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS}
+            ${EXAMPLE_PLUGIN_SRC} ${SHARE_PLUGIN_SRC} ${PHOTO_EDITOR_PLUGIN_SRC})
+qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick Xml Widgets)
 target_link_libraries(ubuntu-ui-extras-plugin
     ${ACCOUNTSQT_LIBRARIES}
     ${NOTIFY_LIBRARIES}
+    ${EXIV2_LIBRARIES}
     )
 
 # Qt5's cmake does not export QT_IMPORTS_DIR, lets query qmake on our own for now
@@ -59,4 +72,3 @@ add_custom_command(
             COMMAND ${CMAKE_COMMAND} -E copy
                 $<TARGET_FILE:ubuntu-ui-extras-plugin>
                 ../)
-
