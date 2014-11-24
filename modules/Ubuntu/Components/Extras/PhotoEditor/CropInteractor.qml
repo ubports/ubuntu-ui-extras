@@ -24,9 +24,11 @@ import "GraphicsRoutines.js" as GraphicsRoutines
 
 /*!
 */
-Item {
+Rectangle {
     id: cropInteractor
     objectName: "cropInteractor"
+
+    color: "black"
 
     property alias targetPhoto: original.source
 
