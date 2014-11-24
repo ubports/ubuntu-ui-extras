@@ -74,11 +74,18 @@ void PhotoEditThread::run()
         return;
     }
 
-    // If the photo was rotated through metadata and we are editing the actual
-    // pixels, first rotate the image to match the orientation so that the
-    // correct pixels are edited.
+    // Copy all metadata from the original image so that we can save it to the
+    // new one after modifying the pixels.
+    PhotoMetadata* original = PhotoMetadata::fromFile(m_photo->file());
+
+    // If the photo was previously rotated through metadata and we are editing
+    // the actual pixels, first rotate the image to match the orientation so
+    // that the correct pixels are edited.
+    // Obviously don't do this in the case we have been asked to do a rotation
+    // operation on the pixels, as we would do it later as the operation itself.
     if (m_photo->fileFormatHasOrientation() && m_command.type != EDIT_ROTATE) {
-        QTransform transform = OrientationCorrection::fromOrientation(m_photo->orientation()).toTransform();
+        Orientation orientation = m_photo->orientation();
+        QTransform transform = OrientationCorrection::fromOrientation(orientation).toTransform();
         image = image.transformed(transform);
     }
 
@@ -103,11 +110,13 @@ void PhotoEditThread::run()
     if (!saved)
         qWarning() << "Error saving edited" << m_photo->file().filePath();
 
-    // Note that right now we have rotated the pixels in the image, and we are
-    // writing a completely new file. Ideally we would copy over the metadata,
-    // if any, and just adjust the orientation, but we are not doing that now,
-    // and therefore any further rotation commands will operate on the pixels
-    // instead of on the image. FIXME: <<
+    PhotoMetadata* empty = PhotoMetadata::fromFile(m_photo->file());
+    original->copyTo(empty);
+    empty->setOrientation(TOP_LEFT_ORIGIN); // reset previous orientation
+    empty->save();
+
+    delete original;
+    delete empty;
 
     if (originalSize != image.size())
         Q_EMIT newSize();

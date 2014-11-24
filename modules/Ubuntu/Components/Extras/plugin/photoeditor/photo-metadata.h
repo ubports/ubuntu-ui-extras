@@ -50,6 +50,7 @@ public:
 
     void setOrientation(Orientation orientation);
 
+    void copyTo(PhotoMetadata* other) const;
     bool save() const;
 
 private:
