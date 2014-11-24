@@ -23,8 +23,7 @@ Item {
             text: i18n.tr("Crop")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_crop.png")
             onTriggered: {
-                cropper.targetPhoto = "image://photo/" + photoData.path;
-                pageBackground.opacity = 1.0;
+                cropper.start("image://photo/" + photoData.path);
             }
         },
         Action {
@@ -48,8 +47,8 @@ Item {
         }
     ]
 
-    function close() {
-        stack.endEditingSession();
+    function close(saveIfModified) {
+        stack.endEditingSession(saveIfModified);
         editor.closed(editor.modified);
     }
 
@@ -95,31 +94,32 @@ Item {
         }
     }
 
-    // Note: this rectangle exists only because at the moment we are not using
-    // the standard SDK PageStack in camera-app. Normally the cropper would
-    // reside in a new page that gets pushed on and off the stack as needed.
-    Rectangle {
-        id: pageBackground
+    Loader {
+        id: cropper
 
-        color: "black"
         anchors.fill: parent
-        opacity: 0.0
 
+        opacity: 0.0
         Behavior on opacity { UbuntuNumberAnimation { } }
 
-        CropInteractor {
-            id: cropper
-            anchors.fill: parent
+        Connections {
+            target: cropper.item
+            ignoreUnknownSignals: true
             onCropped: {
                 var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
                 photoData.crop(qtRect);
-                targetPhoto = "";
-                pageBackground.opacity = 0.0;
+                cropper.opacity = 0.0;
+                cropper.source = ""
             }
             onCanceled: {
-                targetPhoto = "";
-                pageBackground.opacity = 0.0;
+                cropper.opacity = 0.0;
+                cropper.source = ""
             }
+        }
+
+        function start(target) {
+            source = "PhotoEditor/CropInteractor.qml";
+            item.targetPhoto = target;
         }
     }
 
@@ -151,7 +151,7 @@ Item {
         anchors.right: parent.right
 
         visible: opacity > 0.0
-        opacity: (exposureSelector.opacity == 0 && pageBackground.opacity == 0) ? 1.0 : 0.0
+        opacity: (exposureSelector.opacity == 0 && cropper.opacity == 0) ? 1.0 : 0.0
 
         enabled: !photoData.busy
         toolActions: {
