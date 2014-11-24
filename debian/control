@@ -11,7 +11,6 @@ Build-Depends: cmake (>= 2.8.9),
                qt5-qmake,
                qtbase5-dev,
                qtdeclarative5-dev,
-               libqt5sql5-sqlite,
                libaccounts-qt5-dev,
                libnotify-dev,
                qtdeclarative5-qtquick2-plugin,
@@ -19,6 +18,7 @@ Build-Depends: cmake (>= 2.8.9),
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-accounts-plugin,
                qtdeclarative5-friends0.2,
+               libexiv2-dev,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
 # If you aren't a member of ~ubuntu-sdk-team but need to upload packaging 
@@ -32,14 +32,13 @@ Package: qtdeclarative5-ubuntu-ui-extras0.1
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         libqt5sql5-sqlite,
-         libqt5webkit5-qmlwebkitplugin,
          qtdeclarative5-qtquick2-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-accounts-plugin,
          qtdeclarative5-friends0.2,
          qtdeclarative5-window-plugin,
          libaccounts-qt5-1,
+         libexiv2-13,
 Description: Ubuntu UI Extra Components
  A collection of UI components that for various reasons can't be included in
  the main Ubuntu UI toolkit - mostly because of the level of quality, lack of
