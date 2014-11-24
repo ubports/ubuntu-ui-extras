@@ -34,8 +34,10 @@ Item {
         return true;
     }
 
-    function endEditingSession() {
-        if (level > 0 || _revertedToPristine) { // file modified
+    function endEditingSession(saveIfModified) {
+        if (saveIfModified &&
+            (level > 0 || _revertedToPristine)) { // file modified
+
             // if we don't have a copy of the very first original, create one
             if (!FileUtils.exists(pristineFile)) {
                 FileUtils.createDirectory(FileUtils.parentDirectory(pristineFile));
@@ -93,7 +95,7 @@ Item {
                     _revertedToPristine = true;
                 }
 
-                items.slice(0, 1);
+                items = items.slice(0, 1);
                 level = 0;
             }
     }
