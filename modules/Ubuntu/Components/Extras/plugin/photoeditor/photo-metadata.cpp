@@ -235,3 +235,8 @@ bool PhotoMetadata::save() const
         return false;
     }
 }
+
+void PhotoMetadata::copyTo(PhotoMetadata *other) const
+{
+    other->m_image->setMetadata(*m_image);
+}
