@@ -20,8 +20,8 @@
  * Ugo Riboni <ugo.riboni@canonical.com>
  */
 
-#ifndef PHOTO_H_
-#define PHOTO_H_
+#ifndef PHOTO_DATA_H_
+#define PHOTO_DATA_H_
 
 // util
 #include "orientation.h"
@@ -36,7 +36,7 @@ class EditStack;
 /*!
  * \brief The Photo class
  */
-class Photo : public QObject
+class PhotoData : public QObject
 {
     Q_OBJECT
 
@@ -45,8 +45,8 @@ class Photo : public QObject
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 
 public:
-    explicit Photo();
-    virtual ~Photo();
+    explicit PhotoData();
+    virtual ~PhotoData();
 
     static bool isValid(const QFileInfo& file);
 
@@ -99,4 +99,4 @@ private:
     Orientation m_originalOrientation;
 };
 
-#endif  // PHOTO_H_
+#endif  // PHOTO_DATA_H_
