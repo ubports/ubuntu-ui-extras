@@ -27,7 +27,7 @@
 #include <QThread>
 #include <QUrl>
 
-class Photo;
+class PhotoData;
 
 /*!
  * \brief The PhotoEditThread class
@@ -36,7 +36,7 @@ class PhotoEditThread: public QThread
 {
     Q_OBJECT
 public:
-    PhotoEditThread(Photo *photo, const PhotoEditCommand& command);
+    PhotoEditThread(PhotoData *photo, const PhotoEditCommand& command);
 
     const PhotoEditCommand& command() const;
     Orientation oldOrientation() const;
@@ -53,7 +53,7 @@ private:
     QImage doColorBalance(const QImage& image, qreal brightness, qreal contrast, qreal saturation, qreal hue);
     void handleSimpleMetadataRotation(const PhotoEditCommand& state);
 
-    Photo *m_photo;
+    PhotoData *m_photo;
     PhotoEditCommand m_command;
     Orientation m_oldOrientation;
 };

@@ -20,7 +20,7 @@ set(SHARE_PLUGIN_SRC
 set(PHOTO_EDITOR_PLUGIN_SRC
     photoeditor/file-utils.cpp
     photoeditor/orientation.cpp
-    photoeditor/photo.cpp
+    photoeditor/photo-data.cpp
     photoeditor/photo-image-provider.cpp
     photoeditor/photo-metadata.cpp
     photoeditor/imaging.cpp

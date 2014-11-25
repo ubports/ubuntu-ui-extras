@@ -52,12 +52,11 @@ Item {
         editor.closed(editor.modified);
     }
 
-    onPhotoChanged: {
-        if (photo) {
-            stack.startEditingSession(photo);
-            photoData.path = stack.currentFile;
-            image.source = "image://photo/" + photoData.path;
-        }
+    function open(photo) {
+        editor.photo = photo;
+        stack.startEditingSession(photo);
+        photoData.path = stack.currentFile;
+        image.source = "image://photo/" + photoData.path;
     }
 
     Rectangle {
@@ -81,7 +80,7 @@ Item {
         }
     }
 
-    Photo {
+    PhotoData {
         id: photoData
         onDataChanged: image.reload()
 

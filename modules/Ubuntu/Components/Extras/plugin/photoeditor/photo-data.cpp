@@ -22,7 +22,7 @@
  * Ugo Riboni <ugo.riboni@canonical.com>
  */
 
-#include "photo.h"
+#include "photo-data.h"
 #include "photo-edit-command.h"
 #include "photo-edit-thread.h"
 
@@ -47,7 +47,7 @@
  * \param file
  * \return
  */
-bool Photo::isValid(const QFileInfo& file)
+bool PhotoData::isValid(const QFileInfo& file)
 {
     QImageReader reader(file.filePath());
     QByteArray format = reader.format();
@@ -73,7 +73,7 @@ bool Photo::isValid(const QFileInfo& file)
  * \brief Photo::Photo
  * \param file
  */
-Photo::Photo()
+PhotoData::PhotoData()
     : QObject(),
     m_editThread(0),
     m_originalSize(),
@@ -83,7 +83,7 @@ Photo::Photo()
 {
 }
 
-void Photo::setPath(QString path)
+void PhotoData::setPath(QString path)
 {
     if (QFileInfo(path).absoluteFilePath() != m_file.absoluteFilePath()) {
         QFileInfo newFile(path);
@@ -107,12 +107,12 @@ void Photo::setPath(QString path)
     }
 }
 
-QString Photo::path() const
+QString PhotoData::path() const
 {
     return m_file.absoluteFilePath();
 }
 
-QFileInfo Photo::file() const
+QFileInfo PhotoData::file() const
 {
     return m_file;
 }
@@ -120,7 +120,7 @@ QFileInfo Photo::file() const
 /*!
  * \brief Photo::~Photo
  */
-Photo::~Photo()
+PhotoData::~PhotoData()
 {
     if (m_editThread) {
         m_editThread->wait();
@@ -133,7 +133,7 @@ Photo::~Photo()
  * \param respectOrientation if set to true, the photo is rotated according to the EXIF information
  * \return The image in full size
  */
-QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
+QImage PhotoData::image(bool respectOrientation, const QSize &scaleSize)
 {
     QImageReader imageReader(m_file.filePath(), m_fileFormat.toStdString().c_str());
     QSize imageSize = imageReader.size();
@@ -156,17 +156,17 @@ QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
  * \brief Photo::orientation
  * \return
  */
-Orientation Photo::orientation() const
+Orientation PhotoData::orientation() const
 {  
     return m_orientation;
 }
 
-Orientation Photo::originalOrientation() const
+Orientation PhotoData::originalOrientation() const
 {
     return m_originalOrientation;
 }
 
-void Photo::refreshFromDisk()
+void PhotoData::refreshFromDisk()
 {
     if (fileFormatHasMetadata()) {
         PhotoMetadata* metadata = PhotoMetadata::fromFile(m_file.absoluteFilePath());
@@ -183,7 +183,7 @@ void Photo::refreshFromDisk()
 /*!
  * \brief Photo::rotateRight
  */
-void Photo::rotateRight()
+void PhotoData::rotateRight()
 {
     Orientation current = fileFormatHasOrientation() ? orientation() :
                                                        TOP_LEFT_ORIGIN;
@@ -200,7 +200,7 @@ void Photo::rotateRight()
 /*!
  * \brief Photo::autoEnhance
  */
-void Photo::autoEnhance()
+void PhotoData::autoEnhance()
 {
     PhotoEditCommand command;
     command.type = EDIT_ENHANCE;
@@ -212,7 +212,7 @@ void Photo::autoEnhance()
  * \param value Value for the compensation. -1.0 moves the image into total black.
  * +1.0 to total white. 0.0 leaves it as it is.
  */
-void Photo::exposureCompensation(qreal value)
+void PhotoData::exposureCompensation(qreal value)
 {
     PhotoEditCommand command;
     command.type = EDIT_COMPENSATE_EXPOSURE;
@@ -227,7 +227,7 @@ void Photo::exposureCompensation(qreal value)
  * \param saturation from 0 maybe 5. 1 is as the original
  * \param hue from 0 to 360. 0 and 360 is as the original
  */
-void Photo::colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
+void PhotoData::colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
 {
     PhotoEditCommand next_state;
     next_state.colorBalance_ = QVector4D(brightness, contrast, saturation, hue);
@@ -239,7 +239,7 @@ void Photo::colorBalance(qreal brightness, qreal contrast, qreal saturation, qre
  * Specify all coords in [0,1].
  * \param vrect
  */
-void Photo::crop(QVariant vrect)
+void PhotoData::crop(QVariant vrect)
 {
     QRectF ratio_crop_rect = vrect.toRectF();
 
@@ -268,7 +268,7 @@ void Photo::crop(QVariant vrect)
  * \param orientation
  * \return Returns the original image size translated to the desired orientation
  */
-QSize Photo::originalSize(Orientation orientation)
+QSize PhotoData::originalSize(Orientation orientation)
 {
     if (!m_originalSize.isValid()) {
         QImage original(m_file.filePath(),
@@ -304,7 +304,7 @@ QSize Photo::originalSize(Orientation orientation)
  * in a background thread.
  * \param The command defining the edit operation to perform.
  */
-void Photo::asyncEdit(const PhotoEditCommand& command)
+void PhotoData::asyncEdit(const PhotoEditCommand& command)
 {
     if (m_busy) {
         qWarning() << "Can't start edit operation while another one is running.";
@@ -320,7 +320,7 @@ void Photo::asyncEdit(const PhotoEditCommand& command)
 /*!
  * \brief Photo::finishEditing do all the updates once the editing is done
  */
-void Photo::finishEditing()
+void PhotoData::finishEditing()
 {
     if (!m_editThread || m_editThread->isRunning())
         return;
@@ -341,7 +341,7 @@ void Photo::finishEditing()
  * \brief Photo::fileFormat returns the file format as QString
  * \return
  */
-const QString &Photo::fileFormat() const
+const QString &PhotoData::fileFormat() const
 {
     return m_fileFormat;
 }
@@ -350,7 +350,7 @@ const QString &Photo::fileFormat() const
  * \brief Photo::fileFormatHasMetadata
  * \return
  */
-bool Photo::fileFormatHasMetadata() const
+bool PhotoData::fileFormatHasMetadata() const
 {
     return (m_fileFormat == "jpeg" || m_fileFormat == "tiff" ||
             m_fileFormat == "png");
@@ -360,7 +360,7 @@ bool Photo::fileFormatHasMetadata() const
  * \brief Photo::fileFormatHasOrientation
  * \return
  */
-bool Photo::fileFormatHasOrientation() const
+bool PhotoData::fileFormatHasOrientation() const
 {
     return (m_fileFormat == "jpeg");
 }
@@ -369,7 +369,7 @@ bool Photo::fileFormatHasOrientation() const
  * \brief Photo::originalSize
  * \return
  */
-const QSize &Photo::originalSize()
+const QSize &PhotoData::originalSize()
 {
     originalSize(ORIGINAL_ORIENTATION);
     return m_originalSize;
@@ -379,7 +379,7 @@ const QSize &Photo::originalSize()
  * \brief Photo::busy return true if there is an editing operation in progress
  * \return
  */
-bool Photo::busy() const
+bool PhotoData::busy() const
 {
     return m_busy;
 }

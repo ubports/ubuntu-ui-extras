@@ -15,7 +15,7 @@
  */
 
 #include "photo-edit-thread.h"
-#include "photo.h"
+#include "photo-data.h"
 
 // medialoader
 #include "photo-metadata.h"
@@ -28,7 +28,7 @@
 /*!
  * \brief PhotoEditThread::PhotoEditThread
  */
-PhotoEditThread::PhotoEditThread(Photo *photo, const PhotoEditCommand &command)
+PhotoEditThread::PhotoEditThread(PhotoData *photo, const PhotoEditCommand &command)
     : QThread(),
       m_photo(photo),
       m_command(command),

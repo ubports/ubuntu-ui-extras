@@ -3,7 +3,7 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.Extras 0.1
 
 Item {
-    property Photo data
+    property PhotoData data
     property var items: []
     property int level: -1
     property string editingSessionPath
