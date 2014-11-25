@@ -28,7 +28,9 @@ FileUtils::FileUtils(QObject *parent) :
 }
 
 bool FileUtils::createDirectory(QString path) const
-{
+{ 
+    if (path.isEmpty()) return false;
+
     return QDir(path).mkpath(".");
 }
 
@@ -43,23 +45,30 @@ QString FileUtils::createTemporaryDirectory(QString pathTemplate) const
 
 bool FileUtils::removeDirectory(QString path, bool recursive) const
 {
+    if (path.isEmpty()) return false;
+
     QDir dir(path);
     return (recursive) ? dir.removeRecursively() : dir.rmdir(".");
 }
 
 bool FileUtils::remove(QString path) const
 {
+    if (path.isEmpty()) return false;
     return QFile::remove(path);
 }
 
 bool FileUtils::copy(QString sourceFile, QString destinationFile) const
 {
+    if (sourceFile.isEmpty() || destinationFile.isEmpty()) return false;
+
     if (QFileInfo(destinationFile).exists()) QFile::remove(destinationFile);
     return QFile::copy(sourceFile, destinationFile);
 }
 
 bool FileUtils::rename(QString sourceFile, QString destinationFile) const
 {
+    if (sourceFile.isEmpty() || destinationFile.isEmpty()) return false;
+
     if (QFileInfo(destinationFile).exists()) QFile::remove(destinationFile);
     return QFile::rename(sourceFile, destinationFile);
 }
