@@ -120,6 +120,8 @@ Item {
             source = "PhotoEditor/CropInteractor.qml";
             item.targetPhoto = target;
         }
+
+        onLoaded: opacity = 1.0
     }
 
     ExposureAdjuster {
