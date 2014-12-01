@@ -2,15 +2,18 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/share/
     ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/example/
+    ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/photoeditor/
     )
 
 qt5_add_resources(sampledata_rc_srcs sampledata.qrc)
 
+set(plugin-dir ../../modules/Ubuntu/Components/Extras/plugin)
 macro(generate_tests)
     foreach(test ${ARGN})
         add_executable(${test} 
             ${test}.cpp
-            ../../modules/Ubuntu/Components/Extras/plugin/share/imageresizer.cpp
+            ${plugin-dir}/share/imageresizer.cpp
+            ${plugin-dir}/photoeditor/photo-image-provider.cpp
             ${sampledata_rc_srcs}
             )
         qt5_use_modules(${test} Core Qml Quick Test)
@@ -31,4 +34,5 @@ endmacro(generate_tests)
 generate_tests(
     tst_ShareImageResizer
     tst_ExampleModelTests
+    tst_PhotoEditorPhotoImageProvider
     )
