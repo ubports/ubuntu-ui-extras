@@ -39,10 +39,6 @@ public:
     PhotoEditThread(PhotoData *photo, const PhotoEditCommand& command);
 
     const PhotoEditCommand& command() const;
-    Orientation oldOrientation() const;
-
-Q_SIGNALS:
-    void newSize();
 
 protected:
     void run() Q_DECL_OVERRIDE;
@@ -55,7 +51,6 @@ private:
 
     PhotoData *m_photo;
     PhotoEditCommand m_command;
-    Orientation m_oldOrientation;
 };
 
 #endif

@@ -31,8 +31,7 @@
 PhotoEditThread::PhotoEditThread(PhotoData *photo, const PhotoEditCommand &command)
     : QThread(),
       m_photo(photo),
-      m_command(command),
-      m_oldOrientation(photo->orientation())
+      m_command(command)
 {
 }
 
@@ -43,15 +42,6 @@ PhotoEditThread::PhotoEditThread(PhotoData *photo, const PhotoEditCommand &comma
 const PhotoEditCommand &PhotoEditThread::command() const
 {
     return m_command;
-}
-
-/*!
- * \brief PhotoEditThread::oldOrientation returns the orientation of the photo before the editing
- * \return
- */
-Orientation PhotoEditThread::oldOrientation() const
-{
-    return m_oldOrientation;
 }
 
 /*!
@@ -89,13 +79,17 @@ void PhotoEditThread::run()
         image = image.transformed(transform);
     }
 
-    QSize originalSize = image.size();
-
     if (m_command.type == EDIT_ROTATE) {
         QTransform transform = OrientationCorrection::fromOrientation(m_command.orientation).toTransform();
         image = image.transformed(transform);
     } else if (m_command.type == EDIT_CROP) {
-        image = image.copy(m_command.crop_rectangle);
+        QRect rect;
+        rect.setX(m_command.crop_rectangle.x() * image.width());
+        rect.setY(m_command.crop_rectangle.y() * image.height());
+        rect.setWidth(m_command.crop_rectangle.width() * image.width());
+        rect.setHeight(m_command.crop_rectangle.height() * image.height());
+
+        image = image.copy(rect);
     } else if (m_command.type == EDIT_ENHANCE) {
         image = enhanceImage(image);
     } else if (m_command.type == EDIT_COMPENSATE_EXPOSURE) {
@@ -117,9 +111,6 @@ void PhotoEditThread::run()
 
     delete original;
     delete empty;
-
-    if (originalSize != image.size())
-        Q_EMIT newSize();
 }
 
 /*!
@@ -134,18 +125,6 @@ void PhotoEditThread::handleSimpleMetadataRotation(const PhotoEditCommand& state
     metadata->setOrientation(state.orientation);
     metadata->save();
     delete(metadata);
-
-    OrientationCorrection orig_correction =
-            OrientationCorrection::fromOrientation(m_photo->originalOrientation());
-    OrientationCorrection dest_correction =
-            OrientationCorrection::fromOrientation(state.orientation);
-
-    QSize new_size = m_photo->originalSize();
-    int angle = dest_correction.getNormalizedRotationDifference(orig_correction);
-
-    if ((angle == 90) || (angle == 270)) {
-        new_size = m_photo->originalSize().transposed();
-    }
 }
 
 /*!

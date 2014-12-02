@@ -56,6 +56,7 @@ public:
     bool busy() const;
 
     virtual QImage image(bool respectOrientation, const QSize &scaleSize=QSize());
+
     virtual Orientation orientation() const;
 
     Q_INVOKABLE void refreshFromDisk();
@@ -64,10 +65,6 @@ public:
     Q_INVOKABLE void exposureCompensation(qreal value);
     Q_INVOKABLE void colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue);
     Q_INVOKABLE void crop(QVariant vrect);
-
-    void setOrientation(Orientation orientation);
-    const QSize &originalSize();
-    Orientation originalOrientation() const;
 
     const QString &fileFormat() const;
     bool fileFormatHasMetadata() const;
@@ -85,7 +82,6 @@ private Q_SLOTS:
     void finishEditing();
 
 private:
-    QSize originalSize(Orientation orientation);
     void asyncEdit(const PhotoEditCommand& state);
 
     QString m_fileFormat;
@@ -93,10 +89,7 @@ private:
     QFileInfo m_file;
     bool m_busy;
 
-    // We cache this data to avoid an image read at various times.
-    QSize m_originalSize;
     Orientation m_orientation;
-    Orientation m_originalOrientation;
 };
 
 #endif  // PHOTO_DATA_H_
