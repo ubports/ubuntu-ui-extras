@@ -61,7 +61,6 @@ public:
     Q_INVOKABLE void rotateRight();
     Q_INVOKABLE void autoEnhance();
     Q_INVOKABLE void exposureCompensation(qreal value);
-    Q_INVOKABLE void colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue);
     Q_INVOKABLE void crop(QVariant vrect);
 
     const QString &fileFormat() const;
