@@ -41,6 +41,7 @@ PhotoImageProvider::PhotoImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image),
       m_cachedBytes(0),
       m_logImageLoading(false),
+      m_emitCacheSignals(false),
       m_maxLoadResolution(INT_MAX)
 {
 }
@@ -50,19 +51,9 @@ PhotoImageProvider::PhotoImageProvider()
  */
 PhotoImageProvider::~PhotoImageProvider()
 {
-    // NOTE: This assumes that the GSIP is not receiving any requests any longer
+    // NOTE: This assumes that we are not receiving requests any longer
     while (!m_fifo.isEmpty())
         delete m_cache.value(m_fifo.takeFirst());
-}
-
-/*!
- * \brief PhotoImageProvider::toURL
- * \param file
- * \return
- */
-QUrl PhotoImageProvider::toURL(const QFileInfo& file)
-{
-    return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
 }
 
 #define LOG_IMAGE_STATUS(status) { \
@@ -101,7 +92,7 @@ QImage PhotoImageProvider::requestImage(const QString& id,
     // we have to take the worse case and accept that there will be additional cache
     // misses when an image is requested again just after it has been cached.
     // There is no alternative to this other than accepting false cache hits, which
-    // would result in bugs in the application using this image provider.
+    // would result in bugs in the application.
     QDateTime lastModified = photoFile.lastModified();
     lastModified = lastModified.addSecs(2);
 
@@ -142,12 +133,22 @@ void PhotoImageProvider::setLogging(bool enableLogging)
 }
 
 /*!
+ * \brief PhotoImageProvider::setEmitCacheSignals enabled emitting signals to
+ * track the status of the internal cache.
+ * \param emitCacheSignals
+ */
+void PhotoImageProvider::setEmitCacheSignals(bool emitCacheSignals)
+{
+    m_emitCacheSignals = emitCacheSignals;
+}
+
+/*!
  * \brief PhotoImageProvider::setMaxLoadResolution sets the maximal size of the loaded
  * images. Images loaded are limited to a max width/height, but keep their aspect ratio.
  * Limiting the size is useful to not exceed the texture size limit of the GPU. Or to limit for
  * performance reasons.
  * Default is to have no limit (INT_MAX).
- * \param resolution maxiaml length in pixel
+ * \param resolution maximal length in pixels
  */
 void PhotoImageProvider::setMaxLoadResolution(int resolution)
 {
@@ -217,21 +218,26 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
     // lock the cached image itself to access
     cachedImage->imageMutex.lock();
 
-    // if the file was modified after the image was cached, reload it
-    if (cachedImage->cachedAt > fileLastModified) {
-        // if image is available, see if a fit
-        if (cachedImage->isCacheHit(requestedSize)) {
+    // if image is available, see if a fit
+    if (cachedImage->isCacheHit(requestedSize)) {
+        if (cachedImage->cachedAt > fileLastModified) {
             readyImage = cachedImage->image;
             LOG_IMAGE_STATUS("cache-hit ");
-        } else if (cachedImage->isReady()) {
-            LOG_IMAGE_STATUS("cache-miss ");
+            if (m_emitCacheSignals) Q_EMIT cacheHit(cachedImage->id, requestedSize);
+        } else {
+            // if the file was modified after the image was cached, reload it
+            LOG_IMAGE_STATUS("cache-stale ");
+            if (m_emitCacheSignals) cacheMiss(cachedImage->id, requestedSize, true);
         }
-    } else LOG_IMAGE_STATUS("cache-stale ");
+    } else {
+        LOG_IMAGE_STATUS("cache-miss ");
+        if (m_emitCacheSignals) cacheMiss(cachedImage->id, requestedSize, false);
+    }
 
     if (bytesLoaded != NULL)
         *bytesLoaded = 0;
 
-    // if not available or stale, load now
+    // if unavailable or stale, load now
     if (readyImage.isNull()) {
         QImageReader reader(cachedImage->file);
 
@@ -263,6 +269,7 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
         } else {
             LOG_IMAGE_STATUS("full-load ");
         }
+        if (m_emitCacheSignals) Q_EMIT cacheAdd(cachedImage->id, requestedSize, loadSize);
 
         readyImage = reader.read();
         if (!readyImage.isNull()) {
