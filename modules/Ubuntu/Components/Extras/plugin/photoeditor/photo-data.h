@@ -55,8 +55,6 @@ public:
     QFileInfo file() const;
     bool busy() const;
 
-    virtual QImage image(bool respectOrientation, const QSize &scaleSize=QSize());
-
     virtual Orientation orientation() const;
 
     Q_INVOKABLE void refreshFromDisk();
