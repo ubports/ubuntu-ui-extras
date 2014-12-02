@@ -182,30 +182,3 @@ QImage PhotoEditThread::compensateExposure(const QImage &image, qreal compensati
 
     return result;
 }
-
-/*!
- * \brief PhotoEditThread::colorBalance
- * \param image
- * \param brightness 0 is total dark, 1 is as the original, grater than 1 is brigther
- * \param contrast from 0 maybe 5. 1 is as the original
- * \param saturation from 0 maybe 5. 1 is as the original
- * \param hue from 0 to 360. 0 and 360 is as the original
- * \return
- */
-QImage PhotoEditThread::doColorBalance(const QImage &image, qreal brightness, qreal contrast, qreal saturation, qreal hue)
-{
-    QImage result(image.width(), image.height(), image.format());
-
-    ColorBalance cb(brightness, contrast, saturation, hue);
-
-    for (int j = 0; j < image.height(); j++) {
-        for (int i = 0; i <image.width(); i++) {
-            QColor px = image.pixel(i, j);
-            QColor tpx = cb.transformPixel(px);
-            result.setPixel(i, j, tpx.rgb());
-        }
-    }
-
-    return result;
-}
-

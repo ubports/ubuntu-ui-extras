@@ -188,20 +188,6 @@ void PhotoData::exposureCompensation(qreal value)
 }
 
 /*!
- * \brief Photo::colorBalance adjusts the colors
- * \param brightness 0 is total dark, 1 is as the original, grater than 1 is brigther
- * \param contrast from 0 maybe 5. 1 is as the original
- * \param saturation from 0 maybe 5. 1 is as the original
- * \param hue from 0 to 360. 0 and 360 is as the original
- */
-void PhotoData::colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
-{
-    PhotoEditCommand next_state;
-    next_state.colorBalance_ = QVector4D(brightness, contrast, saturation, hue);
-    asyncEdit(next_state);
-}
-
-/*!
  * \brief Photo::crop
  * Specify all coords in [0,1].
  * \param vrect
