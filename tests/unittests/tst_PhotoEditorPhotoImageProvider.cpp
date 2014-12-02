@@ -23,17 +23,20 @@
 #include <QFile>
 #include <QTemporaryDir>
 
+#include <time.h>
+#include <utime.h>
+
 class PhotoEditorPhotoImageProviderTest: public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void init();
+    void cleanup();
     void initTestCase();
 
     void testEmptyOrInvalid();
     void testRotation();
     void testCache();
-
-    void cleanupTestCase();
 
 private:        
     PhotoImageProvider *m_provider;
@@ -42,8 +45,6 @@ private:
 
 void PhotoEditorPhotoImageProviderTest::initTestCase()
 {
-    m_provider = new PhotoImageProvider();
-
     QDir rc = QDir(":/assets/");
     QDir dest = QDir(m_workingDir.path());
     Q_FOREACH(const QString &name, rc.entryList())
@@ -54,7 +55,13 @@ void PhotoEditorPhotoImageProviderTest::initTestCase()
     }
 }
 
-void PhotoEditorPhotoImageProviderTest::cleanupTestCase()
+void PhotoEditorPhotoImageProviderTest::init()
+{
+    m_provider = new PhotoImageProvider();
+    m_provider->setEmitCacheSignals(true);
+}
+
+void PhotoEditorPhotoImageProviderTest::cleanup()
 {
     // temporary dir will be deleted when m_workingDir goes out of scope
     delete m_provider;
@@ -85,16 +92,38 @@ void PhotoEditorPhotoImageProviderTest::testRotation()
 
 void PhotoEditorPhotoImageProviderTest::testCache()
 {
+    QSize imageSize(400, 267);
+
     // Work on a copy to avoid disturbing other tests
     QDir source = QDir(m_workingDir.path());
     QString path = source.absoluteFilePath("testcache.jpg");
     QFile::copy(source.absoluteFilePath("windmill.jpg"), path);
 
+    // Set the file modification time to a date back in the past
+    // to prevent
+    struct utimbuf tm;
+    tm.actime = 1;
+    tm.modtime = 1;
+    utime(path.toUtf8().constData(), &tm);
+
+    QSignalSpy spyHit(m_provider, SIGNAL(cacheHit(QString,QSize)));
+    QSignalSpy spyMiss(m_provider, SIGNAL(cacheMiss(QString,QSize,bool)));
+    QSignalSpy spyAdd(m_provider, SIGNAL(cacheAdd(QString,QSize,QSize)));
+
     // First request an image so that it gets cached
     QImage image = m_provider->requestImage(path, 0, QSize());
     QVERIFY(!image.isNull());
-    QVERIFY(image.width() == 400);
-    QVERIFY(image.height() == 267);
+    QVERIFY(image.size() == imageSize);
+    QVERIFY(spyHit.count() == 0);
+    QVERIFY(spyMiss.count() == 1);
+    QVERIFY(spyMiss.front().at(0) == path);
+    QVERIFY(spyAdd.count() == 1);
+    QVERIFY(spyAdd.front().at(0) == path);
+
+    // Verify that it is there
+    image = m_provider->requestImage(path, 0, QSize());
+    QVERIFY(spyHit.count() == 1);
+    QVERIFY(spyHit.front().at(0) == path);
 
     // Copy another file with different rotation into the same file
     QFile main(path);
@@ -107,9 +136,15 @@ void PhotoEditorPhotoImageProviderTest::testCache()
     main.close();
     other.close();
 
+    // Verify that we are getting a miss and that it is a stale cache miss
     image = m_provider->requestImage(path, 0, QSize());
-    QVERIFY(image.width() == 267);
-    QVERIFY(image.height() == 400);
+    QVERIFY(spyMiss.count() == 2);
+    QVERIFY(spyMiss.at(1).at(0) == path);
+    QVERIFY(spyMiss.at(1).at(2) == true); // is stale
+    QVERIFY(spyAdd.count() == 2);
+    QVERIFY(spyAdd.at(1).at(0) == path);
+    QVERIFY(spyAdd.at(1).at(2) == imageSize); // cached image size
+    QVERIFY(image.size() == imageSize.transposed());
 }
 
 void PhotoEditorPhotoImageProviderTest::testEmptyOrInvalid()

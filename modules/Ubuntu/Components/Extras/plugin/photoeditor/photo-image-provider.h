@@ -44,7 +44,7 @@
  *
  * 2. QML's image caching appears to be directly related to image size (scaling)
  *    which leads to thrashing when animating a thumbnail or loading images at
- *    various sizes (such as in the album viewer versus the photo viewer).
+ *    various sizes.
  *    The strategy here is to cache the largest requested size of the image
  *    and allow QML to downscale it as necessary.  This minimizes expensive
  *    JPEG load-and-decodes.
@@ -67,13 +67,17 @@ public:
     PhotoImageProvider();
     virtual ~PhotoImageProvider();
 
-    static QUrl toURL(const QFileInfo& file);
-
     virtual QImage requestImage(const QString& id, QSize* size,
                                 const QSize& requestedSize);
 
     void setLogging(bool enableLogging);
+    void setEmitCacheSignals(bool emitCacheSignals);
     void setMaxLoadResolution(int resolution);
+
+Q_SIGNALS:
+    void cacheHit(QString id, QSize size);
+    void cacheMiss(QString id, QSize size, bool wasStale);
+    void cacheAdd(QString id, QSize size, QSize cachedSize);
 
 private:
     class CachedImage {
@@ -108,6 +112,7 @@ private:
     QMutex m_cacheMutex;
     long m_cachedBytes;
     bool m_logImageLoading;
+    bool m_emitCacheSignals;
     int m_maxLoadResolution;
 
     static QSize orientSize(const QSize& size, Orientation orientation);
