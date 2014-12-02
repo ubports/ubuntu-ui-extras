@@ -76,9 +76,7 @@ bool PhotoData::isValid(const QFileInfo& file)
 PhotoData::PhotoData()
     : QObject(),
     m_editThread(0),
-    m_originalSize(),
     m_orientation(TOP_LEFT_ORIGIN),
-    m_originalOrientation(TOP_LEFT_ORIGIN),
     m_busy(false)
 {
 }
@@ -98,7 +96,6 @@ void PhotoData::setPath(QString path)
 
             if (fileFormatHasMetadata()) {
                 PhotoMetadata* metadata = PhotoMetadata::fromFile(newFile.absoluteFilePath());
-                m_originalOrientation = metadata->orientation();
                 m_orientation = metadata->orientation();
                 delete metadata;
                 Q_EMIT orientationChanged();
@@ -161,17 +158,11 @@ Orientation PhotoData::orientation() const
     return m_orientation;
 }
 
-Orientation PhotoData::originalOrientation() const
-{
-    return m_originalOrientation;
-}
-
 void PhotoData::refreshFromDisk()
 {
     if (fileFormatHasMetadata()) {
         PhotoMetadata* metadata = PhotoMetadata::fromFile(m_file.absoluteFilePath());
         qDebug() << "Refreshing orient." << m_orientation << "to" << metadata->orientation();
-        m_originalOrientation = metadata->orientation();
         m_orientation = metadata->orientation();
         delete metadata;
         Q_EMIT orientationChanged();
@@ -241,62 +232,10 @@ void PhotoData::colorBalance(qreal brightness, qreal contrast, qreal saturation,
  */
 void PhotoData::crop(QVariant vrect)
 {
-    QRectF ratio_crop_rect = vrect.toRectF();
-
-    QSize image_size = originalSize(orientation());
-
-    // Integer truncation is good enough here.
-    int x = ratio_crop_rect.x() * image_size.width();
-    int y = ratio_crop_rect.y() * image_size.height();
-    int width = ratio_crop_rect.width() * image_size.width();
-    int height = ratio_crop_rect.height() * image_size.height();
-
-    if (x < 0 || y < 0 || width <= 0 || height <= 0 ||
-        x + width > image_size.width() || y + height > image_size.height()) {
-        qWarning() << "Invalid cropping rectangle";
-        return;
-    }
-
     PhotoEditCommand command;
     command.type = EDIT_CROP;
-    command.crop_rectangle = QRect(x, y, width, height);
+    command.crop_rectangle = vrect.toRectF();
     asyncEdit(command);
-}
-
-/*!
- * \brief Photo::originalSize Returns the original image size translated to the desired orientation
- * \param orientation
- * \return Returns the original image size translated to the desired orientation
- */
-QSize PhotoData::originalSize(Orientation orientation)
-{
-    if (!m_originalSize.isValid()) {
-        QImage original(m_file.filePath(),
-                        m_fileFormat.toStdString().c_str());
-        if (fileFormatHasOrientation()) {
-            original =
-                    original.transformed(OrientationCorrection::fromOrientation(
-                                             m_originalOrientation).toTransform());
-        }
-
-        m_originalSize = original.size();
-    }
-
-    QSize rotated_size = m_originalSize;
-
-    if (orientation != ORIGINAL_ORIENTATION) {
-        OrientationCorrection original_correction =
-                OrientationCorrection::fromOrientation(m_originalOrientation);
-        OrientationCorrection out_correction =
-                OrientationCorrection::fromOrientation(orientation);
-        int degrees_rotation =
-                original_correction.getNormalizedRotationDifference(out_correction);
-
-        if (degrees_rotation == 90 || degrees_rotation == 270)
-            rotated_size.transpose();
-    }
-
-    return rotated_size;
 }
 
 /*!
@@ -363,16 +302,6 @@ bool PhotoData::fileFormatHasMetadata() const
 bool PhotoData::fileFormatHasOrientation() const
 {
     return (m_fileFormat == "jpeg");
-}
-
-/*!
- * \brief Photo::originalSize
- * \return
- */
-const QSize &PhotoData::originalSize()
-{
-    originalSize(ORIGINAL_ORIENTATION);
-    return m_originalSize;
 }
 
 /*!

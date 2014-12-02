@@ -110,14 +110,6 @@ void PhotoEditorPhotoImageProviderTest::testCache()
     image = m_provider->requestImage(path, 0, QSize());
     QVERIFY(image.width() == 267);
     QVERIFY(image.height() == 400);
-
-    // Now copy the old file back on top. Since we are copying, then the file
-    // modification date stays far in the past, so we get the image from cache
-    QFile::remove(path);
-    QFile::copy(source.absoluteFilePath("windmill.jpg"), path);
-    image = m_provider->requestImage(path, 0, QSize());
-    QVERIFY(image.width() == 267);
-    QVERIFY(image.height() == 400);
 }
 
 void PhotoEditorPhotoImageProviderTest::testEmptyOrInvalid()

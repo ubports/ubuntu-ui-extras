@@ -20,7 +20,7 @@
 // util
 #include "orientation.h"
 
-#include <QRect>
+#include <QRectF>
 #include <QVector4D>
 
 enum EditType {
@@ -41,7 +41,7 @@ class PhotoEditCommand
 public:
     EditType type;
     Orientation orientation;
-    QRect crop_rectangle;
+    QRectF crop_rectangle;
     qreal exposureCompensation;
     /// The color balance parameters are stored here in the order:
     /// brightness (x), contrast(y), saturation(z), hue(w)
