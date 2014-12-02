@@ -32,7 +32,6 @@ const char* PhotoImageProvider::PROVIDER_ID = "photo";
 const char* PhotoImageProvider::PROVIDER_ID_SCHEME = "image://photo/";
 
 const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
-const int SCALED_LOAD_FLOOR_DIM_PIXELS = 360;
 
 /*!
  * \brief PhotoImageProvider::PhotoImageProvider
@@ -41,8 +40,7 @@ PhotoImageProvider::PhotoImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image),
       m_cachedBytes(0),
       m_logImageLoading(false),
-      m_emitCacheSignals(false),
-      m_maxLoadResolution(INT_MAX)
+      m_emitCacheSignals(false)
 {
 }
 
@@ -143,20 +141,6 @@ void PhotoImageProvider::setEmitCacheSignals(bool emitCacheSignals)
 }
 
 /*!
- * \brief PhotoImageProvider::setMaxLoadResolution sets the maximal size of the loaded
- * images. Images loaded are limited to a max width/height, but keep their aspect ratio.
- * Limiting the size is useful to not exceed the texture size limit of the GPU. Or to limit for
- * performance reasons.
- * Default is to have no limit (INT_MAX).
- * \param resolution maximal length in pixels
- */
-void PhotoImageProvider::setMaxLoadResolution(int resolution)
-{
-    if (resolution > 0)
-        m_maxLoadResolution = resolution;
-}
-
-/*!
  * \brief PhotoImageProvider::claim_cached_image_entry
  * Returns a CachedImage with an inUseCount > 0, meaning it cannot be
  * removed from the cache until released
@@ -247,18 +231,9 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
 
         // use scaled load-and-decode if size has been requested
         if (fullSize.isValid() && (requestedSize.width() > 0 || requestedSize.height() > 0)) {
-            // adjust requested size if necessary, but if small enough, just load the
-            // whole thing once and be done with it
-            if (fullSize.width() > SCALED_LOAD_FLOOR_DIM_PIXELS
-                    && fullSize.height() > SCALED_LOAD_FLOOR_DIM_PIXELS) {
-                loadSize.scale(requestedSize, Qt::KeepAspectRatio);
-                if (loadSize.width() > fullSize.width() || loadSize.height() > fullSize.height())
-                    loadSize = fullSize;
-            }
-        }
-
-        if (loadSize.width() > m_maxLoadResolution || loadSize.height() > m_maxLoadResolution) {
-            loadSize.scale(m_maxLoadResolution, m_maxLoadResolution, Qt::KeepAspectRatio);
+            loadSize.scale(requestedSize, Qt::KeepAspectRatio);
+            if (loadSize.width() > fullSize.width() || loadSize.height() > fullSize.height())
+                loadSize = fullSize;
         }
 
         if (loadSize != fullSize) {
@@ -269,7 +244,6 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
         } else {
             LOG_IMAGE_STATUS("full-load ");
         }
-        if (m_emitCacheSignals) Q_EMIT cacheAdd(cachedImage->id, requestedSize, loadSize);
 
         readyImage = reader.read();
         if (!readyImage.isNull()) {
@@ -296,12 +270,19 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
             int currentByteCount = readyImage.byteCount();
 
             cachedImage->storeImage(readyImage, fullSize, orientation);
+            if (m_emitCacheSignals) Q_EMIT cacheAdd(cachedImage->id, requestedSize, loadSize);
 
             if (bytesLoaded != NULL)
                 *bytesLoaded = readyImage.byteCount() - currentByteCount;
         } else {
             qDebug("Unable to load %s: %s", qPrintable(cachedImage->id),
                    qPrintable(reader.errorString()));
+        }
+    } else {
+        // if the image comes from the cache and the requested size is smaller
+        // than what we cached, scale the image before returning it
+        if (requestedSize.isValid()) {
+            readyImage = readyImage.scaled(requestedSize, Qt::KeepAspectRatio);
         }
     }
 

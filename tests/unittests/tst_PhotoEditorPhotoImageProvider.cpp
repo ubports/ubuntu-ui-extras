@@ -26,6 +26,8 @@
 #include <time.h>
 #include <utime.h>
 
+const int SCALED_LOAD_FLOOR = 360;
+
 class PhotoEditorPhotoImageProviderTest: public QObject
 {
     Q_OBJECT
@@ -37,6 +39,7 @@ private Q_SLOTS:
     void testEmptyOrInvalid();
     void testRotation();
     void testCache();
+    void testCacheSizes();
 
 private:        
     PhotoImageProvider *m_provider;
@@ -97,10 +100,11 @@ void PhotoEditorPhotoImageProviderTest::testCache()
     // Work on a copy to avoid disturbing other tests
     QDir source = QDir(m_workingDir.path());
     QString path = source.absoluteFilePath("testcache.jpg");
+    QFile::remove(path);
     QFile::copy(source.absoluteFilePath("windmill.jpg"), path);
 
     // Set the file modification time to a date back in the past
-    // to prevent
+    // to prevent problems with low file system modification time resolution.
     struct utimbuf tm;
     tm.actime = 1;
     tm.modtime = 1;
@@ -144,7 +148,53 @@ void PhotoEditorPhotoImageProviderTest::testCache()
     QVERIFY(spyAdd.count() == 2);
     QVERIFY(spyAdd.at(1).at(0) == path);
     QVERIFY(spyAdd.at(1).at(2) == imageSize); // cached image size
+
+    // Verify that the image we are getting has the correct rotation, and
+    // therefore matches the new data in the file
     QVERIFY(image.size() == imageSize.transposed());
+}
+
+void PhotoEditorPhotoImageProviderTest::testCacheSizes()
+{
+    QSize imageSize(1408, 768);
+
+    // Work on a copy to avoid disturbing other tests
+    QDir source = QDir(m_workingDir.path());
+    QString path = source.absoluteFilePath("testcache.jpg");
+    QFile::remove(path);
+    QFile::copy(source.absoluteFilePath("thorns.jpg"), path);
+
+    // Set the file modification time to a date back in the past
+    // to prevent problems with low file system modification time resolution.
+    struct utimbuf tm;
+    tm.actime = 1;
+    tm.modtime = 1;
+    utime(path.toUtf8().constData(), &tm);
+
+    QSignalSpy spyAdd(m_provider, SIGNAL(cacheAdd(QString,QSize,QSize)));
+    QSignalSpy spyHit(m_provider, SIGNAL(cacheHit(QString,QSize)));
+
+    QSize small(1408 / 4, 768 / 4);
+
+    // Request a size smaller than the image, and verify the smaller version
+    // gets cached
+    QImage image = m_provider->requestImage(path, 0, small);
+    QVERIFY(spyAdd.count() == 1);
+    QVERIFY(spyAdd.at(0).at(2) == small);
+    QVERIFY(image.size() == small);
+
+    // Request the full size and verify that the image is re-cached and the
+    // full size is returned
+    image = m_provider->requestImage(path, 0, imageSize);
+    QVERIFY(spyAdd.count() == 2);
+    QVERIFY(spyAdd.at(1).at(2) == imageSize);
+    QVERIFY(image.size() == imageSize);
+
+    // Verify that requesting a smaller size after caching the full size will
+    // result in a cache hit
+    image = m_provider->requestImage(path, 0, small);
+    QVERIFY(spyHit.count() == 1);
+    QVERIFY(image.size() == small);
 }
 
 void PhotoEditorPhotoImageProviderTest::testEmptyOrInvalid()

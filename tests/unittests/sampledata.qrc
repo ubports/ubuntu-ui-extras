@@ -4,5 +4,6 @@
         <file>assets/testfile_portrait.jpg</file>
         <file>assets/windmill_rotated_90.jpg</file>
         <file>assets/windmill.jpg</file>
+        <file>assets/thorns.jpg</file>
     </qresource>
 </RCC>

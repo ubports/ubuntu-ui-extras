@@ -46,15 +46,15 @@
  *    which leads to thrashing when animating a thumbnail or loading images at
  *    various sizes.
  *    The strategy here is to cache the largest requested size of the image
- *    and allow QML to downscale it as necessary.  This minimizes expensive
- *    JPEG load-and-decodes.
+ *    and downscale it if smaller versions are requested. This minimizes
+ *    expensive JPEG load-and-decodes.
  *
- * 3. Logging (enabled with --log-image-loading) allows for monitoring of
- *    all image I/O, useful when debugging and optimizing.
+ * 3. Logging allows for monitoring of all image I/O, useful when debugging and
+ *    optimizing, and signals can be emitted to monitor and test cache operation.
  *
- * 4. The QML cache also does not check if a file has been modified on disk since
- *    the last time it was cached. This provider will detect this case and reload
- *    the new image into the cache.
+ * 4. The QML cache does not check if a file has been modified on disk after it
+ *    was cached, but our cache does. You should always set Image.cache to false
+ *    when loading images from this provider in QML.
  */
 class PhotoImageProvider : public QObject, public QQuickImageProvider
 {
@@ -72,7 +72,6 @@ public:
 
     void setLogging(bool enableLogging);
     void setEmitCacheSignals(bool emitCacheSignals);
-    void setMaxLoadResolution(int resolution);
 
 Q_SIGNALS:
     void cacheHit(QString id, QSize size);
@@ -113,7 +112,6 @@ private:
     long m_cachedBytes;
     bool m_logImageLoading;
     bool m_emitCacheSignals;
-    int m_maxLoadResolution;
 
     static QSize orientSize(const QSize& size, Orientation orientation);
 
