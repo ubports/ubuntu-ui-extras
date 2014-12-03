@@ -50,8 +50,8 @@ PhotoImageProvider::PhotoImageProvider()
 PhotoImageProvider::~PhotoImageProvider()
 {
     // NOTE: This assumes that we are not receiving requests any longer
-    while (!m_fifo.isEmpty())
-        delete m_cache.value(m_fifo.takeFirst());
+    while (!m_cachingOrder.isEmpty())
+        delete m_cache.value(m_cachingOrder.takeFirst());
 }
 
 #define LOG_IMAGE_STATUS(status) { \
@@ -75,7 +75,6 @@ QImage PhotoImageProvider::requestImage(const QString& id,
     timer.start();
 
     QUrl url(id);
-    QFileInfo photoFile(url.path());
 
     QImage readyImage;
     uint bytesLoaded = 0;
@@ -85,17 +84,8 @@ QImage PhotoImageProvider::requestImage(const QString& id,
     CachedImage* cachedImage = claimCachedImageEntry(id, loggingStr);
     Q_ASSERT(cachedImage != NULL);
 
-    // Depending on the file system used the last modified date of a file
-    // might have a really low resolution (2s for FAT32, 1s for ext3). Therefore
-    // we have to take the worse case and accept that there will be additional cache
-    // misses when an image is requested again just after it has been cached.
-    // There is no alternative to this other than accepting false cache hits, which
-    // would result in bugs in the application.
-    QDateTime lastModified = photoFile.lastModified();
-    lastModified = lastModified.addSecs(2);
-
     readyImage = fetchCachedImage(cachedImage, requestedSize, &bytesLoaded,
-                                  loggingStr, lastModified);
+                                  loggingStr);
     if (readyImage.isNull())
         LOG_IMAGE_STATUS("load-failure ");
 
@@ -158,22 +148,22 @@ PhotoImageProvider::CachedImage* PhotoImageProvider::claimCachedImageEntry(
     CachedImage* cachedImage = m_cache.value(id, NULL);
     if (cachedImage != NULL) {
         // remove CachedImage before prepending to FIFO
-        m_fifo.removeOne(id);
+        m_cachingOrder.removeOne(id);
     } else {
-        cachedImage = new CachedImage(id, idToFile(id));
+        cachedImage = new CachedImage(id, QUrl(id).path());
         m_cache.insert(id, cachedImage);
         LOG_IMAGE_STATUS("new-cache-entry ");
     }
 
     // add to front of FIFO
-    m_fifo.prepend(id);
+    m_cachingOrder.prepend(id);
 
     // should be the same size, always
-    Q_ASSERT(m_cache.size() == m_fifo.size());
+    Q_ASSERT(m_cache.size() == m_cachingOrder.size());
 
     // claim the CachedImage *while cacheMutex_ is locked* ... this prevents the
     // CachedImage from being removed from the cache while its being filled
-    cachedImage->inUseCount++;
+    cachedImage->cleanCount++;
 
     m_cacheMutex.unlock();
 
@@ -190,8 +180,9 @@ PhotoImageProvider::CachedImage* PhotoImageProvider::claimCachedImageEntry(
  * \return
  */
 QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
-                                                      const QSize& requestedSize, uint* bytesLoaded, QString& loggingStr,
-                                                      QDateTime fileLastModified)
+                                            const QSize& requestedSize,
+                                            uint* bytesLoaded,
+                                            QString& loggingStr)
 {
     Q_ASSERT(cachedImage != NULL);
 
@@ -201,6 +192,16 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
 
     // lock the cached image itself to access
     cachedImage->imageMutex.lock();
+
+    // Depending on the file system used the last modified date of a file
+    // might have a really low resolution (2s for FAT32, 1s for ext3). Therefore
+    // we have to take the worse case and accept that there will be additional cache
+    // misses when an image is requested again just after it has been cached.
+    // There is no alternative to this other than accepting false cache hits, which
+    // would result in bugs in the application.
+    QFileInfo photoFile(cachedImage->file);
+    QDateTime fileLastModified = photoFile.lastModified();
+    fileLastModified = fileLastModified.addSecs(2);
 
     // if image is available, see if a fit
     if (cachedImage->isCacheHit(requestedSize)) {
@@ -312,15 +313,15 @@ void PhotoImageProvider::releaseCachedImageEntry
     m_cachedBytes += bytesLoaded;
 
     // update the CachedImage use count and byte count inside of *cachedMutex_ lock*
-    Q_ASSERT(cachedImage->inUseCount > 0);
-    cachedImage->inUseCount--;
+    Q_ASSERT(cachedImage->cleanCount > 0);
+    cachedImage->cleanCount--;
     if (bytesLoaded != 0)
         cachedImage->byteCount = bytesLoaded;
 
     // trim the cache
     QList<CachedImage*> dropList;
-    while (m_cachedBytes > MAX_CACHE_BYTES && !m_fifo.isEmpty()) {
-        QString droppedFile = m_fifo.takeLast();
+    while (m_cachedBytes > MAX_CACHE_BYTES && !m_cachingOrder.isEmpty()) {
+        QString droppedFile = m_cachingOrder.takeLast();
 
         CachedImage* droppedCachedImage = m_cache.value(droppedFile);
         Q_ASSERT(droppedCachedImage != NULL);
@@ -328,8 +329,8 @@ void PhotoImageProvider::releaseCachedImageEntry
         // for simplicity, stop when dropped item is in use or doesn't contain
         // an image (which it won't for too long) ... will clean up next time
         // through
-        if (droppedCachedImage->inUseCount > 0) {
-            m_fifo.append(droppedFile);
+        if (droppedCachedImage->cleanCount > 0) {
+            m_cachingOrder.append(droppedFile);
 
             break;
         }
@@ -345,7 +346,7 @@ void PhotoImageProvider::releaseCachedImageEntry
     }
 
     // coherency is good
-    Q_ASSERT(m_cache.size() == m_fifo.size());
+    Q_ASSERT(m_cache.size() == m_cachingOrder.size());
 
     if (currentCachedBytes != NULL)
         *currentCachedBytes = m_cachedBytes;
@@ -383,26 +384,14 @@ QSize PhotoImageProvider::orientSize(const QSize& size, Orientation orientation)
 }
 
 /*!
- * \brief PhotoImageProvider::idToFile
- * \param id
- * \return
- */
-QString PhotoImageProvider::idToFile(const QString& id) const
-{
-    QUrl url = QUrl(id);
-    QString fileName = url.path();
-    return fileName;
-}
-
-/*!
  * \brief PhotoImageProvider::CachedImage::CachedImage
  * \param id the full URI of the image
  * \param fileName the filename for the URI (the file itself)
  */
 PhotoImageProvider::CachedImage::CachedImage(const QString& fileId,
                                                        const QString& filename)
-    : id(fileId), uri(fileId), file(filename),
-      orientation(TOP_LEFT_ORIGIN), inUseCount(0), byteCount(0)
+    : id(fileId), file(filename),
+      orientation(TOP_LEFT_ORIGIN), cleanCount(0), byteCount(0)
 {
 }
 

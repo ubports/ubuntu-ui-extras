@@ -82,7 +82,6 @@ private:
     class CachedImage {
     public:
         const QString id;
-        const QUrl uri;
         const QString file;
         QMutex imageMutex;
 
@@ -94,7 +93,7 @@ private:
 
         // the following should only be accessed when cacheMutex_ is locked; the
         // counter controls removing a CachedImage entry from the cache table
-        int inUseCount;
+        int cleanCount;
         uint byteCount;
 
         CachedImage(const QString& fileId, const QString& filename);
@@ -107,7 +106,7 @@ private:
     };
 
     QMap<QString, CachedImage*> m_cache;
-    QList<QString> m_fifo;
+    QList<QString> m_cachingOrder;
     QMutex m_cacheMutex;
     long m_cachedBytes;
     bool m_logImageLoading;
@@ -118,12 +117,10 @@ private:
     CachedImage* claimCachedImageEntry(const QString& id, QString& loggingStr);
 
     QImage fetchCachedImage(CachedImage* cachedImage, const QSize& requestedSize,
-                              uint* bytesLoaded, QString& loggingStr, QDateTime fileLastModified);
+                              uint* bytesLoaded, QString& loggingStr);
 
     void releaseCachedImageEntry(CachedImage* cachedImage, uint bytesLoaded,
                                     long* currentCachedBytes, int* currentCacheEntries);
-
-    QString idToFile(const QString& id) const;
 };
 
 #endif // PHOTO_IMAGE_PROVIDER_H_
