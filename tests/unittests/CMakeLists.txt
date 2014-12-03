@@ -34,5 +34,6 @@ endmacro(generate_tests)
 generate_tests(
     tst_ShareImageResizer
     tst_ExampleModelTests
+    tst_PhotoEditorPhoto
     tst_PhotoEditorPhotoImageProvider
     )
