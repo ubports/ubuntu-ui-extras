@@ -31,7 +31,6 @@
 
 class PhotoEditCommand;
 class PhotoEditThread;
-class EditStack;
 
 /*!
  * \brief The Photo class
