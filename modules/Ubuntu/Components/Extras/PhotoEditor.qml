@@ -69,7 +69,7 @@ Item {
         anchors.fill: parent
         asynchronous: true
         cache: false
-        source: "image://photo/" + photoData.path
+        source: photoData.path ? "image://photo/" + photoData.path : ""
         fillMode: Image.PreserveAspectFit
 
         function reload() {
