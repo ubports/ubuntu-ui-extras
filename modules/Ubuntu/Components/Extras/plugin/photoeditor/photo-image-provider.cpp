@@ -150,7 +150,7 @@ PhotoImageProvider::CachedImage* PhotoImageProvider::claimCachedImageEntry(
         // remove CachedImage before prepending to FIFO
         m_cachingOrder.removeOne(id);
     } else {
-        cachedImage = new CachedImage(id, QUrl(id).path());
+        cachedImage = new CachedImage(id);
         m_cache.insert(id, cachedImage);
         LOG_IMAGE_STATUS("new-cache-entry ");
     }
@@ -186,6 +186,8 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
 {
     Q_ASSERT(cachedImage != NULL);
 
+    QString file = QUrl(cachedImage->id).path();
+
     // the final image returned to the user
     QImage readyImage;
     Q_ASSERT(readyImage.isNull());
@@ -199,7 +201,7 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
     // misses when an image is requested again just after it has been cached.
     // There is no alternative to this other than accepting false cache hits, which
     // would result in bugs in the application.
-    QFileInfo photoFile(cachedImage->file);
+    QFileInfo photoFile(file);
     QDateTime fileLastModified = photoFile.lastModified();
     fileLastModified = fileLastModified.addSecs(2);
 
@@ -224,7 +226,7 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
 
     // if unavailable or stale, load now
     if (readyImage.isNull()) {
-        QImageReader reader(cachedImage->file);
+        QImageReader reader(file);
 
         // load file's original size
         QSize fullSize = reader.size();
@@ -252,8 +254,7 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
                 fullSize = readyImage.size();
 
             Orientation orientation = TOP_LEFT_ORIGIN;
-            std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::fromFile(
-                                                      cachedImage->file));
+            std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::fromFile(file));
             if (metadata.get() != NULL)
                 orientation = metadata->orientation();
 
@@ -388,10 +389,8 @@ QSize PhotoImageProvider::orientSize(const QSize& size, Orientation orientation)
  * \param id the full URI of the image
  * \param fileName the filename for the URI (the file itself)
  */
-PhotoImageProvider::CachedImage::CachedImage(const QString& fileId,
-                                                       const QString& filename)
-    : id(fileId), file(filename),
-      orientation(TOP_LEFT_ORIGIN), cleanCount(0), byteCount(0)
+PhotoImageProvider::CachedImage::CachedImage(const QString& id)
+    : id(id), orientation(TOP_LEFT_ORIGIN), cleanCount(0), byteCount(0)
 {
 }
 

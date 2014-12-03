@@ -82,7 +82,6 @@ private:
     class CachedImage {
     public:
         const QString id;
-        const QString file;
         QMutex imageMutex;
 
         // these fields should only be accessed when imageMutex_ is locked
@@ -96,7 +95,7 @@ private:
         int cleanCount;
         uint byteCount;
 
-        CachedImage(const QString& fileId, const QString& filename);
+        CachedImage(const QString& id);
 
         void storeImage(const QImage& newImage, const QSize& newFullSize,
                         Orientation newOrientation);
