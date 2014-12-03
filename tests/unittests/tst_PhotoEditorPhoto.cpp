@@ -16,13 +16,13 @@
 
 #include "photo-data.h"
 
-#include <QTest>
-#include <QSignalSpy>
+#include <QColor>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QSignalSpy>
 #include <QTemporaryDir>
+#include <QTest>
 
 class PhotoEditorPhotoTest: public QObject
 {
@@ -34,6 +34,7 @@ private Q_SLOTS:
     void testOrientation();
     void testRefresh();
     void testRotate();
+    void testCrop();
 
     void cleanupTestCase();
 
@@ -118,6 +119,7 @@ void PhotoEditorPhotoTest::testRotate()
     // Work on a copy to avoid disturbing other tests
     QDir source = QDir(m_workingDir.path());
     QString path = source.absoluteFilePath("testrotate.jpg");
+    QFile::remove(path);
     QFile::copy(source.absoluteFilePath("windmill.jpg"), path);
 
     PhotoData photo;
@@ -150,6 +152,59 @@ void PhotoEditorPhotoTest::testRotate()
     QVERIFY(photo.orientation() == TOP_LEFT_ORIGIN);
 }
 
+void PhotoEditorPhotoTest::testCrop()
+{
+    QDir source = QDir(m_workingDir.path());
+    QString path = source.absoluteFilePath("tmp.png");
+
+    QFile::remove(path);
+    QFile::copy(source.absoluteFilePath("croptest.png"), path);
+    PhotoData photo;
+    photo.setPath(path);
+
+    // Verify cropping a vertical strip at the left edge
+    QSignalSpy spy(&photo, SIGNAL(busyChanged()));
+    photo.crop(QRectF(0, 0, 0.1, 1.0));
+    spy.wait(5000);
+
+    QImage cropped(path);
+    QImage compare(QSize(10, 100), cropped.format());
+    compare.fill(QColor(0, 0, 0));
+    QVERIFY(compare == cropped);
+
+    // Verify cropping a square from the center
+    QFile::remove(path);
+    QFile::copy(source.absoluteFilePath("croptest.png"), path);
+    photo.setPath(path);
+
+    spy.clear();
+    photo.crop(QRectF(0.4, 0.4, 0.2, 0.2));
+    spy.wait(5000);
+
+    cropped = QImage(path);
+    compare = QImage(QSize(20, 20), cropped.format());
+    compare.fill(QColor(0, 255, 0));
+    QVERIFY(compare == cropped);
+
+    // Verify cropping a thin strip from the top after rotating the image.
+    // Incidentally this also tests rotation of an image without EXIF tags
+    QFile::remove(path);
+    QFile::copy(source.absoluteFilePath("croptest.png"), path);
+    photo.setPath(path);
+
+    spy.clear();
+    photo.rotateRight();
+    spy.wait(5000);
+
+    spy.clear();
+    photo.crop(QRectF(0.0, 0.0, 1.0, 0.1));
+    spy.wait(5000);
+
+    cropped = QImage(path);
+    compare = QImage(QSize(100, 10), cropped.format());
+    compare.fill(QColor(0, 0, 0));
+    QVERIFY(compare == cropped);
+}
 
 
 QTEST_MAIN(PhotoEditorPhotoTest)
