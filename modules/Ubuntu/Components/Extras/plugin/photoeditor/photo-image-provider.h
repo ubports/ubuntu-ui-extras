@@ -118,8 +118,7 @@ private:
     QImage fetchCachedImage(CachedImage* cachedImage, const QSize& requestedSize,
                               uint* bytesLoaded, QString& loggingStr);
 
-    void releaseCachedImageEntry(CachedImage* cachedImage, uint bytesLoaded,
-                                    long* currentCachedBytes, int* currentCacheEntries);
+    void releaseCachedImageEntry(CachedImage* cachedImage, uint bytesLoaded);
 };
 
 #endif // PHOTO_IMAGE_PROVIDER_H_

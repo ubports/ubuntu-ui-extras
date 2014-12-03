@@ -72,14 +72,12 @@ QImage PhotoImageProvider::requestImage(const QString& id,
     // for LOG_IMAGE_STATUS
     QString loggingStr = "";
     QElapsedTimer timer;
-    timer.start();
+    if (m_logImageLoading) timer.start();
 
     QUrl url(id);
 
     QImage readyImage;
     uint bytesLoaded = 0;
-    long currentCachedBytes = 0;
-    int currentCacheEntries = 0;
 
     CachedImage* cachedImage = claimCachedImageEntry(id, loggingStr);
     Q_ASSERT(cachedImage != NULL);
@@ -89,18 +87,18 @@ QImage PhotoImageProvider::requestImage(const QString& id,
     if (readyImage.isNull())
         LOG_IMAGE_STATUS("load-failure ");
 
-    releaseCachedImageEntry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
+    releaseCachedImageEntry(cachedImage, bytesLoaded);
 
     if (m_logImageLoading) {
         if (bytesLoaded > 0) {
             qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db time:%lldms", qPrintable(loggingStr),
                    qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-                   readyImage.height(), currentCachedBytes, currentCacheEntries, bytesLoaded,
+                   readyImage.height(), m_cachedBytes, m_cache.size(), bytesLoaded,
                    timer.elapsed());
         } else {
             qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d time:%lldms", qPrintable(loggingStr),
                    qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-                   readyImage.height(), currentCachedBytes, currentCacheEntries, timer.elapsed());
+                   readyImage.height(), m_cachedBytes, m_cache.size(), timer.elapsed());
         }
     }
 
@@ -299,12 +297,10 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
  * was loaded) and returns the current cached byte total
  * \param cachedImage
  * \param bytesLoaded
- * \param currentCachedBytes
  * \param currentCacheEntries
  */
 void PhotoImageProvider::releaseCachedImageEntry
-(CachedImage *cachedImage, uint bytesLoaded,
- long *currentCachedBytes, int *currentCacheEntries)
+(CachedImage *cachedImage, uint bytesLoaded)
 {
     Q_ASSERT(cachedImage != NULL);
 
@@ -348,12 +344,6 @@ void PhotoImageProvider::releaseCachedImageEntry
 
     // coherency is good
     Q_ASSERT(m_cache.size() == m_cachingOrder.size());
-
-    if (currentCachedBytes != NULL)
-        *currentCachedBytes = m_cachedBytes;
-
-    if (currentCacheEntries != NULL)
-        *currentCacheEntries = m_cache.size();
 
     m_cacheMutex.unlock();
 
