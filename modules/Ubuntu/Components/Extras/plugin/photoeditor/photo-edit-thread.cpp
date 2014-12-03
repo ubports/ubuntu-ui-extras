@@ -84,10 +84,10 @@ void PhotoEditThread::run()
         image = image.transformed(transform);
     } else if (m_command.type == EDIT_CROP) {
         QRect rect;
-        rect.setX(m_command.crop_rectangle.x() * image.width());
-        rect.setY(m_command.crop_rectangle.y() * image.height());
-        rect.setWidth(m_command.crop_rectangle.width() * image.width());
-        rect.setHeight(m_command.crop_rectangle.height() * image.height());
+        rect.setX(qBound(0.0, m_command.crop_rectangle.x(), 1.0) * image.width());
+        rect.setY(qBound(0.0, m_command.crop_rectangle.y(), 1.0) * image.height());
+        rect.setWidth(qBound(0.0, m_command.crop_rectangle.width(), 1.0) * image.width());
+        rect.setHeight(qBound(0.0, m_command.crop_rectangle.height(), 1.0) * image.height());
 
         image = image.copy(rect);
     } else if (m_command.type == EDIT_ENHANCE) {

@@ -204,6 +204,38 @@ void PhotoEditorPhotoTest::testCrop()
     compare = QImage(QSize(100, 10), cropped.format());
     compare.fill(QColor(0, 0, 0));
     QVERIFY(compare == cropped);
+
+    // When rotating an image without EXIF, the orientation is fixed
+    QVERIFY(photo.orientation() == TOP_LEFT_ORIGIN);
+
+    // Test progressive cropping by carving off the bottom horizontal strip and
+    // then cropping the center part of it
+    QFile::remove(path);
+    QFile::copy(source.absoluteFilePath("croptest.png"), path);
+    photo.setPath(path);
+
+    spy.clear();
+    photo.crop(QRectF(0.0, 0.9, 1.0, 0.1));
+    spy.wait(5000);
+    spy.clear();
+    photo.crop(QRectF(0.1, 0.0, 0.8, 1.0));
+    spy.wait(5000);
+
+    cropped = QImage(path);
+    compare = QImage(QSize(80, 10), cropped.format());
+    compare.fill(QColor(0, 0, 255));
+    QVERIFY(compare == cropped);
+
+    // Test a cropping rectangle outside of boundaries
+    QFile::remove(path);
+    QFile::copy(source.absoluteFilePath("croptest.png"), path);
+    photo.setPath(path);
+
+    spy.clear();
+    photo.crop(QRectF(-1.0, -100.0, 2405.0, 2.0));
+    spy.wait(5000);
+    cropped = QImage(path);
+    QVERIFY(cropped.size() == QSize(100, 100));
 }
 
 

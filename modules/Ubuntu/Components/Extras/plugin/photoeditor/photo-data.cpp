@@ -189,8 +189,9 @@ void PhotoData::exposureCompensation(qreal value)
 
 /*!
  * \brief Photo::crop
- * Specify all coords in [0,1].
- * \param vrect
+ * Specify all coords in [0.0, 1.0], where 1.0 is the full size of the image.
+ * They will be clamped to this range if you don't.
+ * \param vrect the rectangle specifying the region to be cropped
  */
 void PhotoData::crop(QVariant vrect)
 {
