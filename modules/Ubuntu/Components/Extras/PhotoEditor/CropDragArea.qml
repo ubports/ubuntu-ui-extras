@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
 
 // A MouseArea meant to drag a corner/edge of a crop area.
 MouseArea {
