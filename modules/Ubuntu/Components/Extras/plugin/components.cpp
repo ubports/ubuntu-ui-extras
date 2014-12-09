@@ -19,24 +19,14 @@
 #include "components.h"
 #include "example/example-model.h"
 
-#include "share/accounts.h"
-#include "share/imageresizer.h"
-#include "share/notifyqml.h"
-
 #include "photoeditor/photo-data.h"
 #include "photoeditor/photo-image-provider.h"
 #include "photoeditor/file-utils.h"
-
 
 void Components::registerTypes(const char *uri)
 {
     // Example component
     qmlRegisterType<ExampleModel>(uri, 0, 1, "ExampleModel");
-
-    // Share component
-    qmlRegisterType<FacebookAccount>(uri, 0, 1, "FacebookAccount");
-    qmlRegisterType<Notify>(uri, 0, 1, "Notify");
-    qmlRegisterType<ImageResizer>(uri, 0, 1, "ImageResizer");
 
     // PhotoEditor component
     qmlRegisterType<PhotoData>(uri, 0, 1, "PhotoData");

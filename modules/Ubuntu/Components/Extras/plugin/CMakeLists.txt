@@ -1,6 +1,4 @@
 include(FindPkgConfig)
-pkg_check_modules(ACCOUNTSQT REQUIRED accounts-qt5) # share
-pkg_check_modules(NOTIFY REQUIRED libnotify)        # share
 pkg_check_modules(EXIV2 REQUIRED exiv2)             # photoeditor
 
 set(PLUGIN_SRC
@@ -9,12 +7,6 @@ set(PLUGIN_SRC
 
 set(EXAMPLE_PLUGIN_SRC
     example/example-model.cpp
-)
-
-set(SHARE_PLUGIN_SRC
-    share/accounts.cpp
-    share/imageresizer.cpp
-    share/notifyqml.cpp
 )
 
 set(PHOTO_EDITOR_PLUGIN_SRC
@@ -29,16 +21,12 @@ set(PHOTO_EDITOR_PLUGIN_SRC
 
 include_directories(
     ${CMAKE_BINARY_DIR}
-    ${ACCOUNTSQT_INCLUDE_DIRS}
-    ${NOTIFY_INCLUDE_DIRS}
 )
 
 add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS}
-            ${EXAMPLE_PLUGIN_SRC} ${SHARE_PLUGIN_SRC} ${PHOTO_EDITOR_PLUGIN_SRC})
+            ${EXAMPLE_PLUGIN_SRC} ${PHOTO_EDITOR_PLUGIN_SRC})
 qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick Xml Widgets)
 target_link_libraries(ubuntu-ui-extras-plugin
-    ${ACCOUNTSQT_LIBRARIES}
-    ${NOTIFY_LIBRARIES}
     ${EXIV2_LIBRARIES}
     )
 
