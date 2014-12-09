@@ -19,6 +19,10 @@ Rectangle {
         anchors.fill: parent
         fillMode: Image.PreserveAspectFit
         asynchronous: true
+        sourceSize {
+            width: targetImage.width
+            height: targetImage.height
+        }
     }
 
     Column {
