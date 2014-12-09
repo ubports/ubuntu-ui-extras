@@ -1,6 +1,5 @@
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/share/
     ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/example/
     ${CMAKE_SOURCE_DIR}/modules/Ubuntu/Components/Extras/plugin/photoeditor/
     )
@@ -12,7 +11,6 @@ macro(generate_tests)
     foreach(test ${ARGN})
         add_executable(${test} 
             ${test}.cpp
-            ${plugin-dir}/share/imageresizer.cpp
             ${plugin-dir}/photoeditor/photo-image-provider.cpp
             ${sampledata_rc_srcs}
             )
@@ -32,7 +30,6 @@ macro(generate_tests)
 endmacro(generate_tests)
 
 generate_tests(
-    tst_ShareImageResizer
     tst_ExampleModelTests
     tst_PhotoEditorPhoto
     tst_PhotoEditorPhotoImageProvider
