@@ -71,6 +71,10 @@ Item {
         cache: false
         source: photoData.path ? "image://photo/" + photoData.path : ""
         fillMode: Image.PreserveAspectFit
+        sourceSize {
+            width: image.width
+            height: image.height
+        }
 
         function reload() {
             image.asynchronous = false;
