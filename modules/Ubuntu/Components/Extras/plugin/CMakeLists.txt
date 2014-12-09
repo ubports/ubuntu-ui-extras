@@ -45,7 +45,7 @@ target_link_libraries(ubuntu-ui-extras-plugin
 # Qt5's cmake does not export QT_IMPORTS_DIR, lets query qmake on our own for now
 get_target_property(QMAKE_EXECUTABLE Qt5::qmake LOCATION)
 function(QUERY_QMAKE VAR RESULT)
-  exec_program(${QMAKE_EXECUTABLE} ARGS "-query ${VAR}" RETURN_VALUE retu   rn_code OUTPUT_VARIABLE output )
+  exec_program(${QMAKE_EXECUTABLE} ARGS "-query ${VAR}" RETURN_VALUE return_code OUTPUT_VARIABLE output )
   if(NOT return_code)
     file(TO_CMAKE_PATH "${output}" output)
     set(${RESULT} ${output} PARENT_SCOPE)
