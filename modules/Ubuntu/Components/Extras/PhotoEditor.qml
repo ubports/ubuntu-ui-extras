@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.Extras 0.1
 import "PhotoEditor"
 
@@ -33,6 +34,7 @@ Item {
         id: stack
         data: photoData
         actionsEnabled: !exposureSelector.visible && !cropper.visible && !photoData.busy
+        onRevertRequested: PopupUtils.open(revertPromptComponent)
     }
 
     property list<Action> toolActions: [
@@ -120,6 +122,7 @@ Item {
         anchors.fill: parent
 
         opacity: 0.0
+        visible: opacity > 0
         Behavior on opacity { UbuntuNumberAnimation { } }
 
         Connections {
@@ -190,6 +193,35 @@ Item {
 
         Behavior on opacity { UbuntuNumberAnimation {} }
     }
+
+    Component {
+          id: revertPromptComponent
+          Dialog {
+              id: revertPrompt
+              title: i18n.tr("Revert to original")
+              text: i18n.tr("This will undo all edits, including those from previous sessions.")
+
+              Row {
+                  id: row
+                  width: parent.width
+                  spacing: units.gu(1)
+                  Button {
+                      width: parent.width/2
+                      text: i18n.tr("Cancel")
+                      onClicked: PopupUtils.close(revertPrompt)
+                  }
+                  Button {
+                      width: parent.width/2
+                      text: i18n.tr("Revert Photo")
+                      color: UbuntuColors.green
+                      onClicked: {
+                          PopupUtils.close(revertPrompt)
+                          stack.revertToPristine()
+                      }
+                  }
+              }
+          }
+     }
 
     ActivityIndicator {
         anchors.centerIn: parent

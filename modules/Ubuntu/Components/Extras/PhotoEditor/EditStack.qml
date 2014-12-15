@@ -31,6 +31,8 @@ Item {
 
     property bool _revertedToPristine: false
 
+    signal revertRequested
+
     function startEditingSession(original) {
         var originalFileName = FileUtils.nameFromPath(original);
         var baseName = FileUtils.parentDirectory(original) +
@@ -58,10 +60,10 @@ Item {
             // if we don't have a copy of the very first original, create one
             if (!FileUtils.exists(pristineFile)) {
                 FileUtils.createDirectory(FileUtils.parentDirectory(pristineFile));
-                FileUtils.copy(stack.originalFile, pristineFile);
+                FileUtils.copy(originalFile, pristineFile);
             }
 
-            FileUtils.copy(stack.currentFile, stack.originalFile); // actually save
+            FileUtils.copy(currentFile, originalFile); // actually save
         }
 
         FileUtils.removeDirectory(editingSessionPath, true); // clear editing cache
@@ -86,6 +88,21 @@ Item {
         items.push(createSnapshot(items.length));
     }
 
+    function revertToPristine() {
+        if (!FileUtils.exists(pristineFile)) {
+            restoreSnapshot(0);
+            items = items.slice(0, 1);
+            level = 0;
+        } else {
+            FileUtils.copy(pristineFile, currentFile);
+            data.refreshFromDisk();
+            _revertedToPristine = true;
+            items = [];
+            checkpoint();
+            level = 0;
+        }
+    }
+
     property Action undoAction: Action {
             text: i18n.tr("Undo")
             iconName: "undo"
@@ -103,17 +120,7 @@ Item {
     property Action revertAction: Action {
             text: i18n.tr("Revert to Original")
             iconName: "revert"
-            enabled: items.length > 0 && actionsEnabled
-            onTriggered: {
-                if (!FileUtils.exists(pristineFile)) restoreSnapshot(0);
-                else {
-                    FileUtils.copy(pristineFile, currentFile);
-                    data.refreshFromDisk();
-                    _revertedToPristine = true;
-                }
-
-                items = items.slice(0, 1);
-                level = 0;
-            }
+            enabled: actionsEnabled
+            onTriggered: revertRequested()
     }
 }
