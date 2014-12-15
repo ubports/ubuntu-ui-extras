@@ -35,6 +35,7 @@ Rectangle {
         anchors.fill: parent
         fillMode: Image.PreserveAspectFit
         asynchronous: true
+        cache: false
         sourceSize {
             width: targetImage.width
             height: targetImage.height
