@@ -32,6 +32,7 @@ Item {
     EditStack {
         id: stack
         data: photoData
+        actionsEnabled: !exposureSelector.visible && !cropper.visible && !photoData.busy
     }
 
     property list<Action> toolActions: [

@@ -20,6 +20,7 @@ import Ubuntu.Components.Extras 0.1
 
 Item {
     property PhotoData data
+    property bool actionsEnabled: true
     property var items: []
     property int level: -1
     property string editingSessionPath
@@ -88,21 +89,21 @@ Item {
     property Action undoAction: Action {
             text: i18n.tr("Undo")
             iconName: "undo"
-            enabled: items.length > 0 && level > 0
+            enabled: items.length > 0 && level > 0 && actionsEnabled
             onTriggered: restoreSnapshot(--level);
     }
 
     property Action redoAction: Action {
             text: i18n.tr("Redo")
             iconName: "redo"
-            enabled: level < items.length - 1
+            enabled: level < items.length - 1 && actionsEnabled
             onTriggered: restoreSnapshot(++level);
     }
 
     property Action revertAction: Action {
             text: i18n.tr("Revert to Original")
             iconName: "revert"
-            enabled: items.length > 0
+            enabled: items.length > 0 && actionsEnabled
             onTriggered: {
                 if (!FileUtils.exists(pristineFile)) restoreSnapshot(0);
                 else {
