@@ -163,6 +163,7 @@ Item {
             stack.restoreSnapshot(stack.level)
             exposureSelector.opacity = 0.0
         }
+        visible: opacity > 0
     }
 
     ActionsBar {
