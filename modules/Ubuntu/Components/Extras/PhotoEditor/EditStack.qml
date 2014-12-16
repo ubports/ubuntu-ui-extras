@@ -119,7 +119,7 @@ Item {
 
     property Action revertAction: Action {
             text: i18n.tr("Revert to Original")
-            iconName: "revert"
+            iconName: "reset"
             enabled: actionsEnabled
             onTriggered: revertRequested()
     }
