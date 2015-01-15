@@ -111,6 +111,7 @@ Rectangle {
         height: viewport.height;
         transformOrigin: Item.TopLeft;
         fillMode: Image.PreserveAspectFit
+        cache: false
         sourceSize {
             width: original.width
             height: original.height
