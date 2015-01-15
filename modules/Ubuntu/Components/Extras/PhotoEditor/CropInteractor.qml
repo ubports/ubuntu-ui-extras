@@ -105,11 +105,11 @@ Rectangle {
     Image {
         id: original
 
-        x: viewport.x;
-        y: viewport.y;
-        width: viewport.width;
-        height: viewport.height;
-        transformOrigin: Item.TopLeft;
+        x: viewport.x
+        y: viewport.y
+        width: viewport.width
+        height: viewport.height
+        transformOrigin: Item.TopLeft
         fillMode: Image.PreserveAspectFit
         cache: false
         sourceSize {
