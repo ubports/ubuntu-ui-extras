@@ -29,6 +29,7 @@
 #include <QString>
 #include <QSet>
 #include <QTransform>
+#include <QImage>
 
 #include <exiv2/exiv2.hpp>
 
@@ -50,6 +51,7 @@ public:
 
     void setOrientation(Orientation orientation);
 
+    void updateThumbnail(QImage image);
     void copyTo(PhotoMetadata* other) const;
     bool save() const;
 

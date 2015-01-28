@@ -104,13 +104,14 @@ void PhotoEditThread::run()
     if (!saved)
         qWarning() << "Error saving edited" << m_photo->file().filePath();
 
-    PhotoMetadata* empty = PhotoMetadata::fromFile(m_photo->file());
-    original->copyTo(empty);
-    empty->setOrientation(TOP_LEFT_ORIGIN); // reset previous orientation
-    empty->save();
+    PhotoMetadata* copy = PhotoMetadata::fromFile(m_photo->file());
+    original->copyTo(copy);
+    copy->setOrientation(TOP_LEFT_ORIGIN); // reset previous orientation
+    copy->updateThumbnail(image);
+    copy->save();
 
     delete original;
-    delete empty;
+    delete copy;
 }
 
 /*!

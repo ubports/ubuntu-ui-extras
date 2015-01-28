@@ -20,6 +20,7 @@
 #include "photo-metadata.h"
 
 #include <cstdio>
+#include <QBuffer>
 
 namespace {
 const Orientation DEFAULT_ORIENTATION = TOP_LEFT_ORIGIN;
@@ -45,6 +46,7 @@ const char* EXIF_DATE_FORMATS[] = {
     "%d.%d.%d  %d:%d:%d"
 };
 const size_t NUM_EXIF_DATE_FORMATS = 3;
+const float THUMBNAIL_SCALE = 8.5;
 
 const char* get_first_matched(const char* keys[], size_t n_keys,
                               const QSet<QString>& in) {
@@ -239,4 +241,15 @@ bool PhotoMetadata::save() const
 void PhotoMetadata::copyTo(PhotoMetadata *other) const
 {
     other->m_image->setMetadata(*m_image);
+}
+
+void PhotoMetadata::updateThumbnail(QImage image)
+{
+    QImage scaled = image.scaled(image.width() / THUMBNAIL_SCALE,
+                                 image.height() / THUMBNAIL_SCALE);
+    QBuffer jpeg;
+    jpeg.open(QIODevice::WriteOnly);
+    scaled.save(&jpeg, "jpeg");
+    Exiv2::ExifThumb thumb(m_image->exifData());
+    thumb.setJpegThumbnail((Exiv2::byte*) jpeg.data().constData(), jpeg.size());
 }
