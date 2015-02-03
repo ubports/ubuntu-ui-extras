@@ -56,7 +56,7 @@ Column {
                     source: modelData.iconSource
                     width: units.gu(3)
                     height: units.gu(3)
-                    opacity: parent.enabled ? 1.0 : 0.5
+                    opacity: modelData.enabled && parent.enabled ? 1.0 : 0.5
                 }
             }
         }

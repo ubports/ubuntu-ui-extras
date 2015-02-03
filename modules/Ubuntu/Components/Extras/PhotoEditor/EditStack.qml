@@ -86,6 +86,7 @@ Item {
         level++;
         items = items.slice(0, level);
         items.push(createSnapshot(items.length));
+        _revertedToPristine = false;
     }
 
     function revertToPristine() {
@@ -96,11 +97,11 @@ Item {
         } else {
             FileUtils.copy(pristineFile, currentFile);
             data.refreshFromDisk();
-            _revertedToPristine = true;
             items = [];
             checkpoint();
             level = 0;
         }
+        _revertedToPristine = true;
     }
 
     property Action undoAction: Action {
@@ -119,8 +120,8 @@ Item {
 
     property Action revertAction: Action {
             text: i18n.tr("Revert to Original")
-            iconName: "reset"
-            enabled: actionsEnabled
+            iconSource: Qt.resolvedUrl("assets/edit_revert.png")
+            enabled: !_revertedToPristine && actionsEnabled
             onTriggered: revertRequested()
     }
 }
