@@ -223,8 +223,23 @@ Item {
           }
      }
 
-    ActivityIndicator {
-        anchors.centerIn: parent
-        running: photoData.busy
+    Component {
+        id: busyIndicator
+        BusyIndicator {
+            anchors.centerIn: parent
+            text: i18n.tr("Applying filter...")
+        }
+    }
+
+    Connections {
+        property var _busyIndicator
+        target: photoData
+        onBusyChanged: {
+            if (photoData.busy) {
+                _busyIndicator = PopupUtils.open(busyIndicator)
+            } else {
+                PopupUtils.close(_busyIndicator);
+            }
+        }
     }
 }
