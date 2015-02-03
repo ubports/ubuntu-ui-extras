@@ -47,7 +47,7 @@ Item {
         },
         Action {
             text: i18n.tr("Rotate")
-            iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate.png")
+            iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate_left.png")
             onTriggered: {
                 photoData.rotateRight()
             }
