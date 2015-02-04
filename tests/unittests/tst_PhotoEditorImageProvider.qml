@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 Canonical Ltd
+ * Copyright (C) 2014 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,28 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import QtQuick 2.3
+import QtTest 1.0
+import Ubuntu.Components.Extras 0.1
 
-/*!
-*/
-Popover {
-    id: sharePopover
+TestCase {
+    name: "PhotoImageProvider"
+    height: 800
+    width: 800
 
-    signal selected(string accountId)
+    function test_something() {
+        console.log(image.paintedHeight, image.paintedWidth);
+        compare(2, 2, "bleh");
+    }
 
-    ShareMenu {
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-        }
-        onSelected: {
-            if (accountId !== null) {
-                sharePopover.selected(accountId)
-            }
-            sharePopover.hide()
-        }
+    Image {
+        id: image
+        source: "image://photo//home/nerochiaro/Pictures/fox.jpg"
+        anchors.fill: parent
     }
 }
