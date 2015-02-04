@@ -18,6 +18,10 @@ add_definitions(-DQT_NO_KEYWORDS)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
+# make non compiled files visible in qtcreator
+file(GLOB_RECURSE NON_COMPILED_FILES *.qml *.js *.py *.svg *.png *.in *.json *.desktop *.pot qmldir)
+add_custom_target(NON_COMPILED_TARGET ALL SOURCES ${NON_COMPILED_FILES})
+
 # for dh_translations to extract the domain
 # (regarding syntax consistency, see http://pad.lv/1181187)
 set (GETTEXT_PACKAGE "ubuntu-ui-extras")

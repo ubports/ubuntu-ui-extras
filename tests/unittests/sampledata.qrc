@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>assets/testfile.jpg</file>
         <file>assets/testfile_portrait.jpg</file>
+        <file>assets/windmill_rotated_90.jpg</file>
+        <file>assets/windmill.jpg</file>
+        <file>assets/thorns.jpg</file>
+        <file>assets/croptest.png</file>
     </qresource>
 </RCC>
