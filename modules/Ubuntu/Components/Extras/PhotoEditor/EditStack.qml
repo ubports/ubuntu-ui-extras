@@ -22,14 +22,15 @@ Item {
     property PhotoData data
     property bool actionsEnabled: true
     property var items: []
-    property int level: -1
+    property int level: 0
     property string editingSessionPath
     property string currentFile
     property string originalFile
     property string pristineFile
-    property bool modified: _revertedToPristine || level > 0
+    property bool modified: level > 0 || _revertedInThisSession
 
-    property bool _revertedToPristine: false
+    property bool _revertedInThisSession
+    property bool _pristineFileExists
 
     signal revertRequested
 
@@ -42,25 +43,31 @@ Item {
 
         originalFile = original;
         currentFile = editingSessionPath + "/current";
-        pristineFile = FileUtils.parentDirectory(originalFile) +
-                       "/.original/" + originalFileName;
+
+        pristineFile = FileUtils.parentDirectory(original) +
+                       "/.original/" + originalFileName
+        _revertedInThisSession = false;
+        _pristineFileExists = FileUtils.exists(pristineFile)
 
         FileUtils.copy(originalFile, currentFile)
 
-        _revertedToPristine = false;
         items = [createSnapshot(0)];
         level = 0;
         return true;
     }
 
     function endEditingSession(saveIfModified) {
-        if (saveIfModified &&
-            (level > 0 || _revertedToPristine)) { // file modified
-
+        if (saveIfModified && modified) { // file modified
             // if we don't have a copy of the very first original, create one
-            if (!FileUtils.exists(pristineFile)) {
+            if (!_pristineFileExists) {
                 FileUtils.createDirectory(FileUtils.parentDirectory(pristineFile));
                 FileUtils.copy(originalFile, pristineFile);
+            } else {
+                // if we reverted to original (and made no other changes)
+                // we don't need to keep the pristine copy around
+                if (_revertedInThisSession && level <= 0) {
+                    FileUtils.remove(pristineFile);
+                }
             }
 
             FileUtils.copy(currentFile, originalFile); // actually save
@@ -86,7 +93,6 @@ Item {
         level++;
         items = items.slice(0, level);
         items.push(createSnapshot(items.length));
-        _revertedToPristine = false;
     }
 
     function revertToPristine() {
@@ -100,8 +106,8 @@ Item {
             items = [];
             checkpoint();
             level = 0;
+            _revertedInThisSession = true;
         }
-        _revertedToPristine = true;
     }
 
     property Action undoAction: Action {
@@ -121,7 +127,8 @@ Item {
     property Action revertAction: Action {
             text: i18n.tr("Revert to Original")
             iconSource: Qt.resolvedUrl("assets/edit_revert.png")
-            enabled: !_revertedToPristine && actionsEnabled
+            enabled: actionsEnabled &&
+                     (level > 0 || (!_revertedInThisSession && _pristineFileExists))
             onTriggered: revertRequested()
     }
 }
