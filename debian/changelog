@@ -1,3 +1,14 @@
+ubuntu-ui-extras (0.1+15.04.20150204-0ubuntu1) vivid; urgency=medium
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Ugo Riboni ]
+  * Add a photo editor component, partially based on the Gallery photo
+    editor (LP: #1368787)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 04 Feb 2015 20:33:53 +0000
+
 ubuntu-ui-extras (0.1+15.04.20141110-0ubuntu1) vivid; urgency=low
 
   [ Sebastien Bacher ]
