@@ -42,6 +42,7 @@ Item {
             text: i18n.tr("Crop")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_crop.png")
             onTriggered: {
+                photoData.isLongOperation = false;
                 cropper.start("image://photo/" + photoData.path);
             }
         },
@@ -49,6 +50,7 @@ Item {
             text: i18n.tr("Rotate")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate_left.png")
             onTriggered: {
+                photoData.isLongOperation = false;
                 photoData.rotateRight()
             }
         },
@@ -56,13 +58,17 @@ Item {
             text: i18n.tr("Auto Enhance")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_autocorrect.png")
             onTriggered: {
+                photoData.isLongOperation = true;
                 photoData.autoEnhance();
             }
         },
         Action {
             text: i18n.tr("Adjust Exposure")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_exposure.png")
-            onTriggered: exposureSelector.start("image://photo/" + photoData.path);
+            onTriggered: {
+                photoData.isLongOperation = false;
+                exposureSelector.start("image://photo/" + photoData.path);
+            }
         }
     ]
 
@@ -106,6 +112,7 @@ Item {
     PhotoData {
         id: photoData
         onDataChanged: image.reload()
+        property bool isLongOperation: false
 
         onEditFinished: {
             console.log("Edit finished")
@@ -223,23 +230,11 @@ Item {
           }
      }
 
-    Component {
+    BusyIndicator {
         id: busyIndicator
-        BusyIndicator {
-            anchors.centerIn: parent
-            text: i18n.tr("Applying filter...")
-        }
-    }
-
-    Connections {
-        property var _busyIndicator
-        target: photoData
-        onBusyChanged: {
-            if (photoData.busy) {
-                _busyIndicator = PopupUtils.open(busyIndicator)
-            } else {
-                PopupUtils.close(_busyIndicator);
-            }
-        }
+        anchors.centerIn: parent
+        text: i18n.tr("Enhancing photo...")
+        running: photoData.busy
+        longOperation: photoData.isLongOperation
     }
 }

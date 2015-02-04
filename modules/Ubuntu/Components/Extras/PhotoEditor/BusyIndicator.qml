@@ -16,28 +16,41 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 1.0
 
-Dialog {
+Item {
     id: busy
     width: childrenRect.width
     height: childrenRect.height
     property alias text: label.text
+    property alias running: spinner.running
+    property bool longOperation: false
+
+    visible: running
+
+    UbuntuShape {
+        color: "white"
+        anchors.centerIn: parent
+        width: parent.width + units.gu(4)
+        height: parent.height + units.gu(4)
+        opacity: longOperation ? 0.75 : 0
+    }
 
     Column {
+        id: column
         anchors.centerIn: parent
         width: childrenRect.width
         spacing: units.gu(2)
 
         ActivityIndicator {
+            id: spinner
             anchors.horizontalCenter: parent.horizontalCenter
-            running: true
         }
 
         Label {
             id: label
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
+            visible: longOperation
         }
     }
 }
