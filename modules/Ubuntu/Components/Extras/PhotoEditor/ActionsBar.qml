@@ -43,7 +43,7 @@ Column {
             orientation: ListView.Horizontal
             model: toolActions
 
-            delegate: ListItem.Empty {
+            delegate: AbstractButton {
                 width: units.gu(8)
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
