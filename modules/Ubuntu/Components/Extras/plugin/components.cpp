@@ -26,11 +26,11 @@
 void Components::registerTypes(const char *uri)
 {
     // Example component
-    qmlRegisterType<ExampleModel>(uri, 0, 1, "ExampleModel");
+    qmlRegisterType<ExampleModel>(uri, 0, 2, "ExampleModel");
 
     // PhotoEditor component
-    qmlRegisterType<PhotoData>(uri, 0, 1, "PhotoData");
-    qmlRegisterSingletonType<FileUtils>(uri, 0, 1, "FileUtils",
+    qmlRegisterType<PhotoData>(uri, 0, 2, "PhotoData");
+    qmlRegisterSingletonType<FileUtils>(uri, 0, 2, "FileUtils",
                                         exportFileUtilsSingleton);
 }
 

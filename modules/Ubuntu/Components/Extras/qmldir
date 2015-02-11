@@ -1,4 +1,4 @@
 module Ubuntu.Components.Extras
 plugin ubuntu-ui-extras-plugin
-Example 0.1 Example.qml
-PhotoEditor 0.1 PhotoEditor.qml
+Example 0.2 Example.qml
+PhotoEditor 0.2 PhotoEditor.qml
