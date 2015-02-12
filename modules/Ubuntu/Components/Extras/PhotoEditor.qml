@@ -17,7 +17,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
-import Ubuntu.Components.Extras 0.1
+import Ubuntu.Components.Extras 0.2
 import "PhotoEditor"
 
 Item {
@@ -52,22 +52,6 @@ Item {
             onTriggered: {
                 photoData.isLongOperation = false;
                 photoData.rotateRight()
-            }
-        },
-        Action {
-            text: i18n.tr("Auto Enhance")
-            iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_autocorrect.png")
-            onTriggered: {
-                photoData.isLongOperation = true;
-                photoData.autoEnhance();
-            }
-        },
-        Action {
-            text: i18n.tr("Adjust Exposure")
-            iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_exposure.png")
-            onTriggered: {
-                photoData.isLongOperation = false;
-                exposureSelector.start("image://photo/" + photoData.path);
             }
         }
     ]
