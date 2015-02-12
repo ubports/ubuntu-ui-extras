@@ -1,10 +1,3 @@
-ubuntu-ui-extras (0.2+15.04.20150211-0ubuntu2) UNRELEASED; urgency=medium
-
-  * Bump the version as only 0.2 will have PhotoEditor
-  * Temporarily remove brigthness and enhance filters due to slowness 
-
- -- Ugo <nerochiaro@nerobox>  Wed, 11 Feb 2015 15:14:54 +0100
-
 ubuntu-ui-extras (0.1+15.04.20141110-0ubuntu1) vivid; urgency=low
 
   [ Sebastien Bacher ]
