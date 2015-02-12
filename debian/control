@@ -32,6 +32,9 @@ Depends: ${misc:Depends},
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-window-plugin,
          libexiv2-13,
+Provides: qtdeclarative5-ubuntu-ui-extras0.1
+Conflicts: qtdeclarative5-ubuntu-ui-extras0.1
+Replaces: qtdeclarative5-ubuntu-ui-extras0.1
 Description: Ubuntu UI Extra Components
  A collection of UI components that for various reasons can't be included in
  the main Ubuntu UI toolkit - mostly because of the level of quality, lack of
