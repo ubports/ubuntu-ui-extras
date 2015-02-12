@@ -16,7 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
-import Ubuntu.Components.Extras 0.1
+import Ubuntu.Components.Extras 0.2
 
 // When the photo editor uses a proper PageStack this will switch back to being
 // an Item as it will not need to cover what is below it.
