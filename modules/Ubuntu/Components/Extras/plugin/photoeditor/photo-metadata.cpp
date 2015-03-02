@@ -25,6 +25,7 @@
 namespace {
 const Orientation DEFAULT_ORIENTATION = TOP_LEFT_ORIGIN;
 const char* EXIF_ORIENTATION_KEY = "Exif.Image.Orientation";
+const char* EXIF_DATETIMEDIGITIZED_KEY = "Exif.Photo.DateTimeDigitized";
 const char* EXPOSURE_TIME_KEYS[] = {
     "Exif.Photo.DateTimeOriginal",
     "Xmp.exif.DateTimeOriginal",
@@ -222,6 +223,31 @@ void PhotoMetadata::setOrientation(Orientation orientation)
 
     if (!m_keysPresent.contains(EXIF_ORIENTATION_KEY))
         m_keysPresent.insert(EXIF_ORIENTATION_KEY);
+}
+
+/*!
+ * \brief PhotoMetadata::setDateTimeDigitized
+ * \param digitized
+ */
+void PhotoMetadata::setDateTimeDigitized(const QDateTime& digitized)
+{
+    try {
+        if (!m_image->good()) {
+            qDebug("Do not set DateTimeDigitized, invalid image metadata.");
+            return;
+        }
+ 
+        Exiv2::ExifData& exif_data = m_image->exifData();
+ 
+        exif_data[EXIF_DATETIMEDIGITIZED_KEY] = digitized.toString("yyyy:MM:dd hh:mm:ss").toStdString();
+ 
+        if (!m_keysPresent.contains(EXIF_DATETIMEDIGITIZED_KEY))
+            m_keysPresent.insert(EXIF_DATETIMEDIGITIZED_KEY);
+ 
+    } catch (Exiv2::AnyError& e) {
+        qDebug("Do not set DateTimeDigitized, error reading image metadata; %s", e.what());
+        return;
+    }
 }
 
 /*!
