@@ -50,6 +50,7 @@ public:
     OrientationCorrection orientationCorrection() const;
 
     void setOrientation(Orientation orientation);
+    void setDateTimeDigitized(const QDateTime& digitized);
 
     void updateThumbnail(QImage image);
     void copyTo(PhotoMetadata* other) const;

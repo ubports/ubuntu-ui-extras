@@ -39,6 +39,7 @@ Item {
 
     property list<Action> toolActions: [
         Action {
+            objectName: "cropButton"
             text: i18n.tr("Crop")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_crop.png")
             onTriggered: {
@@ -47,6 +48,7 @@ Item {
             }
         },
         Action {
+            objectName: "rotateButton"
             text: i18n.tr("Rotate")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate_left.png")
             onTriggered: {
@@ -163,6 +165,7 @@ Item {
 
     ActionsBar {
         id: actionsBar
+        objectName: "editorActionsBar"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -189,6 +192,7 @@ Item {
           id: revertPromptComponent
           Dialog {
               id: revertPrompt
+              objectName: "revertPromptDialog"
               title: i18n.tr("Revert to original")
               text: i18n.tr("This will undo all edits, including those from previous sessions.")
 
@@ -197,11 +201,13 @@ Item {
                   width: parent.width
                   spacing: units.gu(1)
                   Button {
+                      objectName: "cancelRevertButton"
                       width: parent.width/2
                       text: i18n.tr("Cancel")
                       onClicked: PopupUtils.close(revertPrompt)
                   }
                   Button {
+                      objectName: "confirmRevertButton"
                       width: parent.width/2
                       text: i18n.tr("Revert Photo")
                       color: UbuntuColors.green

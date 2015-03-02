@@ -76,8 +76,8 @@ bool PhotoData::isValid(const QFileInfo& file)
 PhotoData::PhotoData()
     : QObject(),
     m_editThread(0),
-    m_orientation(TOP_LEFT_ORIGIN),
-    m_busy(false)
+    m_busy(false),
+    m_orientation(TOP_LEFT_ORIGIN)
 {
 }
 
@@ -226,8 +226,6 @@ void PhotoData::finishEditing()
 {
     if (!m_editThread || m_editThread->isRunning())
         return;
-
-    const PhotoEditCommand &state = m_editThread->command();
 
     m_editThread->deleteLater();
     m_editThread = 0;
