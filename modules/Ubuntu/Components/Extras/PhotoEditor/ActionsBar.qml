@@ -70,6 +70,7 @@ Column {
 
         ListView {
             id: filtersBar
+            objectName: "filtersBar"
             visible: filterActions.length > 0
 
             orientation: ListView.Horizontal
