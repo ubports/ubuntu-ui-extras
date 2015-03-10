@@ -12,6 +12,7 @@ endif()
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Quick REQUIRED)
+find_package(Qt5Test)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
@@ -29,5 +30,6 @@ set (GETTEXT_PACKAGE "ubuntu-ui-extras")
 add_subdirectory(modules)
 
 enable_testing()
+
 add_subdirectory(tests)
 add_subdirectory(po)
