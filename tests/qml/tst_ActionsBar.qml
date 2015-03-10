@@ -66,6 +66,12 @@ Item {
             tryCompare(actionsBar, 'height', units.gu(6))
         }
 
+        function test_actionsBarCheckFiltersBarVisibleWhitFilterActions() {
+            actionsBar.filterActions = root.filterActions
+            var filtersBar = findChild(actionsBar, 'filtersBar')
+            tryCompare(filtersBar, 'visible', true)
+        }
+
         function test_actionsBarCheckFiltersBarNotVisibleWhitFilterActionsEmpty() {
             actionsBar.filterActions = []
             var filtersBar = findChild(actionsBar, 'filtersBar')
