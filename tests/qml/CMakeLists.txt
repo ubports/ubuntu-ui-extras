@@ -17,6 +17,7 @@ endmacro()
 
 if(QMLTESTRUNNER_BIN AND XVFB_RUN_BIN)
     declare_qml_test("tst_actions_bar" tst_ActionsBar.qml)
+    declare_qml_test("tst_busy_indicator" tst_BusyIndicator.qml)
     declare_qml_test("tst_photo_editor" tst_PhotoEditor.qml)
 else()
     if (NOT QMLTESTRUNNER_BIN)
@@ -28,6 +29,7 @@ endif()
 
 set(QML_TST_FILES
     tst_ActionsBar.qml
+    tst_BusyIndicator.qml
     tst_PhotoEditor.qml
 )
 add_custom_target(tst_QmlFiles ALL SOURCES ${QML_TST_FILES})
