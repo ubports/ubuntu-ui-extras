@@ -1,3 +1,15 @@
+ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Add QML tests to PhotoEditor's components
+  * Changes made on Gallery version of the editor to fix build and AP
+    tests
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 11 Mar 2015 18:38:04 +0000
+
 ubuntu-ui-extras (0.2+15.04.20150212.3-0ubuntu1) vivid; urgency=medium
 
   [ Bill Filler ]
