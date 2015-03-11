@@ -28,6 +28,7 @@
 
 // QT
 #include <QFileInfo>
+#include <QVariant>
 
 class PhotoEditCommand;
 class PhotoEditThread;
