@@ -28,6 +28,8 @@ Item {
     visible: running
 
     UbuntuShape {
+        id: busyUbuntuShape
+        objectName: "busyUbuntuShape"
         color: "white"
         anchors.centerIn: parent
         width: parent.width + units.gu(4)
@@ -36,7 +38,8 @@ Item {
     }
 
     Column {
-        id: column
+        id: busyColumn
+        objectName: "busyColumn"
         anchors.centerIn: parent
         width: childrenRect.width
         spacing: units.gu(2)
@@ -48,6 +51,7 @@ Item {
 
         Label {
             id: label
+            objectName: "busyLabel"
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
             visible: longOperation
