@@ -39,7 +39,6 @@ void Components::initializeEngine(QQmlEngine *engine, const char *uri)
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
     PhotoImageProvider* provider = new PhotoImageProvider();
-    provider->setLogging(true);
     engine->addImageProvider(PhotoImageProvider::PROVIDER_ID,
                              provider);
 }
