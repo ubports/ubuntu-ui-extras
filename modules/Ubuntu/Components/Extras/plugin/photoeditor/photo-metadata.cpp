@@ -219,7 +219,7 @@ void PhotoMetadata::setOrientation(Orientation orientation)
 {
     Exiv2::ExifData& exif_data = m_image->exifData();
 
-    exif_data[EXIF_ORIENTATION_KEY] = orientation;
+    exif_data[EXIF_ORIENTATION_KEY] = (Exiv2::UShortValue)orientation;
 
     if (!m_keysPresent.contains(EXIF_ORIENTATION_KEY))
         m_keysPresent.insert(EXIF_ORIENTATION_KEY);
