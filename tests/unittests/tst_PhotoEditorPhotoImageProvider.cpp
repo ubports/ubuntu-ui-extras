@@ -36,9 +36,8 @@ private Q_SLOTS:
     void initTestCase();
 
     void testEmptyOrInvalid();
-    void testRotation();
-    void testCache();
-    void testCacheSizes();
+    void testNoResize();
+    void testWithResize();
 
 private:        
     PhotoImageProvider *m_provider;
@@ -68,18 +67,7 @@ void PhotoEditorPhotoImageProviderTest::cleanup()
     delete m_provider;
 }
 
-void PhotoEditorPhotoImageProviderTest::testRotation()
-{
-    // Loading an image is equivalent to loading it directly
-    QDir source = QDir(m_workingDir.path());
-    QImage image = m_provider->requestImage(source.absoluteFilePath("windmill.jpg"), 0, QSize());
-    QImage direct(source.absoluteFilePath("windmill.jpg"));
-
-    QVERIFY(!image.isNull());
-    QVERIFY(image == direct);
-}
-
-void PhotoEditorPhotoImageProviderTest::testCache()
+void PhotoEditorPhotoImageProviderTest::testNoResize()
 {
     QSize imageSize(400, 267);
 
@@ -89,37 +77,12 @@ void PhotoEditorPhotoImageProviderTest::testCache()
     QFile::remove(path);
     QFile::copy(source.absoluteFilePath("windmill.jpg"), path);
 
-    // Set the file modification time to a date back in the past
-    // to prevent problems with low file system modification time resolution.
-    struct utimbuf tm;
-    tm.actime = 1;
-    tm.modtime = 1;
-    utime(path.toUtf8().constData(), &tm);
-
-    // First request an image so that it gets cached
     QImage image = m_provider->requestImage(path, 0, QSize());
     QVERIFY(!image.isNull());
     QVERIFY(image.size() == imageSize);
-
-    // Verify that it is there
-    image = m_provider->requestImage(path, 0, QSize());
-
-    // Copy another file with different rotation into the same file
-    QFile main(path);
-    main.open(QIODevice::WriteOnly);
-
-    QFile other(source.absoluteFilePath("windmill_rotated_90.jpg"));
-    other.open(QIODevice::ReadOnly);
-
-    main.write(other.readAll());
-    main.close();
-    other.close();
-
-    // Verify that we are getting a miss and that it is a stale cache miss
-    image = m_provider->requestImage(path, 0, QSize());
 }
 
-void PhotoEditorPhotoImageProviderTest::testCacheSizes()
+void PhotoEditorPhotoImageProviderTest::testWithResize()
 {
     QSize imageSize(1408, 768);
 
@@ -129,27 +92,17 @@ void PhotoEditorPhotoImageProviderTest::testCacheSizes()
     QFile::remove(path);
     QFile::copy(source.absoluteFilePath("thorns.jpg"), path);
 
-    // Set the file modification time to a date back in the past
-    // to prevent problems with low file system modification time resolution.
-    struct utimbuf tm;
-    tm.actime = 1;
-    tm.modtime = 1;
-    utime(path.toUtf8().constData(), &tm);
-
     QSize small(1408 / 4, 768 / 4);
 
-    // Request a size smaller than the image, and verify the smaller version
-    // gets cached
+    // Request a size smaller than the image
     QImage image = m_provider->requestImage(path, 0, small);
     QVERIFY(image.size() == small);
 
-    // Request the full size and verify that the image is re-cached and the
-    // full size is returned
+    // Request the full size
     image = m_provider->requestImage(path, 0, imageSize);
     QVERIFY(image.size() == imageSize);
 
-    // Verify that requesting a smaller size after caching the full size will
-    // result in a cache hit
+    // Verify that requesting a smaller size still works
     image = m_provider->requestImage(path, 0, small);
     QVERIFY(image.size() == small);
 }
