@@ -1,3 +1,11 @@
+ubuntu-ui-extras (0.2+16.04.20151221-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * After editing a photo modify the original file instead of
+    removing/moving it (LP: #1524973)
+
+ -- Bill Filler <ci-train-bot@canonical.com>  Mon, 21 Dec 2015 14:24:50 +0000
+
 ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu4) wily; urgency=medium
 
   * No-change rebuild against libexiv2-14.
