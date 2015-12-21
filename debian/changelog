@@ -1,3 +1,9 @@
+ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu3) wily; urgency=medium
+
+  * Drop hard-coded dependency on libexiv2-13.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 02 Aug 2015 19:49:44 +0000
+
 ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu1) vivid; urgency=medium
 
   [ Arthur Mello ]
