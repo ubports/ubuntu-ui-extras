@@ -1,8 +1,26 @@
+ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu4) wily; urgency=medium
+
+  * No-change rebuild against libexiv2-14.
+
+ -- Martin Pitt <martin.pitt@ubuntu.com>  Thu, 06 Aug 2015 08:05:25 +0200
+
 ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu3) wily; urgency=medium
 
   * Drop hard-coded dependency on libexiv2-13.
 
  -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 02 Aug 2015 19:49:44 +0000
+
+ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu2) wily; urgency=medium
+
+  * No-change rebuild against libexiv2-13v5
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 02 Aug 2015 09:22:10 +0000
+
+ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu2~gcc5.1) wily; urgency=medium
+
+  * No-change test rebuild for g++5 ABI transition
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 15 Jul 2015 16:22:37 +0000
 
 ubuntu-ui-extras (0.2+15.04.20150311-0ubuntu1) vivid; urgency=medium
 
