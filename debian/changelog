@@ -1,3 +1,10 @@
+ubuntu-ui-extras (0.2+16.04.20160105-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * Fix po/CMakeLists.txt command to update pot files (LP: #1521222)
+
+ -- Bill Filler <ci-train-bot@canonical.com>  Tue, 05 Jan 2016 21:37:21 +0000
+
 ubuntu-ui-extras (0.2+16.04.20151221-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]
