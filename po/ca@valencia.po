@@ -1,79 +1,64 @@
-# Italian translations for ubuntu-ui-extras package.
-# Copyright (C) 2013 Canonical Ltd.
+# Catalan (Valencian) translation for ubuntu-ui-extras
+# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
 # This file is distributed under the same license as the ubuntu-ui-extras package.
-# Ugo <ugo.riboni@canonical.com>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-01-12 12:50-0200\n"
-"PO-Revision-Date: 2016-01-13 09:03+0000\n"
-"Last-Translator: Milo Casagrande <milo.casagrande@gmail.com>\n"
-"Language-Team: Italian\n"
+"PO-Revision-Date: 2016-01-11 23:20+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Catalan (Valencian) <ca@valencia@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-02-09 05:42+0000\n"
+"X-Launchpad-Export-Date: 2016-02-09 05:43+0000\n"
 "X-Generator: Launchpad (build 17908)\n"
-"Language: it\n"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 msgid "Cancel"
-msgstr "Annulla"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 msgid "Crop"
-msgstr "Taglia"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr "Fatto"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "Miglioramento foto..."
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr "Ripeti"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr "Ripristina foto"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 msgid "Revert to Original"
-msgstr "Ripristina originale"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr "Ripristina l'originale"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr "Ruota"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
 msgstr ""
-"Questo annullerà tutte le modifiche, incluse quelle delle precedenti "
-"sessioni."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr "Annulla"
-
-#~ msgid "Include location"
-#~ msgstr "Includi posizione"
-
-#~ msgid "Post"
-#~ msgstr "Pubblica"
-
-#~ msgid "There was a problem uploading your photo"
-#~ msgstr "Si è verificato un problema durante il caricamento della foto"
-
-#~ msgid "Your photo has been uploaded"
-#~ msgstr "La foto è stata caricata"
+msgstr ""
