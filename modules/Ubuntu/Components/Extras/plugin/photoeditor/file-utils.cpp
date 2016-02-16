@@ -99,7 +99,7 @@ bool FileUtils::rename(QString sourceFile, QString destinationFile) const
 
         src.close();
         dst.close();
-        return true;
+        return QFile::remove(sourceFile);
     }
 
     return QFile::rename(sourceFile, destinationFile);
