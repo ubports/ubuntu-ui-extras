@@ -1,3 +1,17 @@
+ubuntu-ui-extras (0.2+16.04.20160225-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * Update pot files
+
+  [ Florian Boucault ]
+  * When rotating pictures during edit, write the EXIF orientation tag
+    with the right type (unsigned short) instead of signed long.
+    PhotoImageProvider: change its behaviour to only rectify the EXIF
+    orientation tag type when necessary (removes all other behaviours:
+    caching, etc.) (LP: #1541210)
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Thu, 25 Feb 2016 15:11:48 +0000
+
 ubuntu-ui-extras (0.2+16.04.20160105-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]
