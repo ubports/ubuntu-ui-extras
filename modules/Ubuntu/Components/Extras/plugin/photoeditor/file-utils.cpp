@@ -61,7 +61,23 @@ bool FileUtils::copy(QString sourceFile, QString destinationFile) const
 {
     if (sourceFile.isEmpty() || destinationFile.isEmpty()) return false;
 
-    if (QFileInfo(destinationFile).exists()) QFile::remove(destinationFile);
+    if (QFileInfo(destinationFile).exists()) {
+        QFile src(sourceFile);
+        QFile dst(destinationFile);
+
+        if (!src.open(QIODevice::ReadOnly) || !dst.open(QIODevice::WriteOnly)) {
+            return false;
+        }
+
+        if (dst.write(src.readAll()) < 0) {
+            return false;
+        }
+
+        src.close();
+        dst.close();
+        return true;
+    }
+
     return QFile::copy(sourceFile, destinationFile);
 }
 
@@ -83,7 +99,7 @@ bool FileUtils::rename(QString sourceFile, QString destinationFile) const
 
         src.close();
         dst.close();
-        return true;
+        return QFile::remove(sourceFile);
     }
 
     return QFile::rename(sourceFile, destinationFile);
