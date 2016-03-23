@@ -1,3 +1,14 @@
+ubuntu-ui-extras (0.2+16.04.20160323.1-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * Do not remove files during photo editor's copy process (LP:
+    #1549991)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+ -- Arthur Mello <arthur.mello@canonical.com>  Wed, 23 Mar 2016 18:03:21 +0000
+
 ubuntu-ui-extras (0.2+16.04.20160225-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]
