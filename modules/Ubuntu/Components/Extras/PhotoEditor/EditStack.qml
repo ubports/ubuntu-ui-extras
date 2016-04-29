@@ -111,21 +111,21 @@ Item {
     }
 
     property Action undoAction: Action {
-            text: i18n.tr("Undo")
+            text: i18n.dtr("ubuntu-ui-extras", "Undo")
             iconName: "undo"
             enabled: items.length > 0 && level > 0 && actionsEnabled
             onTriggered: restoreSnapshot(--level);
     }
 
     property Action redoAction: Action {
-            text: i18n.tr("Redo")
+            text: i18n.dtr("ubuntu-ui-extras", "Redo")
             iconName: "redo"
             enabled: level < items.length - 1 && actionsEnabled
             onTriggered: restoreSnapshot(++level);
     }
 
     property Action revertAction: Action {
-            text: i18n.tr("Revert to Original")
+            text: i18n.dtr("ubuntu-ui-extras", "Revert to Original")
             iconSource: Qt.resolvedUrl("assets/edit_revert.png")
             enabled: actionsEnabled &&
                      (level > 0 || (!_revertedInThisSession && _pristineFileExists))
