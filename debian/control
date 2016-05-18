@@ -11,9 +11,9 @@ Build-Depends: cmake (>= 2.8.9),
                qt5-qmake,
                qtbase5-dev,
                qtdeclarative5-dev,
-               qtdeclarative5-qtquick2-plugin,
-               qtdeclarative5-test-plugin,
-               qtdeclarative5-ubuntu-ui-toolkit-plugin,
+               qml-module-qtquick2,
+               qml-module-qttest,
+               qml-module-ubuntu-components,
                libexiv2-dev,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
@@ -28,9 +28,9 @@ Package: qtdeclarative5-ubuntu-ui-extras0.2
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         qtdeclarative5-qtquick2-plugin,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin,
-         qtdeclarative5-window-plugin,
+         qml-module-qtquick2,
+         qml-module-ubuntu-components,
+         qml-module-qtquick-window2,
 Provides: qtdeclarative5-ubuntu-ui-extras0.1
 Conflicts: qtdeclarative5-ubuntu-ui-extras0.1
 Replaces: qtdeclarative5-ubuntu-ui-extras0.1
