@@ -68,17 +68,6 @@ void PhotoEditThread::run()
     // new one after modifying the pixels.
     PhotoMetadata* original = PhotoMetadata::fromFile(m_photo->file());
 
-    // If the photo was previously rotated through metadata and we are editing
-    // the actual pixels, first rotate the image to match the orientation so
-    // that the correct pixels are edited.
-    // Obviously don't do this in the case we have been asked to do a rotation
-    // operation on the pixels, as we would do it later as the operation itself.
-    if (m_photo->fileFormatHasOrientation() && m_command.type != EDIT_ROTATE) {
-        Orientation orientation = m_photo->orientation();
-        QTransform transform = OrientationCorrection::fromOrientation(orientation).toTransform();
-        image = image.transformed(transform);
-    }
-
     if (m_command.type == EDIT_ROTATE) {
         QTransform transform = OrientationCorrection::fromOrientation(m_command.orientation).toTransform();
         image = image.transformed(transform);
