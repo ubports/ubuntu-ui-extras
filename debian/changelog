@@ -1,3 +1,10 @@
+ubuntu-ui-extras (0.2+16.04.20160503-0ubuntu1) xenial; urgency=medium
+
+  * Qt now takes into account the EXIF orientation data when loading
+    pictures; the rotation workaround is no longer necessary.
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Tue, 03 May 2016 13:31:24 +0000
+
 ubuntu-ui-extras (0.2+16.04.20160323.1-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]

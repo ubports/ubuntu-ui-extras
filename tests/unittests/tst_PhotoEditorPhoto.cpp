@@ -35,6 +35,7 @@ private Q_SLOTS:
     void testRefresh();
     void testRotate();
     void testCrop();
+    void testCropWithExifOrientation();
 
     void cleanupTestCase();
 
@@ -238,6 +239,30 @@ void PhotoEditorPhotoTest::testCrop()
     QVERIFY(cropped.size() == QSize(100, 100));
 }
 
+void PhotoEditorPhotoTest::testCropWithExifOrientation()
+{
+    QDir source = QDir(m_workingDir.path());
+
+    QString path = source.absoluteFilePath("windmill_rotated_90.jpg");
+    PhotoData photoData;
+    photoData.setPath(path);
+    QVERIFY(photoData.orientation() == RIGHT_TOP_ORIGIN);
+
+    QImage photoImage(path);
+
+    // Crop a vertical strip at the left edge
+    QSignalSpy spy(&photoData, SIGNAL(busyChanged()));
+    photoData.crop(QRectF(0, 0, 0.1, 1.0));
+    spy.wait(5000);
+
+    PhotoData croppedData;
+    croppedData.setPath(path);
+    QVERIFY(croppedData.orientation() == TOP_LEFT_ORIGIN);
+
+    QImage croppedImage(path);
+    // That crop should not have changed the height
+    QVERIFY(croppedImage.height() == photoImage.height());
+}
 
 QTEST_MAIN(PhotoEditorPhotoTest)
 
