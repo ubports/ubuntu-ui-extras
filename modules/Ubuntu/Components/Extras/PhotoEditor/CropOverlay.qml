@@ -346,7 +346,7 @@ Item {
         Button {
             objectName: "centerCropIcon"
             anchors.centerIn: parent
-            text: i18n.tr("Crop")
+            text: i18n.dtr("ubuntu-ui-extras", "Crop")
             color: frame.border.color
             opacity: 0.9
             onClicked: cropOverlay.cropButtonPressed()
