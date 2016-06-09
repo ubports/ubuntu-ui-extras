@@ -1,3 +1,11 @@
+ubuntu-ui-extras (0.2+16.10.20160609.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Arthur Mello ]
+  * Specify the domain "ubuntu-ui-extras" for i18n messages (LP:
+    #1521222)
+
+ -- Arthur Renato Mello <arthur.mello@canonical.com>  Thu, 09 Jun 2016 18:09:38 +0000
+
 ubuntu-ui-extras (0.2+16.04.20160503-0ubuntu1) xenial; urgency=medium
 
   * Qt now takes into account the EXIF orientation data when loading
