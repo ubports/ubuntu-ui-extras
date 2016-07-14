@@ -1,3 +1,10 @@
+ubuntu-ui-extras (0.2+16.10.20160714-0ubuntu1) yakkety; urgency=medium
+
+  [ Florian Boucault ]
+  * Fixes for crossbuilding.
+
+ -- Kaleo <florian@boucault.net>  Thu, 14 Jul 2016 12:45:37 +0000
+
 ubuntu-ui-extras (0.2+16.10.20160609.1-0ubuntu1) yakkety; urgency=medium
 
   [ Arthur Mello ]
