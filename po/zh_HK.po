@@ -8,57 +8,57 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-01-12 12:50-0200\n"
-"PO-Revision-Date: 2016-01-11 23:20+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-07-19 17:24+0000\n"
+"Last-Translator: tomoe_musashi <hkg.musashi@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-17 05:43+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2016-07-20 06:05+0000\n"
+"X-Generator: Launchpad (build 18147)\n"
 
-#: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
+#: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
-#: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
+#: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 msgid "Crop"
-msgstr ""
+msgstr "裁剪"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr ""
+msgstr "已完成"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr ""
+msgstr "增強的照片..."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr ""
+msgstr "重做"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr ""
+msgstr "還原照片"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 msgid "Revert to Original"
-msgstr ""
+msgstr "還原至原始狀態"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr ""
+msgstr "恢復原始狀態"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr ""
+msgstr "旋轉"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
+msgstr "這將撤消所有的編輯，包括那些從以前的會話。"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr ""
+msgstr "撤銷"
