@@ -50,7 +50,7 @@ Item {
         Action {
             objectName: "rotateButton"
             text: i18n.tr("Rotate")
-            iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate_left.png")
+            iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate_right.png")
             onTriggered: {
                 photoData.isLongOperation = false;
                 photoData.rotateRight()
