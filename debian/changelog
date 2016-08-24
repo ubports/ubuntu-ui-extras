@@ -1,3 +1,14 @@
+ubuntu-ui-extras (0.2+16.10.20160824.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Florian Boucault ]
+  * Fix image orientation in photo image provider for Qt>=5.5
+
+  [ Timo Jyrinki ]
+  * Stop depending on transitional packages. (LP: #1583079) (LP:
+    #1583079)
+
+ -- Kaleo <florian@boucault.net>  Wed, 24 Aug 2016 15:47:28 +0000
+
 ubuntu-ui-extras (0.2+16.10.20160714-0ubuntu1) yakkety; urgency=medium
 
   [ Florian Boucault ]
