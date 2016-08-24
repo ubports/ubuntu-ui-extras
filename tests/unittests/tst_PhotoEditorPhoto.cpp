@@ -23,6 +23,7 @@
 #include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QTest>
+#include <QImageReader>
 
 class PhotoEditorPhotoTest: public QObject
 {
@@ -248,7 +249,11 @@ void PhotoEditorPhotoTest::testCropWithExifOrientation()
     photoData.setPath(path);
     QVERIFY(photoData.orientation() == RIGHT_TOP_ORIGIN);
 
-    QImage photoImage(path);
+    QImageReader photoImageReader(path);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    photoImageReader.setAutoTransform(true);
+#endif
+    QImage photoImage = photoImageReader.read();
 
     // Crop a vertical strip at the left edge
     QSignalSpy spy(&photoData, SIGNAL(busyChanged()));
@@ -259,7 +264,11 @@ void PhotoEditorPhotoTest::testCropWithExifOrientation()
     croppedData.setPath(path);
     QVERIFY(croppedData.orientation() == TOP_LEFT_ORIGIN);
 
-    QImage croppedImage(path);
+    QImageReader croppedReader(path);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    croppedReader.setAutoTransform(true);
+#endif
+    QImage croppedImage = croppedReader.read();
     // That crop should not have changed the height
     QVERIFY(croppedImage.height() == photoImage.height());
 }
