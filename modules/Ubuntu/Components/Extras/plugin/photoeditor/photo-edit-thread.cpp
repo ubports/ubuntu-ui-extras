@@ -68,6 +68,22 @@ void PhotoEditThread::run()
     // new one after modifying the pixels.
     PhotoMetadata* original = PhotoMetadata::fromFile(m_photo->file());
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+    // If the photo was previously rotated through metadata and we are editing
+    // the actual pixels, first rotate the image to match the orientation so
+    // that the correct pixels are edited.
+    // Obviously don't do this in the case we have been asked to do a rotation
+    // operation on the pixels, as we would do it later as the operation itself.
+    //
+    // Using QImage::setAutoTransform() would be better if it existed:
+    // https://bugreports.qt.io/browse/QTBUG-48271
+    if (m_photo->fileFormatHasOrientation() && m_command.type != EDIT_ROTATE) {
+        Orientation orientation = m_photo->orientation();
+        QTransform transform = OrientationCorrection::fromOrientation(orientation).toTransform();
+        image = image.transformed(transform);
+    }
+#endif
+
     if (m_command.type == EDIT_ROTATE) {
         QTransform transform = OrientationCorrection::fromOrientation(m_command.orientation).toTransform();
         image = image.transformed(transform);
