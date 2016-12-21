@@ -137,6 +137,7 @@ Rectangle {
             right: tabs.overflow ? rightStepper.left : actions.left
         }
         interactive: false
+        objectName: "tabListView"
         orientation: ListView.Horizontal
         clip: true
         highlightMoveDuration: UbuntuAnimation.FastDuration
