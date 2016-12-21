@@ -22,6 +22,11 @@ import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
 import "TabsBar" as LocalTabs
 
+// FIXME: need to use DragAndDropSettings as type to use grouped property access
+import "TabsBar"
+
+import Ubuntu.Components.Extras 0.3
+
 Rectangle {
     id: tabsBar
 
@@ -35,6 +40,7 @@ Rectangle {
     property color highlightColor: Qt.rgba(actionColor.r, actionColor.g, actionColor.b, 0.1)
     /* 'model' needs to have the following members:
          property int selectedIndex
+         function addExistingTab(var tab)
          function selectTab(int index)
          function removeTab(int index)
          function moveTab(int from, int to)
@@ -42,7 +48,24 @@ Rectangle {
     property var model
     property list<Action> actions
 
+    /* To enable drag and drop set to enabled
+     *
+     * Use expose to set any information you need the DropArea to access
+     * Then use drag.source.expose.myproperty
+     *
+     * Set mimeType to one of the keys in the DropArea's you want to accept
+     *
+     * Set a function for previewUrlFromIndex which is given the index
+     * and returns a url to an image, which will be shown in the handle
+     */
+    readonly property DragAndDropSettings dragAndDrop: LocalTabs.DragAndDropSettings {  // FIXME: check var is OK
+
+    }
+
     property string fallbackIcon: ""
+
+    property Component windowFactory: null
+    property var windowFactoryProperties: ({})  // any addition properties such as height, width
 
     signal contextMenu(var tabDelegate, int index)
 
@@ -52,6 +75,14 @@ Rectangle {
 
     function iconSourceFromModelItem(modelItem, index) {
         return "";
+    }
+
+    /* When a tab is being removed due to it being moved to another window
+     * This allows for different code to be run when moving, such as not
+     * destroying the tab components
+     */
+    function removeMovingTab(index) {
+        return model.removeTab(index);
     }
 
     function titleFromModelItem(modelItem) {
@@ -139,16 +170,21 @@ Rectangle {
         model: tabsBar.model
         delegate: MouseArea {
             id: tabMouseArea
+            objectName: "tabDelegate"
 
+            acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
             width: tab.width
             height: tab.height
             drag {
-                target: tabs.count > 1 && tab.isFocused ? tab : null
-                axis: Drag.XAxis
+                target: (tabs.count > 1 || dragAndDrop.enabled) && tab.isFocused ? tab : null
+                axis: dragAndDrop.enabled ? Drag.XAndYAxis : Drag.XAxis
                 minimumX: tab.isDragged ? -tab.width/2 : -Infinity
                 maximumX: tab.isDragged ? tabs.width - tab.width/2 : Infinity
             }
             z: tab.isFocused ? 1 : 0
+
+            readonly property int tabIndex: index  // for autopilot
+
             Binding {
                 target: tabsBar
                 property: "selectedTabX"
@@ -161,6 +197,13 @@ Rectangle {
                 value: tab.width
                 when: tab.isFocused
             }
+            NumberAnimation {
+                id: resetVerticalAnimation
+                target: tab
+                duration: 250
+                property: "y"
+                to: 0
+            }
 
             onPressed: {
                 if (mouse.button === Qt.LeftButton) {
@@ -171,6 +214,7 @@ Rectangle {
                     tabsBar.model.removeTab(index)
                 }
             }
+            onReleased: resetVerticalAnimation.start()
             onWheel: {
                 if (wheel.angleDelta.y >= 0) {
                     tabsBar.model.selectTab(tabsBar.model.selectedIndex - 1);
@@ -183,11 +227,16 @@ Rectangle {
 
             LocalTabs.Tab {
                 id: tab
+                objectName: "tabItem"
 
                 anchors.left: tabMouseArea.left
                 implicitWidth: tabs.availableWidth / 2
                 width: tabs.overflow ? tabs.availableWidth / tabs.maximumTabsCount : Math.min(tabs.maximumTabWidth, implicitWidth)
                 height: tabs.height
+
+                // Reference the tab and window so that the dropArea can determine what to do
+                readonly property var thisTab: tabsBar.model.get(index)
+                readonly property var thisWindow: dragAndDrop.thisWindow
 
                 property bool isDragged: tabMouseArea.drag.active
                 Drag.active: tab.isDragged
@@ -243,6 +292,65 @@ Rectangle {
                     }
                 }
             }
+
+            onPositionChanged: {
+                if (!dragAndDrop.enabled || !tabMouseArea.drag.active) {
+                    return;
+                }
+
+                // Keep the visual tab within maxYDiff of starting point when
+                // dragging vertically so that it doesn't cover other elements
+                // or appear to be detached
+                tab.y = Math.abs(tab.y) > dragAndDrop.maxYDiff ? (tab.y > 0 ? 1 : -1) * dragAndDrop.maxYDiff : tab.y
+
+                // Initiate drag and drop if mouse y has gone further than the height from the object
+                if (mouse.y > height * 2 || mouse.y < -height) {
+                    // Reset visual position of tab delegate
+                    resetVerticalAnimation.start();
+
+                    // Generate tab preview for drag handle
+                    DragHelper.expectedAction = dragAndDrop.expectedAction
+                    DragHelper.mimeType = dragAndDrop.mimeType
+                    DragHelper.previewBorderWidth = dragAndDrop.previewBorderWidth
+                    DragHelper.previewSize = dragAndDrop.previewSize
+                    DragHelper.previewTopCrop = dragAndDrop.previewTopCrop
+                    DragHelper.previewUrl = dragAndDrop.previewUrlFromIndex(index)
+                    DragHelper.source = tab
+
+                    var dropAction = DragHelper.execDrag(index);
+
+                    // IgnoreAction - no DropArea accepted so New Window
+                    // MoveAction   - DropArea accept but different window
+                    // CopyAction   - DropArea accept but same window
+
+                    if (dropAction === Qt.MoveAction) {
+                        // Moved into another window
+
+                        // Just remove from model and do not destroy
+                        // as webview is used in other window
+                        tabsBar.removeMovingTab(index);
+                    } else if (dropAction === Qt.CopyAction) {
+                        // Moved into the same window
+
+                        // So no action
+                    } else if (dropAction === Qt.IgnoreAction) {
+                        // Moved outside of any window
+
+                        // Create new window and add existing tab
+                        var window = windowFactory.createObject(null, windowFactoryProperties);
+                        window.model.addExistingTab(tab.thisTab);
+                        window.model.selectTab(window.model.count - 1);
+                        window.show();
+
+                        // Just remove from model and do not destroy
+                        // as webview is used in other window
+                        tabsBar.removeMovingTab(index);
+                    } else {
+                        // Unknown state
+                        console.debug("Unknown drop action:", dropAction);
+                    }
+                }
+            }
         }
     }
 
@@ -290,6 +398,7 @@ Rectangle {
             model: tabsBar.actions
 
             LocalTabs.TabButton {
+                objectName: modelData.objectName
                 iconColor: tabsBar.actionColor
                 iconSource: modelData.iconSource
                 onClicked: modelData.trigger()
@@ -303,6 +412,46 @@ Rectangle {
         anchors.fill: parent
         color: backgroundColor
         opacity: 0.4
-        visible: !Window.active
+        // Show when the window is not active or drag and drop is enabled and a drag is being performed outside of the dropArea threshold
+        // FIXME: last place DragHelper.dragging is required, so that when dragging into a window it knows to dim
+        // the tabbar if the drag is not inside
+        // somehow we need to know if a drag event is occurring from another window
+        visible: !Window.active || (dragAndDrop.enabled && DragHelper.dragging ? !dropArea.containsDrag : false)
+    }
+
+    // If a page is restored from the previous session at startup, cannot DnD back into tab bar it started on
+    DropArea {
+        id: dropArea
+        anchors {
+            fill: parent
+        }
+        keys: [dragAndDrop.mimeType]
+
+        onDropped: {
+            // IgnoreAction - no DropArea accepted so New Window
+            // MoveAction   - DropArea accept but different window
+            // CopyAction   - DropArea accept but same window
+            if (drag.source.thisWindow === dragAndDrop.thisWindow) {
+                // Dropped in same window
+                drop.accept(Qt.CopyAction);
+            } else {
+                // Dropped in new window, moving tab
+                tabsBar.model.addExistingTab(drag.source.thisTab);
+                tabsBar.model.selectTab(tabsBar.model.count - 1);
+
+                drop.accept(Qt.MoveAction);
+            }
+        }
+        onEntered: {
+            thisWindow.raise()
+            thisWindow.requestActivate();
+        }
+        onPositionChanged: {
+            if (drag.source.thisWindow === dragAndDrop.thisWindow) {
+                // tab drag is within same window and in chrome
+                // so reorder tabs by setting tab x position
+                drag.source.x = drag.x - (drag.source.width / 2);
+            }
+        }
     }
 }
