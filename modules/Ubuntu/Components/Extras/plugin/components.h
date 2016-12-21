@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 Canonical, Ltd.
+ * Copyright (C) 2012-2013, 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,8 @@ public:
     void initializeEngine(QQmlEngine *engine, const char *uri);
     static QObject* exportFileUtilsSingleton(QQmlEngine *engine,
                                              QJSEngine *scriptEngine);
+    static QObject* exportDragHelperSingleton(QQmlEngine *engine,
+                                              QJSEngine *scriptEngine);
 };
 
 #endif // COMPONENTS_H

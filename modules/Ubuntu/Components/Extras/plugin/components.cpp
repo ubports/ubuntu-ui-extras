@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 Canonical, Ltd.
+ * Copyright (C) 2012-2013, 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #include "photoeditor/photo-image-provider.h"
 #include "photoeditor/file-utils.h"
 
+#include "tabsbar/drag-helper.h"
+
 void Components::registerTypes(const char *uri)
 {
     // Example component
@@ -32,6 +34,10 @@ void Components::registerTypes(const char *uri)
     qmlRegisterType<PhotoData>(uri, 0, 2, "PhotoData");
     qmlRegisterSingletonType<FileUtils>(uri, 0, 2, "FileUtils",
                                         exportFileUtilsSingleton);
+
+    // TabsBar component
+    qmlRegisterSingletonType<DragHelper>(uri, 0, 3, "DragHelper",
+                                         exportDragHelperSingleton);
 }
 
 void Components::initializeEngine(QQmlEngine *engine, const char *uri)
@@ -41,6 +47,15 @@ void Components::initializeEngine(QQmlEngine *engine, const char *uri)
     PhotoImageProvider* provider = new PhotoImageProvider();
     engine->addImageProvider(PhotoImageProvider::PROVIDER_ID,
                              provider);
+}
+
+QObject* Components::exportDragHelperSingleton(QQmlEngine *engine,
+                                               QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+
+    return new DragHelper();
 }
 
 QObject* Components::exportFileUtilsSingleton(QQmlEngine *engine,
