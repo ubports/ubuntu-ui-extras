@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical Ltd
+ * Copyright (C) 2016, 2017 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -21,9 +21,6 @@ import QtQml.Models 2.2
 import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
 import "TabsBar" as LocalTabs
-
-// FIXME: need to use DragAndDropSettings as type to use grouped property access
-import "TabsBar"
 
 import Ubuntu.Components.Extras 0.3
 
@@ -59,8 +56,10 @@ Rectangle {
      * Set a function for previewUrlFromIndex which is given the index
      * and returns a url to an image, which will be shown in the handle
      */
-    readonly property DragAndDropSettings dragAndDrop: LocalTabs.DragAndDropSettings {  // FIXME: check var is OK
+    readonly property alias dragAndDrop: dragAndDropImpl
 
+    LocalTabs.DragAndDropSettings {
+        id: dragAndDropImpl
     }
 
     property string fallbackIcon: ""
@@ -419,7 +418,6 @@ Rectangle {
         visible: !Window.active || dimmed
     }
 
-    // If a page is restored from the previous session at startup, cannot DnD back into tab bar it started on
     DropArea {
         id: dropArea
         anchors {
