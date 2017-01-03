@@ -36,8 +36,7 @@ void Components::registerTypes(const char *uri)
                                         exportFileUtilsSingleton);
 
     // TabsBar component
-    qmlRegisterSingletonType<DragHelper>(uri, 0, 3, "DragHelper",
-                                         exportDragHelperSingleton);
+    qmlRegisterType<DragHelper>(uri, 0, 3, "DragHelper");
 }
 
 void Components::initializeEngine(QQmlEngine *engine, const char *uri)
@@ -47,15 +46,6 @@ void Components::initializeEngine(QQmlEngine *engine, const char *uri)
     PhotoImageProvider* provider = new PhotoImageProvider();
     engine->addImageProvider(PhotoImageProvider::PROVIDER_ID,
                              provider);
-}
-
-QObject* Components::exportDragHelperSingleton(QQmlEngine *engine,
-                                               QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new DragHelper();
 }
 
 QObject* Components::exportFileUtilsSingleton(QQmlEngine *engine,
