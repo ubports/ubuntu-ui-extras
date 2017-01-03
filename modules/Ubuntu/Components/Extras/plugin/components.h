@@ -30,8 +30,6 @@ public:
     void initializeEngine(QQmlEngine *engine, const char *uri);
     static QObject* exportFileUtilsSingleton(QQmlEngine *engine,
                                              QJSEngine *scriptEngine);
-    static QObject* exportDragHelperSingleton(QQmlEngine *engine,
-                                              QJSEngine *scriptEngine);
 };
 
 #endif // COMPONENTS_H

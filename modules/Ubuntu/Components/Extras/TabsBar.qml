@@ -47,6 +47,7 @@ Rectangle {
     */
     property var model
     property list<Action> actions
+    property bool dimmed: false
 
     /* To enable drag and drop set to enabled
      *
@@ -294,6 +295,17 @@ Rectangle {
                 }
             }
 
+            DragHelper {
+                id: dragHelper
+                expectedAction: dragAndDrop.expectedAction
+                mimeType: dragAndDrop.mimeType
+                previewBorderWidth: dragAndDrop.previewBorderWidth
+                previewSize: dragAndDrop.previewSize
+                previewTopCrop: dragAndDrop.previewTopCrop
+                previewUrl: dragAndDrop.previewUrlFromIndex(index)
+                source: tab
+            }
+
             onPositionChanged: {
                 if (!dragAndDrop.enabled || !tabMouseArea.drag.active) {
                     return;
@@ -309,16 +321,7 @@ Rectangle {
                     // Reset visual position of tab delegate
                     resetVerticalAnimation.start();
 
-                    // Generate tab preview for drag handle
-                    DragHelper.expectedAction = dragAndDrop.expectedAction
-                    DragHelper.mimeType = dragAndDrop.mimeType
-                    DragHelper.previewBorderWidth = dragAndDrop.previewBorderWidth
-                    DragHelper.previewSize = dragAndDrop.previewSize
-                    DragHelper.previewTopCrop = dragAndDrop.previewTopCrop
-                    DragHelper.previewUrl = dragAndDrop.previewUrlFromIndex(index)
-                    DragHelper.source = tab
-
-                    var dropAction = DragHelper.execDrag(index);
+                    var dropAction = dragHelper.execDrag(index);
 
                     // IgnoreAction - no DropArea accepted so New Window
                     // MoveAction   - DropArea accept but different window
@@ -413,11 +416,7 @@ Rectangle {
         anchors.fill: parent
         color: backgroundColor
         opacity: 0.4
-        // Show when the window is not active or drag and drop is enabled and a drag is being performed outside of the dropArea threshold
-        // FIXME: last place DragHelper.dragging is required, so that when dragging into a window it knows to dim
-        // the tabbar if the drag is not inside
-        // somehow we need to know if a drag event is occurring from another window
-        visible: !Window.active || (dragAndDrop.enabled && DragHelper.dragging ? !dropArea.containsDrag : false)
+        visible: !Window.active || dimmed
     }
 
     // If a page is restored from the previous session at startup, cannot DnD back into tab bar it started on
