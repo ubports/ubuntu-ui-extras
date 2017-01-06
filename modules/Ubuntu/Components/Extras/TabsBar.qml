@@ -40,7 +40,11 @@ Rectangle {
          function addExistingTab(var tab)
          function selectTab(int index)
          function removeTab(int index)
+         function removeTabWithoutDestroying(int index)
          function moveTab(int from, int to)
+
+         removeTabWithoutDestroying is useful when a tab is being removed due
+         to moving, so you don't want the content to be destroyed
     */
     property var model
     property list<Action> actions
@@ -75,14 +79,6 @@ Rectangle {
 
     function iconSourceFromModelItem(modelItem, index) {
         return "";
-    }
-
-    /* When a tab is being removed due to it being moved to another window
-     * This allows for different code to be run when moving, such as not
-     * destroying the tab components
-     */
-    function removeMovingTab(index) {
-        return model.removeTab(index);
     }
 
     function titleFromModelItem(modelItem) {
@@ -331,7 +327,7 @@ Rectangle {
 
                         // Just remove from model and do not destroy
                         // as webview is used in other window
-                        tabsBar.removeMovingTab(index);
+                        tabsBar.model.removeTabWithoutDestroying(index);
                     } else if (dropAction === Qt.CopyAction) {
                         // Moved into the same window
 
@@ -347,7 +343,7 @@ Rectangle {
 
                         // Just remove from model and do not destroy
                         // as webview is used in other window
-                        tabsBar.removeMovingTab(index);
+                        tabsBar.model.removeTabWithoutDestroying(index);
                     } else {
                         // Unknown state
                         console.debug("Unknown drop action:", dropAction);
@@ -415,7 +411,7 @@ Rectangle {
         anchors.fill: parent
         color: backgroundColor
         opacity: 0.4
-        visible: !Window.active || dimmed
+        visible: !Window.active || (dimmed && !dropArea.containsDrag)
     }
 
     DropArea {
