@@ -22,6 +22,7 @@ Item {
     id: tabContour
     property color backgroundColor
     property color contourColor
+    property color outsideColor
 
     TabContourHalf {
         anchors {
@@ -32,6 +33,7 @@ Item {
         width: parent.width / 2
         backgroundColor: tabContour.backgroundColor
         contourColor: tabContour.contourColor
+        outsideColor: tabContour.outsideColor
     }
 
     TabContourHalf {
@@ -45,5 +47,6 @@ Item {
         
         backgroundColor: tabContour.backgroundColor
         contourColor: tabContour.contourColor
+        outsideColor: tabContour.outsideColor
     }
 }

@@ -35,6 +35,7 @@ ShaderEffect {
 
     property color backgroundColor
     property color contourColor
+    property color outsideColor
     property real sourceWidth: source.paintedWidth / tabContour.width
     property real sourceHeight: source.paintedHeight / tabContour.height
 
@@ -43,6 +44,7 @@ ShaderEffect {
         uniform sampler2D source;
         uniform highp vec4 backgroundColor;
         uniform highp vec4 contourColor;
+        uniform highp vec4 outsideColor;
         uniform lowp float qt_Opacity;
         uniform lowp float sourceWidth;
         uniform lowp float sourceHeight;
@@ -50,6 +52,7 @@ ShaderEffect {
             lowp vec4 sourceColor = texture2D(source, vec2(qt_TexCoord0.x / sourceWidth, qt_TexCoord0.y / sourceHeight));
             lowp vec4 backgroundMix = backgroundColor * sourceColor.r;
             lowp vec4 contourMix = contourColor * sourceColor.g;
-            gl_FragColor = (contourMix + backgroundMix * (1.0 - contourMix.a)) * qt_Opacity;
+            lowp vec4 outsideMix = outsideColor * sourceColor.b;
+            gl_FragColor = (contourMix + backgroundMix * (1.0 - contourMix.a) + outsideMix * (1.0 - contourMix.a)) * qt_Opacity;
         }"
 }
