@@ -1,3 +1,10 @@
+ubuntu-ui-extras (0.2+17.04.20170116-0ubuntu1) zesty; urgency=medium
+
+  [ Florian Boucault ]
+  * New component: TabsBar
+
+ -- Kaleo <florian@boucault.net>  Mon, 16 Jan 2017 16:02:24 +0000
+
 ubuntu-ui-extras (0.2+16.10.20160824.1-0ubuntu1) yakkety; urgency=medium
 
   [ Florian Boucault ]
