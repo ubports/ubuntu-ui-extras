@@ -22,6 +22,7 @@ import Ubuntu.Components 1.3
 Item {
     id: tab
 
+    property color outsideColor
     property color backgroundColor: "white"
     property color foregroundColor: "black"
     property color contourColor
@@ -53,7 +54,19 @@ Item {
         }
     }
 
+    Rectangle {
+        anchors {
+            top: parent.top
+            bottom: tabContour.top
+            left: parent.left
+            right: parent.right
+        }
+        color: tab.outsideColor
+        visible: tab.isFocused
+    }
+
     TabContour {
+        id: tabContour
         anchors {
             fill: parent
             topMargin: units.dp(2)
@@ -61,6 +74,7 @@ Item {
         visible: tab.isFocused
         backgroundColor: tab.backgroundColor
         contourColor: tab.contourColor
+        outsideColor: tab.outsideColor
     }
 
     Rectangle {

@@ -24,12 +24,13 @@ import "TabsBar" as LocalTabs
 
 import Ubuntu.Components.Extras 0.3
 
-Rectangle {
+Item {
     id: tabsBar
 
     implicitWidth: units.gu(60)
     implicitHeight: units.gu(3)
 
+    property color color: "white"
     property color backgroundColor: "white"
     property color foregroundColor: "black"
     property color contourColor: Qt.rgba(0.0, 0.0, 0.0, 0.2)
@@ -83,6 +84,28 @@ Rectangle {
 
     function titleFromModelItem(modelItem) {
         return modelItem.title;
+    }
+
+    Rectangle {
+        id: backgroundLeft
+        anchors {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+        }
+        width: bottomContourLeft.width
+        color: tabsBar.color
+    }
+
+    Rectangle {
+        id: backgroundRight
+        anchors {
+            right: parent.right
+            top: parent.top
+            bottom: parent.bottom
+        }
+        width: bottomContourRight.width
+        color: tabsBar.color
     }
 
     LocalTabs.TabStepper {
@@ -269,6 +292,7 @@ Rectangle {
                 isFocused: tabsBar.model.selectedIndex == index
                 isBeforeFocusedTab: index == tabsBar.model.selectedIndex - 1
                 title: tabsBar.titleFromModelItem(typeof(modelData) === "undefined" ? model : modelData)
+                outsideColor: tabsBar.color
                 backgroundColor: tabsBar.backgroundColor
                 foregroundColor: tabsBar.foregroundColor
                 contourColor: tabsBar.contourColor
