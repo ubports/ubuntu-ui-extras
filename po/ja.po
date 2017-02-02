@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-12 12:50-0200\n"
+"POT-Creation-Date: 2017-01-09 14:20+0000\n"
 "PO-Revision-Date: 2016-01-11 23:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-08-31 06:19+0000\n"
-"X-Generator: Launchpad (build 18179)\n"
+"X-Launchpad-Export-Date: 2017-02-02 06:07+0000\n"
+"X-Generator: Launchpad (build 18315)\n"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
@@ -25,19 +25,19 @@ msgstr ""
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 msgid "Crop"
-msgstr ""
+msgstr "切り抜き"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr ""
+msgstr "完了"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr ""
+msgstr "画像を補正しています..."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr ""
+msgstr "やり直し"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
@@ -45,15 +45,15 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 msgid "Revert to Original"
-msgstr ""
+msgstr "オリジナルに戻す"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr ""
+msgstr "オリジナルに戻す"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr ""
+msgstr "回転"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
@@ -61,4 +61,4 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr ""
+msgstr "元に戻す"
