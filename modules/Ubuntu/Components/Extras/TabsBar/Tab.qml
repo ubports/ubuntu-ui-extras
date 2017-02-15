@@ -149,6 +149,10 @@ Item {
                 }
             )
         }
+        // When the tab is destroyed (as it is out of view) set the source
+        // to empty, otherwise if the loader is still loading
+        // the context doesn't exist and errors occur in the console
+        Component.onDestruction: source = "";
     }
 
     Label {
