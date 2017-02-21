@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UBUNTU_SETTINGS_COMPONENTS_PRINTERS_PLUGIN_H
-#define UBUNTU_SETTINGS_COMPONENTS_PRINTERS_PLUGIN_H
+#ifndef UBUNTU_COMPONENTS_EXTRAS_PRINTERS_PLUGIN_H
+#define UBUNTU_COMPONENTS_EXTRAS_PRINTERS_PLUGIN_H
 
 #include "printers_global.h"
 
 #include <QtQml/QQmlExtensionPlugin>
 
-class PRINTERS_DECL_EXPORT UbuntuSettingsComponentsPrintersPlugin
+class PRINTERS_DECL_EXPORT UbuntuComponentsExtrasPrintersPlugin
     : public QQmlExtensionPlugin
 {
     Q_OBJECT
@@ -30,4 +30,4 @@ public:
     void registerTypes(const char *uri);
 };
 
-#endif // UBUNTU_SETTINGS_COMPONENTS_PRINTERS_PLUGIN_H
+#endif // UBUNTU_COMPONENTS_EXTRAS_PRINTERS_PLUGIN_H
