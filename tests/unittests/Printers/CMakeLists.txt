@@ -1,4 +1,3 @@
-# FIXME: had to add this
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra")
 
 include_directories(
