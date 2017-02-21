@@ -38,7 +38,7 @@ static QObject* p_singletonprovider(QQmlEngine *engine, QJSEngine *scriptEngine)
     return new Printers;
 }
 
-void UbuntuSettingsComponentsPrintersPlugin::registerTypes(const char *uri)
+void UbuntuComponentsExtrasPrintersPlugin::registerTypes(const char *uri)
 {
     initTr(I18N_DOMAIN, NULL);
 
