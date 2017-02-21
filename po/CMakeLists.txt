@@ -5,7 +5,7 @@ find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
 file(GLOB_RECURSE I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
-     ${CMAKE_SOURCE_DIR}/modules/*.qml)
+     ${CMAKE_SOURCE_DIR}/modules/*.qml ${CMAKE_SOURCE_DIR}/modules/*.cpp ${CMAKE_SOURCE_DIR}/modules/*.h)
 
 set(DOMAIN ${GETTEXT_PACKAGE})
 set(POT_FILE ${DOMAIN}.pot)
@@ -19,6 +19,7 @@ add_custom_target(${POT_FILE} ALL
                           --c++ --qt --add-comments=TRANSLATORS
                           --keyword=dtr:2 --keyword=dtr:2,3
                           --keyword=tr --keyword=tr:1,2
+                          --keyword=__
                           --package-name=ubuntu-ui-extras
                           --copyright-holder='Canonical Ltd.'
                           ${I18N_SRC_FILES})
