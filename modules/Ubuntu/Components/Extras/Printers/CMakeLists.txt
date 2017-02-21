@@ -1,6 +1,6 @@
 project(UbuntuComponentsExtrasPrintersQml)
 
-add_definitions(-DUBUNTUSETTINGSPRINTERS_LIBRARY)
+add_definitions(-DUBUNTUCOMPONENTSEXTRASPRINTERS_LIBRARY)
 
 # FIXME: had to add this
 include(FindCups)
