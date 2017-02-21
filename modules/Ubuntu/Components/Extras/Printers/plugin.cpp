@@ -28,7 +28,7 @@
 #include <QtQml/qqml.h>
 #include <QList>
 
-#define I18N_DOMAIN "ubuntu-settings-components"
+#define I18N_DOMAIN "ubuntu-ui-extras"
 
 static QObject* p_singletonprovider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {

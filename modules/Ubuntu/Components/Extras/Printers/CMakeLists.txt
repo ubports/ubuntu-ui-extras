@@ -1,5 +1,4 @@
-# FIXME: rename
-project(UbuntuSettingsPrintersQml)
+project(UbuntuComponentsExtrasPrintersQml)
 
 add_definitions(-DUBUNTUSETTINGSPRINTERS_LIBRARY)
 
@@ -27,7 +26,7 @@ qt5_add_dbus_interface(
     ${CMAKE_CURRENT_SOURCE_DIR}/org.cups.cupsd.Notifier.xml
     cupsdnotifier)
 
-add_library(UbuntuSettingsPrintersQml SHARED
+add_library(UbuntuComponentsExtrasPrintersQml SHARED
     ${GEN_SOURCES}
     backend/backend.cpp
     backend/backend_cups.cpp
@@ -53,7 +52,7 @@ add_library(UbuntuSettingsPrintersQml SHARED
     utils.h
 )
 
-target_link_libraries(UbuntuSettingsPrintersQml
+target_link_libraries(UbuntuComponentsExtrasPrintersQml
     Qt5::DBus
     Qt5::Gui
     Qt5::PrintSupport
@@ -70,4 +69,4 @@ macro(add_usc_plugin PLUGIN VERSION PATH)
     export_qmlplugin(${PLUGIN} ${VERSION} ${PATH} DESTINATION ${QT_IMPORTS_DIR} ${ARGN})
 endmacro()
 
-add_usc_plugin(Ubuntu.Components.Extras.Printers 0.1 Ubuntu/Components/Extras/Printers TARGETS UbuntuSettingsPrintersQml)
+add_usc_plugin(Ubuntu.Components.Extras.Printers 0.1 Ubuntu/Components/Extras/Printers TARGETS UbuntuComponentsExtrasPrintersQml)
