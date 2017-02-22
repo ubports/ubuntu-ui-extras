@@ -27,6 +27,7 @@ Package: qtdeclarative5-ubuntu-ui-extras0.2
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
+         qml-module-qtqml-models2,
          qml-module-qtquick2,
          qml-module-ubuntu-components,
          qml-module-qtquick-window2,
