@@ -3,6 +3,7 @@ Section: x11
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake (>= 2.8.9),
+               cmake-extras (>= 0.10),
                debhelper (>= 9),
                gettext,
                libcups2-dev,
