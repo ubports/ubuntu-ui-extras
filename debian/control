@@ -5,15 +5,18 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake (>= 2.8.9),
                debhelper (>= 9),
                gettext,
+               libexiv2-dev,
                pkg-config,
                python:any,
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,
+               qtdeclarative5-dev-tools,
                qml-module-qtquick2,
                qml-module-qttest,
                qml-module-ubuntu-components,
-               libexiv2-dev,
+               qml-module-ubuntu-test,
+               xvfb,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-ui-extras
 # If you aren't a member of ~ubuntu-sdk-team but need to upload packaging 
