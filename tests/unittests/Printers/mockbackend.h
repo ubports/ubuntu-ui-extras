@@ -84,7 +84,6 @@ public:
 
     virtual QString printerSetDefault(const QString &name) override
     {
-        Q_UNUSED(name);
         m_defaultPrinterName = name;
         return returnValue;
     }
@@ -222,9 +221,6 @@ public:
 
     virtual void cancelJob(const QString &name, const int jobId) override
     {
-        Q_UNUSED(name);
-        Q_UNUSED(jobId);
-
         QList<int> toRemove;
 
         for (int i=0; i < m_jobs.count(); i++) {
