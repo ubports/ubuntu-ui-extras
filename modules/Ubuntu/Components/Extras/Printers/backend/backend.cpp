@@ -99,83 +99,6 @@ QString PrinterBackend::printerSetInfo(const QString &name,
     return QString();
 }
 
-QString PrinterBackend::printerSetLocation(const QString &name,
-                                           const QString &location)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(location);
-    return QString();
-}
-
-QString PrinterBackend::printerSetShared(const QString &name,
-                                         const bool shared)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(shared);
-    return QString();
-}
-
-QString PrinterBackend::printerSetJobSheets(const QString &name,
-                                            const QString &start,
-                                            const QString &end)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(start);
-    Q_UNUSED(end);
-    return QString();
-}
-
-QString PrinterBackend::printerSetErrorPolicy(const QString &name,
-                                              const PrinterEnum::ErrorPolicy &policy)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(policy);
-    return QString();
-}
-
-
-QString PrinterBackend::printerSetOpPolicy(const QString &name,
-                                           const PrinterEnum::OperationPolicy &policy)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(policy);
-    return QString();
-}
-
-QString PrinterBackend::printerSetUsersAllowed(const QString &name,
-                                               const QStringList &users)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(users);
-    return QString();
-}
-
-QString PrinterBackend::printerSetUsersDenied(const QString &name,
-                                              const QStringList &users)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(users);
-    return QString();
-}
-
-QString PrinterBackend::printerAddOptionDefault(const QString &name,
-                                                const QString &option,
-                                                const QStringList &values)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(option);
-    Q_UNUSED(values);
-    return QString();
-}
-
-QString PrinterBackend::printerDeleteOptionDefault(const QString &name,
-                                                   const QString &value)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-    return QString();
-}
-
 QString PrinterBackend::printerAddOption(const QString &name,
                                          const QString &option,
                                          const QStringList &values)
@@ -202,7 +125,6 @@ QMap<QString, QVariant> PrinterBackend::printerGetOptions(
     return QMap<QString, QVariant>();
 }
 
-// FIXME: maybe have a PrinterDest iface that has a CupsDest impl?
 cups_dest_t* PrinterBackend::makeDest(const QString &name,
                               const PrinterJob *options)
 {
