@@ -62,7 +62,6 @@ void JobModel::jobSignalCatchAll(
     Q_UNUSED(job_state);
     Q_UNUSED(job_state_reasons);
     Q_UNUSED(job_name);
-    Q_UNUSED(job_impressions_completed);
 
     auto job = getJobById(job_id);
     if (job)

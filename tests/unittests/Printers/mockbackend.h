@@ -112,77 +112,6 @@ public:
         return returnValue;
     }
 
-    virtual QString printerSetLocation(const QString &name,
-                                       const QString &location) override
-    {
-        locations.insert(name, location);
-        return returnValue;
-    }
-
-    virtual QString printerSetShared(const QString &name,
-                                     const bool shared) override
-    {
-        shareds.insert(name, shared);
-        return returnValue;
-    }
-
-    virtual QString printerSetJobSheets(const QString &name,
-                                        const QString &start,
-                                        const QString &end) override
-    {
-        Q_UNUSED(name);
-        Q_UNUSED(start);
-        Q_UNUSED(end);
-        return returnValue;
-    }
-
-    virtual QString printerSetErrorPolicy(const QString &name,
-                                          const PrinterEnum::ErrorPolicy &policy) override
-    {
-        errorPolicies.insert(name, policy);
-        return returnValue;
-    }
-
-
-    virtual QString printerSetOpPolicy(const QString &name,
-                                       const PrinterEnum::OperationPolicy &policy) override
-    {
-        operationPolicies.insert(name, policy);
-        return returnValue;
-    }
-
-    virtual QString printerSetUsersAllowed(const QString &name,
-                                           const QStringList &users) override
-    {
-        printerOptions[name].insert("users-allowed", QVariant::fromValue(users));
-        return returnValue;
-    }
-
-    virtual QString printerSetUsersDenied(const QString &name,
-                                          const QStringList &users) override
-    {
-        printerOptions[name].insert("users-denied", QVariant::fromValue(users));
-        return returnValue;
-    }
-
-    virtual QString printerAddOptionDefault(const QString &name,
-                                            const QString &option,
-                                            const QStringList &values) override
-    {
-        Q_UNUSED(name);
-        Q_UNUSED(option);
-        Q_UNUSED(values);
-        return returnValue;
-    }
-
-    virtual QString printerDeleteOptionDefault(const QString &name,
-                                               const QString &value) override
-    {
-        Q_UNUSED(name);
-        Q_UNUSED(value);
-        return returnValue;
-    }
-
     virtual QString printerAddOption(const QString &name,
                                      const QString &option,
                                      const QStringList &values) override
@@ -191,12 +120,9 @@ public:
         return returnValue;
     }
 
-
-    // TODO: const for both these getters (if possible)!
     virtual QVariant printerGetOption(const QString &name,
                                       const QString &option) const override
     {
-        // FIXME: if we're to return a variant, check that it can be converted
         return printerOptions[name].value(option);
     }
 
@@ -210,7 +136,6 @@ public:
         return opts;
     }
 
-    // FIXME: maybe have a PrinterDest iface that has a CupsDest impl?
     virtual cups_dest_t* makeDest(const QString &name,
                                   const PrinterJob *options) override
     {
@@ -452,11 +377,6 @@ public:
 
 Q_SIGNALS:
     void printToFile(const QString &filepath, const QString &title);
-
-public Q_SLOTS:
-    virtual void refresh() override
-    {
-    }
 };
 
 #endif // USC_PRINTERS_MOCK_BACKEND_H

@@ -28,8 +28,6 @@ void initTr(const char *domain, const char *localeDir)
 {
     // Don't bind the domain or set textdomain as it changes the Apps domain
     // as well. Instead store the domain and use it in the lookups
-//    bindtextdomain(domain, localeDir);
-//    textdomain(domain);
     Q_UNUSED(localeDir);
 
     thisDomain = domain;

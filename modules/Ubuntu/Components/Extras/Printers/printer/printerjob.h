@@ -151,7 +151,7 @@ private:
     QDateTime m_completed_time;
     int m_copies;
     QDateTime m_creation_time;
-    PrinterBackend *m_backend; // TODO: Maybe use the printer's backend?
+    PrinterBackend *m_backend;
     QString m_printerName;
     int m_duplex_mode;
     int m_impressions_completed;
