@@ -36,10 +36,9 @@ class PRINTERS_DECL_EXPORT Printers : public QObject
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* allPrinters READ allPrinters CONSTANT)
     Q_PROPERTY(QAbstractItemModel* allPrintersWithPdf READ allPrintersWithPdf CONSTANT)
-    Q_PROPERTY(QAbstractItemModel* recentPrinters READ recentPrinters CONSTANT)
     Q_PROPERTY(QAbstractItemModel* printJobs READ printJobs CONSTANT)
     Q_PROPERTY(QAbstractItemModel* drivers READ drivers CONSTANT)
-    Q_PROPERTY (QString driverFilter READ driverFilter WRITE setDriverFilter NOTIFY driverFilterChanged)
+    Q_PROPERTY(QString driverFilter READ driverFilter WRITE setDriverFilter NOTIFY driverFilterChanged)
     Q_PROPERTY(QString defaultPrinterName READ defaultPrinterName WRITE setDefaultPrinterName NOTIFY defaultPrinterNameChanged)
     Q_PROPERTY(QString lastMessage READ lastMessage CONSTANT)
 
@@ -52,7 +51,6 @@ public:
 
     QAbstractItemModel* allPrinters();
     QAbstractItemModel* allPrintersWithPdf();
-    QAbstractItemModel* recentPrinters();
     QAbstractItemModel* printJobs();
     QAbstractItemModel* drivers();
     QString driverFilter() const;
@@ -63,9 +61,6 @@ public:
     void setDriverFilter(const QString &filter);
 
 public Q_SLOTS:
-    QSharedPointer<Printer> getPrinterByName(const QString &name);
-    QSharedPointer<Printer> getJobOwner(const int &jobId);
-
     PrinterJob* createJob(const QString &printerName);
     void cancelJob(const QString &printerName, const int jobId);
 

@@ -61,7 +61,6 @@ void PrinterDriverLoader::process()
     QByteArray ppdMakeModel;
     QByteArray ppdName;
 
-    // cups_option_t option;
     QList<PrinterDriver> drivers;
 
     for (attr = ippFirstAttribute(response); attr != NULL && m_running; attr = ippNextAttribute(response)) {

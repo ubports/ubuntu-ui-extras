@@ -56,22 +56,18 @@ public:
     QList<QPageSize> supportedPageSizes() const;
     PrinterEnum::AccessControl accessControl() const;
     PrinterEnum::ErrorPolicy errorPolicy() const;
-    QStringList users() const;
     PrinterEnum::State state() const;
-    QString lastStateMessage() const;
     bool acceptJobs() const;
     bool holdsDefinition() const;
     QAbstractItemModel* jobs();
 
     PrinterEnum::PrinterType type() const;
 
-    void setAccessControl(const PrinterEnum::AccessControl &accessControl);
     void setDefaultColorModel(const ColorModel &colorModel);
     void setDescription(const QString &description);
     void setDefaultDuplexMode(const PrinterEnum::DuplexMode &duplexMode);
     void setEnabled(const bool enabled);
     void setAcceptJobs(const bool accepting);
-    void setErrorPolicy(const PrinterEnum::ErrorPolicy &errorPolicy);
     void setDefaultPrintQuality(const PrintQuality &quality);
     void setDefaultPageSize(const QPageSize &pageSize);
     void setJobModel(JobModel* jobModel);
@@ -81,13 +77,7 @@ public:
 
 
 public Q_SLOTS:
-    // Add user that is either denied or allowed printer. See AccessControl.
-    void addUser(const QString &username);
-
     int printFile(const QString &filepath, const PrinterJob *options);
-
-    // Removes user. See addUser.
-    void removeUser(const QString &username);
 
 private:
     void loadAcceptJobs();
@@ -102,8 +92,5 @@ private:
     QList<PrintQuality> m_supportedPrintQualities;
     bool m_acceptJobs;
 };
-
-// FIXME: not necessary outside tests
-Q_DECLARE_METATYPE(QList<PrinterEnum::DuplexMode>)
 
 #endif // USC_PRINTERS_PRINTER_H

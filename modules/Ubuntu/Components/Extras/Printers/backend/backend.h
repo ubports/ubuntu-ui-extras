@@ -65,27 +65,6 @@ public:
         const QString &reason = QString::null);
     virtual QString printerSetInfo(const QString &name,
                                    const QString &info);
-    virtual QString printerSetLocation(const QString &name,
-                                       const QString &location);
-    virtual QString printerSetShared(const QString &name,
-                                     const bool shared);
-    virtual QString printerSetJobSheets(const QString &name,
-                                        const QString &start,
-                                        const QString &end);
-    virtual QString printerSetErrorPolicy(const QString &name,
-                                          const PrinterEnum::ErrorPolicy &policy);
-
-    virtual QString printerSetOpPolicy(const QString &name,
-                                       const PrinterEnum::OperationPolicy &policy);
-    virtual QString printerSetUsersAllowed(const QString &name,
-                                           const QStringList &users);
-    virtual QString printerSetUsersDenied(const QString &name,
-                                          const QStringList &users);
-    virtual QString printerAddOptionDefault(const QString &name,
-                                            const QString &option,
-                                            const QStringList &values);
-    virtual QString printerDeleteOptionDefault(const QString &name,
-                                               const QString &value);
     virtual QString printerAddOption(const QString &name,
                                      const QString &option,
                                      const QStringList &values);
@@ -94,7 +73,6 @@ public:
                                       const QString &option) const;
     virtual QMap<QString, QVariant> printerGetOptions(
         const QString &name, const QStringList &options) const;
-    // FIXME: maybe have a PrinterDest iface that has a CupsDest impl?
     virtual cups_dest_t* makeDest(const QString &name,
                                   const PrinterJob *options);
 

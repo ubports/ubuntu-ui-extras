@@ -220,7 +220,7 @@ QSharedPointer<Printer> PrinterJob::printer() const
 
 QString PrinterJob::printerName() const
 {
-    return m_printerName; // Maybe check if it's a class.
+    return m_printerName;
 }
 
 void PrinterJob::printFile(const QUrl &url)

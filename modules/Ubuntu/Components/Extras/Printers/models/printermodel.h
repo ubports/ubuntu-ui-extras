@@ -43,27 +43,20 @@ public:
         // Qt::DisplayRole holds device name
         ColorModelRole = Qt::UserRole,
         SupportedColorModelsRole,
-        CopiesRole,
         DefaultPrinterRole,
         DuplexRole,
         SupportedDuplexModesRole,
         NameRole,
         EnabledRole,
         AcceptJobsRole,
-        PrintRangeRole,
-        PrintRangeModeRole,
         PdfModeRole,
         PrintQualityRole,
         SupportedPrintQualitiesRole,
         DescriptionRole,
         PageSizeRole,
         SupportedPageSizesRole,
-        AccessControlRole,
-        ErrorPolicyRole,
-        UsersRole,
         StateRole,
         PrinterRole,
-        LastStateMessageRole,
 
         /* Indicates that this printer is a pseudo printer used to create
         PDF files. */
