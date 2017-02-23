@@ -249,6 +249,9 @@ public:
         Q_UNUSED(filepath);
         Q_UNUSED(title);
         Q_UNUSED(dest);
+
+        Q_EMIT printToFile(filepath, title);
+
         return -1;
     }
 
@@ -450,6 +453,9 @@ public:
     QStringList m_availablePrinterNames;
     QList<QSharedPointer<Printer>> m_availablePrinters;
     QList<QSharedPointer<PrinterJob>> m_jobs;
+
+Q_SIGNALS:
+    void printToFile(const QString &filepath, const QString &title);
 
 public Q_SLOTS:
     virtual void refresh() override
