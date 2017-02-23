@@ -41,41 +41,6 @@ public:
     };
     Q_ENUM(ColorModelType)
 
-    enum class ColorSpace
-    {
-        NSpace = 0,
-        RGBSpace,
-        RGBKSpace,
-        GraySpace,
-        CMYSpace,
-        CMYKSpace,
-        UnknownSpace,
-    };
-    Q_ENUM(ColorSpace)
-
-    enum class ColorOrganization
-    {
-        ChunkyOrganization = 0,
-        BandedOrganization,
-        PlanarOrganization,
-        UnknownOrganization,
-    };
-    Q_ENUM(ColorOrganization)
-
-    enum class CartridgeType
-    {
-        BlackCartridge = 0,
-        CyanCartridge,
-        MagentaCartridge,
-        YellowCartridge,
-        RedCartridge,
-        GreenCartridge,
-        BlueCartridge,
-        UnknownCartridge,
-        WhiteCartridge,
-    };
-    Q_ENUM(CartridgeType)
-
     enum class DuplexMode
     {
         DuplexNone = 0,

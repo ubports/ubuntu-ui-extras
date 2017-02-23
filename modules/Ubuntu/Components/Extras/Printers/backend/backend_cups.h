@@ -56,27 +56,6 @@ public:
         const QString &reason = QString::null) override;
     virtual QString printerSetInfo(const QString &name,
                                    const QString &info) override;
-    virtual QString printerSetLocation(const QString &name,
-                                       const QString &location) override;
-    virtual QString printerSetShared(const QString &name,
-                                     const bool shared) override;
-    virtual QString printerSetJobSheets(const QString &name,
-                                        const QString &start,
-                                        const QString &end) override;
-    virtual QString printerSetErrorPolicy(const QString &name,
-                                          const PrinterEnum::ErrorPolicy &policy) override;
-
-    virtual QString printerSetOpPolicy(const QString &name,
-                                       const PrinterEnum::OperationPolicy &policy) override;
-    virtual QString printerSetUsersAllowed(const QString &name,
-                                           const QStringList &users) override;
-    virtual QString printerSetUsersDenied(const QString &name,
-                                          const QStringList &users) override;
-    virtual QString printerAddOptionDefault(const QString &name,
-                                            const QString &option,
-                                            const QStringList &values) override;
-    virtual QString printerDeleteOptionDefault(const QString &name,
-                                               const QString &value) override;
     virtual QString printerAddOption(const QString &name,
                                      const QString &option,
                                      const QStringList &values) override;

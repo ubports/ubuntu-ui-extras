@@ -187,82 +187,6 @@ QString PrinterCupsBackend::printerSetInfo(const QString &name,
     return QString();
 }
 
-QString PrinterCupsBackend::printerSetLocation(const QString &name,
-                                               const QString &location)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(location);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerSetShared(const QString &name,
-                                             const bool shared)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(shared);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerSetJobSheets(const QString &name,
-                                                const QString &start,
-                                                const QString &end)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(start);
-    Q_UNUSED(end);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerSetErrorPolicy(const QString &name,
-                                                  const PrinterEnum::ErrorPolicy &policy)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(policy);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerSetOpPolicy(const QString &name,
-                                               const PrinterEnum::OperationPolicy &policy)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(policy);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerSetUsersAllowed(const QString &name,
-                                                   const QStringList &users)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(users);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerSetUsersDenied(const QString &name,
-                                                  const QStringList &users)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(users);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerAddOptionDefault(const QString &name,
-                                                    const QString &option,
-                                                    const QStringList &values)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(option);
-    Q_UNUSED(values);
-    return QString();
-}
-
-QString PrinterCupsBackend::printerDeleteOptionDefault(const QString &name,
-                                                       const QString &value)
-{
-    Q_UNUSED(name);
-    Q_UNUSED(value);
-    return QString();
-}
-
 QString PrinterCupsBackend::printerAddOption(const QString &name,
                                              const QString &option,
                                              const QStringList &values)
@@ -371,11 +295,9 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
     return ret;
 }
 
-// FIXME: maybe have a PrinterDest iface that has a CupsDest impl?
 cups_dest_t* PrinterCupsBackend::makeDest(const QString &name,
                                           const PrinterJob *options)
 {
-    // Get the cups dest
     cups_dest_t *dest = getDest(name);
 
     if (options->collate()) {

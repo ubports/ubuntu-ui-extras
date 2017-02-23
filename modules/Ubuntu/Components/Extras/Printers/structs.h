@@ -24,12 +24,6 @@
 #include <QDebug>
 #include <QMetaType>
 
-struct InkLevels
-{
-public:
-    QMap<PrinterEnum::CartridgeType, uint> levels;
-};
-
 struct ColorModel
 {
 public:

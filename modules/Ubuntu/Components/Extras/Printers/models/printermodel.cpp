@@ -225,9 +225,6 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
                 ret = models;
             }
             break;
-        // case CopiesRole:
-        //     ret = printer->copies();
-        //     break;
         case DefaultPrinterRole:
             ret = printer->name() == m_backend->defaultPrinterName();
             break;
@@ -237,12 +234,6 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case SupportedDuplexModesRole:
             ret = printer->supportedDuplexStrings();
             break;
-        // case PrintRangeRole:
-        //     ret = printer->printRange();
-        //     break;
-        // case PrintRangeModeRole:
-        //     ret = printer->printRangeMode();
-        //     break;
         case PrintQualityRole:
             ret = printer->supportedPrintQualities().indexOf(printer->defaultPrintQuality());
             break;
@@ -268,19 +259,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
                 ret = sizes;
             }
             break;
-
-        // case AccessControlRole:
-        //     ret = printer->accessControl();
-        //     break;
-        // case ErrorPolicyRole:
-        //     ret = printer->errorPolicy();
-        //     break;
-        // case UsersRole:
-        //     ret = printer->users();
-        //     break;
-        // case StateRole:
-        //     ret = printer->state();
-        //     break;
+        case StateRole:
+            ret = QVariant::fromValue(printer->state());
+            break;
         case PrinterRole:
             ret = QVariant::fromValue(printer);
             break;
@@ -302,10 +283,6 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case AcceptJobsRole:
             ret = printer->acceptJobs();
             break;
-
-        // case LastStateMessageRole:
-        //     ret = printer->lastStateMessage();
-        //     break;
         }
     }
 
@@ -375,31 +352,24 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[Qt::DisplayRole] = "displayName";
         names[ColorModelRole] = "colorModel";
         names[SupportedColorModelsRole] = "supportedColorModels";
-        names[CopiesRole] = "copies";
         names[DefaultPrinterRole] = "default";
         names[DuplexRole] = "duplexMode";
         names[SupportedDuplexModesRole] = "supportedDuplexModes";
         names[NameRole] = "name";
         names[EnabledRole] = "printerEnabled";
         names[AcceptJobsRole] = "acceptJobs";
-        names[PrintRangeRole] = "printRange";
-        names[PrintRangeModeRole] = "printRangeMode";
         names[PdfModeRole] = "pdfMode";
         names[PrintQualityRole] = "printQuality";
         names[SupportedPrintQualitiesRole] = "supportedPrintQualities";
         names[DescriptionRole] = "description";
         names[PageSizeRole] = "pageSize";
         names[SupportedPageSizesRole] = "supportedPageSizes";
-        names[AccessControlRole] = "accessControl";
-        names[ErrorPolicyRole] = "errorPolicy";
-        names[UsersRole] = "users";
         names[StateRole] = "state";
         names[PrinterRole] = "printer";
         names[IsPdfRole] = "isPdf";
         names[IsLoadedRole] = "isLoaded";
         names[IsRawRole] = "isRaw";
         names[JobRole] = "jobs";
-        names[LastStateMessageRole] = "lastStateMessage";
     }
 
     return names;

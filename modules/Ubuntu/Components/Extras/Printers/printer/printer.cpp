@@ -152,13 +152,11 @@ QList<QPageSize> Printer::supportedPageSizes() const
 
 PrinterEnum::AccessControl Printer::accessControl() const
 {
-    // TODO: implement
     return PrinterEnum::AccessControl::AccessAllow;
 }
 
 PrinterEnum::ErrorPolicy Printer::errorPolicy() const
 {
-    // TODO: implement
     return PrinterEnum::ErrorPolicy::RetryOnError;
 }
 
@@ -167,21 +165,9 @@ bool Printer::enabled() const
     return state() != PrinterEnum::State::ErrorState;
 }
 
-QStringList Printer::users() const
-{
-    // TODO: implement
-    return QStringList();
-}
-
 PrinterEnum::State Printer::state() const
 {
     return m_backend->state();
-}
-
-QString Printer::lastStateMessage() const
-{
-    // TODO: implement
-    return QString();
 }
 
 bool Printer::acceptJobs() const
@@ -211,14 +197,7 @@ void Printer::setDefaultColorModel(const ColorModel &colorModel)
     }
 
     QStringList vals({colorModel.name});
-    QString reply = m_backend->printerAddOption(name(), "ColorModel", vals);
-    Q_UNUSED(reply);
-}
-
-void Printer::setAccessControl(const PrinterEnum::AccessControl &accessControl)
-{
-    // TODO: implement
-    Q_UNUSED(accessControl);
+    m_backend->printerAddOption(name(), "ColorModel", vals);
 }
 
 void Printer::setDescription(const QString &description)
@@ -240,7 +219,7 @@ void Printer::setDefaultDuplexMode(const PrinterEnum::DuplexMode &duplexMode)
     }
 
     QStringList vals({Utils::duplexModeToPpdChoice(duplexMode)});
-    QString reply = m_backend->printerAddOption(name(), "Duplex", vals);
+    m_backend->printerAddOption(name(), "Duplex", vals);
 }
 
 void Printer::setEnabled(const bool enabled)
@@ -263,12 +242,6 @@ void Printer::setAcceptJobs(const bool accepting)
     }
 }
 
-void Printer::setErrorPolicy(const PrinterEnum::ErrorPolicy &errorPolicy)
-{
-    // TODO: implement
-    Q_UNUSED(errorPolicy);
-}
-
 void Printer::setDefaultPrintQuality(const PrintQuality &quality)
 {
     if (defaultPrintQuality() == quality) {
@@ -281,7 +254,7 @@ void Printer::setDefaultPrintQuality(const PrintQuality &quality)
     }
 
     QStringList vals({quality.name});
-    QString reply = m_backend->printerAddOption(name(), quality.originalOption, vals);
+    m_backend->printerAddOption(name(), quality.originalOption, vals);
 }
 
 void Printer::setDefaultPageSize(const QPageSize &pageSize)
@@ -301,21 +274,8 @@ void Printer::setDefaultPageSize(const QPageSize &pageSize)
     }
 
     QStringList vals({pageSize.key()});
-    QString reply = m_backend->printerAddOption(name(), "PageSize", vals);
-
+    m_backend->printerAddOption(name(), "PageSize", vals);
     m_backend->refresh();
-}
-
-void Printer::addUser(const QString &username)
-{
-    // TODO: implement
-    Q_UNUSED(username);
-}
-
-void Printer::removeUser(const QString &username)
-{
-    // TODO: implement
-    Q_UNUSED(username);
 }
 
 QAbstractItemModel* Printer::jobs()
@@ -338,9 +298,6 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
     changed |= acceptJobs() != other->acceptJobs();
     changed |= enabled() != other->enabled();
     changed |= state() != other->state();
-
-    // TODO: accessControl
-    // TODO: errorPolicy
 
     // Return true if they are the same, so no change
     return changed == false;
