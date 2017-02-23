@@ -81,7 +81,7 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
     }
 
     // Eagerly load the default printer.
-    if (!m_backend->defaultPrinterName().isEmpty()) {}
+    if (!m_backend->defaultPrinterName().isEmpty())
         m_backend->requestPrinter(m_backend->defaultPrinterName());
 }
 
