@@ -718,5 +718,5 @@ ppd_file_t* PrinterCupsBackend::getPpd(const QString &name) const
 
 void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
 {
-    m_activeRequests.removeOne(printer->name());
+    m_activeRequests.remove(printer->name());
 }
