@@ -614,7 +614,6 @@ QString PrinterCupsBackend::defaultPrinterName()
 void PrinterCupsBackend::requestPrinter(const QString &printerName)
 {
     if (m_activeRequests.contains(printerName)) {
-        qWarning() << Q_FUNC_INFO << "Requested" << printerName << "which already is being requested.";
         return;
     }
 
@@ -719,7 +718,5 @@ ppd_file_t* PrinterCupsBackend::getPpd(const QString &name) const
 
 void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
 {
-    if (!m_activeRequests.removeOne(printer->name())) {
-        qCritical() << "got loaded printer that we did not request";
-    }
+    m_activeRequests.removeOne(printer->name());
 }
