@@ -159,7 +159,9 @@ void Printers::setDefaultPrinterName(const QString &name)
 
 void Printers::prepareToAddPrinter()
 {
-    m_drivers.load();
+    if (m_drivers.rowCount() == 0) {
+        m_drivers.load();
+    }
 }
 
 bool Printers::addPrinter(const QString &name, const QString &ppd,
