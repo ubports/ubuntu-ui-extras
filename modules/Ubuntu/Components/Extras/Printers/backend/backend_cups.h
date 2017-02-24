@@ -24,6 +24,7 @@
 #include <cups/cups.h>
 
 #include <QPrinterInfo>
+#include <QSet>
 
 class PRINTERS_DECL_EXPORT PrinterCupsBackend : public PrinterBackend
 {
@@ -126,6 +127,10 @@ private:
     int m_cupsSubscriptionId;
     mutable QMap<QString, cups_dest_t*> m_dests; // Printer name, dest.
     mutable QMap<QString, ppd_file_t*> m_ppds; // Printer name, ppd.
+    QSet<QString> m_activeRequests;
+
+private Q_SLOTS:
+    void onPrinterLoaded(QSharedPointer<Printer> printer);
 };
 
 #endif // USC_PRINTERS_CUPS_BACKEND_H

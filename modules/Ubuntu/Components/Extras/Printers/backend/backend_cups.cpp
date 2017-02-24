@@ -613,6 +613,10 @@ QString PrinterCupsBackend::defaultPrinterName()
 
 void PrinterCupsBackend::requestPrinter(const QString &printerName)
 {
+    if (m_activeRequests.contains(printerName)) {
+        return;
+    }
+
     auto thread = new QThread;
     auto loader = new PrinterLoader(printerName, m_client, m_notifier);
     loader->moveToThread(thread);
@@ -621,8 +625,12 @@ void PrinterCupsBackend::requestPrinter(const QString &printerName)
     connect(loader, SIGNAL(finished()), loader, SLOT(deleteLater()));
     connect(loader, SIGNAL(loaded(QSharedPointer<Printer>)),
             this, SIGNAL(printerLoaded(QSharedPointer<Printer>)));
+    connect(loader, SIGNAL(loaded(QSharedPointer<Printer>)),
+            this, SLOT(onPrinterLoaded(QSharedPointer<Printer>)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();
+
+    m_activeRequests << printerName;
 }
 
 void PrinterCupsBackend::requestPrinterDrivers()
@@ -706,4 +714,9 @@ ppd_file_t* PrinterCupsBackend::getPpd(const QString &name) const
         m_ppds[name] = m_client->getPpdFile(printerName, instance);
         return m_ppds[name];
     }
+}
+
+void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
+{
+    m_activeRequests.remove(printer->name());
 }
