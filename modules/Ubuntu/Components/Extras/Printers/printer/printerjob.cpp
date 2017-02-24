@@ -475,22 +475,18 @@ bool PrinterJob::deepCompare(QSharedPointer<PrinterJob> other) const
 {
     // jobId and printerName will be the same
 
-    bool changed = false;
-
-    changed |= collate() != other->collate();
-    changed |= colorModel() != other->colorModel();
-    changed |= copies() != other->copies();
-    changed |= duplexMode() != other->duplexMode();
-    changed |= landscape() != other->landscape();
-    changed |= printRange() != other->printRange();
-    changed |= printRangeMode() != other->printRangeMode();
-    changed |= quality() != other->quality();
-    changed |= reverse() != other->reverse();
-    changed |= state() != other->state();
-    changed |= title() != other->title();
-
-    // Return true if they are the same, so no change
-    return changed == false;
+    // Return true if they are the same
+    return collate() == other->collate()
+            && colorModel() == other->colorModel()
+            && copies() == other->copies()
+            && duplexMode() == other->duplexMode()
+            && landscape() == other->landscape()
+            && printRange() == other->printRange()
+            && printRangeMode() == other->printRangeMode()
+            && quality() == other->quality()
+            && reverse() == other->reverse()
+            && state() == other->state()
+            && title() == other->title();
 }
 
 void PrinterJob::updateFrom(QSharedPointer<PrinterJob> other)
