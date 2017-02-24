@@ -227,6 +227,21 @@ private Q_SLOTS:
         auto printerJobs = p.allPrinters()->data(p.allPrinters()->index(0,0), PrinterModel::Roles::JobRole).value<QAbstractItemModel*>();
         QCOMPARE(printerJobs->rowCount(), 1);
     }
+    void testLoadPrinter()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend;
+        Printers p(backend);
+
+        // Harmless to request non-existent one.
+        p.loadPrinter("foo");
+
+        // Load a printer and request it.
+        MockPrinterBackend *printerBackend = new MockPrinterBackend("printer-a");
+        auto printer = QSharedPointer<Printer>(new Printer(printerBackend));
+        backend->mockPrinterLoaded(printer);
+        p.loadPrinter("printer-a");
+        QVERIFY(backend->m_requestedPrinters.contains("printer-a"));
+    }
 };
 
 QTEST_GUILESS_MAIN(TestPrinters)

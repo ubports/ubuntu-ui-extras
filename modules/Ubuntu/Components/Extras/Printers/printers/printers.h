@@ -80,6 +80,9 @@ public Q_SLOTS:
 
     bool removePrinter(const QString &name);
 
+    // Instruct us to start (eagerly) loading a printer.
+    void loadPrinter(const QString &name);
+
 private Q_SLOTS:
     void jobAdded(QSharedPointer<PrinterJob> job);
     void printerAdded(QSharedPointer<Printer> printer);

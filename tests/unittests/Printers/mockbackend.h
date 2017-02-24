@@ -281,6 +281,13 @@ public:
         return m_defaultPrinterName;
     }
 
+
+    virtual void requestPrinter(const QString &printerName) override
+    {
+        m_requestedPrinters << printerName;
+    }
+
+
     void mockPrinterAdded(
         const QString &text,
         const QString &printerUri,
@@ -374,6 +381,7 @@ public:
     QStringList m_availablePrinterNames;
     QList<QSharedPointer<Printer>> m_availablePrinters;
     QList<QSharedPointer<PrinterJob>> m_jobs;
+    QStringList m_requestedPrinters;
 
 Q_SIGNALS:
     void printToFile(const QString &filepath, const QString &title);

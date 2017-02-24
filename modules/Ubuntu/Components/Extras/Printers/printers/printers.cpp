@@ -228,3 +228,16 @@ void Printers::printerAdded(QSharedPointer<Printer> printer)
         }
     }
 }
+
+void Printers::loadPrinter(const QString &name)
+{
+    auto printer = m_model.getPrinterByName(name);
+    if (!printer) {
+        qWarning() << Q_FUNC_INFO << "no known printer named" << name;
+        return;
+    }
+
+    if (printer->type() == PrinterEnum::PrinterType::ProxyType) {
+        m_backend->requestPrinter(name);
+    }
+}
