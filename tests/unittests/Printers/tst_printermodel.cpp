@@ -272,6 +272,30 @@ private Q_SLOTS:
         QCOMPARE(m_model->data(m_model->index(1), PrinterModel::NameRole).toString(),
                  QString("a-printer"));
     }
+    void testMakeRole()
+    {
+        PrinterBackend* backend = new MockPrinterBackend("a-printer");
+        ((MockPrinterBackend*) backend)->m_makeAndModel = "make-and-model";
+
+        auto printer = QSharedPointer<Printer>(new Printer(backend));
+        m_backend->mockPrinterLoaded(printer);
+
+        QCOMPARE(m_model->count(), 2);
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::MakeRole).toString(),
+                 QString("make-and-model"));
+    }
+    void testLocationRole()
+    {
+        PrinterBackend* backend = new MockPrinterBackend("a-printer");
+        ((MockPrinterBackend*) backend)->m_location = "test-location";
+
+        auto printer = QSharedPointer<Printer>(new Printer(backend));
+        m_backend->mockPrinterLoaded(printer);
+
+        QCOMPARE(m_model->count(), 2);
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::LocationRole).toString(),
+                 QString("test-location"));
+    }
     void testEnabledRole()
     {
         PrinterBackend* backend = new MockPrinterBackend("a-printer");
