@@ -1,0 +1,2 @@
+module Ubuntu.Components.Extras.Printers
+plugin UbuntuComponentsExtrasPrintersQml
