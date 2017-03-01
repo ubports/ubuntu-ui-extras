@@ -47,6 +47,8 @@ public:
         DuplexRole,
         SupportedDuplexModesRole,
         NameRole,
+        MakeRole,
+        LocationRole,
         EnabledRole,
         AcceptJobsRole,
         PrintQualityRole,
