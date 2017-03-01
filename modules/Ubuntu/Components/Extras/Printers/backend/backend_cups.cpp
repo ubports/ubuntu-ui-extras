@@ -281,7 +281,6 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
         } else if (option == QStringLiteral("StateReasons") && dest) {
             ret[option] = cupsGetOption("printer-state-reasons",
                                         dest->num_options, dest->options);
-            qWarning() << name << option << ret[option].toString();
         } else if (option == QStringLiteral("StateMessage") && dest) {
             auto res = m_client->printerGetAttributes(
                 name, QStringList({"printer-state-message"})
