@@ -274,6 +274,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case IsRawRole:
             ret = !printer->holdsDefinition();
             break;
+        case LastMessageRole:
+            ret = printer->lastMessage();
+            break;
         case JobRole:
             ret = QVariant::fromValue(printer->jobs());
             break;
@@ -369,6 +372,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[IsPdfRole] = "isPdf";
         names[IsLoadedRole] = "isLoaded";
         names[IsRawRole] = "isRaw";
+        names[LastMessageRole] = "lastMessage";
         names[JobRole] = "jobs";
     }
 

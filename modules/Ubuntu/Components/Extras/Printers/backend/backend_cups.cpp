@@ -213,12 +213,8 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
     cups_dest_t *dest = getDest(name);
     ppd_file_t* ppd = getPpd(name);
 
-    if (!dest || !ppd) {
-        return ret;
-    }
-
     Q_FOREACH(const QString &option, options) {
-        if (option == QStringLiteral("DefaultColorModel")) {
+        if (option == QStringLiteral("DefaultColorModel") && ppd) {
             ColorModel model;
             ppd_option_t *ppdColorModel = ppdFindOption(ppd, "ColorModel");
             if (ppdColorModel) {
@@ -231,7 +227,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(model);
-        } else if (option == QStringLiteral("DefaultPrintQuality")) {
+        } else if (option == QStringLiteral("DefaultPrintQuality") && ppd) {
             PrintQuality quality;
             Q_FOREACH(const QString opt, m_knownQualityOptions) {
                 ppd_option_t *ppdQuality = ppdFindOption(ppd, opt.toUtf8());
@@ -245,7 +241,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(quality);
-        } else if (option == QStringLiteral("SupportedPrintQualities")) {
+        } else if (option == QStringLiteral("SupportedPrintQualities") && ppd) {
             QList<PrintQuality> qualities;
             Q_FOREACH(const QString &opt, m_knownQualityOptions) {
                 ppd_option_t *qualityOpt = ppdFindOption(ppd, opt.toUtf8());
@@ -262,7 +258,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(qualities);
-        } else if (option == QStringLiteral("SupportedColorModels")) {
+        } else if (option == QStringLiteral("SupportedColorModels") && ppd) {
             QList<ColorModel> models;
             ppd_option_t *colorModels = ppdFindOption(ppd, "ColorModel");
             if (colorModels) {
@@ -277,19 +273,20 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(models);
-        } else if (option == QStringLiteral("AcceptJobs")) {
+        } else if (option == QStringLiteral("AcceptJobs") && dest) {
             // "true" if the destination is accepting new jobs, "false" if not.
             QString res = cupsGetOption("printer-is-accepting-jobs",
                                         dest->num_options, dest->options);
             ret[option] = res.contains("true");
-        } else {
-            ppd_option_t *val = ppdFindOption(ppd, option.toUtf8());
-
-            if (val) {
-                qWarning() << "asking for" << option << "returns" << val->text;
-            } else {
-                qWarning() << "option" << option << "yielded no option";
-            }
+        } else if (option == QStringLiteral("StateReasons") && dest) {
+            ret[option] = cupsGetOption("printer-state-reasons",
+                                        dest->num_options, dest->options);
+            qWarning() << name << option << ret[option].toString();
+        } else if (option == QStringLiteral("StateMessage") && dest) {
+            auto res = m_client->printerGetAttributes(
+                name, QStringList({"printer-state-message"})
+            );
+            ret[option] = res["printer-state-message"];
         }
     }
     return ret;

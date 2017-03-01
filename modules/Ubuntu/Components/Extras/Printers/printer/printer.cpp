@@ -14,22 +14,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "i18n.h"
 #include "utils.h"
 
 #include "printer.h"
 
 #include <QDebug>
+#include <QLocale>
 #include <QQmlEngine>
 
 Printer::Printer(PrinterBackend *backend, QObject *parent)
     : QObject(parent)
     , m_backend(backend)
 {
-    loadColorModel();
-    loadPrintQualities();
-    loadAcceptJobs();
+    loadAttributes();
 
     m_jobs.filterOnPrinterName(name());
+
+    QObject::connect(m_backend, &PrinterBackend::printerStateChanged,
+                     this, &Printer::onPrinterStateChanged);
 }
 
 Printer::~Printer()
@@ -45,42 +48,59 @@ void Printer::setJobModel(JobModel* jobModel)
     }
 }
 
-void Printer::loadAcceptJobs()
+void Printer::updateAcceptJobs(const QMap<QString, QVariant> &serverAttrs)
 {
-    auto opt = QStringLiteral("AcceptJobs");
-    m_acceptJobs = m_backend->printerGetOption(name(), opt).toBool();
+    m_acceptJobs = serverAttrs.value(QStringLiteral("AcceptJobs")).toBool();
 }
 
-void Printer::loadColorModel()
+void Printer::updateColorModel(const QMap<QString, QVariant> &serverAttrs)
 {
     auto defModel = QStringLiteral("DefaultColorModel");
     auto models = QStringLiteral("SupportedColorModels");
-    auto result = m_backend->printerGetOptions(
-        name(), QStringList({defModel, models})
-    );
 
-    m_defaultColorModel = result.value(defModel).value<ColorModel>();
-    m_supportedColorModels = result.value(models).value<QList<ColorModel>>();
+    m_defaultColorModel = serverAttrs.value(defModel).value<ColorModel>();
+    m_supportedColorModels = serverAttrs.value(models).value<QList<ColorModel>>();
 
     if (m_supportedColorModels.size() == 0) {
         m_supportedColorModels.append(m_defaultColorModel);
     }
 }
 
-void Printer::loadPrintQualities()
+void Printer::updatePrintQualities(const QMap<QString, QVariant> &serverAttrs)
 {
     auto defQuality = QStringLiteral("DefaultPrintQuality");
     auto qualities = QStringLiteral("SupportedPrintQualities");
-    auto result = m_backend->printerGetOptions(
-        name(), QStringList({defQuality, qualities})
-    );
 
-    m_supportedPrintQualities = result.value(qualities).value<QList<PrintQuality>>();
-    m_defaultPrintQuality = result.value(defQuality).value<PrintQuality>();
+    m_supportedPrintQualities = serverAttrs.value(qualities).value<QList<PrintQuality>>();
+    m_defaultPrintQuality = serverAttrs.value(defQuality).value<PrintQuality>();
 
     if (m_supportedPrintQualities.size() == 0) {
         m_supportedPrintQualities.append(m_defaultPrintQuality);
     }
+}
+
+void Printer::updateLastMessage(const QMap<QString, QVariant> &serverAttrs)
+{
+    m_stateReasons = serverAttrs.value(QStringLiteral("StateReasons"))
+        .toString().split(QStringLiteral(","), QString::SkipEmptyParts);
+    m_stateMessage = serverAttrs.value(QStringLiteral("StateMessage"))
+        .toString();
+}
+
+void Printer::loadAttributes()
+{
+    auto opts = QStringList({
+        QStringLiteral("AcceptJobs"), QStringLiteral("DefaultColorModel"),
+        QStringLiteral("SupportedColorModels"), QStringLiteral("DefaultPrintQuality"),
+        QStringLiteral("SupportedPrintQualities"), QStringLiteral("StateReasons"),
+        QStringLiteral("StateMessage")
+    });
+    auto result = m_backend->printerGetOptions(name(), opts);
+
+    updateAcceptJobs(result);
+    updateColorModel(result);
+    updatePrintQualities(result);
+    updateLastMessage(result);
 }
 
 ColorModel Printer::defaultColorModel() const
@@ -278,6 +298,11 @@ void Printer::setDefaultPageSize(const QPageSize &pageSize)
     m_backend->refresh();
 }
 
+QString Printer::lastMessage() const
+{
+    return m_stateMessage;
+}
+
 QAbstractItemModel* Printer::jobs()
 {
     auto ret = &m_jobs;
@@ -298,6 +323,7 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
     changed |= acceptJobs() != other->acceptJobs();
     changed |= enabled() != other->enabled();
     changed |= state() != other->state();
+    changed |= lastMessage() != other->lastMessage();
 
     // Return true if they are the same, so no change
     return changed == false;
@@ -309,7 +335,22 @@ void Printer::updateFrom(QSharedPointer<Printer> other)
     m_backend = other->m_backend;
     other->m_backend = tmp;
 
-    loadColorModel();
-    loadPrintQualities();
-    loadAcceptJobs();
+    loadAttributes();
+}
+
+void Printer::onPrinterStateChanged(
+        const QString &text, const QString &printerUri,
+        const QString &printerName, uint printerState,
+        const QString &printerStateReason, bool acceptingJobs)
+{
+    Q_UNUSED(printerUri);
+    Q_UNUSED(printerState);
+    Q_UNUSED(acceptingJobs);
+
+    if (name() != printerName) {
+        return;
+    } else {
+        m_stateReasons = QStringList({printerStateReason});
+        m_stateMessage = text;
+    }
 }

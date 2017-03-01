@@ -25,6 +25,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QtAlgorithms>
 #include <QTimeZone>
 #include <QUrl>
 
@@ -334,6 +335,72 @@ bool IppClient::printerClassSetOption(const QString &name,
     }
 
     return retval;
+}
+
+QMap<QString, QVariant> IppClient::printerGetAttributes(
+    const QString &printerName, const QStringList &attributes)
+{
+    QMap<QString, QVariant> result;
+    QList<QByteArray*> attrByteArrays;
+    ipp_t *request;
+    ipp_attribute_t *attr;
+
+    if (attributes.isEmpty()) {
+        return result;
+    }
+
+    int i;
+    size_t n = attributes.size();
+    char **attrs;
+    attrs = (char**) malloc ((n + 1) * sizeof (char *));
+    for (i = 0; i < ((int) n); i++) {
+        QByteArray *array = new QByteArray(attributes.value(i).toLocal8Bit());
+        attrByteArrays << array;
+        attrs[i] = array->data();
+    }
+    attrs[n] = NULL;
+
+    request = ippNewRequest(IPP_GET_PRINTER_ATTRIBUTES);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, QString());
+    ippAddStrings(request, IPP_TAG_OPERATION, IPP_TAG_KEYWORD,
+                  "requested-attributes", attributes.size(), NULL, attrs);
+    auto resource = getResource(CupsResource::CupsResourceRoot);
+
+    ipp_t *reply;
+    reply = cupsDoRequest(m_connection, request, resource.toUtf8());
+
+    if (!isReplyOk(reply, false)) {
+        qWarning() << Q_FUNC_INFO << "failed to get attributes"
+                   << attributes << "for printer" << printerName;
+    } else {
+        for (attr = ippFirstAttribute(reply); attr; attr = ippNextAttribute(reply)) {
+            while (attr && ippGetGroupTag(attr) != IPP_TAG_PRINTER)
+                attr = ippNextAttribute(reply);
+
+            if (!attr)
+                break;
+
+            for (; attr && ippGetGroupTag(attr) == IPP_TAG_PRINTER;
+                 attr = ippNextAttribute(reply)) {
+
+                /* TODO: Here we need to take into account that the returned
+                attributes could be lists and other things. */
+                result[ippGetName(attr)] = getAttributeValue(attr);
+
+                if (!attr)
+                    break;
+            }
+        }
+    }
+
+    if (reply)
+        ippDelete(reply);
+
+    qDeleteAll(attrByteArrays);
+    free(attrs);
+
+    return result;
 }
 
 QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)

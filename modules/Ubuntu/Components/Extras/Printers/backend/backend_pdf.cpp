@@ -59,6 +59,10 @@ QMap<QString, QVariant> PrinterPdfBackend::printerGetOptions(
             ret[option] = QVariant::fromValue(models);
         } else if (option == QLatin1String("AcceptJobs")) {
             ret[option] = true;
+        } else if (option == QLatin1String("StateReasons")) {
+            ret[option] = QLatin1String("");
+        } else if (option == QLatin1String("StateMessage")) {
+            ret[option] = QLatin1String("");
         } else {
             throw std::invalid_argument("Invalid value for PDF printer: " + option.toStdString());
         }
