@@ -312,21 +312,17 @@ QAbstractItemModel* Printer::jobs()
 
 bool Printer::deepCompare(QSharedPointer<Printer> other) const
 {
-    bool changed = false;
-
-    changed |= defaultColorModel() != other->defaultColorModel();
-    changed |= defaultPrintQuality() != other->defaultPrintQuality();
-    changed |= description() != other->description();
-    changed |= defaultDuplexMode() != other->defaultDuplexMode();
-    changed |= defaultPageSize() != other->defaultPageSize();
-    changed |= type() != other->type();
-    changed |= acceptJobs() != other->acceptJobs();
-    changed |= enabled() != other->enabled();
-    changed |= state() != other->state();
-    changed |= lastMessage() != other->lastMessage();
-
-    // Return true if they are the same, so no change
-    return changed == false;
+    // Return true if they are the same
+    return defaultColorModel() == other->defaultColorModel()
+            && defaultPrintQuality() == other->defaultPrintQuality()
+            && description() == other->description()
+            && defaultDuplexMode() == other->defaultDuplexMode()
+            && defaultPageSize() == other->defaultPageSize()
+            && type() == other->type()
+            && acceptJobs() == other->acceptJobs()
+            && enabled() == other->enabled()
+            && state() == other->state()
+            && lastMessage() == other->lastMessage();
 }
 
 void Printer::updateFrom(QSharedPointer<Printer> other)
