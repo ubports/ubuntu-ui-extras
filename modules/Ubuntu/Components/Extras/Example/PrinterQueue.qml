@@ -50,7 +50,7 @@ MainView {
                         actions: [
                             Action {
                                 iconName: model.held ? "media-playback-start" : "media-playback-pause"
-                                text: model.held ? "Release" : "Held"
+                                text: model.held ? "Release" : "Hold"
 
                                 onTriggered: {
                                     if (model.held) {
