@@ -51,6 +51,7 @@ public:
         CopiesRole,
         CreationTimeRole,
         DuplexRole,
+        HeldRole,
         ImpressionsCompletedRole,
         LandscapeRole,
         MessagesRole,

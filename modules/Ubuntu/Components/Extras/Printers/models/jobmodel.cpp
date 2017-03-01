@@ -194,6 +194,9 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
         case IdRole:
             ret = job->jobId();
             break;
+        case HeldRole:
+            ret = job->state() == PrinterEnum::JobState::Held;
+            break;
         case ImpressionsCompletedRole:
             ret = job->impressionsCompleted();
             break;
@@ -231,30 +234,7 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             ret = job->size();
             break;
         case StateRole:
-            // TODO: improve, for now have a switch
-            switch (job->state()) {
-            case PrinterEnum::JobState::Aborted:
-                ret = "Aborted";
-                break;
-            case PrinterEnum::JobState::Canceled:
-                ret = "Canceled";
-                break;
-            case PrinterEnum::JobState::Complete:
-                ret = "Compelete";
-                break;
-            case PrinterEnum::JobState::Held:
-                ret = "Held";
-                break;
-            case PrinterEnum::JobState::Pending:
-                ret = "Pending";
-                break;
-            case PrinterEnum::JobState::Processing:
-                ret = "Processing";
-                break;
-            case PrinterEnum::JobState::Stopped:
-                ret = "Stopped";
-                break;
-            }
+            ret = QVariant::fromValue<PrinterEnum::JobState>(job->state());
             break;
         case Qt::DisplayRole:
         case TitleRole:
@@ -283,6 +263,7 @@ QHash<int, QByteArray> JobModel::roleNames() const
         names[CreationTimeRole] = "creationTime";
         names[DuplexRole] = "duplexMode";
         names[ImpressionsCompletedRole] = "impressionsCompleted";
+        names[HeldRole] = "held";
         names[LandscapeRole] = "landscape";
         names[MessagesRole] = "messages";
         names[PrinterNameRole] = "printerName";

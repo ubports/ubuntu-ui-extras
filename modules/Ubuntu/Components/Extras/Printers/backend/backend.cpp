@@ -139,6 +139,18 @@ void PrinterBackend::cancelJob(const QString &name, const int jobId)
     Q_UNUSED(name);
 }
 
+void PrinterBackend::holdJob(const QString &name, const int jobId)
+{
+    Q_UNUSED(jobId);
+    Q_UNUSED(name);
+}
+
+void PrinterBackend::releaseJob(const QString &name, const int jobId)
+{
+    Q_UNUSED(jobId);
+    Q_UNUSED(name);
+}
+
 int PrinterBackend::printFileToDest(const QString &filepath,
                             const QString &title,
                             const cups_dest_t *dest)

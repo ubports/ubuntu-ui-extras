@@ -60,6 +60,7 @@ class PRINTERS_DECL_EXPORT PrinterJob : public QObject
     Q_PROPERTY(QString user READ user NOTIFY userChanged)
 
     friend class PrinterCupsBackend;
+    friend class MockPrinterBackend;
 public:
     explicit PrinterJob(QString dest,
                         PrinterBackend *backend,

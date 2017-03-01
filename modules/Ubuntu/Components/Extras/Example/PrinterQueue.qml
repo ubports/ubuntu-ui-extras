@@ -46,19 +46,38 @@ MainView {
                 }
                 delegate: ListItem {
                     height: modelLayout.height + (divider.visible ? divider.height : 0)
+                    trailingActions: ListItemActions {
+                        actions: [
+                            Action {
+                                iconName: model.held ? "media-playback-start" : "media-playback-pause"
+                                text: model.held ? "Release" : "Held"
+
+                                onTriggered: {
+                                    if (model.held) {
+                                        Printers.releaseJob(printer.name, model.id);
+                                    } else {
+                                        Printers.holdJob(printer.name, model.id);
+                                    }
+                                }
+                            },
+                            Action {
+                                iconName: "cancel"
+                                text: "Cancel"
+
+                                onTriggered: Printers.cancelJob(printer.name, model.id);
+                            }
+                        ]
+                    }
+
                     ListItemLayout {
                         id: modelLayout
                         title.text: displayName
-                        subtitle.text: "Job: " + model.id + " State: " + model.state
+                        subtitle.text: model.title + " (" + model.id + ") State: " + model.state
                                        + " Color: " + model.colorModel + " CreationTime: "
                                        + model.creationTime + " PageRange: "
                                        + model.printRange + " Messages: " + model.messages;
                         subtitle.wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         subtitle.maximumLineCount: 3
-                    }
-                    onClicked: {
-                        console.debug("Cancel:", printer.name, model.id);
-                        Printers.cancelJob(printer.name, model.id);
                     }
                 }
                 model: printer.jobs
