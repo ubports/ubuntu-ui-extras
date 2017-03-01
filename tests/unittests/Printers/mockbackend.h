@@ -40,7 +40,7 @@ public:
 
     virtual bool holdsDefinition() const override
     {
-        return true;
+        return m_holdsDefinition;
     }
 
     virtual QString printerAdd(const QString &name,
@@ -319,6 +319,10 @@ public:
         m_requestedPrinters << printerName;
     }
 
+    virtual PrinterEnum::PrinterType type() const override
+    {
+        return m_type;
+    }
 
     void mockPrinterAdded(
         const QString &text,
@@ -398,6 +402,8 @@ public:
     QMap<QString, PrinterEnum::ErrorPolicy> errorPolicies;
     QMap<QString, PrinterEnum::OperationPolicy> operationPolicies;
 
+    bool m_holdsDefinition = true;
+
     QString m_description = QString::null;
     QString m_location = QString::null;
     QString m_makeAndModel = QString::null;
@@ -414,6 +420,8 @@ public:
     QList<QSharedPointer<Printer>> m_availablePrinters;
     QList<QSharedPointer<PrinterJob>> m_jobs;
     QStringList m_requestedPrinters;
+
+    PrinterEnum::PrinterType m_type = PrinterEnum::PrinterType::ProxyType;
 
 Q_SIGNALS:
     void printToFile(const QString &filepath, const QString &title);
