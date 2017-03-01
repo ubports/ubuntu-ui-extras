@@ -68,6 +68,7 @@ public:
 
         /* Indicates that this printers has no associated PPD. */
         IsRawRole,
+        LastMessageRole,
         JobRole,
         LastRole = JobRole,
     };
