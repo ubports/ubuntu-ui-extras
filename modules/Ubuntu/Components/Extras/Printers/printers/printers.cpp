@@ -148,6 +148,16 @@ void Printers::cancelJob(const QString &printerName, const int jobId)
     m_backend->cancelJob(printerName, jobId);
 }
 
+void Printers::holdJob(const QString &printerName, const int jobId)
+{
+    m_backend->holdJob(printerName, jobId);
+}
+
+void Printers::releaseJob(const QString &printerName, const int jobId)
+{
+    m_backend->releaseJob(printerName, jobId);
+}
+
 void Printers::setDefaultPrinterName(const QString &name)
 {
     QString reply = m_backend->printerSetDefault(name);
