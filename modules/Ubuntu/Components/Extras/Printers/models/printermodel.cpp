@@ -358,7 +358,6 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[NameRole] = "name";
         names[EnabledRole] = "printerEnabled";
         names[AcceptJobsRole] = "acceptJobs";
-        names[PdfModeRole] = "pdfMode";
         names[PrintQualityRole] = "printQuality";
         names[SupportedPrintQualitiesRole] = "supportedPrintQualities";
         names[DescriptionRole] = "description";
