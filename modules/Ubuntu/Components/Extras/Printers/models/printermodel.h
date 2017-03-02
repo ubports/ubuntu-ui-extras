@@ -47,6 +47,7 @@ public:
         DuplexRole,
         SupportedDuplexModesRole,
         NameRole,
+        DeviceUriRole,
         EnabledRole,
         AcceptJobsRole,
         PdfModeRole,

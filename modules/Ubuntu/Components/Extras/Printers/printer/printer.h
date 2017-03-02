@@ -49,6 +49,7 @@ public:
     QStringList supportedDuplexStrings() const;
     PrinterEnum::DuplexMode defaultDuplexMode() const;
     QString name() const;
+    QString deviceUri() const;
     PrintQuality defaultPrintQuality() const;
     QList<PrintQuality> supportedPrintQualities() const;
     QString description() const;
@@ -92,6 +93,7 @@ private:
     void updateColorModel(const QMap<QString, QVariant> &serverAttrs);
     void updatePrintQualities(const QMap<QString, QVariant> &serverAttrs);
     void updateLastMessage(const QMap<QString, QVariant> &serverAttrs);
+    void updateDeviceUri(const QMap<QString, QVariant> &serverAttrs);
     void loadAttributes();
 
     JobFilter m_jobs;
@@ -101,6 +103,7 @@ private:
     PrintQuality m_defaultPrintQuality;
     QList<PrintQuality> m_supportedPrintQualities;
     bool m_acceptJobs;
+    QString m_deviceUri;
 
     QStringList m_stateReasons;
     QString m_stateMessage;

@@ -214,6 +214,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
             ret = printer->name();
             break;
+        case DeviceUriRole:
+            ret = printer->deviceUri();
+            break;
         case ColorModelRole:
             ret = printer->supportedColorModels().indexOf(printer->defaultColorModel());
             break;
@@ -359,6 +362,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[DuplexRole] = "duplexMode";
         names[SupportedDuplexModesRole] = "supportedDuplexModes";
         names[NameRole] = "name";
+        names[DeviceUriRole] = "deviceUri";
         names[EnabledRole] = "printerEnabled";
         names[AcceptJobsRole] = "acceptJobs";
         names[PdfModeRole] = "pdfMode";
