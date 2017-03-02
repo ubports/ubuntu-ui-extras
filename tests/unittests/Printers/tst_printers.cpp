@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QSignalSpy>
+#include <QStandardPaths>
 #include <QTest>
 
 Q_DECLARE_METATYPE(PrinterBackend*)
@@ -241,6 +242,30 @@ private Q_SLOTS:
         backend->mockPrinterLoaded(printer);
         p.loadPrinter("printer-a");
         QVERIFY(backend->m_requestedPrinters.contains("printer-a"));
+    }
+    void testPrintTestPage()
+    {
+        QStandardPaths::setTestModeEnabled(true);
+
+        MockPrinterBackend *backend = new MockPrinterBackend;
+        Printers p(backend);
+
+        // Load a printer and request it.
+        MockPrinterBackend *printerBackend = new MockPrinterBackend("printer-a");
+        auto printer = QSharedPointer<Printer>(new Printer(printerBackend));
+        backend->mockPrinterLoaded(printer);
+        p.loadPrinter("printer-a");
+
+        // Set the target url
+        auto target = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                             "cups/data/default-testpage.pdf",
+                                             QStandardPaths::LocateFile);
+
+        QSignalSpy printFileSpy(printerBackend, SIGNAL(printToFile(QString, QString)));
+        p.printTestPage("printer-a");
+        QCOMPARE(printFileSpy.count(), 1);
+        QList<QVariant> args = printFileSpy.takeFirst();
+        QCOMPARE(args.at(0).toString(), target);
     }
 };
 
