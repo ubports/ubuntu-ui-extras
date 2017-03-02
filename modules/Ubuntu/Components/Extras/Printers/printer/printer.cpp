@@ -366,9 +366,7 @@ void Printer::onPrinterStateChanged(
     Q_UNUSED(printerStateReason);
     Q_UNUSED(acceptingJobs);
 
-    if (name() != printerName) {
-        return;
-    } else {
+    if (name() == printerName) {
         m_stateMessage = text;
     }
 }
