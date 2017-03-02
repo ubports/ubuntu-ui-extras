@@ -51,7 +51,6 @@ public:
         LocationRole,
         EnabledRole,
         AcceptJobsRole,
-        PdfModeRole,
         PrintQualityRole,
         SupportedPrintQualitiesRole,
         DescriptionRole,
