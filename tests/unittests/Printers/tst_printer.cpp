@@ -60,6 +60,16 @@ private Q_SLOTS:
         m_instance->setDescription(desc);
         QCOMPARE(m_backend->infos.value(m_printerName), desc);
     }
+    void testMakeModel()
+    {
+        m_backend->m_makeAndModel = "make and model";
+        QCOMPARE(m_instance->make(), m_backend->makeAndModel());
+    }
+    void testLocation()
+    {
+        m_backend->m_location = "location";
+        QCOMPARE(m_instance->location(), m_backend->location());
+    }
     void testSupportedDuplexModes_data()
     {
         QTest::addColumn<QList<PrinterEnum::DuplexMode>>("modes");

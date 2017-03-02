@@ -166,7 +166,8 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             break;
         case ColorModelRole: {
             if (job->printer()) {
-                ret = job->printer()->supportedColorModels().at(job->colorModel()).text;
+                ColorModel m = job->printer()->supportedColorModels().at(job->colorModel());
+                ret = m.text.isEmpty() ? m.name : m.text;
             } else {
                 qWarning() << "Printer is undefined, no colorModel";
                 ret = "";
@@ -220,7 +221,8 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             break;
         case QualityRole: {
             if (job->printer()) {
-                ret = job->printer()->supportedPrintQualities().at(job->quality()).text;
+                PrintQuality q = job->printer()->supportedPrintQualities().at(job->quality());
+                ret = q.text.isEmpty() ? q.name : q.text;
             } else {
                 qWarning() << "Printer is undefined, no quality";
                 ret = "";
