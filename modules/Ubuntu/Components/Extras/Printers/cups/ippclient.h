@@ -51,6 +51,8 @@ public:
                                const QString &ppdFileName,
                                const QString &info,
                                const QString &location);
+    bool printerHoldJob(const QString &printerName, const int jobId);
+    bool printerReleaseJob(const QString &printerName, const int jobId);
     bool printerSetDefault(const QString &printerName);
     bool printerSetEnabled(const QString &printerName, const bool enabled);
     bool printerSetAcceptJobs(const QString &printerName, const bool accept,

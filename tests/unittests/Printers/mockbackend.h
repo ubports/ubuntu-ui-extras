@@ -40,7 +40,7 @@ public:
 
     virtual bool holdsDefinition() const override
     {
-        return true;
+        return m_holdsDefinition;
     }
 
     virtual QString printerAdd(const QString &name,
@@ -160,6 +160,38 @@ public:
             QSharedPointer<PrinterJob> job = m_jobs.takeAt(toRemove[i] - i);
 
             Q_EMIT jobCompleted(job->title(), "", job->printerName(), 1, "", true, job->jobId(), 1, "", "", 1);
+        }
+    }
+
+    virtual void holdJob(const QString &name, const int jobId) override
+    {
+        for (int i=0; i < m_jobs.count(); i++) {
+            QSharedPointer<PrinterJob> job = m_jobs[i];
+
+            if (job->printerName() == name && job->jobId() == jobId) {
+                auto jobHeld = QSharedPointer<PrinterJob>(new PrinterJob(job->printerName(), this, jobId));
+                jobHeld->setState(PrinterEnum::JobState::Held);
+                m_jobs.replace(0, jobHeld);
+
+                Q_EMIT jobState(job->title(), "", job->printerName(), 1, "", true, job->jobId(), 4, "", "", 1);
+                break;
+            }
+        }
+    }
+
+    virtual void releaseJob(const QString &name, const int jobId) override
+    {
+        for (int i=0; i < m_jobs.count(); i++) {
+            QSharedPointer<PrinterJob> job = m_jobs[i];
+
+            if (job->printerName() == name && job->jobId() == jobId) {
+                auto jobRelease = QSharedPointer<PrinterJob>(new PrinterJob(job->printerName(), this, jobId));
+                jobRelease->setState(PrinterEnum::JobState::Pending);
+                m_jobs.replace(0, jobRelease);
+
+                Q_EMIT jobState(job->title(), "", job->printerName(), 1, "", true, job->jobId(), 4, "", "", 1);
+                break;
+            }
         }
     }
 
@@ -287,6 +319,10 @@ public:
         m_requestedPrinters << printerName;
     }
 
+    virtual PrinterEnum::PrinterType type() const override
+    {
+        return m_type;
+    }
 
     void mockPrinterAdded(
         const QString &text,
@@ -366,6 +402,8 @@ public:
     QMap<QString, PrinterEnum::ErrorPolicy> errorPolicies;
     QMap<QString, PrinterEnum::OperationPolicy> operationPolicies;
 
+    bool m_holdsDefinition = true;
+
     QString m_description = QString::null;
     QString m_location = QString::null;
     QString m_makeAndModel = QString::null;
@@ -382,6 +420,8 @@ public:
     QList<QSharedPointer<Printer>> m_availablePrinters;
     QList<QSharedPointer<PrinterJob>> m_jobs;
     QStringList m_requestedPrinters;
+
+    PrinterEnum::PrinterType m_type = PrinterEnum::PrinterType::ProxyType;
 
 Q_SIGNALS:
     void printToFile(const QString &filepath, const QString &title);

@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QSignalSpy>
+#include <QStandardPaths>
 #include <QTest>
 
 Q_DECLARE_METATYPE(PrinterBackend*)
@@ -139,6 +140,58 @@ private Q_SLOTS:
         QCOMPARE(args.at(1).toInt(), 0);
         QCOMPARE(args.at(2).toInt(), 0);
     }
+    void testHoldJob()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend;
+        JobModel *model = new JobModel(backend);
+        Printers p(backend);
+
+        // Add one.
+        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend));
+        backend->m_jobs << job;
+        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+
+        // Check it was added
+        QCOMPARE(model->count(), 1);
+        QCOMPARE(job->state(), PrinterEnum::JobState::Pending);
+
+        // Setup the spy
+        QSignalSpy dataChangedSpy(model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
+
+        // Hold the job
+        p.holdJob(job->printerName(), job->jobId());
+
+        // Check item was removed
+        QTRY_COMPARE(dataChangedSpy.count(), 1);
+        QCOMPARE(job->state(), PrinterEnum::JobState::Held);
+    }
+    void testReleaseJob()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend;
+        JobModel *model = new JobModel(backend);
+        Printers p(backend);
+
+        // Add one.
+        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend));
+        backend->m_jobs << job;
+        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+
+        p.holdJob(job->printerName(), job->jobId());
+
+        // Check it was added and is in held state
+        QCOMPARE(model->count(), 1);
+        QCOMPARE(job->state(), PrinterEnum::JobState::Held);
+
+        // Setup the spy
+        QSignalSpy dataChangedSpy(model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
+
+        // Release the job
+        p.releaseJob(job->printerName(), job->jobId());
+
+        // Check item was removed
+        QTRY_COMPARE(dataChangedSpy.count(), 1);
+        QCOMPARE(job->state(), PrinterEnum::JobState::Pending);
+    }
     void testPrinterRemove()
     {
         // Load the backend with a printer
@@ -241,6 +294,30 @@ private Q_SLOTS:
         backend->mockPrinterLoaded(printer);
         p.loadPrinter("printer-a");
         QVERIFY(backend->m_requestedPrinters.contains("printer-a"));
+    }
+    void testPrintTestPage()
+    {
+        QStandardPaths::setTestModeEnabled(true);
+
+        MockPrinterBackend *backend = new MockPrinterBackend;
+        Printers p(backend);
+
+        // Load a printer and request it.
+        MockPrinterBackend *printerBackend = new MockPrinterBackend("printer-a");
+        auto printer = QSharedPointer<Printer>(new Printer(printerBackend));
+        backend->mockPrinterLoaded(printer);
+        p.loadPrinter("printer-a");
+
+        // Set the target url
+        auto target = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                             "cups/data/default-testpage.pdf",
+                                             QStandardPaths::LocateFile);
+
+        QSignalSpy printFileSpy(printerBackend, SIGNAL(printToFile(QString, QString)));
+        p.printTestPage("printer-a");
+        QCOMPARE(printFileSpy.count(), 1);
+        QList<QVariant> args = printFileSpy.takeFirst();
+        QCOMPARE(args.at(0).toString(), target);
     }
 };
 

@@ -174,6 +174,30 @@ bool IppClient::printerAddWithPpdFile(const QString &printerName,
     return postRequest(request, ppdFileName.toUtf8(), CupsResourceAdmin);
 }
 
+bool IppClient::printerHoldJob(const QString &printerName, const int jobId)
+{
+    ipp_t *request = ippNewRequest(IPP_HOLD_JOB);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+
+    ippAddInteger(request, IPP_TAG_OPERATION, IPP_TAG_INTEGER,
+                  "job-id", jobId);
+
+    return sendRequest(request, CupsResourceJobs);
+}
+
+bool IppClient::printerReleaseJob(const QString &printerName, const int jobId)
+{
+    ipp_t *request = ippNewRequest(IPP_RELEASE_JOB);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+
+    ippAddInteger(request, IPP_TAG_OPERATION, IPP_TAG_INTEGER,
+                  "job-id", jobId);
+
+    return sendRequest(request, CupsResourceJobs);
+}
+
 bool IppClient::printerSetDefault(const QString &printerName)
 {
     return sendNewSimpleRequest(CUPS_SET_DEFAULT, printerName.toUtf8(),
@@ -410,11 +434,10 @@ QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)
 
     // Construct request
     request = ippNewRequest(IPP_GET_JOB_ATTRIBUTES);
+
     QString uri = QStringLiteral("ipp://localhost/jobs/") + QString::number(jobId);
-    qDebug() << "URI:" << uri;
-
-    ippAddString(request, IPP_TAG_OPERATION, IPP_TAG_URI, "job-uri", NULL, uri.toStdString().data());
-
+    ippAddString(request, IPP_TAG_OPERATION, IPP_TAG_URI,
+                 "job-uri", NULL, uri.toStdString().data());
 
     // Send request and construct reply
     ipp_t *reply;

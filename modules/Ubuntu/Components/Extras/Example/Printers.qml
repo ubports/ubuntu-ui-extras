@@ -200,6 +200,17 @@ MainView {
                                 selectedIndex = printer.printQuality
                         }
                     }
+
+                    ListItems.SingleControl {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        control: Button {
+                            text: "Print test page"
+                            onClicked: Printers.printTestPage(printer.name)
+                        }
+                    }
                 }
             }
         }
