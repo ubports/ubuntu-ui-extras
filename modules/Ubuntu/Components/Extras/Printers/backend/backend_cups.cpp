@@ -40,6 +40,7 @@ PrinterCupsBackend::PrinterCupsBackend(IppClient *client, QPrinterInfo info,
     , m_knownQualityOptions({
         "Quality", "PrintQuality", "HPPrintQuality", "StpQuality",
         "OutputMode",})
+    , m_extendedAttributeNames({"StateMessage", "DeviceUri", "IsShared"})
     , m_client(client)
     , m_info(info)
     , m_notifier(notifier)
@@ -213,12 +214,24 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
     cups_dest_t *dest = getDest(name);
     ppd_file_t* ppd = getPpd(name);
 
-    if (!dest || !ppd) {
-        return ret;
+    // Used to store extended attributes, which we should request maximum once.
+    QMap<QString, QVariant> extendedAttributesResults;
+
+    /* Goes through known extended attributes. If one is being asked for,
+    ask for all of them right away. */
+    Q_FOREACH(const QString &extendedOption, m_extendedAttributeNames) {
+        if (options.contains(extendedOption)) {
+            extendedAttributesResults = m_client->printerGetAttributes(
+                name, QStringList({
+                    "device-uri", "printer-uri-supported",
+                    "printer-state-message"})
+            );
+            break;
+        }
     }
 
     Q_FOREACH(const QString &option, options) {
-        if (option == QStringLiteral("DefaultColorModel")) {
+        if (option == QStringLiteral("DefaultColorModel") && ppd) {
             ColorModel model;
             ppd_option_t *ppdColorModel = ppdFindOption(ppd, "ColorModel");
             if (ppdColorModel) {
@@ -231,7 +244,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(model);
-        } else if (option == QStringLiteral("DefaultPrintQuality")) {
+        } else if (option == QStringLiteral("DefaultPrintQuality") && ppd) {
             PrintQuality quality;
             Q_FOREACH(const QString opt, m_knownQualityOptions) {
                 ppd_option_t *ppdQuality = ppdFindOption(ppd, opt.toUtf8());
@@ -245,7 +258,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(quality);
-        } else if (option == QStringLiteral("SupportedPrintQualities")) {
+        } else if (option == QStringLiteral("SupportedPrintQualities") && ppd) {
             QList<PrintQuality> qualities;
             Q_FOREACH(const QString &opt, m_knownQualityOptions) {
                 ppd_option_t *qualityOpt = ppdFindOption(ppd, opt.toUtf8());
@@ -262,7 +275,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(qualities);
-        } else if (option == QStringLiteral("SupportedColorModels")) {
+        } else if (option == QStringLiteral("SupportedColorModels") && ppd) {
             QList<ColorModel> models;
             ppd_option_t *colorModels = ppdFindOption(ppd, "ColorModel");
             if (colorModels) {
@@ -277,18 +290,24 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
                 }
             }
             ret[option] = QVariant::fromValue(models);
-        } else if (option == QStringLiteral("AcceptJobs")) {
+        } else if (option == QStringLiteral("AcceptJobs") && dest) {
             // "true" if the destination is accepting new jobs, "false" if not.
             QString res = cupsGetOption("printer-is-accepting-jobs",
                                         dest->num_options, dest->options);
             ret[option] = res.contains("true");
-        } else {
-            ppd_option_t *val = ppdFindOption(ppd, option.toUtf8());
-
-            if (val) {
-                qWarning() << "asking for" << option << "returns" << val->text;
+        } else if (option == QStringLiteral("StateReasons") && dest) {
+            ret[option] = cupsGetOption("printer-state-reasons",
+                                        dest->num_options, dest->options);
+        } else if (option == QStringLiteral("StateMessage")) {
+            ret[option] = extendedAttributesResults["printer-state-message"];
+        } else if (option == QStringLiteral("DeviceUri")) {
+            auto res = extendedAttributesResults;
+            if (!res["device-uri"].toString().isEmpty()) {
+                ret[option] = res["device-uri"];
+            } else if (res["printer-uri-supported"].toString().isEmpty()) {
+                ret[option] = res["printer-uri-supported"];
             } else {
-                qWarning() << "option" << option << "yielded no option";
+                ret[option] = QString();
             }
         }
     }
@@ -728,6 +747,11 @@ ppd_file_t* PrinterCupsBackend::getPpd(const QString &name) const
         m_ppds[name] = m_client->getPpdFile(printerName, instance);
         return m_ppds[name];
     }
+}
+
+bool PrinterCupsBackend::isExtendedAttribute(const QString &attributeName) const
+{
+    return m_extendedAttributeNames.contains(attributeName);
 }
 
 void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)

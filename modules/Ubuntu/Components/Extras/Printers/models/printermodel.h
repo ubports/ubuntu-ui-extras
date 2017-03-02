@@ -47,6 +47,7 @@ public:
         DuplexRole,
         SupportedDuplexModesRole,
         NameRole,
+        DeviceUriRole,
         MakeRole,
         LocationRole,
         EnabledRole,
@@ -69,6 +70,7 @@ public:
 
         /* Indicates that this printers has no associated PPD. */
         IsRawRole,
+        LastMessageRole,
         JobRole,
         LastRole = JobRole,
     };

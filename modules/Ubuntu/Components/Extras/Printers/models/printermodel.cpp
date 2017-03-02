@@ -214,6 +214,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
             ret = printer->name();
             break;
+        case DeviceUriRole:
+            ret = printer->deviceUri();
+            break;
         case MakeRole:
             ret = printer->make();
             break;
@@ -279,6 +282,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
             break;
         case IsRawRole:
             ret = !printer->holdsDefinition();
+            break;
+        case LastMessageRole:
+            ret = printer->lastMessage();
             break;
         case JobRole:
             ret = QVariant::fromValue(printer->jobs());
@@ -362,6 +368,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[DuplexRole] = "duplexMode";
         names[SupportedDuplexModesRole] = "supportedDuplexModes";
         names[NameRole] = "name";
+        names[DeviceUriRole] = "deviceUri";
         names[MakeRole] = "make";
         names[EnabledRole] = "printerEnabled";
         names[AcceptJobsRole] = "acceptJobs";
@@ -376,6 +383,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[IsPdfRole] = "isPdf";
         names[IsLoadedRole] = "isLoaded";
         names[IsRawRole] = "isRaw";
+        names[LastMessageRole] = "lastMessage";
         names[JobRole] = "jobs";
     }
 

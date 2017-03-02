@@ -63,6 +63,9 @@ public:
     ppd_file_t* getPpdFile(const QString &name, const QString &instance) const;
     cups_dest_t* getDest(const QString &name, const QString &instance) const;
 
+    // Fetch more attributes, as normally just a small subset is fetched.
+    QMap<QString, QVariant> printerGetAttributes(const QString &printerName,
+        const QStringList &attributes);
     QMap<QString, QVariant> printerGetJobAttributes(const int jobId);
 
     QString getLastError() const;
