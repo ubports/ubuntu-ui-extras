@@ -107,7 +107,6 @@ private:
     bool m_acceptJobs;
     QString m_deviceUri;
 
-    QStringList m_stateReasons;
     QString m_stateMessage;
 };
 

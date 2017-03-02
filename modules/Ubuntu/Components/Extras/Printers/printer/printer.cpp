@@ -81,10 +81,7 @@ void Printer::updatePrintQualities(const QMap<QString, QVariant> &serverAttrs)
 
 void Printer::updateLastMessage(const QMap<QString, QVariant> &serverAttrs)
 {
-    m_stateReasons = serverAttrs.value(QStringLiteral("StateReasons"))
-        .toString().split(QStringLiteral(","), QString::SkipEmptyParts);
-    m_stateMessage = serverAttrs.value(QStringLiteral("StateMessage"))
-        .toString();
+    m_stateMessage = serverAttrs.value(QStringLiteral("StateMessage")).toString();
 }
 
 void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
@@ -95,10 +92,13 @@ void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
 void Printer::loadAttributes()
 {
     auto opts = QStringList({
-        QStringLiteral("AcceptJobs"), QStringLiteral("DefaultColorModel"),
-        QStringLiteral("SupportedColorModels"), QStringLiteral("DefaultPrintQuality"),
-        QStringLiteral("SupportedPrintQualities"), QStringLiteral("StateReasons"),
-        QStringLiteral("StateMessage"), QStringLiteral("DeviceUri")
+        QStringLiteral("AcceptJobs"),
+        QStringLiteral("DefaultColorModel"),
+        QStringLiteral("SupportedColorModels"),
+        QStringLiteral("DefaultPrintQuality"),
+        QStringLiteral("SupportedPrintQualities"),
+        QStringLiteral("StateMessage"),
+        QStringLiteral("DeviceUri")
     });
     auto result = m_backend->printerGetOptions(name(), opts);
 
@@ -362,12 +362,12 @@ void Printer::onPrinterStateChanged(
 {
     Q_UNUSED(printerUri);
     Q_UNUSED(printerState);
+    Q_UNUSED(printerStateReason);
     Q_UNUSED(acceptingJobs);
 
     if (name() != printerName) {
         return;
     } else {
-        m_stateReasons = QStringList({printerStateReason});
         m_stateMessage = text;
     }
 }
