@@ -50,9 +50,11 @@ public:
     PrinterEnum::DuplexMode defaultDuplexMode() const;
     QString name() const;
     QString deviceUri() const;
+    QString make() const;
     PrintQuality defaultPrintQuality() const;
     QList<PrintQuality> supportedPrintQualities() const;
     QString description() const;
+    QString location() const;
     QPageSize defaultPageSize() const;
     QList<QPageSize> supportedPageSizes() const;
     PrinterEnum::AccessControl accessControl() const;

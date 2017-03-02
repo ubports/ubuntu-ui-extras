@@ -166,9 +166,19 @@ QString Printer::deviceUri() const
     return m_deviceUri;
 }
 
+QString Printer::make() const
+{
+    return m_backend->makeAndModel();
+}
+
 QString Printer::description() const
 {
     return m_backend->description();
+}
+
+QString Printer::location() const
+{
+    return m_backend->location();
 }
 
 QPageSize Printer::defaultPageSize() const

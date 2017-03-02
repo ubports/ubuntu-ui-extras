@@ -58,8 +58,6 @@ class PRINTERS_DECL_EXPORT PrinterJob : public QObject
     Q_PROPERTY(PrinterEnum::JobState state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QString user READ user NOTIFY userChanged)
-
-    friend class PrinterCupsBackend;
 public:
     explicit PrinterJob(QString dest,
                         PrinterBackend *backend,
@@ -100,28 +98,28 @@ public Q_SLOTS:
     Q_INVOKABLE void printFile(const QUrl &url);
     void setCollate(const bool collate);
     void setColorModel(const int colorModel);
+    void setCompletedTime(const QDateTime &completedTime);
     void setCopies(const int copies);
+    void setCreationTime(const QDateTime &creationTime);
     void setDuplexMode(const int duplexMode);
     void setImpressionsCompleted(const int &impressionsCompleted);
+    void setIsTwoSided(const bool isTwoSided);
     void setLandscape(const bool landscape);
+    void setMessages(const QStringList &messages);
     void setPrinter(QSharedPointer<Printer> printer);
     void setPrintRange(const QString &printRange);
     void setPrintRangeMode(const PrinterEnum::PrintRange printRangeMode);
+    void setProcessingTime(const QDateTime &processingTime);
     void setQuality(const int quality);
     void setReverse(const bool reverse);
+    void setSize(const int size);
+    void setState(const PrinterEnum::JobState &state);
     void setTitle(const QString &title);
+    void setUser(const QString &user);
 
     void updateFrom(QSharedPointer<PrinterJob> other);
 private Q_SLOTS:
     void loadDefaults();
-    void setCompletedTime(const QDateTime &completedTime);
-    void setCreationTime(const QDateTime &creationTime);
-    void setIsTwoSided(const bool isTwoSided);
-    void setMessages(const QStringList &messages);
-    void setProcessingTime(const QDateTime &processingTime);
-    void setSize(const int size);
-    void setState(const PrinterEnum::JobState &state);
-    void setUser(const QString &user);
 Q_SIGNALS:
     void collateChanged();
     void colorModelChanged();

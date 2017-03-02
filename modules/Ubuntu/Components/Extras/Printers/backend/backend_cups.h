@@ -71,6 +71,8 @@ public:
                                   const PrinterJob *options) override;
 
     virtual void cancelJob(const QString &name, const int jobId) override;
+    virtual void holdJob(const QString &name, const int jobId) override;
+    virtual void releaseJob(const QString &name, const int jobId) override;
     virtual int printFileToDest(const QString &filepath,
                                 const QString &title,
                                 const cups_dest_t *dest) override;

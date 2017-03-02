@@ -367,6 +367,20 @@ void PrinterCupsBackend::cancelJob(const QString &name, const int jobId)
     }
 }
 
+void PrinterCupsBackend::holdJob(const QString &name, const int jobId)
+{
+    if (!m_client->printerHoldJob(name, jobId)) {
+        qWarning() << "Failed to hold job:" << jobId << "for" << name;
+    }
+}
+
+void PrinterCupsBackend::releaseJob(const QString &name, const int jobId)
+{
+    if (!m_client->printerReleaseJob(name, jobId)) {
+        qWarning() << "Failed to release job:" << jobId << "for" << name;
+    }
+}
+
 int PrinterCupsBackend::printFileToDest(const QString &filepath,
                                         const QString &title,
                                         const cups_dest_t *dest)
