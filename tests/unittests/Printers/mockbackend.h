@@ -163,6 +163,38 @@ public:
         }
     }
 
+    virtual void holdJob(const QString &name, const int jobId) override
+    {
+        for (int i=0; i < m_jobs.count(); i++) {
+            QSharedPointer<PrinterJob> job = m_jobs[i];
+
+            if (job->printerName() == name && job->jobId() == jobId) {
+                auto jobHeld = QSharedPointer<PrinterJob>(new PrinterJob(job->printerName(), this, jobId));
+                jobHeld->setState(PrinterEnum::JobState::Held);
+                m_jobs.replace(0, jobHeld);
+
+                Q_EMIT jobState(job->title(), "", job->printerName(), 1, "", true, job->jobId(), 4, "", "", 1);
+                break;
+            }
+        }
+    }
+
+    virtual void releaseJob(const QString &name, const int jobId) override
+    {
+        for (int i=0; i < m_jobs.count(); i++) {
+            QSharedPointer<PrinterJob> job = m_jobs[i];
+
+            if (job->printerName() == name && job->jobId() == jobId) {
+                auto jobRelease = QSharedPointer<PrinterJob>(new PrinterJob(job->printerName(), this, jobId));
+                jobRelease->setState(PrinterEnum::JobState::Pending);
+                m_jobs.replace(0, jobRelease);
+
+                Q_EMIT jobState(job->title(), "", job->printerName(), 1, "", true, job->jobId(), 4, "", "", 1);
+                break;
+            }
+        }
+    }
+
     virtual int printFileToDest(const QString &filepath,
                                 const QString &title,
                                 const cups_dest_t *dest) override
