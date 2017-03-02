@@ -51,17 +51,17 @@ MainView {
                 }
             }
 
-            Component.onCompleted: {
-                printer.description;
-            }
-
             Flickable {
                 id: printerFlickable
                 anchors.fill: parent
-
+                contentHeight: contentItem.childrenRect.height
                 Loader {
                     id: printerPageBitsLoader
-                    anchors.fill: parent
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+
                     sourceComponent: printer.isLoaded ? printerPageLoaded : printerPageNotYetLoaded
                 }
             }
@@ -70,7 +70,7 @@ MainView {
                 id: printerPageLoaded
 
                 Column {
-                    spacing: units.gu(2)
+                    height: childrenRect.height + anchors.topMargin
                     anchors {
                         top: parent.top
                         topMargin: units.gu(2)
@@ -88,6 +88,31 @@ MainView {
                         control: Switch {
                             checked: printer.printerEnabled
                             onCheckedChanged: printer.printerEnabled = checked
+                        }
+                    }
+
+                    ListItems.SingleValue {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        text: "Status"
+
+                        value: {
+                            var state;
+                            if (printer.state == PrinterEnum.IdleState) {
+                                state = i18n.tr("Idle");
+                            } else if (printer.state == PrinterEnum.AbortedState) {
+                                state = i18n.tr("Aborted");
+                            } else if (printer.state == PrinterEnum.ActiveState) {
+                                state = i18n.tr("Active");
+                            } else if (printer.state == PrinterEnum.ErrorState) {
+                                state = i18n.tr("Stopped");
+                            }
+                            return "%1 — %2"
+                                .arg(state)
+                                .arg(printer.lastMessage ?
+                                     printer.lastMessage : i18n.tr("No messages"));
                         }
                     }
 
@@ -114,20 +139,12 @@ MainView {
                         onClicked: pageStack.push(jobPage, { printer: printer })
                     }
 
-                    Label {
+                    ListItems.Standard {
                         anchors {
                             left: parent.left
                             right: parent.right
-                            margins: units.gu(2)
                         }
                         text: "Description"
-                    }
-
-                    ListItems.SingleControl {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
 
                         control: TextField {
                            anchors {
@@ -210,6 +227,15 @@ MainView {
                             text: "Print test page"
                             onClicked: Printers.printTestPage(printer.name)
                         }
+                    }
+
+                    ListItems.SingleValue {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        text: "Device URI"
+                        value: printer.deviceUri
                     }
                 }
             }
@@ -349,7 +375,10 @@ MainView {
 
                         ProgressionSlot {}
                     }
-                    onClicked: pageStack.push(printerPage, { printer: model })
+                    onClicked: {
+                        Printers.loadPrinter(model.name);
+                        pageStack.push(printerPage, { printer: model });
+                    }
                 }
             }
         }
