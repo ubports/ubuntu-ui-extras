@@ -63,6 +63,8 @@ public:
 public Q_SLOTS:
     PrinterJob* createJob(const QString &printerName);
     void cancelJob(const QString &printerName, const int jobId);
+    void holdJob(const QString &printerName, const int jobId);
+    void releaseJob(const QString &printerName, const int jobId);
 
     /* Instructs us to start loading drivers and what have you. In most cases,
     the user is likely to merely configure existing printers/jobs. Loading
