@@ -22,6 +22,8 @@ add_test(tst_printerjob testPrintersPrinterJob)
 add_executable(testPrintersPrinters tst_printers.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersPrinters UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
 add_test(tst_printers testPrintersPrinters)
+set_tests_properties(tst_printers PROPERTIES
+    ENVIRONMENT "XDG_DATA_DIRS=${CMAKE_CURRENT_SOURCE_DIR}/testdata")
 
 add_executable(testPrintersPrinterModel tst_printermodel.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersPrinterModel UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
