@@ -122,7 +122,10 @@ private:
     QString getPrinterInstance(const QString &name) const;
     cups_dest_t* getDest(const QString &name) const;
     ppd_file_t* getPpd(const QString &name) const;
+    bool isExtendedAttribute(const QString &attributeName) const;
+
     const QStringList m_knownQualityOptions;
+    const QStringList m_extendedAttributeNames;
     IppClient *m_client;
     QPrinterInfo m_info;
     OrgCupsCupsdNotifierInterface *m_notifier;

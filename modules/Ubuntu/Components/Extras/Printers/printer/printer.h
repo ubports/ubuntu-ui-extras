@@ -49,6 +49,7 @@ public:
     QStringList supportedDuplexStrings() const;
     PrinterEnum::DuplexMode defaultDuplexMode() const;
     QString name() const;
+    QString deviceUri() const;
     QString make() const;
     PrintQuality defaultPrintQuality() const;
     QList<PrintQuality> supportedPrintQualities() const;
@@ -61,6 +62,7 @@ public:
     PrinterEnum::State state() const;
     bool acceptJobs() const;
     bool holdsDefinition() const;
+    QString lastMessage() const;
     QAbstractItemModel* jobs();
 
     PrinterEnum::PrinterType type() const;
@@ -81,10 +83,20 @@ public:
 public Q_SLOTS:
     int printFile(const QString &filepath, const PrinterJob *options);
 
+private Q_SLOTS:
+    void onPrinterStateChanged(
+        const QString &text, const QString &printerUri,
+        const QString &printerName, uint printerState,
+        const QString &printerStateReason, bool acceptingJobs
+    );
+
 private:
-    void loadAcceptJobs();
-    void loadColorModel();
-    void loadPrintQualities();
+    void updateAcceptJobs(const QMap<QString, QVariant> &serverAttrs);
+    void updateColorModel(const QMap<QString, QVariant> &serverAttrs);
+    void updatePrintQualities(const QMap<QString, QVariant> &serverAttrs);
+    void updateLastMessage(const QMap<QString, QVariant> &serverAttrs);
+    void updateDeviceUri(const QMap<QString, QVariant> &serverAttrs);
+    void loadAttributes();
 
     JobFilter m_jobs;
     PrinterBackend *m_backend;
@@ -93,6 +105,9 @@ private:
     PrintQuality m_defaultPrintQuality;
     QList<PrintQuality> m_supportedPrintQualities;
     bool m_acceptJobs;
+    QString m_deviceUri;
+
+    QString m_stateMessage;
 };
 
 #endif // USC_PRINTERS_PRINTER_H

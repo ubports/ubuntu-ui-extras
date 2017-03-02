@@ -284,6 +284,32 @@ private Q_SLOTS:
         QCOMPARE(m_model->data(m_model->index(1), PrinterModel::MakeRole).toString(),
                  QString("make-and-model"));
     }
+    void testDeviceUriRole()
+    {
+        MockPrinterBackend* backend = new MockPrinterBackend("a-printer");
+        backend->printerOptions["a-printer"].insert(
+            "DeviceUri", "/dev/null"
+        );
+
+        auto printerA = QSharedPointer<Printer>(new Printer(backend));
+        m_backend->mockPrinterLoaded(printerA);
+
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::DeviceUriRole).toString(),
+                 (QString) "/dev/null");
+    }
+    void testLastMessageRole()
+    {
+        MockPrinterBackend* backend = new MockPrinterBackend("a-printer");
+        backend->printerOptions["a-printer"].insert(
+            "StateMessage", "died"
+        );
+
+        auto printerA = QSharedPointer<Printer>(new Printer(backend));
+        m_backend->mockPrinterLoaded(printerA);
+
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::LastMessageRole).toString(),
+                 (QString) "died");
+    }
     void testLocationRole()
     {
         PrinterBackend* backend = new MockPrinterBackend("a-printer");
