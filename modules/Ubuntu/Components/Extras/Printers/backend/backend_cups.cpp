@@ -211,7 +211,6 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
 {
     QMap<QString, QVariant> ret;
 
-
     cups_dest_t *dest = getDest(name);
     ppd_file_t* ppd = getPpd(name);
 
