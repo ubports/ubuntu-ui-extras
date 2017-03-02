@@ -245,6 +245,15 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
         case UserRole:
             ret = job->user();
             break;
+        case LastStateMessageRole: {
+            if (job->printer()) {
+                ret = job->printer()->lastMessage();
+            } else {
+                ret = "";
+            }
+            break;
+        }
+
         }
     }
 
