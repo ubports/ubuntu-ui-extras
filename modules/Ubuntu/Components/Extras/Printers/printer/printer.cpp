@@ -343,7 +343,8 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
             && acceptJobs() == other->acceptJobs()
             && enabled() == other->enabled()
             && state() == other->state()
-            && lastMessage() == other->lastMessage();
+            && lastMessage() == other->lastMessage()
+            && deviceUri() == other->deviceUri();
 }
 
 void Printer::updateFrom(QSharedPointer<Printer> other)
