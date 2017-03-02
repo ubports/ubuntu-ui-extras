@@ -15,6 +15,7 @@
  */
 
 #include "backend/backend_cups.h"
+#include "i18n.h"
 #include "printers/printers.h"
 #include "cupsdnotifier.h" // Note: this file was generated.
 
@@ -252,4 +253,29 @@ void Printers::loadPrinter(const QString &name)
     if (printer->type() == PrinterEnum::PrinterType::ProxyType) {
         m_backend->requestPrinter(name);
     }
+}
+
+void Printers::printTestPage(const QString &name)
+{
+
+    auto printer = m_model.getPrinterByName(name);
+    if (!printer) {
+        qWarning() << Q_FUNC_INFO << "no known printer named" << name;
+        return;
+    }
+
+    auto page = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                       "cups/data/default-testpage.pdf",
+                                       QStandardPaths::LocateFile);
+
+    if (page.isEmpty()) {
+        qCritical() << Q_FUNC_INFO << "Could not find test page.";
+        return;
+    }
+
+    auto job = new PrinterJob(name, m_backend);
+    job->setPrinter(printer);
+    job->setTitle(__("Test page"));
+    job->printFile(QUrl::fromLocalFile(page));
+    job->deleteLater();
 }

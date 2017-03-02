@@ -85,6 +85,8 @@ public Q_SLOTS:
     // Instruct us to start (eagerly) loading a printer.
     void loadPrinter(const QString &name);
 
+    void printTestPage(const QString &name);
+
 private Q_SLOTS:
     void jobAdded(QSharedPointer<PrinterJob> job);
     void printerAdded(QSharedPointer<Printer> printer);
