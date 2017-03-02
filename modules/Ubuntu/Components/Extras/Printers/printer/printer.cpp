@@ -135,9 +135,19 @@ QString Printer::name() const
     return m_backend->printerName();
 }
 
+QString Printer::make() const
+{
+    return m_backend->makeAndModel();
+}
+
 QString Printer::description() const
 {
     return m_backend->description();
+}
+
+QString Printer::location() const
+{
+    return m_backend->location();
 }
 
 QPageSize Printer::defaultPageSize() const

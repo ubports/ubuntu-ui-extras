@@ -214,6 +214,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
             ret = printer->name();
             break;
+        case MakeRole:
+            ret = printer->make();
+            break;
         case ColorModelRole:
             ret = printer->supportedColorModels().indexOf(printer->defaultColorModel());
             break;
@@ -247,6 +250,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
             break;
         case DescriptionRole:
             ret = printer->description();
+            break;
+        case LocationRole:
+            ret = printer->location();
             break;
         case PageSizeRole:
             ret = printer->defaultPageSize().name();
@@ -356,12 +362,14 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[DuplexRole] = "duplexMode";
         names[SupportedDuplexModesRole] = "supportedDuplexModes";
         names[NameRole] = "name";
+        names[MakeRole] = "make";
         names[EnabledRole] = "printerEnabled";
         names[AcceptJobsRole] = "acceptJobs";
         names[PdfModeRole] = "pdfMode";
         names[PrintQualityRole] = "printQuality";
         names[SupportedPrintQualitiesRole] = "supportedPrintQualities";
         names[DescriptionRole] = "description";
+        names[LocationRole] = "location";
         names[PageSizeRole] = "pageSize";
         names[SupportedPageSizesRole] = "supportedPageSizes";
         names[StateRole] = "state";
