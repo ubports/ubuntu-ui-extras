@@ -377,6 +377,11 @@ QMap<QString, QVariant> IppClient::printerGetAttributes(
     size_t n = attributes.size();
     char **attrs;
     attrs = (char**) malloc ((n + 1) * sizeof (char *));
+
+    /* This is some trickery to compensate for a lack of C array/pointer
+    skills. The VLA attrs gets the underlying data structure of a QByterArray
+    on the heap. When cups is done with it, and in the end of this method,
+    the QByteArrays are deleted, and attrs is freed. */
     for (i = 0; i < ((int) n); i++) {
         QByteArray *array = new QByteArray(attributes.value(i).toLocal8Bit());
         attrByteArrays << array;
