@@ -281,11 +281,22 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
         } else if (option == QStringLiteral("StateReasons") && dest) {
             ret[option] = cupsGetOption("printer-state-reasons",
                                         dest->num_options, dest->options);
-        } else if (option == QStringLiteral("StateMessage") && dest) {
+        } else if (option == QStringLiteral("StateMessage")) {
             auto res = m_client->printerGetAttributes(
                 name, QStringList({"printer-state-message"})
             );
             ret[option] = res["printer-state-message"];
+        } else if (option == QStringLiteral("DeviceUri")) {
+            auto res = m_client->printerGetAttributes(
+                name, QStringList({"printer-uri-supported", "device-uri"})
+            );
+            if (!res["device-uri"].toString().isEmpty()) {
+                ret[option] = res["device-uri"];
+            } else if (res["printer-uri-supported"].toString().isEmpty()) {
+                ret[option] = res["printer-uri-supported"];
+            } else {
+                ret[option] = QString();
+            }
         }
     }
     return ret;

@@ -87,13 +87,18 @@ void Printer::updateLastMessage(const QMap<QString, QVariant> &serverAttrs)
         .toString();
 }
 
+void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
+{
+    m_deviceUri = serverAttrs.value(QStringLiteral("DeviceUri")).toString();
+}
+
 void Printer::loadAttributes()
 {
     auto opts = QStringList({
         QStringLiteral("AcceptJobs"), QStringLiteral("DefaultColorModel"),
         QStringLiteral("SupportedColorModels"), QStringLiteral("DefaultPrintQuality"),
         QStringLiteral("SupportedPrintQualities"), QStringLiteral("StateReasons"),
-        QStringLiteral("StateMessage")
+        QStringLiteral("StateMessage"), QStringLiteral("DeviceUri")
     });
     auto result = m_backend->printerGetOptions(name(), opts);
 
@@ -101,6 +106,7 @@ void Printer::loadAttributes()
     updateColorModel(result);
     updatePrintQualities(result);
     updateLastMessage(result);
+    updateDeviceUri(result);
 }
 
 ColorModel Printer::defaultColorModel() const
@@ -153,6 +159,11 @@ int Printer::printFile(const QString &filepath, const PrinterJob *options)
 QString Printer::name() const
 {
     return m_backend->printerName();
+}
+
+QString Printer::deviceUri() const
+{
+    return m_deviceUri;
 }
 
 QString Printer::description() const
