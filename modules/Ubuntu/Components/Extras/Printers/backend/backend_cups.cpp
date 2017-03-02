@@ -40,6 +40,7 @@ PrinterCupsBackend::PrinterCupsBackend(IppClient *client, QPrinterInfo info,
     , m_knownQualityOptions({
         "Quality", "PrintQuality", "HPPrintQuality", "StpQuality",
         "OutputMode",})
+    , m_extendedAttributeNames({"StateMessage", "DeviceUri", "IsShared"})
     , m_client(client)
     , m_info(info)
     , m_notifier(notifier)
@@ -210,8 +211,25 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
 {
     QMap<QString, QVariant> ret;
 
+
     cups_dest_t *dest = getDest(name);
     ppd_file_t* ppd = getPpd(name);
+
+    // Used to store extended attributes, which we should request maximum once.
+    QMap<QString, QVariant> extendedAttributesResults;
+
+    /* Goes through known extended attributes. If one is being asked for,
+    ask for all of them right away. */
+    Q_FOREACH(const QString &extendedOption, m_extendedAttributeNames) {
+        if (options.contains(extendedOption)) {
+            extendedAttributesResults = m_client->printerGetAttributes(
+                name, QStringList({
+                    "device-uri", "printer-uri-supported",
+                    "printer-state-message"})
+            );
+            break;
+        }
+    }
 
     Q_FOREACH(const QString &option, options) {
         if (option == QStringLiteral("DefaultColorModel") && ppd) {
@@ -282,14 +300,9 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             ret[option] = cupsGetOption("printer-state-reasons",
                                         dest->num_options, dest->options);
         } else if (option == QStringLiteral("StateMessage")) {
-            auto res = m_client->printerGetAttributes(
-                name, QStringList({"printer-state-message"})
-            );
-            ret[option] = res["printer-state-message"];
+            ret[option] = extendedAttributesResults["printer-state-message"];
         } else if (option == QStringLiteral("DeviceUri")) {
-            auto res = m_client->printerGetAttributes(
-                name, QStringList({"printer-uri-supported", "device-uri"})
-            );
+            auto res = extendedAttributesResults;
             if (!res["device-uri"].toString().isEmpty()) {
                 ret[option] = res["device-uri"];
             } else if (res["printer-uri-supported"].toString().isEmpty()) {
@@ -721,6 +734,11 @@ ppd_file_t* PrinterCupsBackend::getPpd(const QString &name) const
         m_ppds[name] = m_client->getPpdFile(printerName, instance);
         return m_ppds[name];
     }
+}
+
+bool PrinterCupsBackend::isExtendedAttribute(const QString &attributeName) const
+{
+    return m_extendedAttributeNames.contains(attributeName);
 }
 
 void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
