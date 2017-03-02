@@ -60,6 +60,22 @@ private Q_SLOTS:
         m_instance->setDescription(desc);
         QCOMPARE(m_backend->infos.value(m_printerName), desc);
     }
+    void testDeviceUri()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert(
+            "DeviceUri", "/dev/null");
+        Printer p(backend);
+        QCOMPARE(p.deviceUri(), (QString) "/dev/null");
+    }
+    void testLastMessage()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert(
+            "StateMessage", "died");
+        Printer p(backend);
+        QCOMPARE(p.lastMessage(), (QString) "died");
+    }
     void testMakeModel()
     {
         m_backend->m_makeAndModel = "make and model";
