@@ -179,6 +179,16 @@ QString PrinterCupsBackend::printerSetAcceptJobs(
     return QString();
 }
 
+QString PrinterCupsBackend::printerSetShared(const QString &name,
+                                             const bool shared)
+{
+    if (!m_client->printerSetShared(name, shared)) {
+        return m_client->getLastError();
+    }
+    return QString();
+}
+
+
 QString PrinterCupsBackend::printerSetInfo(const QString &name,
                                            const QString &info)
 {
@@ -309,6 +319,9 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             } else {
                 ret[option] = QString();
             }
+        } else if (option == QStringLiteral("Shared") && dest) {
+            ret[option] = cupsGetOption("printer-is-shared",
+                                        dest->num_options, dest->options);
         }
     }
     return ret;

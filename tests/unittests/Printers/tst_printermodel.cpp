@@ -362,6 +362,27 @@ private Q_SLOTS:
         QCOMPARE(m_model->data(m_model->index(2), PrinterModel::AcceptJobsRole).toBool(),
                  true);
     }
+    void testSharedRole()
+    {
+        MockPrinterBackend* backendA = new MockPrinterBackend("a-printer");
+        backendA->printerOptions["a-printer"].insert("Shared", false);
+
+        auto printerA = QSharedPointer<Printer>(new Printer(backendA));
+        m_backend->mockPrinterLoaded(printerA);
+
+        MockPrinterBackend* backendB = new MockPrinterBackend("b-printer");
+        backendB->printerOptions["b-printer"].insert("Shared", true);
+
+        auto printerB = QSharedPointer<Printer>(new Printer(backendB));
+        m_backend->mockPrinterLoaded(printerB);
+
+        QCOMPARE(m_model->data(m_model->index(0), PrinterModel::SharedRole).toBool(),
+                 false);
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::SharedRole).toBool(),
+                 false);
+        QCOMPARE(m_model->data(m_model->index(2), PrinterModel::SharedRole).toBool(),
+                 true);
+    }
     void testPrintQualityRole()
     {
         PrintQuality a;

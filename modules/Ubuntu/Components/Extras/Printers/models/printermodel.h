@@ -52,6 +52,7 @@ public:
         LocationRole,
         EnabledRole,
         AcceptJobsRole,
+        SharedRole,
         PrintQualityRole,
         SupportedPrintQualitiesRole,
         DescriptionRole,

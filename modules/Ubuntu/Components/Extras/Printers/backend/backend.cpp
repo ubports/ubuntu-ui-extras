@@ -91,6 +91,14 @@ QString PrinterBackend::printerSetAcceptJobs(
     return QString();
 }
 
+QString PrinterBackend::printerSetShared(const QString &name,
+                                         const bool shared)
+{
+    Q_UNUSED(name);
+    Q_UNUSED(shared);
+    return QString();
+}
+
 QString PrinterBackend::printerSetInfo(const QString &name,
                                        const QString &info)
 {

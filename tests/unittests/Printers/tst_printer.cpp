@@ -289,6 +289,32 @@ private Q_SLOTS:
         p2.setAcceptJobs(false);
         QVERIFY(!backend->printerOptions[m_printerName]["AcceptJobs"].toBool());
     }
+    void testShared()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+
+        backend->printerOptions[m_printerName].insert("Shared", false);
+        Printer p(backend);
+        QVERIFY(!p.shared());
+
+        backend->printerOptions[m_printerName].insert("Shared", true);
+        Printer p2(backend);
+        QVERIFY(p2.shared());
+    }
+    void testSetShared()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+
+        backend->printerOptions[m_printerName].insert("Shared", false);
+        Printer p(backend);
+        p.setShared(true);
+        QVERIFY(backend->printerOptions[m_printerName]["Shared"].toBool());
+
+        backend->printerOptions[m_printerName].insert("Shared", true);
+        Printer p2(backend);
+        p2.setShared(false);
+        QVERIFY(!backend->printerOptions[m_printerName]["Shared"].toBool());
+    }
     void testJobs()
     {
         JobModel jobs;

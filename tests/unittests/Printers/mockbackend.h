@@ -105,6 +105,13 @@ public:
         return returnValue;
     }
 
+    virtual QString printerSetShared(const QString &name,
+                                     const bool shared) override
+    {
+        printerOptions[name].insert("Shared", shared);
+        return returnValue;
+    }
+
     virtual QString printerSetInfo(const QString &name,
                                    const QString &info) override
     {
