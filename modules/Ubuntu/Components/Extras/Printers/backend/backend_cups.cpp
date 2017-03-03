@@ -418,7 +418,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
     const QString &name, const int jobId)
 {
     Q_UNUSED(name);
-    QMap<QString, QVariant> rawMap = m_client->printerGetJobAttributes(jobId);
+    QMap<QString, QVariant> rawMap = m_client->printerGetJobAttributes(name, jobId);
     QMap<QString, QVariant> map;
 
     // Filter attributes to know values

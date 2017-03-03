@@ -432,7 +432,8 @@ QMap<QString, QVariant> IppClient::printerGetAttributes(
     return result;
 }
 
-QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)
+QMap<QString, QVariant> IppClient::printerGetJobAttributes(const QString &printerName,
+                                                           const int jobId)
 {
     ipp_t *request;
     QMap<QString, QVariant> map;
@@ -440,9 +441,11 @@ QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)
     // Construct request
     request = ippNewRequest(IPP_GET_JOB_ATTRIBUTES);
 
-    QString uri = QStringLiteral("ipp://localhost/jobs/") + QString::number(jobId);
-    ippAddString(request, IPP_TAG_OPERATION, IPP_TAG_URI,
-                 "job-uri", NULL, uri.toStdString().data());
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+
+    ippAddInteger(request, IPP_TAG_OPERATION, IPP_TAG_INTEGER,
+                  "job-id", jobId);
 
     // Send request and construct reply
     ipp_t *reply;
