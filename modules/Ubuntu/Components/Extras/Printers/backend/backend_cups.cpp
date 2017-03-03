@@ -40,7 +40,10 @@ PrinterCupsBackend::PrinterCupsBackend(IppClient *client, QPrinterInfo info,
     , m_knownQualityOptions({
         "Quality", "PrintQuality", "HPPrintQuality", "StpQuality",
         "OutputMode",})
-    , m_extendedAttributeNames({"StateMessage", "DeviceUri", "IsShared"})
+    , m_extendedAttributeNames({
+        QStringLiteral("StateMessage"), QStringLiteral("DeviceUri"),
+        QStringLiteral("IsShared"), QStringLiteral("Copies"),
+    })
     , m_client(client)
     , m_info(info)
     , m_notifier(notifier)
@@ -223,8 +226,11 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
         if (options.contains(extendedOption)) {
             extendedAttributesResults = m_client->printerGetAttributes(
                 name, QStringList({
-                    "device-uri", "printer-uri-supported",
-                    "printer-state-message"})
+                    QStringLiteral("device-uri"),
+                    QStringLiteral("printer-uri-supported"),
+                    QStringLiteral("printer-state-message"),
+                    QStringLiteral("copies-default"),
+                })
             );
             break;
         }
@@ -309,6 +315,8 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             } else {
                 ret[option] = QString();
             }
+        } else if (option == QStringLiteral("Copies")) {
+            ret[option] = extendedAttributesResults[QStringLiteral("copies-default")];
         }
     }
     return ret;
