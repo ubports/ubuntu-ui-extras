@@ -331,13 +331,13 @@ void Printer::setDefaultPageSize(const QPageSize &pageSize)
     m_backend->refresh();
 }
 
-void Printer::setCopies(const inst &copies)
+void Printer::setCopies(const int &copies)
 {
     if (this->copies() == copies) {
         return;
     }
 
-    m_backend->printerSetCopies(name(), copies);
+    // m_backend->printerSetCopies(name(), copies);
 }
 
 QString Printer::lastMessage() const
