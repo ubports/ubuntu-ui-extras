@@ -182,6 +182,15 @@ QString PrinterCupsBackend::printerSetAcceptJobs(
     return QString();
 }
 
+QString PrinterCupsBackend::printerSetCopies(const QString &name,
+                                         const int &copies)
+{
+    if (!m_client->printerSetCopies(name, copies)) {
+        return m_client->getLastError();
+    }
+    return QString();
+}
+
 QString PrinterCupsBackend::printerSetInfo(const QString &name,
                                            const QString &info)
 {

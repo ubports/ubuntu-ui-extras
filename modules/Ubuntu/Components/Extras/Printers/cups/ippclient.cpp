@@ -250,9 +250,25 @@ bool IppClient::printerSetAcceptJobs(const QString &printerName,
     }
 }
 
+bool IppClient::printerSetCopies(const QString &printerName, const int &copies)
+{
+    ipp_t *request;
+    if (!isPrinterNameValid(printerName)) {
+        setInternalStatus(QString("%1 is not a valid printer name.").arg(printerName));
+        return false;
+    }
+
+    request = ippNewRequest(CUPS_ADD_MODIFY_PRINTER);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+    ippAddInteger(request, IPP_TAG_PRINTER, IPP_TAG_INTEGER,
+                  "copies-default", copies);
+    // TODO: if this fails, we should try to change a class.
+    return sendRequest(request, CupsResourceAdmin);
+}
 
 bool IppClient::printerClassSetInfo(const QString &name,
-                                       const QString &info)
+                                    const QString &info)
 {
     if (!isPrinterNameValid(name)) {
         setInternalStatus(QString("%1 is not a valid printer name.").arg(name));
