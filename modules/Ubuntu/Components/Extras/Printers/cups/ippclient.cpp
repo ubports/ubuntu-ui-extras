@@ -250,6 +250,26 @@ bool IppClient::printerSetAcceptJobs(const QString &printerName,
     }
 }
 
+bool IppClient::printerSetShared(const QString &printerName, const bool shared)
+{
+    ipp_t *request;
+
+    if (!isPrinterNameValid(printerName)) {
+        setInternalStatus(QString("%1 is not a valid printer name.").arg(printerName));
+        return false;
+    }
+
+    request = ippNewRequest(CUPS_ADD_MODIFY_PRINTER);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+    ippAddBoolean(request, IPP_TAG_OPERATION,
+                  "printer-is-shared", shared ? 1 : 0);
+
+    /* TODO: The request will fail if this was a printer class, and it should
+    be retried. */
+
+    return sendRequest(request, CupsResourceAdmin);
+}
 
 bool IppClient::printerClassSetInfo(const QString &name,
                                        const QString &info)
