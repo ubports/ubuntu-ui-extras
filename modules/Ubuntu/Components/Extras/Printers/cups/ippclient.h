@@ -66,7 +66,8 @@ public:
     // Fetch more attributes, as normally just a small subset is fetched.
     QMap<QString, QVariant> printerGetAttributes(const QString &printerName,
         const QStringList &attributes);
-    QMap<QString, QVariant> printerGetJobAttributes(const int jobId);
+    QMap<QString, QVariant> printerGetJobAttributes(const QString &printerName,
+                                                    const int jobId);
 
     QString getLastError() const;
 
