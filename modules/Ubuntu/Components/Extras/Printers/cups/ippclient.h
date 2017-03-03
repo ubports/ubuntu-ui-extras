@@ -57,6 +57,7 @@ public:
     bool printerSetEnabled(const QString &printerName, const bool enabled);
     bool printerSetAcceptJobs(const QString &printerName, const bool accept,
                               const QString &reason);
+    bool printerSetShared(const QString &printerName, const bool shared);
     bool printerClassSetInfo(const QString &name, const QString &info);
     bool printerClassSetOption(const QString &name, const QString &option,
                                const QStringList &values);
