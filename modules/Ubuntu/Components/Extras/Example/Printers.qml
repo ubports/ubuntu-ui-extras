@@ -158,6 +158,27 @@ MainView {
                         }
                     }
 
+                    ListItems.Standard {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        text: "Copies"
+
+                        control: TextField {
+                            id: copiesField
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            text: printer.copies
+                            validator: IntValidator {
+                                bottom: 1
+                                top: 999
+                            }
+                            width: units.gu(10)
+                            onTextChanged: printer.copies = text
+                        }
+
+                    }
+
 
                     ListItems.ValueSelector {
                         anchors {
