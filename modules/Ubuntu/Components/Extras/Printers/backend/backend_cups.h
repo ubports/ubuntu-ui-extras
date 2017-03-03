@@ -55,6 +55,8 @@ public:
         const QString &name,
         const bool accept,
         const QString &reason = QString::null) override;
+    virtual QString printerSetCopies(
+        const QString &name, const int &copies) override;
     virtual QString printerSetInfo(const QString &name,
                                    const QString &info) override;
     virtual QString printerAddOption(const QString &name,

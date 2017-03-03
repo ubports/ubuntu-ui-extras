@@ -63,6 +63,7 @@ public:
         const QString &name,
         const bool accept,
         const QString &reason = QString::null);
+    virtual QString printerSetCopies(const QString &name, const int &copies);
     virtual QString printerSetInfo(const QString &name,
                                    const QString &info);
     virtual QString printerAddOption(const QString &name,

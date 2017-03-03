@@ -337,7 +337,7 @@ void Printer::setCopies(const int &copies)
         return;
     }
 
-    // m_backend->printerSetCopies(name(), copies);
+    m_backend->printerSetCopies(name(), copies);
 }
 
 QString Printer::lastMessage() const
