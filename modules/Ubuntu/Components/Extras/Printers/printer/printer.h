@@ -64,6 +64,7 @@ public:
     bool holdsDefinition() const;
     QString lastMessage() const;
     QAbstractItemModel* jobs();
+    int copies() const;
 
     PrinterEnum::PrinterType type() const;
 
@@ -75,6 +76,7 @@ public:
     void setDefaultPrintQuality(const PrintQuality &quality);
     void setDefaultPageSize(const QPageSize &pageSize);
     void setJobModel(JobModel* jobModel);
+    void setCopies(const int &copies);
 
     bool deepCompare(QSharedPointer<Printer> other) const;
     void updateFrom(QSharedPointer<Printer> other);
@@ -96,6 +98,7 @@ private:
     void updatePrintQualities(const QMap<QString, QVariant> &serverAttrs);
     void updateLastMessage(const QMap<QString, QVariant> &serverAttrs);
     void updateDeviceUri(const QMap<QString, QVariant> &serverAttrs);
+    void updateCopies(const QMap<QString, QVariant> &serverAttrs);
     void loadAttributes();
 
     JobFilter m_jobs;
@@ -106,6 +109,7 @@ private:
     QList<PrintQuality> m_supportedPrintQualities;
     bool m_acceptJobs;
     QString m_deviceUri;
+    int m_copies;
 
     QString m_stateMessage;
 };
