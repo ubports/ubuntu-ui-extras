@@ -89,6 +89,11 @@ void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
     m_deviceUri = serverAttrs.value(QStringLiteral("DeviceUri")).toString();
 }
 
+void Printer::updateCopies(const QMap<QString, QVariant> &serverAttrs)
+{
+    m_copies = serverAttrs.value(QStringLiteral("Copies")).toInt();
+}
+
 void Printer::loadAttributes()
 {
     auto opts = QStringList({
@@ -98,7 +103,8 @@ void Printer::loadAttributes()
         QStringLiteral("DefaultPrintQuality"),
         QStringLiteral("SupportedPrintQualities"),
         QStringLiteral("StateMessage"),
-        QStringLiteral("DeviceUri")
+        QStringLiteral("DeviceUri"),
+        QStringLiteral("Copies")
     });
     auto result = m_backend->printerGetOptions(name(), opts);
 
@@ -107,6 +113,7 @@ void Printer::loadAttributes()
     updatePrintQualities(result);
     updateLastMessage(result);
     updateDeviceUri(result);
+    updateCopies(result);
 }
 
 ColorModel Printer::defaultColorModel() const
@@ -226,6 +233,11 @@ PrinterEnum::PrinterType Printer::type() const
     return m_backend->type();
 }
 
+int Printer::copies() const
+{
+    return m_copies;
+}
+
 void Printer::setDefaultColorModel(const ColorModel &colorModel)
 {
     if (defaultColorModel() == colorModel) {
@@ -317,6 +329,15 @@ void Printer::setDefaultPageSize(const QPageSize &pageSize)
     QStringList vals({pageSize.key()});
     m_backend->printerAddOption(name(), "PageSize", vals);
     m_backend->refresh();
+}
+
+void Printer::setCopies(const inst &copies)
+{
+    if (this->copies() == copies) {
+        return;
+    }
+
+    m_backend->printerSetCopies(name(), copies);
 }
 
 QString Printer::lastMessage() const
