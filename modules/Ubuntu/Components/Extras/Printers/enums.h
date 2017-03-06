@@ -103,4 +103,9 @@ public:
     Q_ENUM(PrinterType)
 };
 
+inline uint qHash(const PrinterEnum::JobState &state, uint seed)
+{
+    return qHash((int) state, seed);
+}
+
 #endif // USC_PRINTERS_ENUMS_H

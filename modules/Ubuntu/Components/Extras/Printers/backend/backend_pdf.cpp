@@ -66,7 +66,9 @@ QMap<QString, QVariant> PrinterPdfBackend::printerGetOptions(
         } else if (option == QLatin1String("DeviceUri")) {
             ret[option] = QLatin1String("");
         } else if (option == QLatin1String("Copies")) {
-            ret[option] = 1;
+            ret[option] = 0;
+        } else if (option == QLatin1String("Shared")) {
+            ret[option] = false;
         } else {
             throw std::invalid_argument("Invalid value for PDF printer: " + option.toStdString());
         }

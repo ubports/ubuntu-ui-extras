@@ -84,6 +84,7 @@ void Printer::updateLastMessage(const QMap<QString, QVariant> &serverAttrs)
     m_stateMessage = serverAttrs.value(QStringLiteral("StateMessage")).toString();
 }
 
+
 void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
 {
     m_deviceUri = serverAttrs.value(QStringLiteral("DeviceUri")).toString();
@@ -92,6 +93,11 @@ void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
 void Printer::updateCopies(const QMap<QString, QVariant> &serverAttrs)
 {
     m_copies = serverAttrs.value(QStringLiteral("Copies")).toInt();
+}
+
+void Printer::updateShared(const QMap<QString, QVariant> &serverAttrs)
+{
+    m_shared = serverAttrs.value(QStringLiteral("Shared")).toBool();
 }
 
 void Printer::loadAttributes()
@@ -104,7 +110,8 @@ void Printer::loadAttributes()
         QStringLiteral("SupportedPrintQualities"),
         QStringLiteral("StateMessage"),
         QStringLiteral("DeviceUri"),
-        QStringLiteral("Copies")
+        QStringLiteral("Copies"),
+        QStringLiteral("Shared"),
     });
     auto result = m_backend->printerGetOptions(name(), opts);
 
@@ -114,6 +121,7 @@ void Printer::loadAttributes()
     updateLastMessage(result);
     updateDeviceUri(result);
     updateCopies(result);
+    updateShared(result);
 }
 
 ColorModel Printer::defaultColorModel() const
@@ -218,6 +226,11 @@ PrinterEnum::State Printer::state() const
     return m_backend->state();
 }
 
+bool Printer::shared() const
+{
+    return m_shared;
+}
+
 bool Printer::acceptJobs() const
 {
     return m_acceptJobs;
@@ -295,6 +308,16 @@ void Printer::setAcceptJobs(const bool accepting)
     }
 }
 
+void Printer::setShared(const bool shared)
+{
+    if (this->shared() != shared) {
+        QString reply = m_backend->printerSetShared(name(), shared);
+        if (!reply.isEmpty()) {
+            qWarning() << Q_FUNC_INFO << "failed to set shared:" << reply;
+        }
+    }
+}
+
 void Printer::setDefaultPrintQuality(const PrintQuality &quality)
 {
     if (defaultPrintQuality() == quality) {
@@ -365,7 +388,9 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
             && enabled() == other->enabled()
             && state() == other->state()
             && lastMessage() == other->lastMessage()
-            && deviceUri() == other->deviceUri();
+            && deviceUri() == other->deviceUri()
+            && shared() == other->shared()
+            && copies() == other->copies();
 }
 
 void Printer::updateFrom(QSharedPointer<Printer> other)

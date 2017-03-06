@@ -134,6 +134,19 @@ MainView {
                             left: parent.left
                             right: parent.right
                         }
+                        text: "Shared"
+
+                        control: Switch {
+                            checked: printer.shared
+                            onCheckedChanged: printer.shared = checked
+                        }
+                    }
+
+                    ListItems.Standard {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
                         text: "Jobs"
                         progression: true
                         onClicked: pageStack.push(jobPage, { printer: printer })
