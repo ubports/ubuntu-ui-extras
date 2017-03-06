@@ -103,13 +103,14 @@ public:
     explicit JobFilter(QObject *parent = Q_NULLPTR);
     ~JobFilter();
 
-    Q_INVOKABLE QVariantMap get(const int row) const;
-
-    Q_INVOKABLE void filterOnActive();
-    Q_INVOKABLE void filterOnQueued();
-    Q_INVOKABLE void filterOnPaused();
     void filterOnPrinterName(const QString &name);
     int count() const;
+public Q_SLOTS:
+    QVariantMap get(const int row) const;
+
+    void filterOnActive();
+    void filterOnQueued();
+    void filterOnPaused();
 protected:
     virtual bool filterAcceptsRow(
         int sourceRow, const QModelIndex &sourceParent) const override;
@@ -128,13 +129,13 @@ private:
     bool m_printerNameFilterEnabled = false;
 
     bool m_activeFilterEnabled = false;
-    QList<PrinterEnum::JobState> m_activeStates;
+    QSet<PrinterEnum::JobState> m_activeStates;
 
     bool m_queuedFilterEnabled = false;
-    QList<PrinterEnum::JobState> m_queuedStates;
+    QSet<PrinterEnum::JobState> m_queuedStates;
 
     bool m_pausedFilterEnabled = false;
-    QList<PrinterEnum::JobState> m_pausedStates;
+    QSet<PrinterEnum::JobState> m_pausedStates;
 };
 
 #endif // USC_JOB_MODEL_H

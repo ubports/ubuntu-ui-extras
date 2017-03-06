@@ -146,6 +146,7 @@ PrinterJob* Printers::createJob(const QString &printerName)
 
 QAbstractItemModel* Printers::createJobFilter()
 {
+    // Note: If called by QML, it gains ownership of the job filter.
     JobFilter *filter = new JobFilter();
     filter->setSourceModel(&m_jobs);
 
