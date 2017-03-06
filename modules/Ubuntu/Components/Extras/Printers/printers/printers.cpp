@@ -144,6 +144,17 @@ PrinterJob* Printers::createJob(const QString &printerName)
     return new PrinterJob(printerName, m_backend);
 }
 
+QAbstractItemModel* Printers::createJobFilter()
+{
+    JobFilter *filter = new JobFilter();
+    filter->setSourceModel(&m_jobs);
+
+    filter->setSortRole(JobModel::Roles::CreationTimeRole);
+    filter->sort(0, Qt::AscendingOrder);
+
+    return filter;
+}
+
 void Printers::cancelJob(const QString &printerName, const int jobId)
 {
     m_backend->cancelJob(printerName, jobId);
