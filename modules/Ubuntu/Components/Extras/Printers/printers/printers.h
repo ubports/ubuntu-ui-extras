@@ -62,6 +62,8 @@ public:
 
 public Q_SLOTS:
     PrinterJob* createJob(const QString &printerName);
+    QAbstractItemModel* createJobFilter();
+
     void cancelJob(const QString &printerName, const int jobId);
     void holdJob(const QString &printerName, const int jobId);
     void releaseJob(const QString &printerName, const int jobId);
