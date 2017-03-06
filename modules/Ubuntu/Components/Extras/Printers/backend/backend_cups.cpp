@@ -183,9 +183,18 @@ QString PrinterCupsBackend::printerSetAcceptJobs(
 }
 
 QString PrinterCupsBackend::printerSetCopies(const QString &name,
-                                         const int &copies)
+                                             const int &copies)
 {
     if (!m_client->printerSetCopies(name, copies)) {
+        return m_client->getLastError();
+    }
+    return QString();
+}
+
+QString PrinterCupsBackend::printerSetShared(const QString &name,
+                                             const bool shared)
+{
+    if (!m_client->printerSetShared(name, shared)) {
         return m_client->getLastError();
     }
     return QString();
@@ -326,6 +335,9 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             }
         } else if (option == QStringLiteral("Copies")) {
             ret[option] = extendedAttributesResults[QStringLiteral("copies-default")];
+        } else if (option == QStringLiteral("Shared") && dest) {
+            ret[option] = cupsGetOption("printer-is-shared",
+                                        dest->num_options, dest->options);
         }
     }
     return ret;
@@ -435,7 +447,7 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
     const QString &name, const int jobId)
 {
     Q_UNUSED(name);
-    QMap<QString, QVariant> rawMap = m_client->printerGetJobAttributes(jobId);
+    QMap<QString, QVariant> rawMap = m_client->printerGetJobAttributes(name, jobId);
     QMap<QString, QVariant> map;
 
     // Filter attributes to know values

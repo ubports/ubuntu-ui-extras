@@ -298,6 +298,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case AcceptJobsRole:
             ret = printer->acceptJobs();
             break;
+        case SharedRole:
+            ret = printer->shared();
+            break;
         }
     }
 
@@ -355,6 +358,8 @@ bool PrinterModel::setData(const QModelIndex &index,
             break;
         case CopiesRole:
             printer->setCopies(value.toInt());
+        case SharedRole:
+            printer->setShared(value.toBool());
             break;
         }
     }
@@ -378,6 +383,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[MakeRole] = "make";
         names[EnabledRole] = "printerEnabled";
         names[AcceptJobsRole] = "acceptJobs";
+        names[SharedRole] = "shared";
         names[PrintQualityRole] = "printQuality";
         names[SupportedPrintQualitiesRole] = "supportedPrintQualities";
         names[DescriptionRole] = "description";

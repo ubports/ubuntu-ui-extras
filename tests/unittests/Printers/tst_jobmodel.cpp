@@ -192,10 +192,10 @@ private Q_SLOTS:
         m_backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
 
         QTRY_COMPARE(m_model->count(), 2);
-        QCOMPARE(m_model->data(m_model->index(0), JobModel::CompletedTimeRole).toString(),
-                 dateTimeA.toString(QLocale::system().dateTimeFormat()));
-        QCOMPARE(m_model->data(m_model->index(1), JobModel::CompletedTimeRole).toString(),
-                 dateTimeB.toString(QLocale::system().dateTimeFormat()));
+        QCOMPARE(m_model->data(m_model->index(0), JobModel::CompletedTimeRole).toDateTime(),
+                 dateTimeA);
+        QCOMPARE(m_model->data(m_model->index(1), JobModel::CompletedTimeRole).toDateTime(),
+                 dateTimeB);
     }
     void testCopiesRole()
     {
@@ -227,10 +227,10 @@ private Q_SLOTS:
         m_backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
 
         QTRY_COMPARE(m_model->count(), 2);
-        QCOMPARE(m_model->data(m_model->index(0), JobModel::CreationTimeRole).toString(),
-                 dateTimeA.toString(QLocale::system().dateTimeFormat()));
-        QCOMPARE(m_model->data(m_model->index(1), JobModel::CreationTimeRole).toString(),
-                 dateTimeB.toString(QLocale::system().dateTimeFormat()));
+        QCOMPARE(m_model->data(m_model->index(0), JobModel::CreationTimeRole).toDateTime(),
+                 dateTimeA);
+        QCOMPARE(m_model->data(m_model->index(1), JobModel::CreationTimeRole).toDateTime(),
+                 dateTimeB);
     }
     void testDuplexRole()
     {
@@ -385,10 +385,10 @@ private Q_SLOTS:
         m_backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
 
         QTRY_COMPARE(m_model->count(), 2);
-        QCOMPARE(m_model->data(m_model->index(0), JobModel::ProcessingTimeRole).toString(),
-                 dateTimeA.toString(QLocale::system().dateTimeFormat()));
-        QCOMPARE(m_model->data(m_model->index(1), JobModel::ProcessingTimeRole).toString(),
-                 dateTimeB.toString(QLocale::system().dateTimeFormat()));
+        QCOMPARE(m_model->data(m_model->index(0), JobModel::ProcessingTimeRole).toDateTime(),
+                 dateTimeA);
+        QCOMPARE(m_model->data(m_model->index(1), JobModel::ProcessingTimeRole).toDateTime(),
+                 dateTimeB);
     }
     void testQualityRole()
     {

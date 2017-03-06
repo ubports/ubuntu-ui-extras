@@ -175,13 +175,13 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             break;
         }
         case CompletedTimeRole:
-            ret = job->completedTime().toString(QLocale::system().dateTimeFormat());
+            ret = job->completedTime();
             break;
         case CopiesRole:
             ret = job->copies();
             break;
         case CreationTimeRole:
-            ret = job->creationTime().toString(QLocale::system().dateTimeFormat());
+            ret = job->creationTime();
             break;
         case DuplexRole: {
             if (job->printer()) {
@@ -217,7 +217,7 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             ret = QVariant::fromValue<PrinterEnum::PrintRange>(job->printRangeMode());
             break;
         case ProcessingTimeRole:
-            ret = job->processingTime().toString(QLocale::system().dateTimeFormat());
+            ret = job->processingTime();
             break;
         case QualityRole: {
             if (job->printer()) {
@@ -359,6 +359,33 @@ int JobFilter::count() const
     return rowCount();
 }
 
+void JobFilter::filterOnActive()
+{
+    m_activeStates = QSet<PrinterEnum::JobState>{
+        PrinterEnum::JobState::Processing,
+    };
+    m_activeFilterEnabled = true;
+    invalidate();
+}
+
+void JobFilter::filterOnPaused()
+{
+    m_pausedStates = QSet<PrinterEnum::JobState>{
+        PrinterEnum::JobState::Held,
+    };
+    m_pausedFilterEnabled = true;
+    invalidate();
+}
+
+void JobFilter::filterOnQueued()
+{
+    m_queuedStates = QSet<PrinterEnum::JobState>{
+        PrinterEnum::JobState::Pending,
+    };
+    m_queuedFilterEnabled = true;
+    invalidate();
+}
+
 void JobFilter::filterOnPrinterName(const QString &name)
 {
     m_printerName = name;
@@ -378,5 +405,50 @@ bool JobFilter::filterAcceptsRow(int sourceRow,
         accepts = m_printerName == printerName;
     }
 
+    if (accepts && m_activeFilterEnabled) {
+        PrinterEnum::JobState state = childIndex.model()->data(
+            childIndex, JobModel::StateRole
+        ).value<PrinterEnum::JobState>();
+
+        accepts = m_activeStates.contains(state);
+    }
+
+    if (accepts && m_pausedFilterEnabled) {
+        PrinterEnum::JobState state = childIndex.model()->data(
+            childIndex, JobModel::StateRole
+        ).value<PrinterEnum::JobState>();
+
+        accepts = m_pausedStates.contains(state);
+    }
+
+    if (accepts && m_queuedFilterEnabled) {
+        PrinterEnum::JobState state = childIndex.model()->data(
+            childIndex, JobModel::StateRole
+        ).value<PrinterEnum::JobState>();
+
+        accepts = m_queuedStates.contains(state);
+    }
+
     return accepts;
+}
+
+bool JobFilter::lessThan(const QModelIndex &source_left,
+                         const QModelIndex &source_right) const
+{
+    QVariant leftData = sourceModel()->data(source_left, sortRole());
+    QVariant rightData = sourceModel()->data(source_right, sortRole());
+
+    if (sortRole() == (int) JobModel::CreationTimeRole) {
+        // If creationDateTime is the same, fallback to Id
+        if (leftData.toDateTime() == rightData.toDateTime()) {
+            int leftId = sourceModel()->data(source_left, JobModel::IdRole).toInt();
+            int rightId = sourceModel()->data(source_right, JobModel::IdRole).toInt();
+
+            return leftId < rightId;
+        } else {
+            return leftData.toDateTime() < rightData.toDateTime();
+        }
+    } else {
+        return leftData < rightData;
+    }
 }

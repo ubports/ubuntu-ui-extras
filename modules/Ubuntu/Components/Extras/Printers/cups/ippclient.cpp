@@ -253,6 +253,25 @@ bool IppClient::printerSetAcceptJobs(const QString &printerName,
 bool IppClient::printerSetCopies(const QString &printerName, const int &copies)
 {
     ipp_t *request;
+
+    if (!isPrinterNameValid(printerName)) {
+        setInternalStatus(QString("%1 is not a valid printer name.").arg(printerName));
+        return false;
+    }
+    request = ippNewRequest(CUPS_ADD_MODIFY_PRINTER);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+    ippAddInteger(request, IPP_TAG_PRINTER, IPP_TAG_INTEGER,
+                  "copies-default", copies);
+    /* TODO: The request will fail if this was a printer class, and it should
+    be retried. */
+    return sendRequest(request, CupsResourceAdmin);
+}
+
+bool IppClient::printerSetShared(const QString &printerName, const bool shared)
+{
+    ipp_t *request;
+
     if (!isPrinterNameValid(printerName)) {
         setInternalStatus(QString("%1 is not a valid printer name.").arg(printerName));
         return false;
@@ -261,9 +280,11 @@ bool IppClient::printerSetCopies(const QString &printerName, const int &copies)
     request = ippNewRequest(CUPS_ADD_MODIFY_PRINTER);
     addPrinterUri(request, printerName);
     addRequestingUsername(request, NULL);
-    ippAddInteger(request, IPP_TAG_PRINTER, IPP_TAG_INTEGER,
-                  "copies-default", copies);
-    // TODO: if this fails, we should try to change a class.
+    ippAddBoolean(request, IPP_TAG_OPERATION,
+                  "printer-is-shared", shared ? 1 : 0);
+    /* TODO: The request will fail if this was a printer class, and it should
+    be retried. */
+
     return sendRequest(request, CupsResourceAdmin);
 }
 
@@ -448,7 +469,8 @@ QMap<QString, QVariant> IppClient::printerGetAttributes(
     return result;
 }
 
-QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)
+QMap<QString, QVariant> IppClient::printerGetJobAttributes(const QString &printerName,
+                                                           const int jobId)
 {
     ipp_t *request;
     QMap<QString, QVariant> map;
@@ -456,9 +478,11 @@ QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)
     // Construct request
     request = ippNewRequest(IPP_GET_JOB_ATTRIBUTES);
 
-    QString uri = QStringLiteral("ipp://localhost/jobs/") + QString::number(jobId);
-    ippAddString(request, IPP_TAG_OPERATION, IPP_TAG_URI,
-                 "job-uri", NULL, uri.toStdString().data());
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+
+    ippAddInteger(request, IPP_TAG_OPERATION, IPP_TAG_INTEGER,
+                  "job-id", jobId);
 
     // Send request and construct reply
     ipp_t *reply;

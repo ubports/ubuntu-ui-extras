@@ -60,6 +60,7 @@ public:
     PrinterEnum::AccessControl accessControl() const;
     PrinterEnum::ErrorPolicy errorPolicy() const;
     PrinterEnum::State state() const;
+    bool shared() const;
     bool acceptJobs() const;
     bool holdsDefinition() const;
     QString lastMessage() const;
@@ -73,6 +74,7 @@ public:
     void setDefaultDuplexMode(const PrinterEnum::DuplexMode &duplexMode);
     void setEnabled(const bool enabled);
     void setAcceptJobs(const bool accepting);
+    void setShared(const bool shared);
     void setDefaultPrintQuality(const PrintQuality &quality);
     void setDefaultPageSize(const QPageSize &pageSize);
     void setJobModel(JobModel* jobModel);
@@ -99,6 +101,7 @@ private:
     void updateLastMessage(const QMap<QString, QVariant> &serverAttrs);
     void updateDeviceUri(const QMap<QString, QVariant> &serverAttrs);
     void updateCopies(const QMap<QString, QVariant> &serverAttrs);
+    void updateShared(const QMap<QString, QVariant> &serverAttrs);
     void loadAttributes();
 
     JobFilter m_jobs;
@@ -108,6 +111,7 @@ private:
     PrintQuality m_defaultPrintQuality;
     QList<PrintQuality> m_supportedPrintQualities;
     bool m_acceptJobs;
+    bool m_shared;
     QString m_deviceUri;
     int m_copies;
 

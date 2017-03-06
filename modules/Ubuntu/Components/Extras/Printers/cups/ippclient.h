@@ -58,6 +58,7 @@ public:
     bool printerSetAcceptJobs(const QString &printerName, const bool accept,
                               const QString &reason);
     bool printerSetCopies(const QString &printerName, const int &copies);
+    bool printerSetShared(const QString &printerName, const bool shared);
     bool printerClassSetInfo(const QString &name, const QString &info);
     bool printerClassSetOption(const QString &name, const QString &option,
                                const QStringList &values);
@@ -67,7 +68,8 @@ public:
     // Fetch more attributes, as normally just a small subset is fetched.
     QMap<QString, QVariant> printerGetAttributes(const QString &printerName,
         const QStringList &attributes);
-    QMap<QString, QVariant> printerGetJobAttributes(const int jobId);
+    QMap<QString, QVariant> printerGetJobAttributes(const QString &printerName,
+                                                    const int jobId);
 
     QString getLastError() const;
 
