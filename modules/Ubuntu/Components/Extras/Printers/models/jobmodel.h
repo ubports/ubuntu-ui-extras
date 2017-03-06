@@ -105,11 +105,16 @@ public:
 
     Q_INVOKABLE QVariantMap get(const int row) const;
 
+    Q_INVOKABLE void filterOnActive();
+    Q_INVOKABLE void filterOnQueued();
+    Q_INVOKABLE void filterOnPaused();
     void filterOnPrinterName(const QString &name);
     int count() const;
 protected:
     virtual bool filterAcceptsRow(
         int sourceRow, const QModelIndex &sourceParent) const override;
+    virtual bool lessThan(const QModelIndex &source_left,
+                          const QModelIndex &source_right) const;
 
 Q_SIGNALS:
     void countChanged();
@@ -121,6 +126,15 @@ private Q_SLOTS:
 private:
     QString m_printerName = QString::null;
     bool m_printerNameFilterEnabled = false;
+
+    bool m_activeFilterEnabled = false;
+    QList<PrinterEnum::JobState> m_activeStates;
+
+    bool m_queuedFilterEnabled = false;
+    QList<PrinterEnum::JobState> m_queuedStates;
+
+    bool m_pausedFilterEnabled = false;
+    QList<PrinterEnum::JobState> m_pausedStates;
 };
 
 #endif // USC_JOB_MODEL_H
