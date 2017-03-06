@@ -47,6 +47,16 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
     m_allPrintersWithPdf.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
     m_allPrintersWithPdf.sort(0, Qt::DescendingOrder);
 
+    m_remotePrinters.setSourceModel(&m_model);
+    m_remotePrinters.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
+    m_remotePrinters.sort(0, Qt::DescendingOrder);
+    m_remotePrinters.filterOnRemote(true);
+
+    m_localPrinters.setSourceModel(&m_model);
+    m_localPrinters.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
+    m_localPrinters.sort(0, Qt::DescendingOrder);
+    m_localPrinters.filterOnRemote(false);
+
     // Let Qt be in charge of RAII.
     m_backend->setParent(this);
 
@@ -100,6 +110,19 @@ QAbstractItemModel* Printers::allPrinters()
 QAbstractItemModel* Printers::allPrintersWithPdf()
 {
     auto ret = &m_allPrintersWithPdf;
+    QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
+    return ret;
+}
+
+QAbstractItemModel* Printers::remotePrinters()
+{
+    auto ret = &m_remotePrinters;
+    QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
+    return ret;
+}
+QAbstractItemModel* Printers::localPrinters()
+{
+    auto ret = &m_localPrinters;
     QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
     return ret;
 }
@@ -185,6 +208,9 @@ bool Printers::addPrinter(const QString &name, const QString &ppd,
         m_lastMessage = reply;
         return false;
     }
+
+    provisionPrinter(name);
+
     return true;
 }
 
@@ -200,7 +226,17 @@ bool Printers::addPrinterWithPpdFile(const QString &name,
         m_lastMessage = reply;
         return false;
     }
+
+    provisionPrinter(name);
+
     return true;
+}
+
+void Printers::provisionPrinter(const QString &name)
+{
+    // We mimic what System Config Printer does here.
+    m_backend->printerSetEnabled(name, true);
+    m_backend->printerSetAcceptJobs(name, true);
 }
 
 bool Printers::removePrinter(const QString &name)

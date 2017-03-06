@@ -36,6 +36,8 @@ class PRINTERS_DECL_EXPORT Printers : public QObject
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel* allPrinters READ allPrinters CONSTANT)
     Q_PROPERTY(QAbstractItemModel* allPrintersWithPdf READ allPrintersWithPdf CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* remotePrinters READ remotePrinters CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* localPrinters READ localPrinters CONSTANT)
     Q_PROPERTY(QAbstractItemModel* printJobs READ printJobs CONSTANT)
     Q_PROPERTY(QAbstractItemModel* drivers READ drivers CONSTANT)
     Q_PROPERTY(QString driverFilter READ driverFilter WRITE setDriverFilter NOTIFY driverFilterChanged)
@@ -51,6 +53,8 @@ public:
 
     QAbstractItemModel* allPrinters();
     QAbstractItemModel* allPrintersWithPdf();
+    QAbstractItemModel* remotePrinters();
+    QAbstractItemModel* localPrinters();
     QAbstractItemModel* printJobs();
     QAbstractItemModel* drivers();
     QString driverFilter() const;
@@ -96,12 +100,15 @@ Q_SIGNALS:
     void driverFilterChanged();
 
 private:
+    void provisionPrinter(const QString &name);
     PrinterBackend *m_backend;
     DriverModel m_drivers;
     PrinterModel m_model;
     JobModel m_jobs;
     PrinterFilter m_allPrinters;
     PrinterFilter m_allPrintersWithPdf;
+    PrinterFilter m_remotePrinters;
+    PrinterFilter m_localPrinters;
     PrinterFilter m_recentPrinters;
     QString m_lastMessage;
 };
