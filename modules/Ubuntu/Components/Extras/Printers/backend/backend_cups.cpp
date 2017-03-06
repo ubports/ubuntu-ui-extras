@@ -314,10 +314,9 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             auto res = extendedAttributesResults;
             if (!res["device-uri"].toString().isEmpty()) {
                 ret[option] = res["device-uri"];
-            } else if (res["printer-uri-supported"].toString().isEmpty()) {
+            }
+            if (!res["printer-uri-supported"].toString().isEmpty()) {
                 ret[option] = res["printer-uri-supported"];
-            } else {
-                ret[option] = QString();
             }
         } else if (option == QStringLiteral("Shared") && dest) {
             ret[option] = cupsGetOption("printer-is-shared",
@@ -569,6 +568,11 @@ QString PrinterCupsBackend::location() const
 QString PrinterCupsBackend::makeAndModel() const
 {
     return m_info.makeAndModel();
+}
+
+bool PrinterCupsBackend::isRemote() const
+{
+    return m_info.isRemote();
 }
 
 PrinterEnum::State PrinterCupsBackend::state() const

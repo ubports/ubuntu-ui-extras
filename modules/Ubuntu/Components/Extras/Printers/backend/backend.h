@@ -92,6 +92,7 @@ public:
     virtual QString description() const;
     virtual QString location() const;
     virtual QString makeAndModel() const;
+    virtual bool isRemote() const;
 
     virtual PrinterEnum::State state() const;
     virtual QList<QPageSize> supportedPageSizes() const;

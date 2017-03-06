@@ -84,6 +84,7 @@ public:
     virtual QString description() const override;
     virtual QString location() const override;
     virtual QString makeAndModel() const override;
+    virtual bool isRemote() const override;
 
     virtual PrinterEnum::State state() const override;
     virtual QList<QPageSize> supportedPageSizes() const override;

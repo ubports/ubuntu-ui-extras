@@ -248,6 +248,11 @@ public:
         return m_makeAndModel;
     }
 
+    virtual bool isRemote() const override
+    {
+        return m_remote;
+    }
+
     virtual PrinterEnum::State state() const override
     {
         return m_state;
@@ -410,6 +415,7 @@ public:
     QMap<QString, PrinterEnum::OperationPolicy> operationPolicies;
 
     bool m_holdsDefinition = true;
+    bool m_remote = false;
 
     QString m_description = QString::null;
     QString m_location = QString::null;
