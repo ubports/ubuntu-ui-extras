@@ -105,6 +105,12 @@ public:
         return returnValue;
     }
 
+    virtual QString printerSetCopies(const QString &name, const int &copies)
+    {
+        printerOptions[name].insert("Copies", copies);
+        return returnValue;
+    }
+
     virtual QString printerSetShared(const QString &name,
                                      const bool shared) override
     {

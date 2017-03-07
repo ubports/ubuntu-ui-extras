@@ -93,6 +93,8 @@ void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
 void Printer::updateCopies(const QMap<QString, QVariant> &serverAttrs)
 {
     m_copies = serverAttrs.value(QStringLiteral("Copies")).toInt();
+    if (m_copies <= 0)
+        m_copies = 1;
 }
 
 void Printer::updateShared(const QMap<QString, QVariant> &serverAttrs)
