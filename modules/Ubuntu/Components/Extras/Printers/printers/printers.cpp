@@ -109,9 +109,9 @@ QAbstractItemModel* Printers::remotePrinters()
     // Lazily initialize the model with remote printers.
     if (!m_remotePrinters.sourceModel()) {
         m_remotePrinters.setSourceModel(&m_model);
+        m_remotePrinters.filterOnRemote(true);
         m_remotePrinters.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
         m_remotePrinters.sort(0, Qt::DescendingOrder);
-        m_remotePrinters.filterOnRemote(true);
     }
 
     auto ret = &m_remotePrinters;
@@ -124,9 +124,9 @@ QAbstractItemModel* Printers::localPrinters()
     by checking if they are remote. */
     if (!m_localPrinters.sourceModel()) {
         m_localPrinters.setSourceModel(&m_model);
-        m_localPrinters.setSortRole(PrinterModel::Roles::NameRole);
-        m_localPrinters.sort(0, Qt::DescendingOrder);
         m_localPrinters.filterOnRemote(false);
+        m_localPrinters.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
+        m_localPrinters.sort(0, Qt::DescendingOrder);
     }
 
     auto ret = &m_localPrinters;

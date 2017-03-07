@@ -332,6 +332,23 @@ MainView {
             header: PageHeader {
                 title: "Printers"
                 flickable: printerList
+                leadingActionBar.actions: [
+                    Action {
+                        iconName: "stock_website"
+                        text: "Network printers"
+                        onTriggered: printerList.model = Printers.remotePrinters
+                    },
+                    Action {
+                        iconName: "home"
+                        text: "Local printers"
+                        onTriggered: printerList.model = Printers.localPrinters
+                    },
+                    Action {
+                        iconName: "edit-clear"
+                        text: "Show all"
+                        onTriggered: printerList.model = Printers.allPrintersWithPdf
+                    }
+                ]
                 trailingActionBar {
                     actions: [
                         Action {
@@ -393,6 +410,12 @@ MainView {
                         pageStack.push(printerPage, { printer: model });
                     }
                 }
+            }
+
+            Label {
+                anchors.centerIn: parent
+                visible: printerList.count === 0
+                text: "No printers found"
             }
         }
     }
