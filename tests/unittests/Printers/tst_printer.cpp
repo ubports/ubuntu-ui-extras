@@ -86,6 +86,22 @@ private Q_SLOTS:
         m_backend->m_location = "location";
         QCOMPARE(m_instance->location(), m_backend->location());
     }
+    void testCopies()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert("Copies", "2");
+        Printer p(backend);
+        QCOMPARE(p.copies(), 2);
+    }
+    void testSetCopies()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert("Copies", "2");
+        Printer p(backend);
+        p.setCopies(5);
+        QCOMPARE(backend->printerOptions[m_printerName].value("Copies").toInt(), 5);
+
+    }
     void testSupportedDuplexModes_data()
     {
         QTest::addColumn<QList<PrinterEnum::DuplexMode>>("modes");
