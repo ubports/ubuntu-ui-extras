@@ -125,6 +125,7 @@ Q_SIGNALS:
     void printerDriversFailedToLoad(const QString &errorMessage);
 
     void printerLoaded(QSharedPointer<Printer> printers);
+    void deviceFound(const Device &device);
 
     void jobCompleted(
         const QString &text,
