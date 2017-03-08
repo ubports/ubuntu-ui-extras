@@ -1112,15 +1112,3 @@ bool IppClient::getDevices(cups_device_cb_t callback, void *context) const
                                 context);
     return reply == IPP_OK;
 }
-
-// void IppClient::deviceCallBack(
-//     const char *deviceClass,
-//     const char *deviceId,
-//     const char *deviceInfo,
-//     const char *deviceMakeAndModel,
-//     const char *deviceUri,
-//     const char *deviceLocation,
-//     void *context)
-// {
-//     qWarning() << Q_FUNC_INFO << deviceClass << deviceId << deviceInfo << deviceMakeAndModel << deviceUri << deviceLocation;
-// }
