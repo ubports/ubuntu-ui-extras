@@ -126,13 +126,21 @@ public:
     }
 
     QString toString() const {
-        return QString("Class: %1, Id: %2, Info: %3, MakeModel: %4, Uri: %5, Location: %6")
-            .arg(cls)
-            .arg(id)
-            .arg(info)
-            .arg(makeModel)
-            .arg(uri)
-            .arg(location);
+        QMap<QString, QString> idMap;
+        auto pairs = id.split(";");
+        Q_FOREACH(const QString &pair, pairs) {
+            auto keyValue = pair.split(":");
+
+            /* String could be "MFG: HP:MDL", because the printer world does
+            not make sense. At all. So here, we accept that and just go with
+            it. */
+            if (keyValue.size() >= 2) {
+                idMap[keyValue[0]] = keyValue[1];
+            }
+        }
+        auto mfg = idMap.value("MFG", "");
+        auto mdl = idMap.value("MDL", "");
+        return QString("%1 %2").arg(mfg).arg(mdl);
     }
 
     bool operator==(const Device &other)
@@ -142,6 +150,8 @@ public:
                 (location == other.location));
     }
 };
+
+
 
 Q_DECLARE_TYPEINFO(ColorModel, Q_PRIMITIVE_TYPE);
 Q_DECLARE_METATYPE(ColorModel)

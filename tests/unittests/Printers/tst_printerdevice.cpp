@@ -93,6 +93,38 @@ private Q_SLOTS:
 
         QCOMPARE(device.type(), expected);
     }
+    void testToString_data()
+    {
+        QTest::addColumn<QString>("id");
+        QTest::addColumn<QString>("expected");
+
+        {
+            Device d;
+            QTest::newRow("a hp printer")
+                << "MFG:HP;MDL:Color LaserJet 4500CMD:PDF,PS,JPEG,PNG,PWG,URF"
+                << "HP Color LaserJet 4500CMD";
+        }
+        {
+            Device d; ;
+            QTest::newRow("Andrew's hp printer")
+                << "MFG:HP;MDL:Officejet 5740 series;CMD:PCL,JPEG,URF,PWG;"
+                << "HP Officejet 5740 series";
+        }
+        {
+            Device d; ;
+            QTest::newRow("Base case with A as manufacturer, B as model.")
+                << "MFG:A;MDL:B"
+                << "A B";
+        }
+    }
+    void testToString()
+    {
+        QFETCH(QString, id);
+        QFETCH(QString, expected);
+
+        Device d; d.id = id;
+        QCOMPARE(d.toString(), expected);
+    }
 };
 
 QTEST_GUILESS_MAIN(TestDevice)
