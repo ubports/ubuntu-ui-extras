@@ -1104,3 +1104,23 @@ QVariant IppClient::getAttributeValue(ipp_attribute_t *attr, int index) const
 
     return var;
 }
+
+bool IppClient::getDevices(cups_device_cb_t callback, void *context) const
+{
+    auto reply = cupsGetDevices(m_connection, CUPS_TIMEOUT_DEFAULT,
+                                CUPS_INCLUDE_ALL, CUPS_EXCLUDE_NONE, callback,
+                                context);
+    return reply == IPP_OK;
+}
+
+// void IppClient::deviceCallBack(
+//     const char *deviceClass,
+//     const char *deviceId,
+//     const char *deviceInfo,
+//     const char *deviceMakeAndModel,
+//     const char *deviceUri,
+//     const char *deviceLocation,
+//     void *context)
+// {
+//     qWarning() << Q_FUNC_INFO << deviceClass << deviceId << deviceInfo << deviceMakeAndModel << deviceUri << deviceLocation;
+// }
