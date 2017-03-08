@@ -646,7 +646,7 @@ MainView {
                         margins: units.gu(2)
                         top: addPrinterCol.bottom
                     }
-                    text: "Network printers"
+                    text: "Other printers"
                     visible: remotePrintersList.count
                 }
 
@@ -673,13 +673,31 @@ MainView {
                                 name: "network-printer-symbolic"
                                 SlotsLayout.position: SlotsLayout.First
                             }
-                        }
-                        onClicked: {
+
+                            Button {
+                                text: "Add printer"
+                                onClicked: {
+                                    var suggestedPrinterName = (" " + displayName).slice(1);
+                                    suggestedPrinterName = suggestedPrinterName.replace(/\ /g, "\-");
+
+                                    var ret = Printers.addPrinterWithPpdFile(
+                                        suggestedPrinterName,
+                                        "", // Empty PPD.
+                                        uri,
+                                        info,
+                                        location
+                                    );
+                                    if (ret) {
+                                        addPrinterPage.state = "success"
+                                    } else {
+                                        errorMessage.text = Printers.lastMessage;
+                                        addPrinterPage.state = "failure"
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-
-
             }
         }
     }
