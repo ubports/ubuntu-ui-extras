@@ -34,6 +34,7 @@ add_library(UbuntuComponentsExtrasPrintersQml SHARED
     cups/printerdriverloader.cpp
     cups/printerloader.cpp
 
+    models/devicemodel.cpp
     models/drivermodel.cpp
     models/jobmodel.cpp
     models/printermodel.cpp

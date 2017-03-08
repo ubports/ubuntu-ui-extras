@@ -34,6 +34,7 @@ Printers::Printers(QObject *parent)
 Printers::Printers(PrinterBackend *backend, QObject *parent)
     : QObject(parent)
     , m_backend(backend)
+    , m_devices(backend)
     , m_drivers(backend)
     , m_model(backend)
     , m_jobs(backend)
@@ -106,15 +107,12 @@ QAbstractItemModel* Printers::allPrintersWithPdf()
 
 QAbstractItemModel* Printers::remotePrinters()
 {
-    // Lazily initialize the model with remote printers.
-    if (!m_remotePrinters.sourceModel()) {
-        m_remotePrinters.setSourceModel(&m_model);
-        m_remotePrinters.filterOnRemote(true);
-        m_remotePrinters.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
-        m_remotePrinters.sort(0, Qt::DescendingOrder);
+    m_devices.clear();
+    if (m_backend->type() == PrinterEnum::PrinterType::CupsType) {
+        ((PrinterCupsBackend*) m_backend)->searchForDevices();
     }
 
-    auto ret = &m_remotePrinters;
+    auto ret = &m_devices;
     QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
     return ret;
 }
