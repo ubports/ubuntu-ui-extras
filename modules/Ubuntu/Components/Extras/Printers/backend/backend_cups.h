@@ -109,6 +109,11 @@ public Q_SLOTS:
     virtual void refresh() override;
     void createSubscription();
 
+    /* Starts a search for devices. Devices are synonymous with network devices
+    that may potentially be queues. This search will take at minimum 5 seconds,
+    normally longer. */
+    void searchForDevices();
+
 Q_SIGNALS:
     void cancelWorkers();
     void printerDriversLoaded(const QList<PrinterDriver> &drivers);

@@ -29,6 +29,7 @@ add_library(UbuntuComponentsExtrasPrintersQml SHARED
     backend/backend_cups.cpp
     backend/backend_pdf.cpp
 
+    cups/devicesearcher.cpp
     cups/ippclient.cpp
     cups/printerdriverloader.cpp
     cups/printerloader.cpp
