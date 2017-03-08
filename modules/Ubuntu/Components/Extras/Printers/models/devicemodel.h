@@ -43,6 +43,7 @@ public:
         InfoRole,
         UriRole,
         LocationRole,
+        TypeRole,
         MakeModelRole,
         LastRole = MakeModelRole,
     };

@@ -93,6 +93,37 @@ public:
     QString makeModel;
     QString uri;
     QString location;
+    PrinterEnum::DeviceType type()
+    {
+        auto parts = uri.split(":", QString::SkipEmptyParts);
+        QString scheme = parts.size() > 0 ? parts[0] : QStringLiteral("");
+        if (scheme == QStringLiteral("dnssd"))
+            return PrinterEnum::DeviceType::DNSSDType;
+        else if (scheme == QStringLiteral("lpd"))
+            return PrinterEnum::DeviceType::LPDType;
+        else if (scheme == QStringLiteral("ipps"))
+            return PrinterEnum::DeviceType::IppSType;
+        else if (scheme == QStringLiteral("ipp14"))
+            return PrinterEnum::DeviceType::Ipp14Type;
+        else if (scheme == QStringLiteral("http"))
+            return PrinterEnum::DeviceType::HttpType;
+        else if (scheme == QStringLiteral("beh"))
+            return PrinterEnum::DeviceType::BehType;
+        else if (scheme == QStringLiteral("socket"))
+            return PrinterEnum::DeviceType::SocketType;
+        else if (scheme == QStringLiteral("https"))
+            return PrinterEnum::DeviceType::HttpsType;
+        else if (scheme == QStringLiteral("ipp"))
+            return PrinterEnum::DeviceType::IppType;
+        else if (scheme == QStringLiteral("hp"))
+            return PrinterEnum::DeviceType::HPType;
+        else if (scheme == QStringLiteral("usb"))
+            return PrinterEnum::DeviceType::USBType;
+        else if (scheme == QStringLiteral("hpfax"))
+            return PrinterEnum::DeviceType::HPFaxType;
+        else
+            return PrinterEnum::DeviceType::UnknownType;
+    }
 
     QString toString() const {
         return QString("Class: %1, Id: %2, Info: %3, MakeModel: %4, Uri: %5, Location: %6")

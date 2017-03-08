@@ -66,6 +66,9 @@ QVariant DeviceModel::data(const QModelIndex &index, int role) const
         case LocationRole:
             ret = device.location;
             break;
+        case TypeRole:
+            ret = QVariant::fromValue(device.type());
+            break;
         case MakeModelRole:
             ret = device.makeModel;
             break;
@@ -85,6 +88,7 @@ QHash<int, QByteArray> DeviceModel::roleNames() const
         names[InfoRole] = "info";
         names[UriRole] = "uri";
         names[LocationRole] = "location";
+        names[TypeRole] = "type";
         names[MakeModelRole] = "makeModel";
     }
 
