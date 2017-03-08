@@ -84,6 +84,17 @@ public:
     }
 };
 
+struct Device
+{
+public:
+    QString cls;
+    QString id;
+    QString info;
+    QString makeAndModel;
+    QString uri;
+    QString location;
+};
+
 Q_DECLARE_TYPEINFO(ColorModel, Q_PRIMITIVE_TYPE);
 Q_DECLARE_METATYPE(ColorModel)
 
@@ -93,5 +104,8 @@ Q_DECLARE_METATYPE(PrintQuality)
 Q_DECLARE_TYPEINFO(PrinterDriver, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(PrinterDriver)
 Q_DECLARE_METATYPE(QList<PrinterDriver>)
+
+Q_DECLARE_TYPEINFO(Device, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(Device)
 
 #endif // USC_PRINTERS_STRUCTS_H

@@ -325,7 +325,10 @@ MainView {
     PageStack {
         id: pageStack
 
-        Component.onCompleted: push(printersPage)
+        Component.onCompleted: {
+            push(printersPage)
+            Printers.searchForDevices()
+        }
 
         Page {
             id: printersPage
@@ -501,6 +504,7 @@ MainView {
 
             Component.onCompleted: {
                 Printers.prepareToAddPrinter();
+                Printers.searchForDevices();
             }
 
             Timer {
