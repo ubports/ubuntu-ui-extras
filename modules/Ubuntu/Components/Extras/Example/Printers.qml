@@ -325,33 +325,13 @@ MainView {
     PageStack {
         id: pageStack
 
-        Component.onCompleted: {
-            push(printersPage)
-            Printers.searchForDevices()
-        }
+        Component.onCompleted: push(printersPage)
 
         Page {
             id: printersPage
             header: PageHeader {
                 title: "Printers"
                 flickable: printerList
-                leadingActionBar.actions: [
-                    Action {
-                        iconName: "stock_website"
-                        text: "Network printers"
-                        onTriggered: printerList.model = Printers.remotePrinters
-                    },
-                    Action {
-                        iconName: "home"
-                        text: "Local printers"
-                        onTriggered: printerList.model = Printers.localPrinters
-                    },
-                    Action {
-                        iconName: "edit-clear"
-                        text: "Show all"
-                        onTriggered: printerList.model = Printers.allPrintersWithPdf
-                    }
-                ]
                 trailingActionBar {
                     actions: [
                         Action {
@@ -502,10 +482,7 @@ MainView {
                 }
             }
 
-            Component.onCompleted: {
-                Printers.prepareToAddPrinter();
-                Printers.searchForDevices();
-            }
+            Component.onCompleted: Printers.prepareToAddPrinter()
 
             Timer {
                 id: okTimer
@@ -516,14 +493,12 @@ MainView {
             Flickable {
                 id: addPrinterFlickable
                 anchors.fill: parent
+                contentHeight: contentItem.childrenRect.height
 
                 Column {
                     id: addPrinterCol
                     property bool enabled: true
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
+                    anchors { left: parent.left; right: parent.right }
 
                     Item {
                         id: errorMessageContainer
@@ -556,10 +531,7 @@ MainView {
 
                     ListItems.ValueSelector {
                         id: driverSelector
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Choose driver"
                         values: [
                             "Select printer from database",
@@ -569,10 +541,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Filter drivers"
                         control: TextField {
                             id: driverFilter
@@ -639,10 +608,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Printer name"
                         control: TextField {
                             id: printerName
@@ -652,10 +618,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Description (optional)"
                         control: TextField {
                             id: printerDescription
@@ -665,10 +628,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Location (optional)"
                         control: TextField {
                             id: printerLocation
@@ -677,6 +637,49 @@ MainView {
                         enabled: parent.enabled
                     }
                 }
+
+                Label {
+                    id: remotePrintersLabel
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: units.gu(2)
+                        top: addPrinterCol.bottom
+                    }
+                    text: "Network printers"
+                    visible: remotePrintersList.count
+                }
+
+                ListView {
+                    id: remotePrintersList
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: remotePrintersLabel.bottom
+                        topMargin: units.gu(2)
+                    }
+                    height: contentItem.childrenRect.height
+                    model: Printers.remotePrinters
+                    delegate: ListItem {
+                        height: modelLayout.height + (divider.visible ? divider.height : 0)
+                        ListItemLayout {
+                            id: modelLayout
+                            title.text: displayName
+
+                            Icon {
+                                id: icon
+                                width: height
+                                height: units.gu(2.5)
+                                name: "network-printer-symbolic"
+                                SlotsLayout.position: SlotsLayout.First
+                            }
+                        }
+                        onClicked: {
+                        }
+                    }
+                }
+
+
             }
         }
     }

@@ -17,6 +17,8 @@
 #include "cups/ippclient.h"
 #include "devicesearcher.h"
 
+#include <QUrl>
+
 DeviceSearcher::DeviceSearcher(IppClient *client, QObject *parent)
     : QObject(parent)
     , m_client(client)
@@ -47,7 +49,7 @@ void DeviceSearcher::deviceCallBack(
 {
     auto searcher = qobject_cast<DeviceSearcher*>(static_cast<QObject*>(context));
     if (!searcher) {
-        qWarning() << Q_FUNC_INFO << "context not a DeviceSearcher.";
+        qWarning() << Q_FUNC_INFO << "context was not a DeviceSearcher.";
         return;
     }
 
@@ -55,7 +57,7 @@ void DeviceSearcher::deviceCallBack(
     d.cls = deviceClass;
     d.id = deviceId;
     d.info = deviceInfo;
-    d.makeAndModel = deviceMakeAndModel;
+    d.makeModel = deviceMakeAndModel;
     d.uri = deviceUri;
     d.location = deviceLocation;
 

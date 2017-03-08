@@ -19,6 +19,7 @@
 
 #include "printers_global.h"
 
+#include "models/devicemodel.h"
 #include "models/drivermodel.h"
 #include "models/printermodel.h"
 #include "printer/printer.h"
@@ -104,6 +105,7 @@ Q_SIGNALS:
 private:
     void provisionPrinter(const QString &name);
     PrinterBackend *m_backend;
+    DeviceModel m_devices;
     DriverModel m_drivers;
     PrinterModel m_model;
     JobModel m_jobs;

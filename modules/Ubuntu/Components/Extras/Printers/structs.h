@@ -90,9 +90,26 @@ public:
     QString cls;
     QString id;
     QString info;
-    QString makeAndModel;
+    QString makeModel;
     QString uri;
     QString location;
+
+    QString toString() const {
+        return QString("Class: %1, Id: %2, Info: %3, MakeModel: %4, Uri: %5, Location: %6")
+            .arg(cls)
+            .arg(id)
+            .arg(info)
+            .arg(makeModel)
+            .arg(uri)
+            .arg(location);
+    }
+
+    bool operator==(const Device &other)
+    {
+        return ((cls == other.cls) && (id == other.id) && (info == other.info) &&
+                (makeModel == other.makeModel) && (uri == other.uri) &&
+                (location == other.location));
+    }
 };
 
 Q_DECLARE_TYPEINFO(ColorModel, Q_PRIMITIVE_TYPE);

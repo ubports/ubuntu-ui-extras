@@ -402,6 +402,11 @@ public:
         Q_EMIT printerLoaded(printer);
     }
 
+    void mockDeviceFound(const Device &device)
+    {
+        Q_EMIT deviceFound(device);
+    }
+
     QString returnValue = QString::null;
 
     // Map from printer to key/val.
