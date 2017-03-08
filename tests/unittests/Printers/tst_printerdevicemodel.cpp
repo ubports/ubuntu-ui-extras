@@ -136,6 +136,12 @@ private Q_SLOTS:
             QVariant value(d.makeModel);
             QTest::newRow("MakeModelRole") << role << value << d;
         }
+        {
+            Device d; d.uri = "ipp://foo/bar";
+            DeviceModel::Roles role(DeviceModel::TypeRole);
+            QVariant value = QVariant::fromValue(d.type());
+            QTest::newRow("TypeRole") << role << value << d;
+        }
     }
     void testRoles()
     {

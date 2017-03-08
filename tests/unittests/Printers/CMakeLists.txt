@@ -49,6 +49,10 @@ add_executable(testPrintersSignalHandler tst_signalhandler.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersSignalHandler UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
 add_test(tst_signalhandler testPrintersSignalHandler)
 
+add_executable(testPrintersDevice tst_printerdevice.cpp ${MOCK_SOURCES})
+target_link_libraries(testPrintersDevice UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
+add_test(tst_printerdevice testPrintersDevice)
+
 add_executable(testPrintersDeviceModel tst_printerdevicemodel.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersDeviceModel UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
 add_test(tst_printerdevicemodel testPrintersDeviceModel)
