@@ -31,6 +31,7 @@ class PRINTERS_DECL_EXPORT DeviceModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(bool searching MEMBER m_isSearching NOTIFY searchingChanged)
 public:
     explicit DeviceModel(PrinterBackend *backend, QObject *parent = Q_NULLPTR);
     ~DeviceModel();
@@ -53,13 +54,16 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
 
     int count() const;
+    void load();
     void clear();
 
 private Q_SLOTS:
     void deviceLoaded(const Device &device);
+    void deviceSearchFinished();
 
 Q_SIGNALS:
     void countChanged();
+    void searchingChanged();
 
 private:
     /* Checks if we want it in the list or not. Wanted is intentionally
@@ -68,6 +72,7 @@ private:
 
     PrinterBackend *m_backend;
     QList<Device> m_devices;
+    bool m_isSearching;
 };
 
 #endif // USC_PRINTER_DEVICEMODEL_H

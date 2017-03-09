@@ -126,6 +126,7 @@ Q_SIGNALS:
 
     void printerLoaded(QSharedPointer<Printer> printers);
     void deviceFound(const Device &device);
+    void deviceSearchFinished();
 
     void jobCompleted(
         const QString &text,

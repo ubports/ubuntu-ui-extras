@@ -22,9 +22,12 @@
 DeviceModel::DeviceModel(PrinterBackend *backend, QObject *parent)
     : QAbstractListModel(parent)
     , m_backend(backend)
+    , m_isSearching(false)
 {
     connect(m_backend, SIGNAL(deviceFound(const Device&)),
             this, SLOT(deviceLoaded(const Device&)));
+    connect(m_backend, SIGNAL(deviceSearchFinished()),
+            this, SLOT(deviceSearchFinished()));
 }
 
 DeviceModel::~DeviceModel()
@@ -122,4 +125,25 @@ void DeviceModel::clear()
     beginResetModel();
     m_devices.clear();
     endResetModel();
+}
+
+void DeviceModel::load()
+{
+    if (m_isSearching) {
+        qWarning() << Q_FUNC_INFO
+                   << "Ignoring load request as search is ongoing.";
+    } else {
+        clear();
+        if (m_backend->type() == PrinterEnum::PrinterType::CupsType) {
+            ((PrinterCupsBackend*) m_backend)->searchForDevices();
+            m_isSearching = true;
+            Q_EMIT searchingChanged();
+        }
+    }
+}
+
+void DeviceModel::deviceSearchFinished()
+{
+    m_isSearching = false;
+    Q_EMIT searchingChanged();
 }

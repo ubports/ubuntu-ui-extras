@@ -647,7 +647,17 @@ MainView {
                         top: addPrinterCol.bottom
                     }
                     text: "Other printers"
-                    visible: remotePrintersList.count
+
+                    ActivityIndicator {
+                        id: remotePrintersSearchIndicator
+                        anchors {
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
+                        property var target
+                        Component.onCompleted: target = Printers.remotePrinters
+                        running: target.searching
+                    }
                 }
 
                 ListView {
@@ -702,6 +712,17 @@ MainView {
                             }
                         }
                     }
+                }
+
+                Label {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: remotePrintersLabel.bottom
+                        topMargin: units.gu(2)
+                    }
+                    text: "No other printers found"
+                    visible: !remotePrintersSearchIndicator.running && remotePrintersList.count == 0
                 }
             }
         }
