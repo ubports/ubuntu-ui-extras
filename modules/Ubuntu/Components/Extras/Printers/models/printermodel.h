@@ -21,7 +21,7 @@
 
 #include "models/jobmodel.h"
 #include "printer/printer.h"
-#include "printer/printersignalhandler.h"
+#include "printer/signalratelimiter.h"
 
 #include <QAbstractListModel>
 #include <QByteArray>
@@ -102,7 +102,7 @@ private:
     PrinterBackend *m_backend;
 
     QList<QSharedPointer<Printer>> m_printers;
-    PrinterSignalHandler m_signalHandler;
+    SignalRateLimiter m_signalHandler;
 
 private Q_SLOTS:
     void printerLoaded(QSharedPointer<Printer> printer);

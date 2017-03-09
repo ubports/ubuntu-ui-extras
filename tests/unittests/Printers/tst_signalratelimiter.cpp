@@ -14,20 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "printer/printersignalhandler.h"
+#include "printer/signalratelimiter.h"
 
 #include <QDebug>
 #include <QObject>
 #include <QSignalSpy>
 #include <QTest>
 
-class TestSignalHandler : public QObject
+class TestSignalRateLimiter : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
     void testEmptyCount()
     {
-        PrinterSignalHandler handler(500);
+        SignalRateLimiter handler(500);
         QSignalSpy modifiedSpy(&handler, SIGNAL(printerModified(const QString&)));
 
         for (int i = 0; i < 500; i++) {
@@ -39,6 +39,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_GUILESS_MAIN(TestSignalHandler)
-#include "tst_signalhandler.moc"
+QTEST_GUILESS_MAIN(TestSignalRateLimiter)
+#include "tst_signalratelimiter.moc"
 

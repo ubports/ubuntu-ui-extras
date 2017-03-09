@@ -40,7 +40,7 @@ JobModel::JobModel(PrinterBackend *backend,
 
     // Impressions completed happens via printer state changed
     QObject::connect(m_backend, &PrinterBackend::printerStateChanged,
-                     &m_signalHandler, &PrinterSignalHandler::onPrinterStateChanged);
+                     &m_signalHandler, &SignalRateLimiter::onPrinterStateChanged);
 
     QObject::connect(&m_signalHandler, SIGNAL(printerModified(const QString&)),
                      this, SLOT(jobSignalPrinterModified(const QString&)));
