@@ -20,6 +20,7 @@
 #include "printers_global.h"
 #include "backend/backend.h"
 #include "printer/printerjob.h"
+#include "printer/printersignalhandler.h"
 
 #include <QAbstractListModel>
 #include <QByteArray>
@@ -81,6 +82,7 @@ private:
     PrinterBackend *m_backend;
 
     QList<QSharedPointer<PrinterJob>> m_jobs;
+    PrinterSignalHandler m_signalHandler;
 private Q_SLOTS:
     void update();
     void jobSignalCatchAll(const QString &text, const QString &printer_uri,
@@ -90,6 +92,7 @@ private Q_SLOTS:
                            uint job_state, const QString &job_state_reasons,
                            const QString &job_name,
                            uint job_impressions_completed);
+    void jobSignalPrinterModified(const QString &printerName);
 
 Q_SIGNALS:
     void countChanged();

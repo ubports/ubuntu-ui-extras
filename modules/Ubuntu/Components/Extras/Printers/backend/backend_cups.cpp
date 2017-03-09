@@ -461,6 +461,12 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("Duplex", QVariant(""));
     }
 
+    if (__CUPS_ATTR_EXISTS(rawMap, "job-impressions-completed", int)) {
+        map.insert("impressionsCompleted", rawMap.value("job-impressions-completed"));
+    } else {
+        map.insert("impressionsCompleted", QVariant(0));
+    }
+
     if (__CUPS_ATTR_EXISTS(rawMap, "landscape", bool)) {
         map.insert("landscape", rawMap.value("landscape"));
     } else {
@@ -520,6 +526,9 @@ QList<QSharedPointer<PrinterJob>> PrinterCupsBackend::printerGetJobs()
         auto newJob = QSharedPointer<PrinterJob>(
             new PrinterJob(QString::fromUtf8(job->dest), this, job->id)
         );
+
+        // Set the printer otherwise PrinterJob::loadDefaults is not called
+        newJob->setPrinter(getPrinter(newJob->printerName()));
 
         // Extract the times
         QDateTime completedTime;

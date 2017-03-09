@@ -31,14 +31,22 @@ JobModel::JobModel(PrinterBackend *backend,
     : QAbstractListModel(parent)
     , m_backend(backend)
 {
-    update();
-
     QObject::connect(m_backend, &PrinterBackend::jobCreated,
                      this, &JobModel::jobSignalCatchAll);
     QObject::connect(m_backend, &PrinterBackend::jobState,
                      this, &JobModel::jobSignalCatchAll);
     QObject::connect(m_backend, &PrinterBackend::jobCompleted,
                      this, &JobModel::jobSignalCatchAll);
+
+    // Impressions completed happens via printer state changed
+    QObject::connect(m_backend, &PrinterBackend::printerStateChanged,
+                     &m_signalHandler, &PrinterSignalHandler::onPrinterStateChanged);
+
+    QObject::connect(&m_signalHandler, SIGNAL(printerModified(const QString&)),
+                     this, SLOT(jobSignalPrinterModified(const QString&)));
+
+    // Ensure we have loaded anything that was before the signal connects
+    update();
 }
 
 JobModel::~JobModel()
@@ -62,10 +70,14 @@ void JobModel::jobSignalCatchAll(
     Q_UNUSED(job_state);
     Q_UNUSED(job_state_reasons);
     Q_UNUSED(job_name);
+    Q_UNUSED(job_impressions_completed);
 
-    auto job = getJobById(job_id);
-    if (job)
-        job->setImpressionsCompleted(job_impressions_completed);
+    update();
+}
+
+void JobModel::jobSignalPrinterModified(const QString &printerName)
+{
+    Q_UNUSED(printerName);
 
     update();
 }

@@ -49,8 +49,19 @@ void PrinterSignalHandler::onPrinterModified(
     Q_UNUSED(printerStateReason);
     Q_UNUSED(acceptingJobs);
 
+    // Track when the first item was added to the unprocessed queue
+    if (m_unprocessed.count() == 0) {
+        m_unprocessed_time = QDateTime::currentDateTime();
+    }
+
     m_unprocessed << printerName;
     m_timer.start();
+
+    // Ensure that process is fired if we have reached four times
+    // longer than the timer, this is due to many signals coming in rapidly
+    if (m_unprocessed_time.msecsTo(QDateTime::currentDateTime()) > m_timer.interval() * 4) {
+        process();
+    }
 }
 
 void PrinterSignalHandler::onPrinterStateChanged(
@@ -64,6 +75,18 @@ void PrinterSignalHandler::onPrinterStateChanged(
     Q_UNUSED(printerStateReason);
     Q_UNUSED(acceptingJobs);
 
+    // Track when the first item was added to the unprocessed queue
+    if (m_unprocessed.count() == 0) {
+        m_unprocessed_time = QDateTime::currentDateTime();
+    }
+
     m_unprocessed << printerName;
     m_timer.start();
+
+
+    // Ensure that process is fired if we have reached four times
+    // longer than the timer, this is due to many signals coming in rapidly
+    if (m_unprocessed_time.msecsTo(QDateTime::currentDateTime()) > m_timer.interval() * 4) {
+        process();
+    }
 }

@@ -68,6 +68,12 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
         printerAdded(printer);
     });
 
+    // Ensure existing jobs have been added
+    // otherwise PrinterJob::loadDefaults isn't called
+    for (int i = 0; i < m_jobs.rowCount(); i++) {
+        jobAdded(m_jobs.getJobById(m_jobs.data(m_jobs.index(i), JobModel::IdRole).toInt()));
+    }
+
     // Assign jobmodels to printers right away.
     for (int i = 0; i < m_model.rowCount(); i++) {
         printerAdded(m_model.data(

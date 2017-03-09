@@ -19,6 +19,7 @@
 
 #include "printers_global.h"
 
+#include <QDateTime>
 #include <QObject>
 #include <QSet>
 #include <QTimer>
@@ -28,6 +29,7 @@ class PRINTERS_DECL_EXPORT PrinterSignalHandler : public QObject
     Q_OBJECT
     QTimer m_timer;
     QSet<QString> m_unprocessed;
+    QDateTime m_unprocessed_time;
 public:
     explicit PrinterSignalHandler(int triggerEventDelay = 500,
                                   QObject *parent = Q_NULLPTR);
