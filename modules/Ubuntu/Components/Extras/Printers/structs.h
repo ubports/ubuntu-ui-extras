@@ -126,14 +126,19 @@ public:
     }
 
     QString toString() const {
+        /* 1. Split the id, which is of format "KEY:VAL; … KEYN:VALN;" into
+               ["KEY:VAL", …, "KEYN:VALN"]
+           2. Split each pair into
+               ["KEY", "VAL"] … ["KEYN", "VALN"]*/
         QMap<QString, QString> idMap;
         auto pairs = id.split(";");
         Q_FOREACH(const QString &pair, pairs) {
             auto keyValue = pair.split(":");
 
-            /* String could be "MFG: HP:MDL", because the printer world does
-            not make sense. At all. So here, we accept that and just go with
-            it. */
+            /* Sometimes key,val pairs are not terminated by ";". We just
+            use the first value in that case. E.g.:
+                "MFG:HP MDL:Laserfjert;"
+            Will give "HP" as MFG, and "" as MDL. */
             if (keyValue.size() >= 2) {
                 idMap[keyValue[0]] = keyValue[1];
             }
