@@ -107,11 +107,7 @@ QAbstractItemModel* Printers::allPrintersWithPdf()
 
 QAbstractItemModel* Printers::remotePrinters()
 {
-    m_devices.clear();
-    if (m_backend->type() == PrinterEnum::PrinterType::CupsType) {
-        ((PrinterCupsBackend*) m_backend)->searchForDevices();
-    }
-
+    m_devices.load();
     auto ret = &m_devices;
     QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
     return ret;
@@ -213,6 +209,11 @@ void Printers::prepareToAddPrinter()
     if (m_drivers.rowCount() == 0) {
         m_drivers.load();
     }
+}
+
+void Printers::searchForDevices()
+{
+    m_devices.load();
 }
 
 bool Printers::addPrinter(const QString &name, const QString &ppd,

@@ -79,6 +79,9 @@ public Q_SLOTS:
     add printers, this method should be called first. */
     void prepareToAddPrinter();
 
+    // Starts a search for devices on local and remote resources.
+    void searchForDevices();
+
     bool addPrinter(const QString &name, const QString &ppd,
                     const QString &device, const QString &description,
                     const QString &location);

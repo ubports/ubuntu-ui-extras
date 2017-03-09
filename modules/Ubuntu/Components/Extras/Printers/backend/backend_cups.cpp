@@ -708,12 +708,14 @@ void PrinterCupsBackend::cancelPrinterDriverRequest()
 
 void PrinterCupsBackend::searchForDevices()
 {
+
     auto thread = new QThread;
     auto searcher = new DeviceSearcher();
     searcher->moveToThread(thread);
     connect(thread, SIGNAL(started()), searcher, SLOT(load()));
     connect(searcher, SIGNAL(finished()), thread, SLOT(quit()));
     connect(searcher, SIGNAL(finished()), searcher, SLOT(deleteLater()));
+    connect(searcher, SIGNAL(finished()), this, SIGNAL(deviceSearchFinished()));
     connect(searcher, SIGNAL(loaded(const Device&)),
             this, SIGNAL(deviceFound(const Device&)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
@@ -790,3 +792,4 @@ void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
 {
     m_activeRequests.remove(printer->name());
 }
+
