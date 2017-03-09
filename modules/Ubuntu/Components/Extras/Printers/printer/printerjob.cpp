@@ -179,6 +179,7 @@ void PrinterJob::loadDefaults()
             }
         }
 
+        setImpressionsCompleted(attributes.value("impressionsCompleted").toInt());
         setLandscape(attributes.value("landscape").toBool());
         setMessages(attributes.value("messages").toStringList());
 
@@ -480,6 +481,7 @@ bool PrinterJob::deepCompare(QSharedPointer<PrinterJob> other) const
             && colorModel() == other->colorModel()
             && copies() == other->copies()
             && duplexMode() == other->duplexMode()
+            && impressionsCompleted() == other->impressionsCompleted()
             && landscape() == other->landscape()
             && printRange() == other->printRange()
             && printRangeMode() == other->printRangeMode()
@@ -495,6 +497,7 @@ void PrinterJob::updateFrom(QSharedPointer<PrinterJob> other)
     setColorModel(other->colorModel());
     setCopies(other->copies());
     setDuplexMode(other->duplexMode());
+    setImpressionsCompleted(other->impressionsCompleted());
     setLandscape(other->landscape());
     setPrintRange(other->printRange());
     setPrintRangeMode(other->printRangeMode());
