@@ -313,7 +313,6 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             ret[option] = extendedAttributesResults["printer-state-message"];
         } else if (option == QStringLiteral("DeviceUri")) {
             auto res = extendedAttributesResults;
-            qWarning() << res;
             if (!res["printer-uri-supported"].toString().isEmpty()) {
                 ret[option] = res["printer-uri-supported"];
             }
