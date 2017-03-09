@@ -675,24 +675,14 @@ MainView {
                             }
 
                             Button {
-                                text: "Add printer"
+                                text: "Select printer"
                                 onClicked: {
                                     var suggestedPrinterName = (" " + displayName).slice(1);
                                     suggestedPrinterName = suggestedPrinterName.replace(/\ /g, "\-");
-
-                                    var ret = Printers.addPrinterWithPpdFile(
-                                        suggestedPrinterName,
-                                        "", // Empty PPD.
-                                        uri,
-                                        info,
-                                        location
-                                    );
-                                    if (ret) {
-                                        addPrinterPage.state = "success"
-                                    } else {
-                                        errorMessage.text = Printers.lastMessage;
-                                        addPrinterPage.state = "failure"
-                                    }
+                                    printerUri.text = uri;
+                                    printerName.text = suggestedPrinterName;
+                                    printerDescription.text = info;
+                                    printerLocation.text = location;
                                 }
                             }
                         }

@@ -313,11 +313,12 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             ret[option] = extendedAttributesResults["printer-state-message"];
         } else if (option == QStringLiteral("DeviceUri")) {
             auto res = extendedAttributesResults;
-            if (!res["device-uri"].toString().isEmpty()) {
-                ret[option] = res["device-uri"];
-            }
+            qWarning() << res;
             if (!res["printer-uri-supported"].toString().isEmpty()) {
                 ret[option] = res["printer-uri-supported"];
+            }
+            if (!res["device-uri"].toString().isEmpty()) {
+                ret[option] = res["device-uri"];
             }
         } else if (option == QStringLiteral("Shared") && dest) {
             ret[option] = cupsGetOption("printer-is-shared",
