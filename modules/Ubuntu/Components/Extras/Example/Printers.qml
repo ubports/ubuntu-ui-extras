@@ -256,6 +256,44 @@ MainView {
     }
 
     Component {
+        id: jobDelegate
+
+        ListItem {
+            height: modelLayout.height + (divider.visible ? divider.height : 0)
+            trailingActions: ListItemActions {
+                actions: [
+                    Action {
+                        iconName: model.held ? "media-playback-start" : "media-playback-pause"
+                        text: model.held ? "Release" : "Hold"
+
+                        onTriggered: {
+                            if (model.held) {
+                                Printers.releaseJob(model.printerName, model.id);
+                            } else {
+                                Printers.holdJob(model.printerName, model.id);
+                            }
+                        }
+                    },
+                    Action {
+                        iconName: "cancel"
+                        text: "Cancel"
+
+                        onTriggered: Printers.cancelJob(model.printerName, model.id);
+                    }
+                ]
+            }
+
+            ListItemLayout {
+                id: modelLayout
+                title.text: displayName
+                subtitle.text: "Printing " + model.impressionsCompleted + " pages" + "\n" + model.printerName
+                subtitle.wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                subtitle.maximumLineCount: 3
+            }
+        }
+    }
+
+    Component {
         id: jobPage
         Page {
             property var printer
@@ -269,25 +307,10 @@ MainView {
                 id: jobList
                 anchors.fill: parent
                 model: printer.jobs
-                delegate: ListItem {
-                    height: jobLayout.height + (divider.visible ? divider.height : 0)
-                    ListItemLayout {
-                        id: jobLayout
-                        title.text: displayName
-
-                        Icon {
-                            id: icon
-                            width: height
-                            height: units.gu(2.5)
-                            name: "stock_document"
-                            SlotsLayout.position: SlotsLayout.First
-                        }
-                    }
-                }
+                delegate: jobDelegate
             }
         }
     }
-
 
     Component {
         id: allJobsPage
@@ -302,21 +325,7 @@ MainView {
                 id: jobsList
                 anchors.fill: parent
                 model: Printers.printJobs
-                delegate: ListItem {
-                    height: jobsLayout.height + (divider.visible ? divider.height : 0)
-                    ListItemLayout {
-                        id: jobsLayout
-                        title.text: displayName
-
-                        Icon {
-                            id: icon
-                            width: height
-                            height: units.gu(2.5)
-                            name: "stock_document"
-                            SlotsLayout.position: SlotsLayout.First
-                        }
-                    }
-                }
+                delegate: jobDelegate
             }
         }
     }
