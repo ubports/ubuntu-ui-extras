@@ -16,6 +16,7 @@
 
 #include "printer/signalratelimiter.h"
 
+#include <QDateTime>
 #include <QDebug>
 #include <QObject>
 #include <QSignalSpy>
@@ -30,12 +31,31 @@ private Q_SLOTS:
         SignalRateLimiter handler(500);
         QSignalSpy modifiedSpy(&handler, SIGNAL(printerModified(const QString&)));
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 20; i++) {
             handler.onPrinterStateChanged("spam!", "ipp://bar/baz", "printer-a", 0, "none", true);
         }
 
         modifiedSpy.wait(1000);
         QCOMPARE(modifiedSpy.count(), 1);
+    }
+    void testUnprocessedTime()
+    {
+        // Keep sending jobs with no gap for longer than four times the
+        // event delay. Check that two signals are emitted.
+        // One from the forcing of the signal and one as the timer finishes
+
+        int eventDelay = 200;
+        SignalRateLimiter handler(eventDelay);
+        QSignalSpy modifiedSpy(&handler, SIGNAL(printerModified(const QString&)));
+
+        QDateTime start = QDateTime::currentDateTime();
+
+        while (start.msecsTo(QDateTime::currentDateTime()) < eventDelay * 5) {
+            handler.onPrinterStateChanged("spam!", "ipp://foo/bar", "printer-a", 0, "none", true);
+        }
+
+        modifiedSpy.wait(eventDelay * 2);
+        QCOMPARE(modifiedSpy.count(), 2);
     }
 };
 
