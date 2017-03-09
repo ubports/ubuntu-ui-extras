@@ -665,6 +665,21 @@ MainView {
                         ListItemLayout {
                             id: modelLayout
                             title.text: displayName
+                            subtitle.text: {
+                                if (type == PrinterEnum.LPDType) return "LPD";
+                                if (type == PrinterEnum.IppSType) return "IppS";
+                                if (type == PrinterEnum.Ipp14Type) return "Ipp14";
+                                if (type == PrinterEnum.HttpType) return "Http";
+                                if (type == PrinterEnum.BehType) return "Beh";
+                                if (type == PrinterEnum.SocketType) return "Socket";
+                                if (type == PrinterEnum.HttpsType) return "Https";
+                                if (type == PrinterEnum.IppType) return "Ipp";
+                                if (type == PrinterEnum.HPType) return "HP";
+                                if (type == PrinterEnum.USBType) return "USB";
+                                if (type == PrinterEnum.HPFaxType) return "HPFax";
+                                if (type == PrinterEnum.DNSSDType) return "DNSSD";
+                                else return "Unknown protocol";
+                            }
 
                             Icon {
                                 id: icon
