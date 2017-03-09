@@ -44,7 +44,6 @@ void Printer::setJobModel(JobModel* jobModel)
 {
     if (!m_jobs.sourceModel()) {
         m_jobs.setSourceModel(jobModel);
-        m_jobs.sort(JobModel::Roles::IdRole);
     }
 }
 
