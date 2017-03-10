@@ -333,6 +333,10 @@ private Q_SLOTS:
         m_instance->setCopies(100);
         m_instance->setPrinter(printer1);
         QCOMPARE(m_instance->copies(), 100); // Copies stays the same.
+
+        // Conform to APS (Andrew Printer Spec)
+        m_instance->setCopies(1);
+        QCOMPARE(m_instance->copies(), 1);
     }
 private:
     PrinterJob *m_instance = nullptr;
