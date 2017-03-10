@@ -86,6 +86,13 @@ private Q_SLOTS:
         m_backend->m_location = "location";
         QCOMPARE(m_instance->location(), m_backend->location());
     }
+    void testRemote()
+    {
+        m_backend->m_remote = false;
+        QCOMPARE(m_instance->isRemote(), m_backend->isRemote());
+        m_backend->m_remote = true;
+        QCOMPARE(m_instance->isRemote(), m_backend->isRemote());
+    }
     void testSupportedDuplexModes_data()
     {
         QTest::addColumn<QList<PrinterEnum::DuplexMode>>("modes");
