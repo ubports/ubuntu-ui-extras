@@ -306,6 +306,34 @@ private Q_SLOTS:
     {
         QCOMPARE(m_instance->state(), PrinterEnum::JobState::Pending);
     }
+
+    /* Test that the copies value is changed in certain situations:
+        - when the printer changes, and
+        - the current copies value matches the default of the previous printer
+    */
+    void testSaneCopiesValue()
+    {
+        MockPrinterBackend *backend1 = new MockPrinterBackend("printer1");
+        backend1->printerOptions["printer1"].insert("Copies", "2");
+        QSharedPointer<Printer> printer1 = QSharedPointer<Printer>(new Printer(backend1));
+
+        MockPrinterBackend *backend2 = new MockPrinterBackend("printer2");
+        backend2->printerOptions["printer2"].insert("Copies", "5");
+        QSharedPointer<Printer> printer2 = QSharedPointer<Printer>(new Printer(backend2));
+
+        // Base case
+        m_instance->setPrinter(printer1);
+        QCOMPARE(m_instance->copies(), 2);
+
+        // We expect the job to assume the copies of the new printer
+        m_instance->setPrinter(printer2);
+        QCOMPARE(m_instance->copies(), 5);
+
+        // Set a non-default value, change printer.
+        m_instance->setCopies(100);
+        m_instance->setPrinter(printer1);
+        QCOMPARE(m_instance->copies(), 100); // Copies stays the same.
+    }
 private:
     PrinterJob *m_instance = nullptr;
     MockPrinterBackend *m_backend = nullptr;
