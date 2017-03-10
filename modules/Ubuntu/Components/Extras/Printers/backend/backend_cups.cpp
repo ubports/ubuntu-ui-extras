@@ -15,6 +15,7 @@
  */
 
 #include "backend/backend_cups.h"
+#include "cups/devicesearcher.h"
 #include "cups/printerdriverloader.h"
 #include "cups/printerloader.h"
 #include "utils.h"
@@ -312,12 +313,11 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             ret[option] = extendedAttributesResults["printer-state-message"];
         } else if (option == QStringLiteral("DeviceUri")) {
             auto res = extendedAttributesResults;
+            if (!res["printer-uri-supported"].toString().isEmpty()) {
+                ret[option] = res["printer-uri-supported"];
+            }
             if (!res["device-uri"].toString().isEmpty()) {
                 ret[option] = res["device-uri"];
-            } else if (res["printer-uri-supported"].toString().isEmpty()) {
-                ret[option] = res["printer-uri-supported"];
-            } else {
-                ret[option] = QString();
             }
         } else if (option == QStringLiteral("Shared") && dest) {
             ret[option] = cupsGetOption("printer-is-shared",
@@ -571,6 +571,11 @@ QString PrinterCupsBackend::makeAndModel() const
     return m_info.makeAndModel();
 }
 
+bool PrinterCupsBackend::isRemote() const
+{
+    return m_info.isRemote();
+}
+
 PrinterEnum::State PrinterCupsBackend::state() const
 {
     switch (m_info.state()) {
@@ -701,6 +706,22 @@ void PrinterCupsBackend::cancelPrinterDriverRequest()
     Q_EMIT requestPrinterDriverCancel();
 }
 
+void PrinterCupsBackend::searchForDevices()
+{
+
+    auto thread = new QThread;
+    auto searcher = new DeviceSearcher();
+    searcher->moveToThread(thread);
+    connect(thread, SIGNAL(started()), searcher, SLOT(load()));
+    connect(searcher, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(searcher, SIGNAL(finished()), searcher, SLOT(deleteLater()));
+    connect(searcher, SIGNAL(finished()), this, SIGNAL(deviceSearchFinished()));
+    connect(searcher, SIGNAL(loaded(const Device&)),
+            this, SIGNAL(deviceFound(const Device&)));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    thread->start();
+}
+
 void PrinterCupsBackend::refresh()
 {
     if (m_printerName.isEmpty()) {
@@ -771,3 +792,4 @@ void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
 {
     m_activeRequests.remove(printer->name());
 }
+

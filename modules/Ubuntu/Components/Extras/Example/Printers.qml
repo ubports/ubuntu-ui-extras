@@ -394,6 +394,12 @@ MainView {
                     }
                 }
             }
+
+            Label {
+                anchors.centerIn: parent
+                visible: printerList.count === 0
+                text: "No printers found"
+            }
         }
     }
 
@@ -476,9 +482,7 @@ MainView {
                 }
             }
 
-            Component.onCompleted: {
-                Printers.prepareToAddPrinter();
-            }
+            Component.onCompleted: Printers.prepareToAddPrinter()
 
             Timer {
                 id: okTimer
@@ -489,14 +493,12 @@ MainView {
             Flickable {
                 id: addPrinterFlickable
                 anchors.fill: parent
+                contentHeight: contentItem.childrenRect.height
 
                 Column {
                     id: addPrinterCol
                     property bool enabled: true
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
+                    anchors { left: parent.left; right: parent.right }
 
                     Item {
                         id: errorMessageContainer
@@ -529,10 +531,7 @@ MainView {
 
                     ListItems.ValueSelector {
                         id: driverSelector
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Choose driver"
                         values: [
                             "Select printer from database",
@@ -542,10 +541,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Filter drivers"
                         control: TextField {
                             id: driverFilter
@@ -612,10 +608,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Printer name"
                         control: TextField {
                             id: printerName
@@ -625,10 +618,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Description (optional)"
                         control: TextField {
                             id: printerDescription
@@ -638,10 +628,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Location (optional)"
                         control: TextField {
                             id: printerLocation
@@ -649,6 +636,93 @@ MainView {
                         }
                         enabled: parent.enabled
                     }
+                }
+
+                Label {
+                    id: remotePrintersLabel
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: units.gu(2)
+                        top: addPrinterCol.bottom
+                    }
+                    text: "Other printers"
+
+                    ActivityIndicator {
+                        id: remotePrintersSearchIndicator
+                        anchors {
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
+                        property var target
+                        Component.onCompleted: target = Printers.remotePrinters
+                        running: target.searching
+                    }
+                }
+
+                ListView {
+                    id: remotePrintersList
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: remotePrintersLabel.bottom
+                        topMargin: units.gu(2)
+                    }
+                    height: contentItem.childrenRect.height
+                    model: Printers.remotePrinters
+                    delegate: ListItem {
+                        height: modelLayout.height + (divider.visible ? divider.height : 0)
+                        ListItemLayout {
+                            id: modelLayout
+                            title.text: displayName
+                            subtitle.text: {
+                                if (type == PrinterEnum.LPDType) return "LPD";
+                                if (type == PrinterEnum.IppSType) return "IppS";
+                                if (type == PrinterEnum.Ipp14Type) return "Ipp14";
+                                if (type == PrinterEnum.HttpType) return "Http";
+                                if (type == PrinterEnum.BehType) return "Beh";
+                                if (type == PrinterEnum.SocketType) return "Socket";
+                                if (type == PrinterEnum.HttpsType) return "Https";
+                                if (type == PrinterEnum.IppType) return "Ipp";
+                                if (type == PrinterEnum.HPType) return "HP";
+                                if (type == PrinterEnum.USBType) return "USB";
+                                if (type == PrinterEnum.HPFaxType) return "HPFax";
+                                if (type == PrinterEnum.DNSSDType) return "DNSSD";
+                                else return "Unknown protocol";
+                            }
+
+                            Icon {
+                                id: icon
+                                width: height
+                                height: units.gu(2.5)
+                                name: "network-printer-symbolic"
+                                SlotsLayout.position: SlotsLayout.First
+                            }
+
+                            Button {
+                                text: "Select printer"
+                                onClicked: {
+                                    var suggestedPrinterName = (" " + displayName).slice(1);
+                                    suggestedPrinterName = suggestedPrinterName.replace(/\ /g, "\-");
+                                    printerUri.text = uri;
+                                    printerName.text = suggestedPrinterName;
+                                    printerDescription.text = info;
+                                    printerLocation.text = location;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Label {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: remotePrintersLabel.bottom
+                        topMargin: units.gu(2)
+                    }
+                    text: "No other printers found"
+                    visible: !remotePrintersSearchIndicator.running && remotePrintersList.count == 0
                 }
             }
         }

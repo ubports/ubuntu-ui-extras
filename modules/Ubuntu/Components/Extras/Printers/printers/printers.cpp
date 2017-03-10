@@ -34,6 +34,7 @@ Printers::Printers(QObject *parent)
 Printers::Printers(PrinterBackend *backend, QObject *parent)
     : QObject(parent)
     , m_backend(backend)
+    , m_devices(backend)
     , m_drivers(backend)
     , m_model(backend)
     , m_jobs(backend)
@@ -100,6 +101,29 @@ QAbstractItemModel* Printers::allPrinters()
 QAbstractItemModel* Printers::allPrintersWithPdf()
 {
     auto ret = &m_allPrintersWithPdf;
+    QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
+    return ret;
+}
+
+QAbstractItemModel* Printers::remotePrinters()
+{
+    m_devices.load();
+    auto ret = &m_devices;
+    QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
+    return ret;
+}
+QAbstractItemModel* Printers::localPrinters()
+{
+    /* Lazily initialize this model. Local printers are discerned from remotes
+    by checking if they are remote. */
+    if (!m_localPrinters.sourceModel()) {
+        m_localPrinters.setSourceModel(&m_model);
+        m_localPrinters.filterOnRemote(false);
+        m_localPrinters.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
+        m_localPrinters.sort(0, Qt::DescendingOrder);
+    }
+
+    auto ret = &m_localPrinters;
     QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
     return ret;
 }
@@ -187,6 +211,11 @@ void Printers::prepareToAddPrinter()
     }
 }
 
+void Printers::searchForDevices()
+{
+    m_devices.load();
+}
+
 bool Printers::addPrinter(const QString &name, const QString &ppd,
                           const QString &device, const QString &description,
                           const QString &location)
@@ -197,6 +226,9 @@ bool Printers::addPrinter(const QString &name, const QString &ppd,
         m_lastMessage = reply;
         return false;
     }
+
+    provisionPrinter(name);
+
     return true;
 }
 
@@ -212,7 +244,17 @@ bool Printers::addPrinterWithPpdFile(const QString &name,
         m_lastMessage = reply;
         return false;
     }
+
+    provisionPrinter(name);
+
     return true;
+}
+
+void Printers::provisionPrinter(const QString &name)
+{
+    // We mimic what System Config Printer does here.
+    m_backend->printerSetEnabled(name, true);
+    m_backend->printerSetAcceptJobs(name, true);
 }
 
 bool Printers::removePrinter(const QString &name)

@@ -44,7 +44,6 @@ void Printer::setJobModel(JobModel* jobModel)
 {
     if (!m_jobs.sourceModel()) {
         m_jobs.setSourceModel(jobModel);
-        m_jobs.sort(JobModel::Roles::IdRole);
     }
 }
 
@@ -105,7 +104,7 @@ void Printer::loadAttributes()
         QStringLiteral("SupportedPrintQualities"),
         QStringLiteral("StateMessage"),
         QStringLiteral("DeviceUri"),
-        QStringLiteral("Shared")
+        QStringLiteral("Shared"),
     });
     auto result = m_backend->printerGetOptions(name(), opts);
 
@@ -232,6 +231,11 @@ bool Printer::acceptJobs() const
 bool Printer::holdsDefinition() const
 {
     return m_backend->holdsDefinition();
+}
+
+bool Printer::isRemote() const
+{
+    return m_backend->isRemote();
 }
 
 PrinterEnum::PrinterType Printer::type() const
@@ -368,7 +372,8 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
             && state() == other->state()
             && lastMessage() == other->lastMessage()
             && deviceUri() == other->deviceUri()
-            && shared() == other->shared();
+            && shared() == other->shared()
+            && isRemote() == other->isRemote();
 }
 
 void Printer::updateFrom(QSharedPointer<Printer> other)
