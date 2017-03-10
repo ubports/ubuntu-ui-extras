@@ -44,7 +44,6 @@ void Printer::setJobModel(JobModel* jobModel)
 {
     if (!m_jobs.sourceModel()) {
         m_jobs.setSourceModel(jobModel);
-        m_jobs.sort(JobModel::Roles::IdRole);
     }
 }
 
@@ -243,6 +242,11 @@ bool Printer::holdsDefinition() const
     return m_backend->holdsDefinition();
 }
 
+bool Printer::isRemote() const
+{
+    return m_backend->isRemote();
+}
+
 PrinterEnum::PrinterType Printer::type() const
 {
     return m_backend->type();
@@ -392,7 +396,8 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
             && lastMessage() == other->lastMessage()
             && deviceUri() == other->deviceUri()
             && shared() == other->shared()
-            && copies() == other->copies();
+            && copies() == other->copies()
+            && isRemote() == other->isRemote();
 }
 
 void Printer::updateFrom(QSharedPointer<Printer> other)

@@ -254,6 +254,11 @@ public:
         return m_makeAndModel;
     }
 
+    virtual bool isRemote() const override
+    {
+        return m_remote;
+    }
+
     virtual PrinterEnum::State state() const override
     {
         return m_state;
@@ -403,6 +408,11 @@ public:
         Q_EMIT printerLoaded(printer);
     }
 
+    void mockDeviceFound(const Device &device)
+    {
+        Q_EMIT deviceFound(device);
+    }
+
     QString returnValue = QString::null;
 
     // Map from printer to key/val.
@@ -416,6 +426,7 @@ public:
     QMap<QString, PrinterEnum::OperationPolicy> operationPolicies;
 
     bool m_holdsDefinition = true;
+    bool m_remote = false;
 
     QString m_description = QString::null;
     QString m_location = QString::null;

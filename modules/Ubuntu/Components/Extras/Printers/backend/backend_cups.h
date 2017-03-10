@@ -86,6 +86,7 @@ public:
     virtual QString description() const override;
     virtual QString location() const override;
     virtual QString makeAndModel() const override;
+    virtual bool isRemote() const override;
 
     virtual PrinterEnum::State state() const override;
     virtual QList<QPageSize> supportedPageSizes() const override;
@@ -110,6 +111,11 @@ public:
 public Q_SLOTS:
     virtual void refresh() override;
     void createSubscription();
+
+    /* Starts a search for devices. Devices are synonymous with network devices
+    that may potentially be queues. This search will take at minimum 5 seconds,
+    normally longer. */
+    void searchForDevices();
 
 Q_SIGNALS:
     void cancelWorkers();

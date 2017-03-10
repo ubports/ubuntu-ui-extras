@@ -100,7 +100,13 @@ private Q_SLOTS:
         Printer p(backend);
         p.setCopies(5);
         QCOMPARE(backend->printerOptions[m_printerName].value("Copies").toInt(), 5);
-
+    }
+    void testRemote()
+    {
+        m_backend->m_remote = false;
+        QCOMPARE(m_instance->isRemote(), m_backend->isRemote());
+        m_backend->m_remote = true;
+        QCOMPARE(m_instance->isRemote(), m_backend->isRemote());
     }
     void testSupportedDuplexModes_data()
     {

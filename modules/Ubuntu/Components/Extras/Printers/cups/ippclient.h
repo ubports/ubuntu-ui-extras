@@ -81,6 +81,7 @@ public:
     );
     int createSubscription();
     void cancelSubscription(const int &subscriptionId);
+    bool getDevices(cups_device_cb_t callback, void *context) const;
 
 private:
     enum CupsResource

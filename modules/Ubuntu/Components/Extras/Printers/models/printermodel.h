@@ -48,6 +48,7 @@ public:
         SupportedDuplexModesRole,
         NameRole,
         DeviceUriRole,
+        HostNameRole,
         MakeRole,
         LocationRole,
         EnabledRole,
@@ -71,6 +72,7 @@ public:
 
         /* Indicates that this printers has no associated PPD. */
         IsRawRole,
+        IsRemoteRole,
         LastMessageRole,
         CopiesRole,
         JobRole,
@@ -132,6 +134,7 @@ public:
     void filterOnState(const PrinterEnum::State &state);
     void filterOnRecent(const bool recent);
     void filterOnPdf(const bool pdf);
+    void filterOnRemote(const bool remote);
 
     int count() const;
 protected:
@@ -154,6 +157,8 @@ private:
     bool m_recentEnabled = false;
     bool m_pdfEnabled = false;
     bool m_pdf = false;
+    bool m_remoteEnabled = false;
+    bool m_remote = false;
 };
 
 #endif // USC_PRINTER_MODEL_H
