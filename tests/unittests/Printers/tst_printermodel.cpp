@@ -297,6 +297,19 @@ private Q_SLOTS:
         QCOMPARE(m_model->data(m_model->index(1), PrinterModel::DeviceUriRole).toString(),
                  (QString) "/dev/null");
     }
+    void testHostNameRole()
+    {
+        MockPrinterBackend* backend = new MockPrinterBackend("a-printer");
+        backend->printerOptions["a-printer"].insert(
+            "DeviceUri", "ipps://foo.local/bar"
+        );
+
+        auto printerA = QSharedPointer<Printer>(new Printer(backend));
+        m_backend->mockPrinterLoaded(printerA);
+
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::HostNameRole).toString(),
+                 (QString) "foo.local");
+    }
     void testLastMessageRole()
     {
         MockPrinterBackend* backend = new MockPrinterBackend("a-printer");
@@ -321,6 +334,22 @@ private Q_SLOTS:
         QCOMPARE(m_model->count(), 2);
         QCOMPARE(m_model->data(m_model->index(1), PrinterModel::LocationRole).toString(),
                  QString("test-location"));
+    }
+    void testIsRemoteRole()
+    {
+        MockPrinterBackend* backend = new MockPrinterBackend("a-printer");
+        auto printer = QSharedPointer<Printer>(new Printer(backend));
+
+        backend->m_remote = false;
+        m_backend->mockPrinterLoaded(printer);
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::IsRemoteRole).toBool(),
+                 false);
+
+        backend->m_remote = true;
+        m_backend->mockPrinterLoaded(printer);
+        QCOMPARE(m_model->data(m_model->index(1), PrinterModel::IsRemoteRole).toBool(),
+                 true);
+
     }
     void testEnabledRole()
     {
