@@ -120,6 +120,8 @@ public Q_SLOTS:
     void updateFrom(QSharedPointer<PrinterJob> other);
 private Q_SLOTS:
     void loadDefaults();
+    void onPrinterAboutToChange(QSharedPointer<Printer> old,
+                                QSharedPointer<Printer> replacement);
 Q_SIGNALS:
     void collateChanged();
     void colorModelChanged();
@@ -132,6 +134,8 @@ Q_SIGNALS:
     void isTwoSidedChanged();
     void landscapeChanged();
     void messagesChanged();
+    void printerAboutToChange(QSharedPointer<Printer> old,
+                              QSharedPointer<Printer> replacement);
     void printerChanged();
     void printerNameChanged();
     void printRangeChanged();

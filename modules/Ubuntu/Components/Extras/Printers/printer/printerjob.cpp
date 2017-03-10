@@ -55,6 +55,8 @@ PrinterJob::PrinterJob(QString printerName, PrinterBackend *backend, int jobId,
     , m_title(QStringLiteral(""))
     , m_user("")
 {
+    connect(this, SIGNAL(printerAboutToChange(QSharedPointer<Printer>, QSharedPointer<Printer>)),
+            this, SLOT(onPrinterAboutToChange(QSharedPointer<Printer>, QSharedPointer<Printer>)));
 }
 
 PrinterJob::~PrinterJob()
@@ -373,14 +375,15 @@ void PrinterJob::setMessages(const QStringList &messages)
 void PrinterJob::setPrinter(QSharedPointer<Printer> printer)
 {
    if (m_printer != printer) {
-       m_printer = printer;
+        Q_EMIT printerAboutToChange(m_printer, printer);
+        m_printer = printer;
 
-       if (printer->name() != m_printerName) {
+        if (printer->name() != m_printerName) {
             m_printerName = printer->name();
             Q_EMIT printerNameChanged();
-       }
+        }
 
-       Q_EMIT printerChanged();
+        Q_EMIT printerChanged();
    }
    loadDefaults();
 }
@@ -507,4 +510,13 @@ void PrinterJob::updateFrom(QSharedPointer<PrinterJob> other)
 QString PrinterJob::user() const
 {
     return m_user;
+}
+
+void PrinterJob::onPrinterAboutToChange(QSharedPointer<Printer> old,
+                                        QSharedPointer<Printer> replacement)
+{
+    // Update copies if the current copies value match the default of the old.
+    if (old && replacement && (copies() == old->copies())) {
+        setCopies(replacement->copies());
+    }
 }
