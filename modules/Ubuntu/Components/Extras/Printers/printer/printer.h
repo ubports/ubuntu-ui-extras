@@ -63,6 +63,7 @@ public:
     bool shared() const;
     bool acceptJobs() const;
     bool holdsDefinition() const;
+    bool isRemote() const;
     QString lastMessage() const;
     QAbstractItemModel* jobs();
 

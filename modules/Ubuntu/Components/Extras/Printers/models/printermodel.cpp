@@ -22,6 +22,7 @@
 #include "utils.h"
 
 #include <QDebug>
+#include <QUrl>
 
 PrinterModel::PrinterModel(PrinterBackend *backend, QObject *parent)
     : QAbstractListModel(parent)
@@ -217,6 +218,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case DeviceUriRole:
             ret = printer->deviceUri();
             break;
+        case HostNameRole:
+            ret = QUrl(printer->deviceUri()).host();
+            break;
         case MakeRole:
             ret = printer->make();
             break;
@@ -282,6 +286,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
             break;
         case IsRawRole:
             ret = !printer->holdsDefinition();
+            break;
+        case IsRemoteRole:
+            ret = printer->isRemote();
             break;
         case LastMessageRole:
             ret = printer->lastMessage();
@@ -375,6 +382,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[SupportedDuplexModesRole] = "supportedDuplexModes";
         names[NameRole] = "name";
         names[DeviceUriRole] = "deviceUri";
+        names[HostNameRole] = "hostname";
         names[MakeRole] = "make";
         names[EnabledRole] = "printerEnabled";
         names[AcceptJobsRole] = "acceptJobs";
@@ -390,6 +398,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[IsPdfRole] = "isPdf";
         names[IsLoadedRole] = "isLoaded";
         names[IsRawRole] = "isRaw";
+        names[IsRemoteRole] = "isRemote";
         names[LastMessageRole] = "lastMessage";
         names[JobRole] = "jobs";
     }
@@ -469,6 +478,13 @@ void PrinterFilter::filterOnPdf(const bool pdf)
     m_pdf = pdf;
 }
 
+void PrinterFilter::filterOnRemote(const bool remote)
+{
+    m_remoteEnabled = true;
+    m_remote = remote;
+    invalidate();
+}
+
 bool PrinterFilter::filterAcceptsRow(int sourceRow,
                                      const QModelIndex &sourceParent) const
 {
@@ -492,6 +508,14 @@ bool PrinterFilter::filterAcceptsRow(int sourceRow,
                 childIndex, PrinterModel::StateRole
             ).toInt();
         accepts = m_state == state;
+    }
+
+    // If m_remote is true, we only show remote printers.
+    if (accepts && m_remoteEnabled) {
+        const bool isRemote = childIndex.model()->data(
+                childIndex, PrinterModel::IsRemoteRole
+            ).toBool();
+        accepts = m_remote == isRemote;
     }
 
     return accepts;

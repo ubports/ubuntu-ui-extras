@@ -101,6 +101,29 @@ public:
         PdfType,
     };
     Q_ENUM(PrinterType)
+
+    enum class DeviceType
+    {
+        UnknownType = 0,
+        LPDType,
+        IppSType,
+        Ipp14Type,
+        HttpType,
+        BehType,
+        SocketType,
+        HttpsType,
+        IppType,
+        HPType,
+        USBType,
+        HPFaxType,
+        DNSSDType,
+    };
+    Q_ENUM(DeviceType)
 };
+
+inline uint qHash(const PrinterEnum::JobState &state, uint seed)
+{
+    return qHash((int) state, seed);
+}
 
 #endif // USC_PRINTERS_ENUMS_H

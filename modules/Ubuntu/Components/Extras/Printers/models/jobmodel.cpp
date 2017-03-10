@@ -373,7 +373,7 @@ int JobFilter::count() const
 
 void JobFilter::filterOnActive()
 {
-    m_activeStates = QList<PrinterEnum::JobState>{
+    m_activeStates = QSet<PrinterEnum::JobState>{
         PrinterEnum::JobState::Processing,
     };
     m_activeFilterEnabled = true;
@@ -382,7 +382,7 @@ void JobFilter::filterOnActive()
 
 void JobFilter::filterOnPaused()
 {
-    m_pausedStates = QList<PrinterEnum::JobState>{
+    m_pausedStates = QSet<PrinterEnum::JobState>{
         PrinterEnum::JobState::Held,
     };
     m_pausedFilterEnabled = true;
@@ -391,7 +391,7 @@ void JobFilter::filterOnPaused()
 
 void JobFilter::filterOnQueued()
 {
-    m_queuedStates = QList<PrinterEnum::JobState>{
+    m_queuedStates = QSet<PrinterEnum::JobState>{
         PrinterEnum::JobState::Pending,
     };
     m_queuedFilterEnabled = true;
