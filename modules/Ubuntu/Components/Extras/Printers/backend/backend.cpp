@@ -210,6 +210,11 @@ QString PrinterBackend::makeAndModel() const
     return QString();
 }
 
+bool PrinterBackend::isRemote() const
+{
+    return false;
+}
+
 PrinterEnum::State PrinterBackend::state() const
 {
     return PrinterEnum::State::IdleState;

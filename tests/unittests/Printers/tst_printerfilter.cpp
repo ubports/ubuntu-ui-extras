@@ -119,6 +119,36 @@ private Q_SLOTS:
 
         delete model;
     }
+    void testRemoteAndLocal()
+    {
+        QScopedPointer<MockPrinterBackend> backend(new MockPrinterBackend);
+        PrinterModel *model = new PrinterModel(backend.data());
+
+        PrinterFilter locals;
+        locals.setSourceModel(model);
+        locals.filterOnRemote(false);
+        locals.filterOnPdf(false);
+
+        PrinterFilter remotes;
+        remotes.setSourceModel(model);
+        remotes.filterOnRemote(true);
+        locals.filterOnPdf(false);
+
+        MockPrinterBackend* backendA = new MockPrinterBackend("a-printer");
+        backendA->m_remote = true;
+        auto printerA = QSharedPointer<Printer>(new Printer(backendA));
+
+        MockPrinterBackend* backendB = new MockPrinterBackend("b-printer");
+        backendB->m_remote = false;
+        auto printerB = QSharedPointer<Printer>(new Printer(backendB));
+
+        // Load the two printers
+        backend->mockPrinterLoaded(printerA);
+        backend->mockPrinterLoaded(printerB);
+
+        QCOMPARE(locals.count(), 1);
+        QCOMPARE(remotes.count(), 1);
+    }
 };
 
 QTEST_GUILESS_MAIN(TestPrinterFilter)

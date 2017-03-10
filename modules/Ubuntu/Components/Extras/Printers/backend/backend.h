@@ -93,6 +93,7 @@ public:
     virtual QString description() const;
     virtual QString location() const;
     virtual QString makeAndModel() const;
+    virtual bool isRemote() const;
 
     virtual PrinterEnum::State state() const;
     virtual QList<QPageSize> supportedPageSizes() const;
@@ -125,6 +126,8 @@ Q_SIGNALS:
     void printerDriversFailedToLoad(const QString &errorMessage);
 
     void printerLoaded(QSharedPointer<Printer> printers);
+    void deviceFound(const Device &device);
+    void deviceSearchFinished();
 
     void jobCompleted(
         const QString &text,
