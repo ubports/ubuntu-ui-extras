@@ -58,7 +58,12 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
             const QModelIndex &parent, int first, int) {
         int jobId = m_jobs.data(m_jobs.index(first, 0, parent),
                                 JobModel::Roles::IdRole).toInt();
-        jobAdded(m_jobs.getJobById(jobId));
+        QString printerName = m_jobs.data(
+            m_jobs.index(first, 0, parent),
+            JobModel::Roles::PrinterNameRole
+        ).toString();
+
+        jobAdded(m_jobs.getJob(printerName, jobId));
     });
     connect(&m_model, &QAbstractItemModel::rowsInserted, [this](
             const QModelIndex &parent, int first, int) {
@@ -69,12 +74,28 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
         printerAdded(printer);
     });
 
+    // Connect printer loaded as we need to set the printer on the job
+    // when the printer has loaded
+//    connect(backend, SIGNAL(printerLoaded(QSharedPointer<Printer>)),
+//            this, SLOT(printerLoaded(QSharedPointer<Printer>)));
+
     // Assign jobmodels to printers right away.
     for (int i = 0; i < m_model.rowCount(); i++) {
         printerAdded(m_model.data(
                 m_model.index(i, 0),
                 PrinterModel::Roles::PrinterRole
             ).value<QSharedPointer<Printer>>()
+        );
+    }
+
+    // Ensure existing jobs have been added, incase some were added before
+    // the connect to rowsInserted was done
+    for (int i = 0; i < m_jobs.rowCount(); i++) {
+        jobAdded(
+            m_jobs.getJob(
+                m_jobs.data(m_jobs.index(i), JobModel::Roles::PrinterNameRole).toString(),
+                m_jobs.data(m_jobs.index(i), JobModel::IdRole).toInt()
+            )
         );
     }
 
@@ -271,8 +292,16 @@ bool Printers::removePrinter(const QString &name)
 void Printers::jobAdded(QSharedPointer<PrinterJob> job)
 {
     auto printer = m_model.getPrinterByName(job->printerName());
-    if (printer && job)
-        job->setPrinter(printer);
+
+    // Check if we have a valid printer, does not need to be loaded as JobLoader
+    // creates it's own Backend.
+    // If JobLoaded needs a loaded printer, add a printerLoaded the same as
+    // printerAdded and check here that the printer is not a ProxyType
+    // FIXME: if we change JobLoader to only require name() update this
+    if (printer && job) {
+        // Trigger JobLoader to load extended attributes in the background
+        m_backend->requestJobExtendedAttributes(printer, job);
+    }
 }
 
 void Printers::printerAdded(QSharedPointer<Printer> printer)
@@ -288,13 +317,32 @@ void Printers::printerAdded(QSharedPointer<Printer> printer)
         ).toString();
 
         int jobId = m_jobs.data(idx, JobModel::Roles::IdRole).toInt();
-        auto job = m_jobs.getJobById(jobId);
+        auto job = m_jobs.getJob(printerName, jobId);
         if (printerName == printer->name() && !job->printer()) {
-            job->setPrinter(printer);
-            return;
+            jobAdded(job);
         }
     }
 }
+
+//void Printers::printerLoaded(QSharedPointer<Printer> printer)
+//{
+//    qDebug() << Q_FUNC_INFO << "Printer loaded!!" << printer->type();
+
+//    // Loop through jobs and associate a printer with it.
+//    for (int i = 0; i < m_jobs.rowCount(); i++) {
+//        QModelIndex idx = m_jobs.index(i, 0);
+
+//        QString printerName = m_jobs.data(
+//            idx, JobModel::Roles::PrinterNameRole
+//        ).toString();
+
+//        int jobId = m_jobs.data(idx, JobModel::Roles::IdRole).toInt();
+//        auto job = m_jobs.getJob(printerName, jobId);
+//        if (printerName == printer->name() && !job->printer()) {
+//            jobAdded(job);
+//        }
+//    }
+//}
 
 void Printers::loadPrinter(const QString &name)
 {

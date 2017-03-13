@@ -30,6 +30,8 @@
 #include <QTimer>
 #include <QVariant>
 
+class PrinterBackend;
+class PrinterJob;
 class PRINTERS_DECL_EXPORT JobModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -76,20 +78,41 @@ public:
     int count() const;
 
     Q_INVOKABLE QVariantMap get(const int row) const;
-    QSharedPointer<PrinterJob> getJobById(const int &id);
+    QSharedPointer<PrinterJob> getJob(const QString &printerName, const int &id);
+public Q_SLOTS:
+    void updateJob(QSharedPointer<PrinterJob> oldJob,
+                   QSharedPointer<PrinterJob> newJob);
 private:
+    void addJob(QSharedPointer<PrinterJob> job);
+    void moveJob(const int &from, const int &to);
+    void removeJob(QSharedPointer<PrinterJob> job);
+    void updateJob(QSharedPointer<PrinterJob> Job);
+
     PrinterBackend *m_backend;
 
     QList<QSharedPointer<PrinterJob>> m_jobs;
 private Q_SLOTS:
-    void update();
-    void jobSignalCatchAll(const QString &text, const QString &printer_uri,
-                           const QString &printer_name, uint printer_state,
-                           const QString &printer_state_reasons,
-                           bool printer_is_accepting_jobs, uint job_id,
-                           uint job_state, const QString &job_state_reasons,
-                           const QString &job_name,
-                           uint job_impressions_completed);
+    void jobCreated(const QString &text, const QString &printer_uri,
+                    const QString &printer_name, uint printer_state,
+                    const QString &printer_state_reasons,
+                    bool printer_is_accepting_jobs, uint job_id,
+                    uint job_state, const QString &job_state_reasons,
+                    const QString &job_name,
+                    uint job_impressions_completed);
+    void jobState(const QString &text, const QString &printer_uri,
+                  const QString &printer_name, uint printer_state,
+                  const QString &printer_state_reasons,
+                  bool printer_is_accepting_jobs, uint job_id,
+                  uint job_state, const QString &job_state_reasons,
+                  const QString &job_name,
+                  uint job_impressions_completed);
+    void jobCompleted(const QString &text, const QString &printer_uri,
+                      const QString &printer_name, uint printer_state,
+                      const QString &printer_state_reasons,
+                      bool printer_is_accepting_jobs, uint job_id,
+                      uint job_state, const QString &job_state_reasons,
+                      const QString &job_name,
+                      uint job_impressions_completed);
 
 Q_SIGNALS:
     void countChanged();
