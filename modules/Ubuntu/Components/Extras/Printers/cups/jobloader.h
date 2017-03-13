@@ -17,6 +17,7 @@
 #ifndef USC_PRINTERS_CUPS_JOBLOADER_H
 #define USC_PRINTERS_CUPS_JOBLOADER_H
 
+#include "printer/printer.h"
 #include "printer/printerjob.h"
 
 #include <QList>
@@ -43,6 +44,7 @@ Q_SIGNALS:
     void finished();
     void loaded(QSharedPointer<PrinterJob> oldJob,
                 QSharedPointer<PrinterJob> newJob);
+    void printerLoaded(QSharedPointer<Printer> printer);
 };
 
 #endif // USC_PRINTERS_CUPS_JOBLOADER_H

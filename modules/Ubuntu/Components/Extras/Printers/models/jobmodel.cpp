@@ -146,22 +146,6 @@ void JobModel::addJob(QSharedPointer<PrinterJob> job)
     Q_EMIT countChanged();
 }
 
-void JobModel::moveJob(const int &from, const int &to)
-{
-    int size = m_jobs.size();
-    if (from < 0 || to < 0 || from >= size || to >= size) {
-        qWarning() << Q_FUNC_INFO << "Illegal move operation from"
-                   << from << "to" << to << ". Size was" << size;
-        return;
-    }
-    if (!beginMoveRows(QModelIndex(), from, from, QModelIndex(), to)) {
-        qWarning() << Q_FUNC_INFO << "failed to move rows.";
-        return;
-    }
-    m_jobs.move(from, to);
-    endMoveRows();
-}
-
 void JobModel::removeJob(QSharedPointer<PrinterJob> job)
 {
     qDebug() << Q_FUNC_INFO << job->jobId();
