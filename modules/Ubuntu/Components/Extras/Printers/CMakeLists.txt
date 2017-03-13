@@ -31,6 +31,7 @@ add_library(UbuntuComponentsExtrasPrintersQml SHARED
 
     cups/devicesearcher.cpp
     cups/ippclient.cpp
+    cups/jobloader.cpp
     cups/printerdriverloader.cpp
     cups/printerloader.cpp
 
