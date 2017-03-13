@@ -150,8 +150,6 @@ void PrinterJob::loadDefaults()
         return;
     }
 
-    qWarning() << Q_FUNC_INFO << jobId();
-
     if (jobId() > 0) {
         // Load the extra attributes for the job
         // NOTE: we don't need to type check them as they have been filtered for us
@@ -165,10 +163,14 @@ void PrinterJob::loadDefaults()
         // No colorModel will result in PrinterJob using defaultColorModel
         QString colorModel = attributes.value("ColorModel").toString();
         for (int i=0; i < m_printer->supportedColorModels().length(); i++) {
-            if (m_printer->supportedColorModels().at(i).originalOption == colorModel) {
+            if (m_printer->supportedColorModels().at(i).name == colorModel) {
                 setColorModel(i);
             }
         }
+
+        // TODO: do we need to set timezone?
+        setCompletedTime(attributes.value("CompletedTime").toDateTime());
+        setCreationTime(attributes.value("CreationTime").toDateTime());
 
         // No duplexMode will result in PrinterJob using defaultDuplexMode
         QString duplex = attributes.value("Duplex").toString();
@@ -192,6 +194,11 @@ void PrinterJob::loadDefaults()
             setPrintRange(pageRanges.join(QLocale::system().groupSeparator()));
         }
 
+        // TODO: do we need timezone?
+//        processingTime.setTimeZone(QTimeZone::systemTimeZone());
+//        processingTime.setTime_t(cupsJob->processing_time);
+        setProcessingTime(attributes.value("ProcessingTime").toDateTime());
+
         // No quality will result in PrinterJob using defaultPrintQuality
         QString quality = attributes.value("quality").toString();
         for (int i=0; i < m_printer->supportedPrintQualities().length(); i++) {
@@ -201,11 +208,13 @@ void PrinterJob::loadDefaults()
         }
 
         setReverse(attributes.value("OutputOrder").toString() == "Reverse");
+        setSize(attributes.value("Size").toInt());
+        setUser(attributes.value("User").toString());
+    } else {
+        setColorModel(m_printer->supportedColorModels().indexOf(m_printer->defaultColorModel()));
+        setDuplexMode(m_printer->supportedDuplexModes().indexOf(m_printer->defaultDuplexMode()));
+        setQuality(m_printer->supportedPrintQualities().indexOf(m_printer->defaultPrintQuality()));
     }
-
-    setColorModel(m_printer->supportedColorModels().indexOf(m_printer->defaultColorModel()));
-    setDuplexMode(m_printer->supportedDuplexModes().indexOf(m_printer->defaultDuplexMode()));
-    setQuality(m_printer->supportedPrintQualities().indexOf(m_printer->defaultPrintQuality()));
 }
 
 QStringList PrinterJob::messages() const
@@ -382,7 +391,6 @@ void PrinterJob::setPrinter(QSharedPointer<Printer> printer)
 
        Q_EMIT printerChanged();
    }
-   loadDefaults();
 }
 
 void PrinterJob::setPrintRange(const QString &printRange)
@@ -478,30 +486,44 @@ bool PrinterJob::deepCompare(QSharedPointer<PrinterJob> other) const
     // Return true if they are the same
     return collate() == other->collate()
             && colorModel() == other->colorModel()
+            && completedTime() == other->completedTime()
             && copies() == other->copies()
+            && creationTime() == other->creationTime()
             && duplexMode() == other->duplexMode()
+            && impressionsCompleted() == other->impressionsCompleted()
             && landscape() == other->landscape()
+            && messages() == other->messages()
             && printRange() == other->printRange()
             && printRangeMode() == other->printRangeMode()
+            && processingTime() == other->processingTime()
             && quality() == other->quality()
             && reverse() == other->reverse()
+            && size() == other->size()
             && state() == other->state()
-            && title() == other->title();
+            && title() == other->title()
+            && user() == other->user();
 }
 
 void PrinterJob::updateFrom(QSharedPointer<PrinterJob> other)
 {
     setCollate(other->collate());
     setColorModel(other->colorModel());
+    setCompletedTime(other->completedTime());
     setCopies(other->copies());
+    setCreationTime(other->creationTime());
     setDuplexMode(other->duplexMode());
+    setImpressionsCompleted(other->impressionsCompleted());
     setLandscape(other->landscape());
+    setMessages(other->messages());
     setPrintRange(other->printRange());
     setPrintRangeMode(other->printRangeMode());
+    setProcessingTime(other->processingTime());
     setQuality(other->quality());
     setReverse(other->reverse());
+    setSize(other->size());
     setState(other->state());
     setTitle(other->title());
+    setUser(other->user());
 }
 
 QString PrinterJob::user() const
