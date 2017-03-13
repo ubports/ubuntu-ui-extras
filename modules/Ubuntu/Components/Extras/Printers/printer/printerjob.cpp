@@ -209,6 +209,12 @@ void PrinterJob::loadDefaults()
         }
 
         setReverse(attributes.value("OutputOrder").toString() == "Reverse");
+
+        // If there was a state then set it
+        if (attributes.contains("State")) {
+            setState(static_cast<PrinterEnum::JobState>(attributes.value("State").toInt()));
+        }
+
         setSize(attributes.value("Size").toInt());
         setUser(attributes.value("User").toString());
     } else {

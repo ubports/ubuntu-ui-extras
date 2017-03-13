@@ -143,13 +143,13 @@ void JobModel::jobCompleted(
 
 void JobModel::jobSignalPrinterModified(const QString &printerName)
 {
-    qDebug() << Q_FUNC_INFO << printerName;
-
-    // Find the active job and force a refresh
+    // Find the active or pending job and force a refresh
+    // We force refresh pending jobs incase there is a flood of signals
+    // meaning that the jobStateChanged signal might not have happened yet
     Q_FOREACH(auto job, m_jobs) {
         if (job->printerName() == printerName
-                && job->state() == PrinterEnum::JobState::Processing) {
-            qDebug() << Q_FUNC_INFO << "Forcing refresh" << job->jobId();
+                && (job->state() == PrinterEnum::JobState::Processing
+                        || job->state() == PrinterEnum::JobState::Pending)) {
             Q_EMIT forceJobRefresh(printerName, job->jobId());
         }
     }
