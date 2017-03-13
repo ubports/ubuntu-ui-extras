@@ -550,6 +550,8 @@ QList<QSharedPointer<PrinterJob>> PrinterCupsBackend::printerGetJobs()
     // TODO: once printerGetJob() only gets a single job
     // use that to build PrinterJob
     Q_FOREACH(auto job, jobs) {
+        // Note: extended attributes are not loaded here
+        // they are loaded in JobLoader
         auto newJob = QSharedPointer<PrinterJob>(
             new PrinterJob(QString::fromUtf8(job->dest), this, job->id)
         );
@@ -724,6 +726,8 @@ void PrinterCupsBackend::requestJobExtendedAttributes(
     connect(loader, SIGNAL(finished()), loader, SLOT(deleteLater()));
     connect(loader, SIGNAL(loaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)),
             this, SIGNAL(jobLoaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)));
+    connect(loader, SIGNAL(printerLoaded(QSharedPointer<Printer>)),
+            this, SIGNAL(printerLoaded(QSharedPointer<Printer>)));
     connect(loader, SIGNAL(loaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)),
             this, SLOT(onJobLoaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));

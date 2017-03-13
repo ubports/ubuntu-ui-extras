@@ -84,7 +84,6 @@ public Q_SLOTS:
                    QSharedPointer<PrinterJob> newJob);
 private:
     void addJob(QSharedPointer<PrinterJob> job);
-    void moveJob(const int &from, const int &to);
     void removeJob(QSharedPointer<PrinterJob> job);
     void updateJob(QSharedPointer<PrinterJob> Job);
 
