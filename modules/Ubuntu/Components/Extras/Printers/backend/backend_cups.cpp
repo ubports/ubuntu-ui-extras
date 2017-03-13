@@ -528,6 +528,12 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("Size", QVariant(0));
     }
 
+    // If there is a state then get it, as there could have been a signal
+    // flood. Which then means a forceJobRefresh is able to update the state
+    if (__CUPS_ATTR_EXISTS(rawMap, "job-state", int)) {
+        map.insert("State", rawMap.value("job-state").toInt());
+    }
+
     if (__CUPS_ATTR_EXISTS(rawMap, "job-originating-user-name", QString)) {
         map.insert("User", rawMap.value("job-originating-user-name"));
     } else {
