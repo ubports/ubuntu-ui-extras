@@ -455,6 +455,8 @@ QMap<QString, QVariant> IppClient::printerGetAttributes(
 QMap<QString, QVariant> IppClient::printerGetJobAttributes(const QString &printerName,
                                                            const int jobId)
 {
+    m_thread_lock.lock();
+
     ipp_t *request;
     QMap<QString, QVariant> map;
 
@@ -490,6 +492,8 @@ QMap<QString, QVariant> IppClient::printerGetJobAttributes(const QString &printe
     if (reply) {
         ippDelete(reply);
     }
+
+    m_thread_lock.unlock();
 
     return map;
 }

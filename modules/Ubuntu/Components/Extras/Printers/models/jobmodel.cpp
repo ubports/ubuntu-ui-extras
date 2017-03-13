@@ -158,7 +158,6 @@ void JobModel::jobSignalPrinterModified(const QString &printerName)
 void JobModel::addJob(QSharedPointer<PrinterJob> job)
 {
     int i = m_jobs.size();
-    qDebug() << Q_FUNC_INFO << job->jobId() << i;
 
     beginInsertRows(QModelIndex(), i, i);
     m_jobs.append(job);
@@ -169,8 +168,8 @@ void JobModel::addJob(QSharedPointer<PrinterJob> job)
 
 void JobModel::removeJob(QSharedPointer<PrinterJob> job)
 {
-    qDebug() << Q_FUNC_INFO << job->jobId();
     int i = m_jobs.indexOf(job);
+
     beginRemoveRows(QModelIndex(), i, i);
     m_jobs.removeAt(i);
     endRemoveRows();
@@ -181,8 +180,6 @@ void JobModel::removeJob(QSharedPointer<PrinterJob> job)
 // This is used by JobModel::jobState as it has modified an existing job
 void JobModel::updateJob(QSharedPointer<PrinterJob> job)
 {
-    qDebug() << Q_FUNC_INFO << job->jobId();
-
     int i = m_jobs.indexOf(job);
     QModelIndex idx = index(i);
     Q_EMIT dataChanged(idx, idx);
@@ -192,19 +189,10 @@ void JobModel::updateJob(QSharedPointer<PrinterJob> job)
 void JobModel::updateJob(QSharedPointer<PrinterJob> oldJob,
                          QSharedPointer<PrinterJob> newJob)
 {
-    qDebug() << Q_FUNC_INFO << oldJob->jobId() << newJob->jobId();
-
     int i = m_jobs.indexOf(oldJob);
     QModelIndex idx = index(i);
 
     if (i > -1) {
-        // Copy the preloaded Printer (?) so that JobModel always shows correct
-        // attributes, eg colorModel needs Printer::supportedColorModels
-        //
-        // FIXME: does it break anything as the Printer is not from PrinterModel
-        // Maybe all comparisions should just use printerName() ?
-        oldJob->setPrinter(newJob->printer());
-
         oldJob->updateFrom(newJob);
         Q_EMIT dataChanged(idx, idx);
     } else {
