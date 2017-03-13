@@ -354,10 +354,7 @@ cups_dest_t* PrinterCupsBackend::makeDest(const QString &name,
         __CUPS_ADD_OPTION(dest, "Collate", "False");
     }
 
-    if (options->copies() > 1) {
-        __CUPS_ADD_OPTION(dest, "copies", QString::number(options->copies()).toLocal8Bit());
-    }
-
+    __CUPS_ADD_OPTION(dest, "copies", QString::number(options->copies()).toLocal8Bit());
     __CUPS_ADD_OPTION(dest, "ColorModel", options->getColorModel().name.toLocal8Bit());
     __CUPS_ADD_OPTION(dest, "Duplex", Utils::duplexModeToPpdChoice(options->getDuplexMode()).toLocal8Bit());
 
