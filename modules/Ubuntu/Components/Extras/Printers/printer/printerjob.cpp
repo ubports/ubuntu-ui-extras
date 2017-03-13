@@ -155,7 +155,7 @@ void PrinterJob::loadDefaults()
         // NOTE: we don't need to type check them as they have been filtered for us
 
         QMap<QString, QVariant> attributes = m_backend->printerGetJobAttributes(
-            m_printer->name(), jobId());
+            printerName(), jobId());
 
         setCollate(attributes.value("Collate").toBool());
         setCopies(attributes.value("copies").toInt());

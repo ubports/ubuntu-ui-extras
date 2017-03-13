@@ -44,26 +44,9 @@ JobLoader::~JobLoader()
 
 void JobLoader::load()
 {
-    QSharedPointer<Printer> printer;
-    PrinterBackend *backend;
-
-    // FIXME: always build a new Printer and IppClient as it isn't thread safe
-    if (true || m_printer->type() == PrinterEnum::PrinterType::ProxyType) {
-        IppClient *client = new IppClient();
-        OrgCupsCupsdNotifierInterface* notifier = new OrgCupsCupsdNotifierInterface(
-                    "", CUPSD_NOTIFIER_DBUS_PATH, QDBusConnection::systemBus());
-        QPrinterInfo info = QPrinterInfo::printerInfo(m_printer->name());
-
-        backend = new PrinterCupsBackend(client, info, notifier);
-        printer = QSharedPointer<Printer>(new Printer(backend));
-    } else {
-        backend = m_backend;
-        printer = m_printer;
-    }
-
     // Construct a job
     QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(
-        new PrinterJob(m_printer->name(), backend, m_job->jobId())
+        new PrinterJob(m_printer->name(), m_backend, m_job->jobId())
     );
 
     // Copy things that we don't set in extended attributes
@@ -72,19 +55,11 @@ void JobLoader::load()
     job->setTitle(m_job->title());
 
     // Set the printer for this thread
-    job->setPrinter(printer);
+    job->setPrinter(m_printer);
 
     // Load the extended attributes of the job
     job->loadDefaults();
 
     Q_EMIT loaded(m_job, job);
-
-    // If the given Printer was not loaded expose our loaded one
-    // FIXME: for now skip this, need to check if having different
-    // notifier/ippClient/backend could cause issues?
-    if (false && m_printer->type() == PrinterEnum::PrinterType::ProxyType) {
-        Q_EMIT printerLoaded(printer);
-    }
-
     Q_EMIT finished();
 }
