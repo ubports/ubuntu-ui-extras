@@ -44,7 +44,6 @@ Q_SIGNALS:
     void finished();
     void loaded(QSharedPointer<PrinterJob> oldJob,
                 QSharedPointer<PrinterJob> newJob);
-    void printerLoaded(QSharedPointer<Printer> printer);
 };
 
 #endif // USC_PRINTERS_CUPS_JOBLOADER_H
