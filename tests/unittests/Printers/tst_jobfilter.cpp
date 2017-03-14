@@ -32,10 +32,12 @@ private Q_SLOTS:
         QScopedPointer<MockPrinterBackend> backend(new MockPrinterBackend);
         JobModel model(backend.data());
 
-        auto job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend.data()));
+        auto job = QSharedPointer<PrinterJob>(
+            new PrinterJob("test-printer", backend.data(), 100)
+        );
         backend->m_jobs << job;
         // Trigger update.
-        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+        backend->mockJobCreated("", "", "test-printer", 1, "", true, 100, 3, "", "", 1);
 
         JobFilter filter;
         filter.setSourceModel(&model);

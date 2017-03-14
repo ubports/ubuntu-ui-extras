@@ -170,36 +170,30 @@ public:
         }
     }
 
-    virtual void holdJob(const QString &name, const int jobId) override
+    virtual void holdJob(const QString &printerName, const int jobId) override
     {
-        for (int i=0; i < m_jobs.count(); i++) {
-            QSharedPointer<PrinterJob> job = m_jobs[i];
-
-            if (job->printerName() == name && job->jobId() == jobId) {
-                auto jobHeld = QSharedPointer<PrinterJob>(new PrinterJob(job->printerName(), this, jobId));
-                jobHeld->setState(PrinterEnum::JobState::Held);
-                m_jobs.replace(0, jobHeld);
-
-                Q_EMIT jobState(job->title(), "", job->printerName(), 1, "", true, job->jobId(), 4, "", "", 1);
-                break;
+        // Change the faked job state
+        Q_FOREACH(auto job, m_jobs) {
+            if (job->printerName() == printerName
+                    && job->jobId() == jobId) {
+                job->setState(PrinterEnum::JobState::Held);
             }
         }
+
+        Q_EMIT jobState("", "", printerName, 1, "", true, jobId, static_cast<uint>(PrinterEnum::JobState::Held), "", "", 1);
     }
 
-    virtual void releaseJob(const QString &name, const int jobId) override
+    virtual void releaseJob(const QString &printerName, const int jobId) override
     {
-        for (int i=0; i < m_jobs.count(); i++) {
-            QSharedPointer<PrinterJob> job = m_jobs[i];
-
-            if (job->printerName() == name && job->jobId() == jobId) {
-                auto jobRelease = QSharedPointer<PrinterJob>(new PrinterJob(job->printerName(), this, jobId));
-                jobRelease->setState(PrinterEnum::JobState::Pending);
-                m_jobs.replace(0, jobRelease);
-
-                Q_EMIT jobState(job->title(), "", job->printerName(), 1, "", true, job->jobId(), 4, "", "", 1);
-                break;
+        // Change the faked job state
+        Q_FOREACH(auto job, m_jobs) {
+            if (job->printerName() == printerName
+                    && job->jobId() == jobId) {
+                job->setState(PrinterEnum::JobState::Pending);
             }
         }
+
+        Q_EMIT jobState("", "", printerName, 1, "", true, jobId, static_cast<uint>(PrinterEnum::JobState::Pending), "", "", 1);
     }
 
     virtual int printFileToDest(const QString &filepath,
@@ -225,7 +219,12 @@ public:
     {
         Q_UNUSED(name);
         Q_UNUSED(jobId);
-        return QMap<QString, QVariant>();
+        QMap<QString, QVariant> map;
+
+        // Set default copies value (used by PrinterJob::loadDefaults to 1)
+        map.insert("copies", QVariant(1));
+
+        return map;
     }
 
     virtual QString printerName() const override
@@ -331,6 +330,26 @@ public:
         m_requestedPrinters << printerName;
     }
 
+    virtual void requestJobExtendedAttributes(QSharedPointer<Printer> printer, QSharedPointer<PrinterJob> oldJob) override
+    {
+        // Pass the local job back as the loaded job
+        Q_FOREACH(auto internalJob, m_jobs) {
+            if (printer->name() == oldJob->printerName()
+                    && internalJob->jobId() == oldJob->jobId()) {
+                // Emulate JobLoader::load
+                auto newJob = QSharedPointer<PrinterJob>(new PrinterJob(oldJob->printerName(), this, oldJob->jobId()));
+                internalJob->setPrinter(printer);
+                newJob->setPrinter(printer);
+                newJob->loadDefaults();
+
+                // Use the internal job to update the values from
+                newJob->updateFrom(internalJob);
+
+                Q_EMIT jobLoaded(oldJob, newJob);
+            }
+        }
+    }
+
     virtual PrinterEnum::PrinterType type() const override
     {
         return m_type;
@@ -381,6 +400,34 @@ public:
     )
     {
         Q_EMIT jobCreated(
+            text, printer_uri, printer_name, printer_state,
+            printer_state_reasons, printer_is_accepting_jobs, job_id,
+            job_state, job_state_reasons, job_name, job_impressions_completed
+        );
+    }
+
+    void mockJobCompleted(
+        const QString &text, const QString &printer_uri,
+        const QString &printer_name, uint printer_state,
+        const QString &printer_state_reasons, bool printer_is_accepting_jobs,
+        uint job_id, uint job_state, const QString &job_state_reasons,
+        const QString &job_name, uint job_impressions_completed)
+    {
+        Q_EMIT jobCompleted(
+            text, printer_uri, printer_name, printer_state,
+            printer_state_reasons, printer_is_accepting_jobs, job_id,
+            job_state, job_state_reasons, job_name, job_impressions_completed
+        );
+    }
+
+    void mockJobState(
+        const QString &text, const QString &printer_uri,
+        const QString &printer_name, uint printer_state,
+        const QString &printer_state_reasons, bool printer_is_accepting_jobs,
+        uint job_id, uint job_state, const QString &job_state_reasons,
+        const QString &job_name, uint job_impressions_completed)
+    {
+        Q_EMIT jobState(
             text, printer_uri, printer_name, printer_state,
             printer_state_reasons, printer_is_accepting_jobs, job_id,
             job_state, job_state_reasons, job_name, job_impressions_completed
