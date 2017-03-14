@@ -487,7 +487,11 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("Duplex", QVariant(""));
     }
 
-    if (__CUPS_ATTR_EXISTS(rawMap, "job-impressions-completed", int)) {
+    // Try job-media-sheets-completed first as it should include duplex
+    // if it doesn't exist fallback to job-impressions-completed
+    if (__CUPS_ATTR_EXISTS(rawMap, "job-media-sheets-completed", int)) {
+        map.insert("impressionsCompleted", rawMap.value("job-media-sheets-completed"));
+    } else if (__CUPS_ATTR_EXISTS(rawMap, "job-impressions-completed", int)) {
         map.insert("impressionsCompleted", rawMap.value("job-impressions-completed"));
     } else {
         map.insert("impressionsCompleted", QVariant(0));
