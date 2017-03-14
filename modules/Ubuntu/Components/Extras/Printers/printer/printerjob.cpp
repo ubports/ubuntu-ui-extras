@@ -515,8 +515,13 @@ QString PrinterJob::user() const
 void PrinterJob::onPrinterAboutToChange(QSharedPointer<Printer> old,
                                         QSharedPointer<Printer> replacement)
 {
-    // Update copies if the current copies value match the default of the old.
-    if (old && replacement && (copies() == old->copies())) {
+    /* If we have an old printer, and the current copies value matches that
+    of the old printer's, we'll use the new printer's copy value.
+
+    The second case is if there was no old printer. */
+    bool haveOld = old && replacement && (copies() == old->copies());
+    bool noOld = !old && replacement;
+    if (haveOld || noOld) {
         setCopies(replacement->copies());
     }
 }
