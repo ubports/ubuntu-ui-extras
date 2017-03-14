@@ -26,44 +26,6 @@
 #include <QTest>
 
 
-class MockPrinters : QObject
-{
-    Q_OBJECT
-public:
-    MockPrinters(PrinterBackend *backend, JobModel *model, QObject* parent=Q_NULLPTR)
-        : QObject(parent)
-        , m_backend(backend)
-        , m_jobs(model)
-    {
-        connect(m_jobs, &QAbstractItemModel::rowsInserted, [this](
-                const QModelIndex &parent, int first, int) {
-            int jobId = m_jobs->data(m_jobs->index(first, 0, parent),
-                                    JobModel::Roles::IdRole).toInt();
-            QString printerName = m_jobs->data(
-                m_jobs->index(first, 0, parent),
-                JobModel::Roles::PrinterNameRole
-            ).toString();
-
-            jobAdded(m_jobs->getJob(printerName, jobId));
-        });
-    }
-    QList<QSharedPointer<Printer>> m_printers;
-public Q_SLOTS:
-    void jobAdded(QSharedPointer<PrinterJob> job)
-    {
-        Q_FOREACH(auto printer, m_printers) {
-            if (printer->name() == job->printerName()) {
-                m_backend->requestJobExtendedAttributes(printer, job);
-            }
-        }
-    }
-
-private:
-    PrinterBackend *m_backend;
-    JobModel *m_jobs;
-};
-
-
 class TestJobModel : public QObject
 {
     Q_OBJECT
@@ -71,22 +33,19 @@ private Q_SLOTS:
     void init()
     {
         m_backend = new MockPrinterBackend;
-        m_model = new JobModel(m_backend);
+        m_printers = new Printers(m_backend);
 
-        // Setup Printers otherwise job's aren't loaded
-        m_printers = new MockPrinters(m_backend, m_model);
+        m_model = static_cast<JobModel *>(m_printers->printJobs());
 
         PrinterBackend* backend = new MockPrinterBackend("test-printer");
         auto printer = QSharedPointer<Printer>(new Printer(backend));
         m_backend->mockPrinterLoaded(printer);
-        m_printers->m_printers << printer;
     }
     void cleanup()
     {
-        QSignalSpy destroyedSpy(m_model, SIGNAL(destroyed(QObject*)));
-        m_model->deleteLater();
+        QSignalSpy destroyedSpy(m_printers, SIGNAL(destroyed(QObject*)));
+        m_printers->deleteLater();
         QTRY_COMPARE(destroyedSpy.count(), 1);
-        delete m_backend;
     }
 
     // Tests for adding/removing/changing things in the model
@@ -194,7 +153,7 @@ private Q_SLOTS:
 
         auto printer = QSharedPointer<Printer>(new Printer(backend));
         m_backend->mockPrinterLoaded(printer);
-        m_printers->m_printers << printer;
+//        m_printers->m_printers << printer;
 
         auto jobA = QSharedPointer<PrinterJob>(new PrinterJob("a-printer", backend, 1));
         jobA->setPrinter(printer);
@@ -568,7 +527,7 @@ private Q_SLOTS:
 private:
     MockPrinterBackend *m_backend;
     JobModel *m_model;
-    MockPrinters *m_printers;
+    Printers *m_printers;
 };
 
 QTEST_GUILESS_MAIN(TestJobModel)
