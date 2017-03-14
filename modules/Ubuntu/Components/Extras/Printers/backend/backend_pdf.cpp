@@ -65,6 +65,8 @@ QMap<QString, QVariant> PrinterPdfBackend::printerGetOptions(
             ret[option] = QLatin1String("");
         } else if (option == QLatin1String("DeviceUri")) {
             ret[option] = QLatin1String("");
+        } else if (option == QLatin1String("Copies")) {
+            ret[option] = 0;
         } else if (option == QLatin1String("Shared")) {
             ret[option] = false;
         } else {

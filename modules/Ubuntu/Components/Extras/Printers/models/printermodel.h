@@ -74,6 +74,7 @@ public:
         IsRawRole,
         IsRemoteRole,
         LastMessageRole,
+        CopiesRole,
         JobRole,
         LastRole = JobRole,
     };
