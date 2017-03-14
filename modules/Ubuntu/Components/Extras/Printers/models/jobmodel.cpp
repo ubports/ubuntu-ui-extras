@@ -172,6 +172,11 @@ void JobModel::updateJob(QSharedPointer<PrinterJob> oldJob,
     QModelIndex idx = index(i);
 
     if (i > -1) {
+        // FIXME: this doesn't copy the Printer created in the separate thread
+        // otherwise Printer becomes out of sync with PrinterModel (does this
+        // matter for the JobModel? printerName should be used?)
+        // Which has the side affect of colorModel, duplex, quality not working
+        // as they are not able todo eg Printer::supportedColorModels
         oldJob->updateFrom(newJob);
         Q_EMIT dataChanged(idx, idx);
     } else {
