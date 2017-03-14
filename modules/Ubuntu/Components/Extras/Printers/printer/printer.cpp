@@ -89,6 +89,13 @@ void Printer::updateDeviceUri(const QMap<QString, QVariant> &serverAttrs)
     m_deviceUri = serverAttrs.value(QStringLiteral("DeviceUri")).toString();
 }
 
+void Printer::updateCopies(const QMap<QString, QVariant> &serverAttrs)
+{
+    m_copies = serverAttrs.value(QStringLiteral("Copies")).toInt();
+    if (m_copies <= 0)
+        m_copies = 1;
+}
+
 void Printer::updateShared(const QMap<QString, QVariant> &serverAttrs)
 {
     m_shared = serverAttrs.value(QStringLiteral("Shared")).toBool();
@@ -104,6 +111,7 @@ void Printer::loadAttributes()
         QStringLiteral("SupportedPrintQualities"),
         QStringLiteral("StateMessage"),
         QStringLiteral("DeviceUri"),
+        QStringLiteral("Copies"),
         QStringLiteral("Shared"),
     });
     auto result = m_backend->printerGetOptions(name(), opts);
@@ -113,6 +121,7 @@ void Printer::loadAttributes()
     updatePrintQualities(result);
     updateLastMessage(result);
     updateDeviceUri(result);
+    updateCopies(result);
     updateShared(result);
 }
 
@@ -243,6 +252,11 @@ PrinterEnum::PrinterType Printer::type() const
     return m_backend->type();
 }
 
+int Printer::copies() const
+{
+    return m_copies;
+}
+
 void Printer::setDefaultColorModel(const ColorModel &colorModel)
 {
     if (defaultColorModel() == colorModel) {
@@ -346,6 +360,15 @@ void Printer::setDefaultPageSize(const QPageSize &pageSize)
     m_backend->refresh();
 }
 
+void Printer::setCopies(const int &copies)
+{
+    if (this->copies() == copies) {
+        return;
+    }
+
+    m_backend->printerSetCopies(name(), copies);
+}
+
 QString Printer::lastMessage() const
 {
     return m_stateMessage;
@@ -373,6 +396,7 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
             && lastMessage() == other->lastMessage()
             && deviceUri() == other->deviceUri()
             && shared() == other->shared()
+            && copies() == other->copies()
             && isRemote() == other->isRemote();
 }
 

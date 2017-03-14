@@ -624,6 +624,20 @@ private Q_SLOTS:
         QVERIFY(job != Q_NULLPTR);
         QCOMPARE(job->rowCount(), 0);
     }
+    void testCopiesRole()
+    {
+        MockPrinterBackend* backend = new MockPrinterBackend("a-printer");
+        backend->printerOptions["a-printer"].insert("Copies", "2");
+
+        auto printer = QSharedPointer<Printer>(new Printer(backend));
+        m_backend->mockPrinterLoaded(printer);
+
+        auto copies = m_model->data(m_model->index(1), PrinterModel::CopiesRole).toInt();
+        QCOMPARE(copies, 2);
+
+        m_model->setData(m_model->index(1), 5, PrinterModel::CopiesRole);
+        QCOMPARE(backend->printerOptions["a-printer"].value("Copies").toInt(), 5);
+    }
 
 private:
     MockPrinterBackend *m_backend;
