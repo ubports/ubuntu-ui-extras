@@ -55,6 +55,8 @@ public:
         const QString &name,
         const bool accept,
         const QString &reason = QString::null) override;
+    virtual QString printerSetCopies(
+        const QString &name, const int &copies) override;
     virtual QString printerSetShared(const QString &name,
                                      const bool shared) override;
     virtual QString printerSetInfo(const QString &name,
@@ -146,7 +148,7 @@ private:
     int m_cupsSubscriptionId;
     mutable QMap<QString, cups_dest_t*> m_dests; // Printer name, dest.
     mutable QMap<QString, ppd_file_t*> m_ppds; // Printer name, ppd.
-    QSet<QString> m_activeRequests;
+    QSet<QString> m_activePrinterRequests;
     QSet<QPair<QString, int>> m_activeJobRequests;
 
 private Q_SLOTS:

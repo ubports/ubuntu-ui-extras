@@ -280,6 +280,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case JobRole:
             ret = QVariant::fromValue(printer->jobs());
             break;
+        case CopiesRole:
+            ret = printer->copies();
+            break;
         case EnabledRole:
             ret = printer->enabled();
             break;
@@ -344,6 +347,8 @@ bool PrinterModel::setData(const QModelIndex &index,
         case AcceptJobsRole:
             printer->setAcceptJobs(value.toBool());
             break;
+        case CopiesRole:
+            printer->setCopies(value.toInt());
         case SharedRole:
             printer->setShared(value.toBool());
             break;
@@ -384,6 +389,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[IsRawRole] = "isRaw";
         names[IsRemoteRole] = "isRemote";
         names[LastMessageRole] = "lastMessage";
+        names[CopiesRole] = "copies";
         names[JobRole] = "jobs";
     }
 

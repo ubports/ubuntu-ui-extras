@@ -120,9 +120,9 @@ private Q_SLOTS:
         Printers p(backend);
 
         // Add one.
-        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend));
+        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend, 1));
         backend->m_jobs << job;
-        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+        backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
 
         // Check it was added
         QCOMPARE(model->count(), 1);
@@ -147,13 +147,13 @@ private Q_SLOTS:
         Printers p(backend);
 
         // Add one.
-        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend));
+        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend, 1));
         backend->m_jobs << job;
-        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+        backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, static_cast<uint>(PrinterEnum::JobState::Pending), "", "", 1);
 
         // Check it was added
         QCOMPARE(model->count(), 1);
-        QCOMPARE(job->state(), PrinterEnum::JobState::Pending);
+        QCOMPARE(model->getJob("test-printer", 1)->state(), PrinterEnum::JobState::Pending);
 
         // Setup the spy
         QSignalSpy dataChangedSpy(model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
@@ -163,7 +163,7 @@ private Q_SLOTS:
 
         // Check item was removed
         QTRY_COMPARE(dataChangedSpy.count(), 1);
-        QCOMPARE(job->state(), PrinterEnum::JobState::Held);
+        QCOMPARE(model->getJob("test-printer", 1)->state(), PrinterEnum::JobState::Held);
     }
     void testReleaseJob()
     {
@@ -172,15 +172,15 @@ private Q_SLOTS:
         Printers p(backend);
 
         // Add one.
-        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend));
+        QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend, 1));
         backend->m_jobs << job;
-        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+        backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
 
         p.holdJob(job->printerName(), job->jobId());
 
         // Check it was added and is in held state
         QCOMPARE(model->count(), 1);
-        QCOMPARE(job->state(), PrinterEnum::JobState::Held);
+        QCOMPARE(model->getJob("test-printer", 1)->state(), PrinterEnum::JobState::Held);
 
         // Setup the spy
         QSignalSpy dataChangedSpy(model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
@@ -190,7 +190,7 @@ private Q_SLOTS:
 
         // Check item was removed
         QTRY_COMPARE(dataChangedSpy.count(), 1);
-        QCOMPARE(job->state(), PrinterEnum::JobState::Pending);
+        QCOMPARE(model->getJob("test-printer", 1)->state(), PrinterEnum::JobState::Pending);
     }
     void testPrinterRemove()
     {
@@ -252,23 +252,31 @@ private Q_SLOTS:
         auto printer = QSharedPointer<Printer>(new Printer(printerBackend));
         backend->mockPrinterLoaded(printer);
 
-        auto job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend));
+        auto job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend, 1));
         backend->m_jobs << job;
 
+        // Setup the spy
+        QSignalSpy jobLoadedSpy(backend, SIGNAL(jobLoaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)));
+
         // Trigger update.
-        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+        backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
+
+        QTRY_COMPARE(jobLoadedSpy.count(), 1);
 
         // Job now has a shared pointer to printer.
-        QCOMPARE(job->printer()->name(), printer->name());
+        JobModel *model = static_cast<JobModel *>(p.printJobs());
+
+        QCOMPARE(model->getJob(printer->name(), job->jobId())->printer(), printer);
+        QCOMPARE(model->getJob(printer->name(), job->jobId())->printer()->name(), printer->name());
     }
     void testSetPrinterJobFilter()
     {
         MockPrinterBackend *backend = new MockPrinterBackend;
         Printers p(backend);
 
-        auto job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend));
+        auto job = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", backend, 1));
         backend->m_jobs << job;
-        backend->mockJobCreated("", "", "", 1, "", true, 100, 1, "", "", 1);
+        backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
 
         MockPrinterBackend *printerBackend = new MockPrinterBackend("test-printer");
         auto printer = QSharedPointer<Printer>(new Printer(printerBackend));
