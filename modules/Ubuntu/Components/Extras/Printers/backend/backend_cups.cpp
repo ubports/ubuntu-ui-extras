@@ -41,7 +41,10 @@ PrinterCupsBackend::PrinterCupsBackend(IppClient *client, QPrinterInfo info,
     , m_knownQualityOptions({
         "Quality", "PrintQuality", "HPPrintQuality", "StpQuality",
         "OutputMode",})
-    , m_extendedAttributeNames({"StateMessage", "DeviceUri", "IsShared"})
+    , m_extendedAttributeNames({
+        QStringLiteral("StateMessage"), QStringLiteral("DeviceUri"),
+        QStringLiteral("IsShared"), QStringLiteral("Copies"),
+    })
     , m_client(client)
     , m_info(info)
     , m_notifier(notifier)
@@ -180,6 +183,15 @@ QString PrinterCupsBackend::printerSetAcceptJobs(
     return QString();
 }
 
+QString PrinterCupsBackend::printerSetCopies(const QString &name,
+                                             const int &copies)
+{
+    if (!m_client->printerSetCopies(name, copies)) {
+        return m_client->getLastError();
+    }
+    return QString();
+}
+
 QString PrinterCupsBackend::printerSetShared(const QString &name,
                                              const bool shared)
 {
@@ -188,7 +200,6 @@ QString PrinterCupsBackend::printerSetShared(const QString &name,
     }
     return QString();
 }
-
 
 QString PrinterCupsBackend::printerSetInfo(const QString &name,
                                            const QString &info)
@@ -234,8 +245,11 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
         if (options.contains(extendedOption)) {
             extendedAttributesResults = m_client->printerGetAttributes(
                 name, QStringList({
-                    "device-uri", "printer-uri-supported",
-                    "printer-state-message"})
+                    QStringLiteral("device-uri"),
+                    QStringLiteral("printer-uri-supported"),
+                    QStringLiteral("printer-state-message"),
+                    QStringLiteral("copies-default"),
+                })
             );
             break;
         }
@@ -319,6 +333,8 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetOptions(
             if (!res["device-uri"].toString().isEmpty()) {
                 ret[option] = res["device-uri"];
             }
+        } else if (option == QStringLiteral("Copies")) {
+            ret[option] = extendedAttributesResults[QStringLiteral("copies-default")];
         } else if (option == QStringLiteral("Shared") && dest) {
             ret[option] = cupsGetOption("printer-is-shared",
                                         dest->num_options, dest->options);
@@ -338,10 +354,7 @@ cups_dest_t* PrinterCupsBackend::makeDest(const QString &name,
         __CUPS_ADD_OPTION(dest, "Collate", "False");
     }
 
-    if (options->copies() > 1) {
-        __CUPS_ADD_OPTION(dest, "copies", QString::number(options->copies()).toLocal8Bit());
-    }
-
+    __CUPS_ADD_OPTION(dest, "copies", QString::number(options->copies()).toLocal8Bit());
     __CUPS_ADD_OPTION(dest, "ColorModel", options->getColorModel().name.toLocal8Bit());
     __CUPS_ADD_OPTION(dest, "Duplex", Utils::duplexModeToPpdChoice(options->getDuplexMode()).toLocal8Bit());
 
