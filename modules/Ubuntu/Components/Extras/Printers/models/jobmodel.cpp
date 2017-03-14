@@ -164,7 +164,8 @@ void JobModel::updateJob(QSharedPointer<PrinterJob> job)
     Q_EMIT dataChanged(idx, idx);
 }
 
-// This is used by JobLoader as it creates a new job to prevent threading issues
+// This is used by JobLoader as it gives us the oldJob and a newJob which has
+// the extended attributes loaded. We then load the data from this newJob.
 void JobModel::updateJob(QSharedPointer<PrinterJob> oldJob,
                          QSharedPointer<PrinterJob> newJob)
 {
