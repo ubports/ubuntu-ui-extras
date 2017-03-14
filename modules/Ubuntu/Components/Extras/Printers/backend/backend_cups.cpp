@@ -745,7 +745,7 @@ void PrinterCupsBackend::requestJobExtendedAttributes(
 
 void PrinterCupsBackend::requestPrinter(const QString &printerName)
 {
-    if (m_activeRequests.contains(printerName)) {
+    if (m_activePrinterRequests.contains(printerName)) {
         return;
     }
 
@@ -761,7 +761,7 @@ void PrinterCupsBackend::requestPrinter(const QString &printerName)
             this, SLOT(onPrinterLoaded(QSharedPointer<Printer>)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
-    m_activeRequests << printerName;
+    m_activePrinterRequests << printerName;
 
     thread->start();
 }
@@ -882,6 +882,6 @@ void PrinterCupsBackend::onJobLoaded(QSharedPointer<PrinterJob> oldJob,
 
 void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
 {
-    m_activeRequests.remove(printer->name());
+    m_activePrinterRequests.remove(printer->name());
 }
 

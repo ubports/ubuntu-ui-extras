@@ -225,12 +225,7 @@ public:
     {
         Q_UNUSED(name);
         Q_UNUSED(jobId);
-        QMap<QString, QVariant> map;
-
-        // Set default copies value (used by PrinterJob::loadDefaults to 1)
-        map.insert("copies", QVariant(1));
-
-        return map;
+        return QMap<QString, QVariant>();
     }
 
     virtual QString printerName() const override
@@ -344,11 +339,10 @@ public:
                     && internalJob->jobId() == oldJob->jobId()) {
                 // Emulate JobLoader::load
                 auto newJob = QSharedPointer<PrinterJob>(new PrinterJob(oldJob->printerName(), this, oldJob->jobId()));
-                internalJob->setPrinter(printer);
                 newJob->setPrinter(printer);
-                newJob->loadDefaults();
 
-                // Use the internal job to update the values from
+                // We don't need to do newJob->loadDefaults() as instead we
+                // load from the internal job that the test uses
                 newJob->updateFrom(internalJob);
 
                 Q_EMIT jobLoaded(oldJob, newJob);

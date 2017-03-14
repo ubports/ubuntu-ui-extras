@@ -264,8 +264,10 @@ private Q_SLOTS:
         QTRY_COMPARE(jobLoadedSpy.count(), 1);
 
         // Job now has a shared pointer to printer.
-        QCOMPARE(backend->m_jobs.at(0)->printer(), printer);
-        QCOMPARE(backend->m_jobs.at(0)->printer()->name(), printer->name());
+        JobModel *model = static_cast<JobModel *>(p.printJobs());
+
+        QCOMPARE(model->getJob(printer->name(), job->jobId())->printer(), printer);
+        QCOMPARE(model->getJob(printer->name(), job->jobId())->printer()->name(), printer->name());
     }
     void testSetPrinterJobFilter()
     {
