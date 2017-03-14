@@ -185,7 +185,8 @@ void JobModel::updateJob(QSharedPointer<PrinterJob> job)
     Q_EMIT dataChanged(idx, idx);
 }
 
-// This is used by JobLoader as it creates a new job to prevent threading issues
+// This is used by JobLoader as it gives us the oldJob and a newJob which has
+// the extended attributes loaded. We then load the data from this newJob.
 void JobModel::updateJob(QSharedPointer<PrinterJob> oldJob,
                          QSharedPointer<PrinterJob> newJob)
 {
@@ -193,7 +194,12 @@ void JobModel::updateJob(QSharedPointer<PrinterJob> oldJob,
     QModelIndex idx = index(i);
 
     if (i > -1) {
+        // FIXME: the Printer from the newJob which is not always fully loaded
+        // Which has the side affect of colorModel, duplex, quality not working
+        // as they are not able todo eg Printer::supportedColorModels
+        oldJob->setPrinter(newJob->printer());
         oldJob->updateFrom(newJob);
+
         Q_EMIT dataChanged(idx, idx);
     } else {
         qWarning() << "Tried to updateJob which doesn't exist:" << newJob->printerName() << newJob->jobId();

@@ -39,6 +39,7 @@ private Q_SLOTS:
         m_mock_printer = QSharedPointer<Printer>(new Printer(m_backend));
         m_instance = new PrinterJob(m_printer_name, m_backend);
         m_instance->setPrinter(m_mock_printer);
+        m_instance->loadDefaults();
     }
     void cleanup()
     {
@@ -60,6 +61,7 @@ private Q_SLOTS:
 
         m_instance = new PrinterJob(m_printer_name, m_backend);
         m_instance->setPrinter(m_mock_printer);
+        m_instance->loadDefaults();
     }
     void refreshInstanceWithBackend(MockPrinterBackend *backend)
     {
@@ -305,6 +307,57 @@ private Q_SLOTS:
     void testState()
     {
         QCOMPARE(m_instance->state(), PrinterEnum::JobState::Pending);
+    }
+
+    /* Test that the copies value is changed in certain situations:
+        - when the printer changes, and
+        - the current copies value matches the default of the previous printer
+    */
+    void testSaneCopiesValue()
+    {
+        MockPrinterBackend *backend1 = new MockPrinterBackend("printer1");
+        backend1->printerOptions["printer1"].insert("Copies", "2");
+        QSharedPointer<Printer> printer1 = QSharedPointer<Printer>(new Printer(backend1));
+
+        MockPrinterBackend *backend2 = new MockPrinterBackend("printer2");
+        backend2->printerOptions["printer2"].insert("Copies", "5");
+        QSharedPointer<Printer> printer2 = QSharedPointer<Printer>(new Printer(backend2));
+
+        // Base case
+        m_instance->setPrinter(printer1);
+        QCOMPARE(m_instance->copies(), 2);
+
+        // We expect the job to assume the copies of the new printer
+        m_instance->setPrinter(printer2);
+        QCOMPARE(m_instance->copies(), 5);
+
+        // Set a non-default value, change printer.
+        m_instance->setCopies(100);
+        m_instance->setPrinter(printer1);
+        QCOMPARE(m_instance->copies(), 100); // Copies stays the same.
+
+        // Conform to APS (Andrew Printer Spec)
+        m_instance->setCopies(1);
+        QCOMPARE(m_instance->copies(), 1);
+    }
+
+    /* If the default printer has a default copies value of say 3. When you
+    load the printing-app it is set to 1. This is because the PrinterJob
+    constructor sets m_copies to 1 and then PrinterJob::onPrinterAboutToChange
+    tries to compare the old copies value with it. Which doesn't work. There
+    has to be a secondary case on PrinterJob::onPrinterAboutToChange to always
+    set the copies from the new printer if the old printer was null. */
+    void testOldPrinterIsNull()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend("printer");
+        backend->printerOptions["printer"].insert("Copies", "5");
+        QSharedPointer<Printer> printer = QSharedPointer<Printer>(new Printer(backend));
+
+        auto job = new PrinterJob("printer", backend);
+        QCOMPARE(job->copies(), 1);
+
+        job->setPrinter(printer);
+        QCOMPARE(job->copies(), 5);
     }
 private:
     PrinterJob *m_instance = nullptr;
