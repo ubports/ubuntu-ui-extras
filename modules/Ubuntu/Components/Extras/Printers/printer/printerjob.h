@@ -95,6 +95,7 @@ public Q_SLOTS:
     PrinterEnum::DuplexMode getDuplexMode() const;
     ColorModel getColorModel() const;
     PrintQuality getPrintQuality() const;
+    void loadAttributes(const QMap<QString, QVariant>& attributes);
     void loadDefaults();
     Q_INVOKABLE void printFile(const QUrl &url);
     void setCollate(const bool collate);

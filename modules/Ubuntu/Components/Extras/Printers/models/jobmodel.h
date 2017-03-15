@@ -80,9 +80,8 @@ public:
 
     Q_INVOKABLE QVariantMap get(const int row) const;
     QSharedPointer<PrinterJob> getJob(const QString &printerName, const int &id);
-public Q_SLOTS:
-    void updateJob(QSharedPointer<PrinterJob> oldJob,
-                   QSharedPointer<PrinterJob> newJob);
+
+    void updateJobPrinter(QSharedPointer<PrinterJob> job, QSharedPointer<Printer> printer);
 private:
     void addJob(QSharedPointer<PrinterJob> job);
     void removeJob(QSharedPointer<PrinterJob> job);
@@ -115,6 +114,7 @@ private Q_SLOTS:
                       const QString &job_name,
                       uint job_impressions_completed);
     void jobSignalPrinterModified(const QString &printerName);
+    void updateJob(QString printerName, int jobId, QMap<QString, QVariant> attributes);
 
 Q_SIGNALS:
     void countChanged();

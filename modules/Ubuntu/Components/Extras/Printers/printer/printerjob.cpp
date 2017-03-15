@@ -145,6 +145,73 @@ bool PrinterJob::landscape() const
     return m_landscape;
 }
 
+void PrinterJob::loadAttributes(const QMap<QString, QVariant> &attributes)
+{
+    // Load the extra attributes for the job
+    // NOTE: we don't need to type check them as they have been filtered for us
+
+    setCollate(attributes.value("Collate").toBool());
+    setCopies(attributes.value("copies").toInt());
+
+    // No colorModel will result in PrinterJob using defaultColorModel
+    QString colorModel = attributes.value("ColorModel").toString();
+    for (int i=0; i < m_printer->supportedColorModels().length(); i++) {
+        if (m_printer->supportedColorModels().at(i).name == colorModel) {
+            setColorModel(i);
+        }
+    }
+
+    // TODO: do we need to set timezone?
+    setCompletedTime(attributes.value("CompletedTime").toDateTime());
+    setCreationTime(attributes.value("CreationTime").toDateTime());
+
+    // No duplexMode will result in PrinterJob using defaultDuplexMode
+    QString duplex = attributes.value("Duplex").toString();
+    PrinterEnum::DuplexMode duplexMode = Utils::ppdChoiceToDuplexMode(duplex);
+    for (int i=0; i < m_printer->supportedDuplexModes().length(); i++) {
+        if (m_printer->supportedDuplexModes().at(i) == duplexMode) {
+            setDuplexMode(i);
+        }
+    }
+
+    setImpressionsCompleted(attributes.value("impressionsCompleted").toInt());
+    setLandscape(attributes.value("landscape").toBool());
+    setMessages(attributes.value("messages").toStringList());
+
+    QStringList pageRanges = attributes.value("page-ranges").toStringList();
+    if (pageRanges.isEmpty()) {
+        setPrintRangeMode(PrinterEnum::PrintRange::AllPages);
+        setPrintRange(QStringLiteral(""));
+    } else {
+        setPrintRangeMode(PrinterEnum::PrintRange::PageRange);
+        // Use groupSeparator as createSeparatedList adds "and" into the string
+        setPrintRange(pageRanges.join(QLocale::system().groupSeparator()));
+    }
+
+    // TODO: do we need timezone?
+//        processingTime.setTimeZone(QTimeZone::systemTimeZone());
+//        processingTime.setTime_t(cupsJob->processing_time);
+    setProcessingTime(attributes.value("ProcessingTime").toDateTime());
+
+    // No quality will result in PrinterJob using defaultPrintQuality
+    QString quality = attributes.value("quality").toString();
+    for (int i=0; i < m_printer->supportedPrintQualities().length(); i++) {
+        if (m_printer->supportedPrintQualities().at(i).name == quality) {
+            setQuality(i);
+        }
+    }
+
+    setReverse(attributes.value("OutputOrder").toString() == "Reverse");
+
+    // If there was a state then set it
+    if (attributes.contains("State")) {
+        setState(static_cast<PrinterEnum::JobState>(attributes.value("State").toInt()));
+    }
+
+    setSize(attributes.value("Size").toInt());
+    setUser(attributes.value("User").toString());
+}
+
 void PrinterJob::loadDefaults()
 {
     if (!m_printer) {
@@ -153,72 +220,11 @@ void PrinterJob::loadDefaults()
     }
 
     if (jobId() > 0) {
-        // Load the extra attributes for the job
-        // NOTE: we don't need to type check them as they have been filtered for us
-
-        QMap<QString, QVariant> attributes = m_backend->printerGetJobAttributes(
-            printerName(), jobId());
-
-        setCollate(attributes.value("Collate").toBool());
-        setCopies(attributes.value("copies").toInt());
-
-        // No colorModel will result in PrinterJob using defaultColorModel
-        QString colorModel = attributes.value("ColorModel").toString();
-        for (int i=0; i < m_printer->supportedColorModels().length(); i++) {
-            if (m_printer->supportedColorModels().at(i).name == colorModel) {
-                setColorModel(i);
-            }
-        }
-
-        // TODO: do we need to set timezone?
-        setCompletedTime(attributes.value("CompletedTime").toDateTime());
-        setCreationTime(attributes.value("CreationTime").toDateTime());
-
-        // No duplexMode will result in PrinterJob using defaultDuplexMode
-        QString duplex = attributes.value("Duplex").toString();
-        PrinterEnum::DuplexMode duplexMode = Utils::ppdChoiceToDuplexMode(duplex);
-        for (int i=0; i < m_printer->supportedDuplexModes().length(); i++) {
-            if (m_printer->supportedDuplexModes().at(i) == duplexMode) {
-                setDuplexMode(i);
-            }
-        }
-
-        setImpressionsCompleted(attributes.value("impressionsCompleted").toInt());
-        setLandscape(attributes.value("landscape").toBool());
-        setMessages(attributes.value("messages").toStringList());
-
-        QStringList pageRanges = attributes.value("page-ranges").toStringList();
-        if (pageRanges.isEmpty()) {
-            setPrintRangeMode(PrinterEnum::PrintRange::AllPages);
-            setPrintRange(QStringLiteral(""));
-        } else {
-            setPrintRangeMode(PrinterEnum::PrintRange::PageRange);
-            // Use groupSeparator as createSeparatedList adds "and" into the string
-            setPrintRange(pageRanges.join(QLocale::system().groupSeparator()));
-        }
-
-        // TODO: do we need timezone?
-//        processingTime.setTimeZone(QTimeZone::systemTimeZone());
-//        processingTime.setTime_t(cupsJob->processing_time);
-        setProcessingTime(attributes.value("ProcessingTime").toDateTime());
-
-        // No quality will result in PrinterJob using defaultPrintQuality
-        QString quality = attributes.value("quality").toString();
-        for (int i=0; i < m_printer->supportedPrintQualities().length(); i++) {
-            if (m_printer->supportedPrintQualities().at(i).name == quality) {
-                setQuality(i);
-            }
-        }
-
-        setReverse(attributes.value("OutputOrder").toString() == "Reverse");
-
-        // If there was a state then set it
-        if (attributes.contains("State")) {
-            setState(static_cast<PrinterEnum::JobState>(attributes.value("State").toInt()));
-        }
-
-        setSize(attributes.value("Size").toInt());
-        setUser(attributes.value("User").toString());
+        loadAttributes(
+            m_backend->printerGetJobAttributes(
+                printerName(), jobId()
+            )
+        );
     } else {
         setColorModel(m_printer->supportedColorModels().indexOf(m_printer->defaultColorModel()));
         setDuplexMode(m_printer->supportedDuplexModes().indexOf(m_printer->defaultDuplexMode()));

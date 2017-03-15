@@ -743,15 +743,15 @@ void PrinterCupsBackend::requestJobExtendedAttributes(
     }
 
     auto thread = new QThread;
-    auto loader = new JobLoader(printer, job, this);
+    auto loader = new JobLoader(this, printer->name(), job->jobId());
     loader->moveToThread(thread);
     connect(thread, SIGNAL(started()), loader, SLOT(load()));
     connect(loader, SIGNAL(finished()), thread, SLOT(quit()));
     connect(loader, SIGNAL(finished()), loader, SLOT(deleteLater()));
-    connect(loader, SIGNAL(loaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)),
-            this, SIGNAL(jobLoaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)));
-    connect(loader, SIGNAL(loaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)),
-            this, SLOT(onJobLoaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)));
+    connect(loader, SIGNAL(loaded(QString, int, QMap<QString, QVariant>)),
+            this, SIGNAL(jobLoaded(QString, int, QMap<QString, QVariant>)));
+    connect(loader, SIGNAL(loaded(QString, int, QMap<QString, QVariant>)),
+            this, SLOT(onJobLoaded(QString, int, QMap<QString, QVariant>)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
     m_activeJobRequests << pair;
@@ -887,12 +887,12 @@ bool PrinterCupsBackend::isExtendedAttribute(const QString &attributeName) const
     return m_extendedAttributeNames.contains(attributeName);
 }
 
-void PrinterCupsBackend::onJobLoaded(QSharedPointer<PrinterJob> oldJob,
-                                     QSharedPointer<PrinterJob> newJob)
+void PrinterCupsBackend::onJobLoaded(QString printerName, int jobId,
+                                     QMap<QString, QVariant> attributes)
 {
-    Q_UNUSED(newJob);
+    Q_UNUSED(attributes);
 
-    QPair<QString, int> pair(oldJob->printerName(), oldJob->jobId());
+    QPair<QString, int> pair(printerName, jobId);
     m_activeJobRequests.remove(pair);
 }
 
