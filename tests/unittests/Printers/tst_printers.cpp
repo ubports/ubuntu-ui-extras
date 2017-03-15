@@ -256,7 +256,7 @@ private Q_SLOTS:
         backend->m_jobs << job;
 
         // Setup the spy
-        QSignalSpy jobLoadedSpy(backend, SIGNAL(jobLoaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)));
+        QSignalSpy jobLoadedSpy(backend, SIGNAL(jobLoaded(QString, int, QMap<QString, QVariant>)));
 
         // Trigger update.
         backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);

@@ -129,8 +129,7 @@ Q_SIGNALS:
     void printerDriversLoaded(const QList<PrinterDriver> &drivers);
     void printerDriversFailedToLoad(const QString &errorMessage);
 
-    void jobLoaded(QSharedPointer<PrinterJob> oldJob,
-                   QSharedPointer<PrinterJob> newJob);
+    void jobLoaded(QString, int, QMap<QString, QVariant>);
     void printerLoaded(QSharedPointer<Printer> printers);
     void deviceFound(const Device &device);
     void deviceSearchFinished();
