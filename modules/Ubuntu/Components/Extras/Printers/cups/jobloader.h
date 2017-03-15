@@ -28,12 +28,11 @@ class JobLoader : public QObject
 {
     Q_OBJECT
     PrinterBackend *m_backend;
-    QSharedPointer<PrinterJob> m_job;
-    QSharedPointer<Printer> m_printer;
+    int m_job_id;
+    QString m_printer_name;
 public:
-    explicit JobLoader(QSharedPointer<Printer> printer,
-                       QSharedPointer<PrinterJob> printerJob,
-                       PrinterBackend *backend,
+    explicit JobLoader(PrinterBackend *backend,
+                       QString printerName, int jobId,
                        QObject *parent = Q_NULLPTR);
     ~JobLoader();
 
@@ -42,8 +41,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void finished();
-    void loaded(QSharedPointer<PrinterJob> oldJob,
-                QSharedPointer<PrinterJob> newJob);
+    void loaded(QString, int, QMap<QString, QVariant>);
 };
 
 #endif // USC_PRINTERS_CUPS_JOBLOADER_H

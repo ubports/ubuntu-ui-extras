@@ -279,8 +279,8 @@ private Q_SLOTS:
         jobB->setState(PrinterEnum::JobState::Held);
 
         m_backend->m_jobs << jobA << jobB;
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, 1, "", "", 1);
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, static_cast<uint>(jobA->state()), "", "", 1);
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, static_cast<uint>(jobB->state()), "", "", 1);
 
         QTRY_COMPARE(m_model->count(), 2);
         QCOMPARE(m_model->data(m_model->index(0), JobModel::HeldRole).toBool(), false);
@@ -295,8 +295,8 @@ private Q_SLOTS:
         jobB->setImpressionsCompleted(5);
 
         m_backend->m_jobs << jobA << jobB;
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, 1, "", "", 1);
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", jobA->impressionsCompleted());
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, 1, "", "", jobB->impressionsCompleted());
 
         QTRY_COMPARE(m_model->count(), 2);
         QCOMPARE(m_model->data(m_model->index(0), JobModel::ImpressionsCompletedRole).toInt(), 2);
@@ -354,9 +354,11 @@ private Q_SLOTS:
     {
         auto jobA = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", m_backend, 1));
         jobA->setPrintRange("1-3,5");
+        jobA->setPrintRangeMode(PrinterEnum::PrintRange::PageRange);
 
         auto jobB = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", m_backend, 2));
         jobB->setPrintRange("-3,6,10-");
+        jobB->setPrintRangeMode(PrinterEnum::PrintRange::PageRange);
 
         m_backend->m_jobs << jobA << jobB;
         m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
@@ -372,6 +374,7 @@ private Q_SLOTS:
         jobA->setPrintRangeMode(PrinterEnum::PrintRange::AllPages);
 
         auto jobB = QSharedPointer<PrinterJob>(new PrinterJob("test-printer", m_backend, 2));
+        jobB->setPrintRange("1-3");
         jobB->setPrintRangeMode(PrinterEnum::PrintRange::PageRange);
 
         m_backend->m_jobs << jobA << jobB;
@@ -484,8 +487,8 @@ private Q_SLOTS:
         jobB->setState(PrinterEnum::JobState::Processing);
 
         m_backend->m_jobs << jobA << jobB;
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, 1, "", "", 1);
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, static_cast<uint>(jobA->state()), "", "", 1);
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, static_cast<uint>(jobB->state()), "", "", 1);
 
         QTRY_COMPARE(m_model->count(), 2);
         QCOMPARE(m_model->data(m_model->index(0), JobModel::StateRole).value<PrinterEnum::JobState>(), PrinterEnum::JobState::Pending);
@@ -500,8 +503,8 @@ private Q_SLOTS:
         jobB->setTitle("b-job");
 
         m_backend->m_jobs << jobA << jobB;
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", "", 1);
-        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, 1, "", "", 1);
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 1, 1, "", jobA->title(), 1);
+        m_backend->mockJobCreated("", "", "test-printer", 1, "", true, 2, 1, "", jobB->title(), 1);
 
         QTRY_COMPARE(m_model->count(), 2);
         QCOMPARE(m_model->data(m_model->index(0), JobModel::TitleRole).toString(), QString("a-job"));

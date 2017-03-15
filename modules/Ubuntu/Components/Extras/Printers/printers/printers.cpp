@@ -291,6 +291,14 @@ void Printers::jobAdded(QSharedPointer<PrinterJob> job)
     // Check if we have a valid printer, does not need to be loaded as JobLoader
     // creates it's own Backend.
     if (printer && job) {
+        // TODO: this printer may not be fully loaded
+        // Which has the side affect of colorModel, duplex, quality not working
+        // in PrinterJob as Printer::supportedColorModels etc fail
+        // Potentially trigger loadPrinter and listen for the new printer?
+
+        // Set the printer to the job
+        m_jobs.updateJobPrinter(job, printer);
+
         // Trigger JobLoader to load extended attributes in the background
         m_backend->requestJobExtendedAttributes(printer, job);
     }

@@ -38,11 +38,11 @@ JobModel::JobModel(PrinterBackend *backend,
     QObject::connect(m_backend, &PrinterBackend::jobCompleted,
                      this, &JobModel::jobCompleted);
 
-    connect(m_backend, SIGNAL(jobLoaded(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)),
-            this, SLOT(updateJob(QSharedPointer<PrinterJob>, QSharedPointer<PrinterJob>)));
+    connect(m_backend, SIGNAL(jobLoaded(QString, int, QMap<QString, QVariant>)),
+            this, SLOT(updateJob(QString, int, QMap<QString, QVariant>)));
 
     // Add already existing jobs
-    // FIXME: even this should probably be in a background thread?
+    // TODO: even this should probably be in a background thread?
     // so that it doesn't block startup?
     Q_FOREACH(auto job, m_backend->printerGetJobs()) {
         addJob(job);
@@ -166,22 +166,34 @@ void JobModel::updateJob(QSharedPointer<PrinterJob> job)
 
 // This is used by JobLoader as it gives us the oldJob and a newJob which has
 // the extended attributes loaded. We then load the data from this newJob.
-void JobModel::updateJob(QSharedPointer<PrinterJob> oldJob,
-                         QSharedPointer<PrinterJob> newJob)
+void JobModel::updateJob(QString printerName, int jobId,
+                         QMap<QString, QVariant> attributes)
 {
-    int i = m_jobs.indexOf(oldJob);
+    QSharedPointer<PrinterJob> job = getJob(printerName, jobId);
+
+    int i = m_jobs.indexOf(job);
     QModelIndex idx = index(i);
 
     if (i > -1) {
-        // FIXME: the Printer from the newJob which is not always fully loaded
-        // Which has the side affect of colorModel, duplex, quality not working
-        // as they are not able todo eg Printer::supportedColorModels
-        oldJob->setPrinter(newJob->printer());
-        oldJob->updateFrom(newJob);
+        job->loadAttributes(attributes);
 
         Q_EMIT dataChanged(idx, idx);
     } else {
-        qWarning() << "Tried to updateJob which doesn't exist:" << newJob->printerName() << newJob->jobId();
+        qWarning() << "Tried to updateJob which doesn't exist:" << printerName << jobId;
+    }
+}
+
+void JobModel::updateJobPrinter(QSharedPointer<PrinterJob> job, QSharedPointer<Printer> printer)
+{
+    int i = m_jobs.indexOf(job);
+    QModelIndex idx = index(i);
+
+    if (i > -1) {
+        job->setPrinter(printer);
+
+        Q_EMIT dataChanged(idx, idx);
+    } else {
+        qWarning() << "Tried to updateJobPrinter which doesn't exist:" << printer->name() << job->jobId();
     }
 }
 
