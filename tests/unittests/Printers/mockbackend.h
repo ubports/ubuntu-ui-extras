@@ -223,9 +223,37 @@ public:
     virtual QMap<QString, QVariant> printerGetJobAttributes(
             const QString &name, const int jobId) override
     {
-        Q_UNUSED(name);
-        Q_UNUSED(jobId);
-        return QMap<QString, QVariant>();
+        QMap<QString, QVariant> attributes;
+
+        Q_FOREACH(auto job, m_jobs) {
+            if (job->printerName() == name
+                    && job->jobId() == jobId) {
+                // Emulate reverse of PrinterJob::loadAttributes
+                // using local jobs defined in tests
+                attributes.insert("Collate", job->collate());
+                attributes.insert("copies", job->copies());
+                attributes.insert("ColorModel", job->getColorModel().name);
+                attributes.insert("CompletedTime", job->completedTime());
+                attributes.insert("CreationTime", job->creationTime());
+                attributes.insert("Duplex", Utils::duplexModeToPpdChoice(job->getDuplexMode()));
+                attributes.insert("landscape", job->landscape());
+                attributes.insert("messages", job->messages());
+                if (job->printRangeMode() == PrinterEnum::PrintRange::AllPages) {
+                    attributes.insert("page-ranges", QStringList());
+                } else {
+                    attributes.insert("page-ranges", job->printRange().split(QLocale::system().groupSeparator()));
+                }
+                attributes.insert("ProcessingTime", job->processingTime());
+                attributes.insert("Quality", job->getPrintQuality().name);
+                attributes.insert("OutputOrder", job->reverse() ? "Reverse" : "Normal");
+                attributes.insert("Size", job->size());
+                attributes.insert("User", job->user());
+
+                break;
+            }
+        }
+
+        return attributes;
     }
 
     virtual QString printerName() const override
@@ -331,23 +359,11 @@ public:
         m_requestedPrinters << printerName;
     }
 
-    virtual void requestJobExtendedAttributes(QSharedPointer<Printer> printer, QSharedPointer<PrinterJob> oldJob) override
+    virtual void requestJobExtendedAttributes(QSharedPointer<Printer> printer, QSharedPointer<PrinterJob> job) override
     {
-        // Pass the local job back as the loaded job
-        Q_FOREACH(auto internalJob, m_jobs) {
-            if (printer->name() == oldJob->printerName()
-                    && internalJob->jobId() == oldJob->jobId()) {
-                // Emulate JobLoader::load
-                auto newJob = QSharedPointer<PrinterJob>(new PrinterJob(oldJob->printerName(), this, oldJob->jobId()));
-                newJob->setPrinter(printer);
+        QMap<QString, QVariant> attributes = printerGetJobAttributes(printer->name(), job->jobId());
 
-                // We don't need to do newJob->loadDefaults() as instead we
-                // load from the internal job that the test uses
-                newJob->updateFrom(internalJob);
-
-                Q_EMIT jobLoaded(oldJob, newJob);
-            }
-        }
+        Q_EMIT jobLoaded(printer->name(), job->jobId(), attributes);
     }
 
     virtual PrinterEnum::PrinterType type() const override

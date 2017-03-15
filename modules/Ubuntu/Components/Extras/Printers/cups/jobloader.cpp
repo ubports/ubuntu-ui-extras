@@ -16,10 +16,7 @@
 
 #include "jobloader.h"
 
-#include "backend/backend_cups.h"
-
-#include "cups/ippclient.h"
-#include "cupsdnotifier.h" // Note: this file was generated.
+#include "backend/backend.h"
 
 #include "printers/printers.h"
 
@@ -27,14 +24,14 @@
 #include <QPrinterInfo>
 
 class PrinterCupsBackend;
-JobLoader::JobLoader(QSharedPointer<Printer> printer,
-                     QSharedPointer<PrinterJob> printerJob,
-                     PrinterBackend *backend,
+JobLoader::JobLoader(PrinterBackend *backend,
+                     QString printerName,
+                     int jobId,
                      QObject *parent)
     : QObject(parent)
     , m_backend(backend)
-    , m_job(printerJob)
-    , m_printer(printer)
+    , m_job_id(jobId)
+    , m_printer_name(printerName)
 {
 }
 
@@ -44,22 +41,10 @@ JobLoader::~JobLoader()
 
 void JobLoader::load()
 {
-    // Construct a job
-    QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(
-        new PrinterJob(m_printer->name(), m_backend, m_job->jobId())
+    QMap<QString, QVariant> map = m_backend->printerGetJobAttributes(
+        m_printer_name, m_job_id
     );
 
-    // Copy things that we don't set in extended attributes
-    job->setImpressionsCompleted(m_job->impressionsCompleted());
-    job->setState(m_job->state());
-    job->setTitle(m_job->title());
-
-    // Set the printer for this thread
-    job->setPrinter(m_printer);
-
-    // Load the extended attributes of the job
-    job->loadDefaults();
-
-    Q_EMIT loaded(m_job, job);
+    Q_EMIT loaded(m_printer_name, m_job_id, map);
     Q_EMIT finished();
 }

@@ -152,8 +152,8 @@ private:
     QSet<QPair<QString, int>> m_activeJobRequests;
 
 private Q_SLOTS:
-    void onJobLoaded(QSharedPointer<PrinterJob> oldJob,
-                     QSharedPointer<PrinterJob> newJob);
+    void onJobLoaded(QString printerName, int jobId,
+                     QMap<QString, QVariant> attributes);
     void onPrinterLoaded(QSharedPointer<Printer> printer);
 };
 
