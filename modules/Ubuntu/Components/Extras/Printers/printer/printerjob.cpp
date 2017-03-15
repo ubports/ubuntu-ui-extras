@@ -161,9 +161,13 @@ void PrinterJob::loadAttributes(const QMap<QString, QVariant> &attributes)
         }
     }
 
-    // TODO: do we need to set timezone?
-    setCompletedTime(attributes.value("CompletedTime").toDateTime());
-    setCreationTime(attributes.value("CreationTime").toDateTime());
+    QDateTime completedTime = attributes.value("CompletedTime").toDateTime();
+    completedTime.setTimeZone(QTimeZone::systemTimeZone());
+    setCompletedTime(completedTime);
+
+    QDateTime creationTime = attributes.value("CreationTime").toDateTime();
+    creationTime.setTimeZone(QTimeZone::systemTimeZone());
+    setCreationTime(creationTime);
 
     // No duplexMode will result in PrinterJob using defaultDuplexMode
     QString duplex = attributes.value("Duplex").toString();
@@ -187,10 +191,9 @@ void PrinterJob::loadAttributes(const QMap<QString, QVariant> &attributes)
         setPrintRange(pageRanges.join(QLocale::system().groupSeparator()));
     }
 
-    // TODO: do we need timezone?
-//        processingTime.setTimeZone(QTimeZone::systemTimeZone());
-//        processingTime.setTime_t(cupsJob->processing_time);
-    setProcessingTime(attributes.value("ProcessingTime").toDateTime());
+    QDateTime processingTime = attributes.value("ProcessingTime").toDateTime();
+    processingTime.setTimeZone(QTimeZone::systemTimeZone());
+    setProcessingTime(processingTime);
 
     // No quality will result in PrinterJob using defaultPrintQuality
     QString quality = attributes.value("quality").toString();
