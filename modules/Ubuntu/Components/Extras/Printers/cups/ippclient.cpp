@@ -1118,8 +1118,8 @@ QVariant IppClient::getAttributeValue(ipp_attribute_t *attr, int index) const
         case IPP_TAG_DATE: {
             time_t time = ippDateToTime(ippGetDate(attr, index));
             QDateTime datetime;
-            datetime.setTimeZone(QTimeZone::utc());
             datetime.setTime_t(time);
+            datetime.setTimeZone(QTimeZone::utc());
 
             var = QVariant::fromValue<QDateTime>(datetime);
             break;
