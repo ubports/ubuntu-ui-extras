@@ -20,6 +20,7 @@
 #include "printers_global.h"
 #include "backend/backend.h"
 #include "printer/printerjob.h"
+#include "printer/signalratelimiter.h"
 
 #include <QAbstractListModel>
 #include <QByteArray>
@@ -89,6 +90,7 @@ private:
     PrinterBackend *m_backend;
 
     QList<QSharedPointer<PrinterJob>> m_jobs;
+    SignalRateLimiter m_signalHandler;
 private Q_SLOTS:
     void jobCreated(const QString &text, const QString &printer_uri,
                     const QString &printer_name, uint printer_state,
@@ -111,10 +113,12 @@ private Q_SLOTS:
                       uint job_state, const QString &job_state_reasons,
                       const QString &job_name,
                       uint job_impressions_completed);
+    void jobSignalPrinterModified(const QString &printerName);
     void updateJob(QString printerName, int jobId, QMap<QString, QVariant> attributes);
 
 Q_SIGNALS:
     void countChanged();
+    void forceJobRefresh(const QString &printerName, const int jobId);
 };
 
 class PRINTERS_DECL_EXPORT JobFilter : public QSortFilterProxyModel

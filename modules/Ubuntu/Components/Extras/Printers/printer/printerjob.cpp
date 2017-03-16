@@ -173,6 +173,7 @@ void PrinterJob::loadAttributes(const QMap<QString, QVariant> &attributes)
         }
     }
 
+    setImpressionsCompleted(attributes.value("impressionsCompleted").toInt());
     setLandscape(attributes.value("landscape").toBool());
     setMessages(attributes.value("messages").toStringList());
 
@@ -197,6 +198,12 @@ void PrinterJob::loadAttributes(const QMap<QString, QVariant> &attributes)
     }
 
     setReverse(attributes.value("OutputOrder").toString() == "Reverse");
+
+    // If there was a state then set it
+    if (attributes.contains("State")) {
+        setState(static_cast<PrinterEnum::JobState>(attributes.value("State").toInt()));
+    }
+
     setSize(attributes.value("Size").toInt());
     setUser(attributes.value("User").toString());
 }

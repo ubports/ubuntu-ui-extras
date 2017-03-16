@@ -65,6 +65,13 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
 
         jobAdded(m_jobs.getJob(printerName, jobId));
     });
+
+    // If the jobModel forces a refresh, load extended attributes for the job
+    connect(&m_jobs, &JobModel::forceJobRefresh, [this](
+            const QString &printerName, const int jobId) {
+       jobAdded(m_jobs.getJob(printerName, jobId));
+    });
+
     connect(&m_model, &QAbstractItemModel::rowsInserted, [this](
             const QModelIndex &parent, int first, int) {
         auto printer = m_model.data(

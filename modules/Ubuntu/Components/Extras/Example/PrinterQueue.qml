@@ -72,10 +72,7 @@ MainView {
                     ListItemLayout {
                         id: modelLayout
                         title.text: displayName
-                        subtitle.text: model.title + " (" + model.id + ") State: " + model.state
-                                       + " Color: " + model.colorModel + " CreationTime: "
-                                       + model.creationTime + " PageRange: "
-                                       + model.printRange + " Messages: " + model.messages;
+                        subtitle.text: model.title + " (" + model.id + ")\nPrinting " + model.impressionsCompleted + " pages"
                         subtitle.wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         subtitle.maximumLineCount: 3
                     }

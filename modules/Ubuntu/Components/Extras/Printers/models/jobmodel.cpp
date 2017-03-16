@@ -41,6 +41,13 @@ JobModel::JobModel(PrinterBackend *backend,
     connect(m_backend, SIGNAL(jobLoaded(QString, int, QMap<QString, QVariant>)),
             this, SLOT(updateJob(QString, int, QMap<QString, QVariant>)));
 
+    // Impressions completed happens via printer state changed
+    QObject::connect(m_backend, &PrinterBackend::printerStateChanged,
+                     &m_signalHandler, &SignalRateLimiter::onPrinterStateChanged);
+
+    QObject::connect(&m_signalHandler, SIGNAL(printerModified(const QString&)),
+                     this, SLOT(jobSignalPrinterModified(const QString&)));
+
     // Add already existing jobs
     // TODO: even this should probably be in a background thread?
     // so that it doesn't block startup?
@@ -131,6 +138,20 @@ void JobModel::jobCompleted(
     } else {
         qWarning() << "JobModel::jobCompleted for unknown job: " << job_name << " ("
                    << job_id << ") for " << printer_name;
+    }
+}
+
+void JobModel::jobSignalPrinterModified(const QString &printerName)
+{
+    // Find the active or pending job and force a refresh
+    // We force refresh pending jobs incase there is a flood of signals
+    // meaning that the jobStateChanged signal might not have happened yet
+    Q_FOREACH(auto job, m_jobs) {
+        if (job->printerName() == printerName
+                && (job->state() == PrinterEnum::JobState::Processing
+                        || job->state() == PrinterEnum::JobState::Pending)) {
+            Q_EMIT forceJobRefresh(printerName, job->jobId());
+        }
     }
 }
 

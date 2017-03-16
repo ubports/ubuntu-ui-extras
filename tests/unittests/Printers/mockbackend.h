@@ -236,6 +236,7 @@ public:
                 attributes.insert("CompletedTime", job->completedTime());
                 attributes.insert("CreationTime", job->creationTime());
                 attributes.insert("Duplex", Utils::duplexModeToPpdChoice(job->getDuplexMode()));
+                attributes.insert("impressionsCompleted", job->impressionsCompleted());
                 attributes.insert("landscape", job->landscape());
                 attributes.insert("messages", job->messages());
                 if (job->printRangeMode() == PrinterEnum::PrintRange::AllPages) {
@@ -246,6 +247,7 @@ public:
                 attributes.insert("ProcessingTime", job->processingTime());
                 attributes.insert("Quality", job->getPrintQuality().name);
                 attributes.insert("OutputOrder", job->reverse() ? "Reverse" : "Normal");
+                attributes.insert("State", static_cast<int>(job->state()));
                 attributes.insert("Size", job->size());
                 attributes.insert("User", job->user());
 

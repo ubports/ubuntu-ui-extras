@@ -42,7 +42,7 @@ add_library(UbuntuComponentsExtrasPrintersQml SHARED
 
     printer/printer.cpp
     printer/printerjob.cpp
-    printer/printersignalhandler.cpp
+    printer/signalratelimiter.cpp
     printers/printers.cpp
 
     enums.h
