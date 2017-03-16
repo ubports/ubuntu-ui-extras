@@ -45,9 +45,9 @@ add_executable(testPrintersJobFilter tst_jobfilter.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersJobFilter UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
 add_test(tst_jobfilter testPrintersJobFilter)
 
-add_executable(testPrintersSignalHandler tst_signalhandler.cpp ${MOCK_SOURCES})
-target_link_libraries(testPrintersSignalHandler UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
-add_test(tst_signalhandler testPrintersSignalHandler)
+add_executable(testPrintersSignalRateLimiter tst_signalratelimiter.cpp ${MOCK_SOURCES})
+target_link_libraries(testPrintersSignalRateLimiter UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
+add_test(tst_signalratelimiter testPrintersSignalRateLimiter)
 
 add_executable(testPrintersDevice tst_printerdevice.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersDevice UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)

@@ -487,6 +487,16 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("Duplex", QVariant(""));
     }
 
+    // Try job-media-sheets-completed first as it should include duplex
+    // if it doesn't exist fallback to job-impressions-completed
+    if (__CUPS_ATTR_EXISTS(rawMap, "job-media-sheets-completed", int)) {
+        map.insert("impressionsCompleted", rawMap.value("job-media-sheets-completed"));
+    } else if (__CUPS_ATTR_EXISTS(rawMap, "job-impressions-completed", int)) {
+        map.insert("impressionsCompleted", rawMap.value("job-impressions-completed"));
+    } else {
+        map.insert("impressionsCompleted", QVariant(0));
+    }
+
     if (__CUPS_ATTR_EXISTS(rawMap, "landscape", bool)) {
         map.insert("landscape", rawMap.value("landscape"));
     } else {
@@ -533,6 +543,12 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("Size", rawMap.value("job-k-octets"));
     } else {
         map.insert("Size", QVariant(0));
+    }
+
+    // If there is a state then get it, as there could have been a signal
+    // flood. Which then means a forceJobRefresh is able to update the state
+    if (__CUPS_ATTR_EXISTS(rawMap, "job-state", int)) {
+        map.insert("State", rawMap.value("job-state").toInt());
     }
 
     if (__CUPS_ATTR_EXISTS(rawMap, "job-originating-user-name", QString)) {

@@ -32,9 +32,9 @@ PrinterModel::PrinterModel(PrinterBackend *backend, QObject *parent)
     QObject::connect(m_backend, &PrinterBackend::printerAdded,
                      this, &PrinterModel::printerAdded);
     QObject::connect(m_backend, &PrinterBackend::printerModified,
-                     &m_signalHandler, &PrinterSignalHandler::onPrinterModified);
+                     &m_signalHandler, &SignalRateLimiter::onPrinterModified);
     QObject::connect(m_backend, &PrinterBackend::printerStateChanged,
-                     &m_signalHandler, &PrinterSignalHandler::onPrinterModified);
+                     &m_signalHandler, &SignalRateLimiter::onPrinterModified);
     QObject::connect(m_backend, &PrinterBackend::printerDeleted,
                      this, &PrinterModel::printerDeleted);
 
