@@ -39,6 +39,7 @@ private Q_SLOTS:
         m_mock_printer = QSharedPointer<Printer>(new Printer(m_backend));
         m_instance = new PrinterJob(m_printer_name, m_backend);
         m_instance->setPrinter(m_mock_printer);
+        m_instance->loadDefaults();
     }
     void cleanup()
     {
@@ -60,6 +61,7 @@ private Q_SLOTS:
 
         m_instance = new PrinterJob(m_printer_name, m_backend);
         m_instance->setPrinter(m_mock_printer);
+        m_instance->loadDefaults();
     }
     void refreshInstanceWithBackend(MockPrinterBackend *backend)
     {

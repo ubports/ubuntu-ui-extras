@@ -182,6 +182,14 @@ QList<QSharedPointer<PrinterJob>> PrinterBackend::printerGetJobs()
     return QList<QSharedPointer<PrinterJob>>{};
 }
 
+QSharedPointer<PrinterJob> PrinterBackend::printerGetJob(
+        const QString &printerName, const int jobId)
+{
+    Q_UNUSED(printerName);
+    Q_UNUSED(jobId);
+    return QSharedPointer<PrinterJob>(Q_NULLPTR);
+}
+
 QMap<QString, QVariant> PrinterBackend::printerGetJobAttributes(
         const QString &name, const int jobId)
 {
@@ -279,6 +287,13 @@ QSharedPointer<Printer> PrinterBackend::getPrinter(const QString &printerName)
 QString PrinterBackend::defaultPrinterName()
 {
     return QString();
+}
+
+void PrinterBackend::requestJobExtendedAttributes(
+        QSharedPointer<Printer> printer, QSharedPointer<PrinterJob> job)
+{
+    Q_UNUSED(printer);
+    Q_UNUSED(job);
 }
 
 void PrinterBackend::requestPrinterDrivers()

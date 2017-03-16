@@ -16,6 +16,7 @@
 
 #include "backend/backend_cups.h"
 #include "cups/devicesearcher.h"
+#include "cups/jobloader.h"
 #include "cups/printerdriverloader.h"
 #include "cups/printerloader.h"
 #include "utils.h"
@@ -468,6 +469,18 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("ColorModel", QVariant(""));
     }
 
+    if (__CUPS_ATTR_EXISTS(rawMap, "date-time-at-completed", QDateTime)) {
+        map.insert("CompletedTime", rawMap.value("date-time-at-completed"));
+    } else {
+        map.insert("CompletedTime", QVariant(QDateTime()));
+    }
+
+    if (__CUPS_ATTR_EXISTS(rawMap, "date-time-at-creation", QDateTime)) {
+        map.insert("CreationTime", rawMap.value("date-time-at-creation"));
+    } else {
+        map.insert("CreationTime", QVariant(QDateTime()));
+    }
+
     if (__CUPS_ATTR_EXISTS(rawMap, "Duplex", QString)) {
         map.insert("Duplex", rawMap.value("Duplex"));
     } else {
@@ -493,6 +506,12 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("page-ranges", QVariant(QStringList()));
     }
 
+    if (__CUPS_ATTR_EXISTS(rawMap, "date-time-at-processing", QDateTime)) {
+        map.insert("ProcessingTime", rawMap.value("date-time-at-processing"));
+    } else {
+        map.insert("ProcessingTime", QVariant(QDateTime()));
+    }
+
     Q_FOREACH(QString qualityOption, m_knownQualityOptions) {
         if (rawMap.contains(qualityOption)
                 && rawMap.value(qualityOption).canConvert<QString>()) {
@@ -508,6 +527,18 @@ QMap<QString, QVariant> PrinterCupsBackend::printerGetJobAttributes(
         map.insert("OutputOrder", rawMap.value("OutputOrder"));
     } else {
         map.insert("OutputOrder", "Normal");
+    }
+
+    if (__CUPS_ATTR_EXISTS(rawMap, "job-k-octets", int)) {
+        map.insert("Size", rawMap.value("job-k-octets"));
+    } else {
+        map.insert("Size", QVariant(0));
+    }
+
+    if (__CUPS_ATTR_EXISTS(rawMap, "job-originating-user-name", QString)) {
+        map.insert("User", rawMap.value("job-originating-user-name"));
+    } else {
+        map.insert("User", QVariant(""));
     }
 
     // Generate a list of messages
@@ -530,31 +561,13 @@ QList<QSharedPointer<PrinterJob>> PrinterCupsBackend::printerGetJobs()
     QList<QSharedPointer<PrinterJob>> list;
 
     Q_FOREACH(auto job, jobs) {
+        // Note: extended attributes are not loaded here
+        // they are loaded in JobLoader
         auto newJob = QSharedPointer<PrinterJob>(
             new PrinterJob(QString::fromUtf8(job->dest), this, job->id)
         );
-
-        // Extract the times
-        QDateTime completedTime;
-        completedTime.setTimeZone(QTimeZone::systemTimeZone());
-        completedTime.setTime_t(job->completed_time);
-
-        QDateTime creationTime;
-        creationTime.setTimeZone(QTimeZone::systemTimeZone());
-        creationTime.setTime_t(job->creation_time);
-
-        QDateTime processingTime;
-        processingTime.setTimeZone(QTimeZone::systemTimeZone());
-        processingTime.setTime_t(job->processing_time);
-
-        // Load the information from the cups struct
-        newJob->setCompletedTime(completedTime);
-        newJob->setCreationTime(creationTime);
-        newJob->setProcessingTime(processingTime);
-        newJob->setSize(job->size);
         newJob->setState(static_cast<PrinterEnum::JobState>(job->state));
         newJob->setTitle(QString::fromLocal8Bit(job->title));
-        newJob->setUser(QString::fromLocal8Bit(job->user));
 
         list.append(newJob);
     }
@@ -562,6 +575,35 @@ QList<QSharedPointer<PrinterJob>> PrinterCupsBackend::printerGetJobs()
         cupsFreeJobs(list.size(), jobs.first());
 
     return list;
+}
+
+QSharedPointer<PrinterJob> PrinterCupsBackend::printerGetJob(
+        const QString &printerName, const int jobId)
+{
+    auto jobs = getCupsJobs(printerName);
+    cups_job_t *cupsJob = Q_NULLPTR;
+    QSharedPointer<PrinterJob> job(Q_NULLPTR);
+
+    for (int i=0; i < jobs.size(); i++) {
+        if (jobs.at(i)->id == jobId) {
+            cupsJob = jobs.at(i);
+            break;
+        }
+    }
+
+    if (cupsJob) {
+        job = QSharedPointer<PrinterJob>(
+            new PrinterJob(QString::fromUtf8(cupsJob->dest), this, cupsJob->id)
+        );
+
+        job->setState(static_cast<PrinterEnum::JobState>(cupsJob->state));
+        job->setTitle(QString::fromLocal8Bit(cupsJob->title));
+    }
+
+    if (!jobs.size())
+        cupsFreeJobs(jobs.size(), jobs.first());
+
+    return job;
 }
 
 QString PrinterCupsBackend::printerName() const
@@ -675,9 +717,35 @@ QString PrinterCupsBackend::defaultPrinterName()
     return QPrinterInfo::defaultPrinterName();
 }
 
+void PrinterCupsBackend::requestJobExtendedAttributes(
+        QSharedPointer<Printer> printer, QSharedPointer<PrinterJob> job)
+{
+    QPair<QString, int> pair(printer->name(), job->jobId());
+
+    if (m_activeJobRequests.contains(pair)) {
+        return;
+    }
+
+    auto thread = new QThread;
+    auto loader = new JobLoader(this, printer->name(), job->jobId());
+    loader->moveToThread(thread);
+    connect(thread, SIGNAL(started()), loader, SLOT(load()));
+    connect(loader, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(loader, SIGNAL(finished()), loader, SLOT(deleteLater()));
+    connect(loader, SIGNAL(loaded(QString, int, QMap<QString, QVariant>)),
+            this, SIGNAL(jobLoaded(QString, int, QMap<QString, QVariant>)));
+    connect(loader, SIGNAL(loaded(QString, int, QMap<QString, QVariant>)),
+            this, SLOT(onJobLoaded(QString, int, QMap<QString, QVariant>)));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+
+    m_activeJobRequests << pair;
+
+    thread->start();
+}
+
 void PrinterCupsBackend::requestPrinter(const QString &printerName)
 {
-    if (m_activeRequests.contains(printerName)) {
+    if (m_activePrinterRequests.contains(printerName)) {
         return;
     }
 
@@ -692,9 +760,10 @@ void PrinterCupsBackend::requestPrinter(const QString &printerName)
     connect(loader, SIGNAL(loaded(QSharedPointer<Printer>)),
             this, SLOT(onPrinterLoaded(QSharedPointer<Printer>)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    thread->start();
 
-    m_activeRequests << printerName;
+    m_activePrinterRequests << printerName;
+
+    thread->start();
 }
 
 void PrinterCupsBackend::requestPrinterDrivers()
@@ -711,6 +780,7 @@ void PrinterCupsBackend::requestPrinterDrivers()
     connect(loader, SIGNAL(loaded(const QList<PrinterDriver>&)),
             this, SIGNAL(printerDriversLoaded(const QList<PrinterDriver>&)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+
     thread->start();
 }
 
@@ -801,8 +871,17 @@ bool PrinterCupsBackend::isExtendedAttribute(const QString &attributeName) const
     return m_extendedAttributeNames.contains(attributeName);
 }
 
+void PrinterCupsBackend::onJobLoaded(QString printerName, int jobId,
+                                     QMap<QString, QVariant> attributes)
+{
+    Q_UNUSED(attributes);
+
+    QPair<QString, int> pair(printerName, jobId);
+    m_activeJobRequests.remove(pair);
+}
+
 void PrinterCupsBackend::onPrinterLoaded(QSharedPointer<Printer> printer)
 {
-    m_activeRequests.remove(printer->name());
+    m_activePrinterRequests.remove(printer->name());
 }
 

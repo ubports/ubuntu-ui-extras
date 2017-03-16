@@ -403,10 +403,20 @@ bool Printer::deepCompare(QSharedPointer<Printer> other) const
 void Printer::updateFrom(QSharedPointer<Printer> other)
 {
     PrinterBackend *tmp = m_backend;
-    m_backend = other->m_backend;
-    other->m_backend = tmp;
 
-    loadAttributes();
+    // Copy values from other printer which has been loaded in another thread
+    // Note: do not use loadAttributes otherwise can cause UI block
+    m_acceptJobs = other->m_acceptJobs;
+    m_backend = other->m_backend;
+    m_defaultColorModel = other->m_defaultColorModel;
+    m_defaultPrintQuality = other->m_defaultPrintQuality;
+    m_deviceUri = other->m_deviceUri;
+    m_shared = other->m_shared;
+    m_stateMessage = other->m_stateMessage;
+    m_supportedColorModels = other->m_supportedColorModels;
+    m_supportedPrintQualities = other->m_supportedPrintQualities;
+
+    other->m_backend = tmp;
 }
 
 void Printer::onPrinterStateChanged(
