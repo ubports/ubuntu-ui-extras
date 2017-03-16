@@ -250,6 +250,24 @@ bool IppClient::printerSetAcceptJobs(const QString &printerName,
     }
 }
 
+bool IppClient::printerSetCopies(const QString &printerName, const int &copies)
+{
+    ipp_t *request;
+
+    if (!isPrinterNameValid(printerName)) {
+        setInternalStatus(QString("%1 is not a valid printer name.").arg(printerName));
+        return false;
+    }
+    request = ippNewRequest(CUPS_ADD_MODIFY_PRINTER);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+    ippAddInteger(request, IPP_TAG_PRINTER, IPP_TAG_INTEGER,
+                  "copies-default", copies);
+    /* TODO: The request will fail if this was a printer class, and it should
+    be retried. */
+    return sendRequest(request, CupsResourceAdmin);
+}
+
 bool IppClient::printerSetShared(const QString &printerName, const bool shared)
 {
     ipp_t *request;
@@ -264,7 +282,6 @@ bool IppClient::printerSetShared(const QString &printerName, const bool shared)
     addRequestingUsername(request, NULL);
     ippAddBoolean(request, IPP_TAG_OPERATION,
                   "printer-is-shared", shared ? 1 : 0);
-
     /* TODO: The request will fail if this was a printer class, and it should
     be retried. */
 
@@ -272,7 +289,7 @@ bool IppClient::printerSetShared(const QString &printerName, const bool shared)
 }
 
 bool IppClient::printerClassSetInfo(const QString &name,
-                                       const QString &info)
+                                    const QString &info)
 {
     if (!isPrinterNameValid(name)) {
         setInternalStatus(QString("%1 is not a valid printer name.").arg(name));
@@ -458,6 +475,14 @@ QMap<QString, QVariant> IppClient::printerGetJobAttributes(const QString &printe
     ipp_t *request;
     QMap<QString, QVariant> map;
 
+    // Try to get the lock, if we can't after 5 seconds then fail and return
+    if (!m_thread_lock.tryLock(5000)) {
+        qWarning() << "Unable to get lock for IppClient::printerGetJobAttributes."
+                   << "Unable to load attributes for job:" << jobId << " for "
+                   << printerName;
+        return map;
+    }
+
     // Construct request
     request = ippNewRequest(IPP_GET_JOB_ATTRIBUTES);
 
@@ -483,13 +508,16 @@ QMap<QString, QVariant> IppClient::printerGetJobAttributes(const QString &printe
             map.insert(ippGetName(attr), value);
         }
     } else {
-        qWarning() << "Not able to get attributes of job:" << jobId;
+        qWarning() << "Not able to get attributes of job:" << jobId << " for "
+                   << printerName;
     }
 
     // Destruct the reply if valid
     if (reply) {
         ippDelete(reply);
     }
+
+    m_thread_lock.unlock();
 
     return map;
 }
@@ -1090,8 +1118,8 @@ QVariant IppClient::getAttributeValue(ipp_attribute_t *attr, int index) const
         case IPP_TAG_DATE: {
             time_t time = ippDateToTime(ippGetDate(attr, index));
             QDateTime datetime;
-            datetime.setTimeZone(QTimeZone::systemTimeZone());
             datetime.setTime_t(time);
+            datetime.setTimeZone(QTimeZone::utc());
 
             var = QVariant::fromValue<QDateTime>(datetime);
             break;

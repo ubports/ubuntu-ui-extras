@@ -58,8 +58,20 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
             const QModelIndex &parent, int first, int) {
         int jobId = m_jobs.data(m_jobs.index(first, 0, parent),
                                 JobModel::Roles::IdRole).toInt();
-        jobAdded(m_jobs.getJobById(jobId));
+        QString printerName = m_jobs.data(
+            m_jobs.index(first, 0, parent),
+            JobModel::Roles::PrinterNameRole
+        ).toString();
+
+        jobAdded(m_jobs.getJob(printerName, jobId));
     });
+
+    // If the jobModel forces a refresh, load extended attributes for the job
+    connect(&m_jobs, &JobModel::forceJobRefresh, [this](
+            const QString &printerName, const int jobId) {
+       jobAdded(m_jobs.getJob(printerName, jobId));
+    });
+
     connect(&m_model, &QAbstractItemModel::rowsInserted, [this](
             const QModelIndex &parent, int first, int) {
         auto printer = m_model.data(
@@ -69,18 +81,23 @@ Printers::Printers(PrinterBackend *backend, QObject *parent)
         printerAdded(printer);
     });
 
-    // Ensure existing jobs have been added
-    // otherwise PrinterJob::loadDefaults isn't called
-    for (int i = 0; i < m_jobs.rowCount(); i++) {
-        jobAdded(m_jobs.getJobById(m_jobs.data(m_jobs.index(i), JobModel::IdRole).toInt()));
-    }
-
     // Assign jobmodels to printers right away.
     for (int i = 0; i < m_model.rowCount(); i++) {
         printerAdded(m_model.data(
                 m_model.index(i, 0),
                 PrinterModel::Roles::PrinterRole
             ).value<QSharedPointer<Printer>>()
+        );
+    }
+
+    // Ensure existing jobs have been added, incase some were added before
+    // the connect to rowsInserted was done
+    for (int i = 0; i < m_jobs.rowCount(); i++) {
+        jobAdded(
+            m_jobs.getJob(
+                m_jobs.data(m_jobs.index(i), JobModel::Roles::PrinterNameRole).toString(),
+                m_jobs.data(m_jobs.index(i), JobModel::IdRole).toInt()
+            )
         );
     }
 
@@ -277,8 +294,21 @@ bool Printers::removePrinter(const QString &name)
 void Printers::jobAdded(QSharedPointer<PrinterJob> job)
 {
     auto printer = m_model.getPrinterByName(job->printerName());
-    if (printer && job)
-        job->setPrinter(printer);
+
+    // Check if we have a valid printer, does not need to be loaded as JobLoader
+    // creates it's own Backend.
+    if (printer && job) {
+        // TODO: this printer may not be fully loaded
+        // Which has the side affect of colorModel, duplex, quality not working
+        // in PrinterJob as Printer::supportedColorModels etc fail
+        // Potentially trigger loadPrinter and listen for the new printer?
+
+        // Set the printer to the job
+        m_jobs.updateJobPrinter(job, printer);
+
+        // Trigger JobLoader to load extended attributes in the background
+        m_backend->requestJobExtendedAttributes(printer, job);
+    }
 }
 
 void Printers::printerAdded(QSharedPointer<Printer> printer)
@@ -294,10 +324,9 @@ void Printers::printerAdded(QSharedPointer<Printer> printer)
         ).toString();
 
         int jobId = m_jobs.data(idx, JobModel::Roles::IdRole).toInt();
-        auto job = m_jobs.getJobById(jobId);
+        auto job = m_jobs.getJob(printerName, jobId);
         if (printerName == printer->name() && !job->printer()) {
-            job->setPrinter(printer);
-            return;
+            jobAdded(job);
         }
     }
 }
