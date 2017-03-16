@@ -231,13 +231,13 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             break;
         }
         case CompletedTimeRole:
-            ret = job->completedTime();
+            ret = job->completedTime().toLocalTime();
             break;
         case CopiesRole:
             ret = job->copies();
             break;
         case CreationTimeRole:
-            ret = job->creationTime();
+            ret = job->creationTime().toLocalTime();
             break;
         case DuplexRole: {
             if (job->printer()) {
@@ -273,7 +273,7 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             ret = QVariant::fromValue<PrinterEnum::PrintRange>(job->printRangeMode());
             break;
         case ProcessingTimeRole:
-            ret = job->processingTime();
+            ret = job->processingTime().toLocalTime();
             break;
         case QualityRole: {
             if (job->printer()) {
