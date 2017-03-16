@@ -63,6 +63,7 @@ public:
         const QString &name,
         const bool accept,
         const QString &reason = QString::null);
+    virtual QString printerSetCopies(const QString &name, const int &copies);
     virtual QString printerSetShared(const QString &name,
                                      const bool shared);
     virtual QString printerSetInfo(const QString &name,
@@ -85,6 +86,8 @@ public:
                                 const QString &title,
                                 const cups_dest_t *dest);
     virtual QList<QSharedPointer<PrinterJob>> printerGetJobs();
+    virtual QSharedPointer<PrinterJob> printerGetJob(const QString &printerName,
+                                                     const int jobId);
     virtual QMap<QString, QVariant> printerGetJobAttributes(
         const QString &name, const int jobId);
 
@@ -110,6 +113,8 @@ public:
     virtual QSharedPointer<Printer> getPrinter(const QString &printerName);
     virtual QString defaultPrinterName();
 
+    virtual void requestJobExtendedAttributes(QSharedPointer<Printer> printer,
+                                              QSharedPointer<PrinterJob> job);
     virtual void requestPrinterDrivers();
     virtual void requestPrinter(const QString &printerName);
 
@@ -124,6 +129,7 @@ Q_SIGNALS:
     void printerDriversLoaded(const QList<PrinterDriver> &drivers);
     void printerDriversFailedToLoad(const QString &errorMessage);
 
+    void jobLoaded(QString, int, QMap<QString, QVariant>);
     void printerLoaded(QSharedPointer<Printer> printers);
     void deviceFound(const Device &device);
     void deviceSearchFinished();

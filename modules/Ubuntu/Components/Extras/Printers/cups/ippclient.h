@@ -19,11 +19,13 @@
 
 #include "structs.h"
 
+#include <cups/adminutil.h>
 #include <cups/cups.h>
 #include <cups/http.h>
 #include <cups/ipp.h>
 #include <cups/ppd.h>
 
+#include <QMutex>
 #include <QString>
 #include <QStringList>
 
@@ -57,6 +59,7 @@ public:
     bool printerSetEnabled(const QString &printerName, const bool enabled);
     bool printerSetAcceptJobs(const QString &printerName, const bool accept,
                               const QString &reason);
+    bool printerSetCopies(const QString &printerName, const int &copies);
     bool printerSetShared(const QString &printerName, const bool shared);
     bool printerClassSetInfo(const QString &name, const QString &info);
     bool printerClassSetOption(const QString &name, const QString &option,
@@ -123,6 +126,7 @@ private:
     http_t *m_connection;
     ipp_status_t m_lastStatus = IPP_OK;
     mutable QString m_internalStatus = QString::null;
+    QMutex m_thread_lock;
 };
 
 

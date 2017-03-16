@@ -127,22 +127,6 @@ QSharedPointer<Printer> PrinterModel::getPrinterByName(const QString &printerNam
     return QSharedPointer<Printer>(Q_NULLPTR);
 }
 
-void PrinterModel::movePrinter(const int &from, const int &to)
-{
-    int size = m_printers.size();
-    if (from < 0 || to < 0 || from >= size || to >= size) {
-        qWarning() << Q_FUNC_INFO << "Illegal move operation from"
-                   << from << "to" << to << ". Size was" << size;
-        return;
-    }
-    if (!beginMoveRows(QModelIndex(), from, from, QModelIndex(), to)) {
-        qWarning() << Q_FUNC_INFO << "failed to move rows.";
-        return;
-    }
-    m_printers.move(from, to);
-    endMoveRows();
-}
-
 void PrinterModel::removePrinter(QSharedPointer<Printer> printer, const CountChangeSignal &notify)
 {
     int idx = m_printers.indexOf(printer);
@@ -296,6 +280,9 @@ QVariant PrinterModel::data(const QModelIndex &index, int role) const
         case JobRole:
             ret = QVariant::fromValue(printer->jobs());
             break;
+        case CopiesRole:
+            ret = printer->copies();
+            break;
         case EnabledRole:
             ret = printer->enabled();
             break;
@@ -360,6 +347,8 @@ bool PrinterModel::setData(const QModelIndex &index,
         case AcceptJobsRole:
             printer->setAcceptJobs(value.toBool());
             break;
+        case CopiesRole:
+            printer->setCopies(value.toInt());
         case SharedRole:
             printer->setShared(value.toBool());
             break;
@@ -400,6 +389,7 @@ QHash<int, QByteArray> PrinterModel::roleNames() const
         names[IsRawRole] = "isRaw";
         names[IsRemoteRole] = "isRemote";
         names[LastMessageRole] = "lastMessage";
+        names[CopiesRole] = "copies";
         names[JobRole] = "jobs";
     }
 
