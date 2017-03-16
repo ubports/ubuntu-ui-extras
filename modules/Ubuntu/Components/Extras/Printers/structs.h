@@ -145,6 +145,13 @@ public:
         }
         auto mfg = idMap.value("MFG", "");
         auto mdl = idMap.value("MDL", "");
+
+        /* If the MDL field contains CMD, somebody forgot to terminate, and we
+        remove it. */
+        if (mdl.contains("CMD")) {
+            mdl = mdl.split("CMD")[0];
+        }
+
         return QString("%1 %2").arg(mfg).arg(mdl);
     }
 
