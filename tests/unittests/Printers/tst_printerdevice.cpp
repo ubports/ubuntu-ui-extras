@@ -100,9 +100,9 @@ private Q_SLOTS:
 
         {
             Device d;
-            QTest::newRow("a hp printer")
+            QTest::newRow("a hp printer (remove CMD)")
                 << "MFG:HP;MDL:Color LaserJet 4500CMD:PDF,PS,JPEG,PNG,PWG,URF"
-                << "HP Color LaserJet 4500CMD";
+                << "HP Color LaserJet 4500";
         }
         {
             Device d; ;
