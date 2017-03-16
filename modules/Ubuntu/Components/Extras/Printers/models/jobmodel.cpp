@@ -31,21 +31,56 @@ JobModel::JobModel(PrinterBackend *backend,
     : QAbstractListModel(parent)
     , m_backend(backend)
 {
-    update();
-
     QObject::connect(m_backend, &PrinterBackend::jobCreated,
-                     this, &JobModel::jobSignalCatchAll);
+                     this, &JobModel::jobCreated);
     QObject::connect(m_backend, &PrinterBackend::jobState,
-                     this, &JobModel::jobSignalCatchAll);
+                     this, &JobModel::jobState);
     QObject::connect(m_backend, &PrinterBackend::jobCompleted,
-                     this, &JobModel::jobSignalCatchAll);
+                     this, &JobModel::jobCompleted);
+
+    connect(m_backend, SIGNAL(jobLoaded(QString, int, QMap<QString, QVariant>)),
+            this, SLOT(updateJob(QString, int, QMap<QString, QVariant>)));
+
+    // Add already existing jobs
+    // TODO: even this should probably be in a background thread?
+    // so that it doesn't block startup?
+    Q_FOREACH(auto job, m_backend->printerGetJobs()) {
+        addJob(job);
+    }
 }
 
 JobModel::~JobModel()
 {
 }
 
-void JobModel::jobSignalCatchAll(
+void JobModel::jobCreated(
+        const QString &text, const QString &printer_uri,
+        const QString &printer_name, uint printer_state,
+        const QString &printer_state_reasons, bool printer_is_accepting_jobs,
+        uint job_id, uint job_state, const QString &job_state_reasons,
+        const QString &job_name, uint job_impressions_completed)
+{
+    Q_UNUSED(text);  // "Job Created"
+    Q_UNUSED(printer_uri);
+    Q_UNUSED(printer_state);
+    Q_UNUSED(printer_state_reasons);
+    Q_UNUSED(printer_is_accepting_jobs);
+    Q_UNUSED(job_state_reasons);
+
+    QSharedPointer<PrinterJob> job = QSharedPointer<PrinterJob>(
+        new PrinterJob(printer_name, m_backend, job_id)
+    );
+    job->setImpressionsCompleted(job_impressions_completed);
+    job->setState(static_cast<PrinterEnum::JobState>(job_state));
+    job->setTitle(job_name);
+
+    // Printers listens to rowInserted and spawns a JobLoader to set the
+    // printer of the job, which triggers the extended attributes to be loaded
+    // once complete this triggers JobModel::updateJob
+    addJob(job);
+}
+
+void JobModel::jobState(
         const QString &text, const QString &printer_uri,
         const QString &printer_name, uint printer_state,
         const QString &printer_state_reasons, bool printer_is_accepting_jobs,
@@ -54,90 +89,111 @@ void JobModel::jobSignalCatchAll(
 {
     Q_UNUSED(text);
     Q_UNUSED(printer_uri);
-    Q_UNUSED(printer_name);
     Q_UNUSED(printer_state);
     Q_UNUSED(printer_state_reasons);
     Q_UNUSED(printer_is_accepting_jobs);
-    Q_UNUSED(job_id);
-    Q_UNUSED(job_state);
     Q_UNUSED(job_state_reasons);
     Q_UNUSED(job_name);
 
-    auto job = getJobById(job_id);
-    if (job)
-        job->setImpressionsCompleted(job_impressions_completed);
+    QSharedPointer<PrinterJob> job = getJob(printer_name, job_id);
 
-    update();
+    if (job) {
+        job->setImpressionsCompleted(job_impressions_completed);
+        job->setState(static_cast<PrinterEnum::JobState>(job_state));
+
+        updateJob(job);
+    } else {
+        qWarning() << "JobModel::jobState for unknown job: " << job_name << " ("
+                   << job_id << ") for " << printer_name;
+    }
 }
 
-void JobModel::update()
+void JobModel::jobCompleted(
+        const QString &text, const QString &printer_uri,
+        const QString &printer_name, uint printer_state,
+        const QString &printer_state_reasons, bool printer_is_accepting_jobs,
+        uint job_id, uint job_state, const QString &job_state_reasons,
+        const QString &job_name, uint job_impressions_completed)
 {
-    // Store the old count and get the new printers
-    int oldCount = m_jobs.size();
-    QList<QSharedPointer<PrinterJob>> newJobs = m_backend->printerGetJobs();
+    Q_UNUSED(text);
+    Q_UNUSED(printer_uri);
+    Q_UNUSED(printer_state);
+    Q_UNUSED(printer_state_reasons);
+    Q_UNUSED(printer_is_accepting_jobs);
+    Q_UNUSED(job_state);
+    Q_UNUSED(job_state_reasons);
+    Q_UNUSED(job_name);
+    Q_UNUSED(job_impressions_completed);
 
-    // Go through the old model
-    for (int i=0; i < m_jobs.count(); i++) {
-        // Determine if the old printer exists in the new model
-        bool exists = false;
-
-        Q_FOREACH(QSharedPointer<PrinterJob> p, newJobs) {
-            if (p->jobId() == m_jobs.at(i)->jobId()) {
-                exists = true;
-
-                // Ensure the other properties of the job are up to date
-                if (!m_jobs.at(i)->deepCompare(p)) {
-                    m_jobs.at(i)->updateFrom(p);
-
-                    Q_EMIT dataChanged(index(i), index(i));
-                }
-
-                break;
-            }
-        }
-
-        // If it doesn't exist then remove it from the old model
-        if (!exists) {
-            beginRemoveRows(QModelIndex(), i, i);
-            QSharedPointer<PrinterJob> p = m_jobs.takeAt(i);
-            endRemoveRows();
-
-            i--;  // as we have removed an item decrement
-        }
+    auto job = getJob(printer_name, job_id);
+    if (job) {
+        removeJob(job);
+    } else {
+        qWarning() << "JobModel::jobCompleted for unknown job: " << job_name << " ("
+                   << job_id << ") for " << printer_name;
     }
+}
 
-    // Go through the new model
-    for (int i=0; i < newJobs.count(); i++) {
-        // Determine if the new printer exists in the old model
-        bool exists = false;
-        int j;
+void JobModel::addJob(QSharedPointer<PrinterJob> job)
+{
+    int i = m_jobs.size();
 
-        for (j=0; j < m_jobs.count(); j++) {
-            if (m_jobs.at(j)->jobId() == newJobs.at(i)->jobId()) {
-                exists = true;
-                break;
-            }
-        }
+    beginInsertRows(QModelIndex(), i, i);
+    m_jobs.append(job);
+    endInsertRows();
 
-        if (exists) {
-            if (j == i) {  // New printer exists and in correct position
-                continue;
-            } else {
-                // New printer does exist but needs to be moved in old model
-                beginMoveRows(QModelIndex(), j, 1, QModelIndex(), i);
-                m_jobs.move(j, i);
-                endMoveRows();
-            }
-        } else {
-            // New printer does not exist insert into model
-            beginInsertRows(QModelIndex(), i, i);
-            m_jobs.insert(i, newJobs.at(i));
-            endInsertRows();
-        }
+    Q_EMIT countChanged();
+}
+
+void JobModel::removeJob(QSharedPointer<PrinterJob> job)
+{
+    int i = m_jobs.indexOf(job);
+
+    beginRemoveRows(QModelIndex(), i, i);
+    m_jobs.removeAt(i);
+    endRemoveRows();
+
+    Q_EMIT countChanged();
+}
+
+// This is used by JobModel::jobState as it has modified an existing job
+void JobModel::updateJob(QSharedPointer<PrinterJob> job)
+{
+    int i = m_jobs.indexOf(job);
+    QModelIndex idx = index(i);
+    Q_EMIT dataChanged(idx, idx);
+}
+
+// This is used by JobLoader as it gives us the oldJob and a newJob which has
+// the extended attributes loaded. We then load the data from this newJob.
+void JobModel::updateJob(QString printerName, int jobId,
+                         QMap<QString, QVariant> attributes)
+{
+    QSharedPointer<PrinterJob> job = getJob(printerName, jobId);
+
+    int i = m_jobs.indexOf(job);
+    QModelIndex idx = index(i);
+
+    if (i > -1) {
+        job->loadAttributes(attributes);
+
+        Q_EMIT dataChanged(idx, idx);
+    } else {
+        qWarning() << "Tried to updateJob which doesn't exist:" << printerName << jobId;
     }
+}
 
-    if (oldCount != m_jobs.size()) {
-        Q_EMIT countChanged();
+void JobModel::updateJobPrinter(QSharedPointer<PrinterJob> job, QSharedPointer<Printer> printer)
+{
+    int i = m_jobs.indexOf(job);
+    QModelIndex idx = index(i);
+
+    if (i > -1) {
+        job->setPrinter(printer);
+
+        Q_EMIT dataChanged(idx, idx);
+    } else {
+        qWarning() << "Tried to updateJobPrinter which doesn't exist:" << printer->name() << job->jobId();
     }
 }
 
@@ -175,13 +231,13 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             break;
         }
         case CompletedTimeRole:
-            ret = job->completedTime();
+            ret = job->completedTime().toLocalTime();
             break;
         case CopiesRole:
             ret = job->copies();
             break;
         case CreationTimeRole:
-            ret = job->creationTime();
+            ret = job->creationTime().toLocalTime();
             break;
         case DuplexRole: {
             if (job->printer()) {
@@ -217,7 +273,7 @@ QVariant JobModel::data(const QModelIndex &index, int role) const
             ret = QVariant::fromValue<PrinterEnum::PrintRange>(job->printRangeMode());
             break;
         case ProcessingTimeRole:
-            ret = job->processingTime();
+            ret = job->processingTime().toLocalTime();
             break;
         case QualityRole: {
             if (job->printer()) {
@@ -307,10 +363,10 @@ QVariantMap JobModel::get(const int row) const
     return result;
 }
 
-QSharedPointer<PrinterJob> JobModel::getJobById(const int &id)
+QSharedPointer<PrinterJob> JobModel::getJob(const QString &printerName, const int &id)
 {
     Q_FOREACH(auto job, m_jobs) {
-        if (job->jobId() == id) {
+        if (job->printerName() == printerName && job->jobId() == id) {
             return job;
         }
     }

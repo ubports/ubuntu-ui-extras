@@ -145,6 +145,62 @@ bool PrinterJob::landscape() const
     return m_landscape;
 }
 
+void PrinterJob::loadAttributes(const QMap<QString, QVariant> &attributes)
+{
+    // Load the extra attributes for the job
+    // NOTE: we don't need to type check them as they have been filtered for us
+
+    setCollate(attributes.value("Collate").toBool());
+    setCopies(attributes.value("copies").toInt());
+
+    // No colorModel will result in PrinterJob using defaultColorModel
+    QString colorModel = attributes.value("ColorModel").toString();
+    for (int i=0; i < m_printer->supportedColorModels().length(); i++) {
+        if (m_printer->supportedColorModels().at(i).name == colorModel) {
+            setColorModel(i);
+        }
+    }
+
+    setCompletedTime(attributes.value("CompletedTime").toDateTime());
+    setCreationTime(attributes.value("CreationTime").toDateTime());
+
+    // No duplexMode will result in PrinterJob using defaultDuplexMode
+    QString duplex = attributes.value("Duplex").toString();
+    PrinterEnum::DuplexMode duplexMode = Utils::ppdChoiceToDuplexMode(duplex);
+    for (int i=0; i < m_printer->supportedDuplexModes().length(); i++) {
+        if (m_printer->supportedDuplexModes().at(i) == duplexMode) {
+            setDuplexMode(i);
+        }
+    }
+
+    setLandscape(attributes.value("landscape").toBool());
+    setMessages(attributes.value("messages").toStringList());
+
+    QStringList pageRanges = attributes.value("page-ranges").toStringList();
+    if (pageRanges.isEmpty()) {
+        setPrintRangeMode(PrinterEnum::PrintRange::AllPages);
+        setPrintRange(QStringLiteral(""));
+    } else {
+        setPrintRangeMode(PrinterEnum::PrintRange::PageRange);
+        // Use groupSeparator as createSeparatedList adds "and" into the string
+        setPrintRange(pageRanges.join(QLocale::system().groupSeparator()));
+    }
+
+    setProcessingTime(attributes.value("ProcessingTime").toDateTime());
+
+    // No quality will result in PrinterJob using defaultPrintQuality
+    QString quality = attributes.value("quality").toString();
+    for (int i=0; i < m_printer->supportedPrintQualities().length(); i++) {
+        if (m_printer->supportedPrintQualities().at(i).name == quality) {
+            setQuality(i);
+        }
+    }
+
+    setReverse(attributes.value("OutputOrder").toString() == "Reverse");
+    setSize(attributes.value("Size").toInt());
+    setUser(attributes.value("User").toString());
+}
+
 void PrinterJob::loadDefaults()
 {
     if (!m_printer) {
@@ -152,62 +208,17 @@ void PrinterJob::loadDefaults()
         return;
     }
 
-    qWarning() << Q_FUNC_INFO << jobId();
-
     if (jobId() > 0) {
-        // Load the extra attributes for the job
-        // NOTE: we don't need to type check them as they have been filtered for us
-
-        QMap<QString, QVariant> attributes = m_backend->printerGetJobAttributes(
-            m_printer->name(), jobId());
-
-        setCollate(attributes.value("Collate").toBool());
-        setCopies(attributes.value("copies").toInt());
-
-        // No colorModel will result in PrinterJob using defaultColorModel
-        QString colorModel = attributes.value("ColorModel").toString();
-        for (int i=0; i < m_printer->supportedColorModels().length(); i++) {
-            if (m_printer->supportedColorModels().at(i).originalOption == colorModel) {
-                setColorModel(i);
-            }
-        }
-
-        // No duplexMode will result in PrinterJob using defaultDuplexMode
-        QString duplex = attributes.value("Duplex").toString();
-        PrinterEnum::DuplexMode duplexMode = Utils::ppdChoiceToDuplexMode(duplex);
-        for (int i=0; i < m_printer->supportedDuplexModes().length(); i++) {
-            if (m_printer->supportedDuplexModes().at(i) == duplexMode) {
-                setDuplexMode(i);
-            }
-        }
-
-        setLandscape(attributes.value("landscape").toBool());
-        setMessages(attributes.value("messages").toStringList());
-
-        QStringList pageRanges = attributes.value("page-ranges").toStringList();
-        if (pageRanges.isEmpty()) {
-            setPrintRangeMode(PrinterEnum::PrintRange::AllPages);
-            setPrintRange(QStringLiteral(""));
-        } else {
-            setPrintRangeMode(PrinterEnum::PrintRange::PageRange);
-            // Use groupSeparator as createSeparatedList adds "and" into the string
-            setPrintRange(pageRanges.join(QLocale::system().groupSeparator()));
-        }
-
-        // No quality will result in PrinterJob using defaultPrintQuality
-        QString quality = attributes.value("quality").toString();
-        for (int i=0; i < m_printer->supportedPrintQualities().length(); i++) {
-            if (m_printer->supportedPrintQualities().at(i).name == quality) {
-                setQuality(i);
-            }
-        }
-
-        setReverse(attributes.value("OutputOrder").toString() == "Reverse");
+        loadAttributes(
+            m_backend->printerGetJobAttributes(
+                printerName(), jobId()
+            )
+        );
+    } else {
+        setColorModel(m_printer->supportedColorModels().indexOf(m_printer->defaultColorModel()));
+        setDuplexMode(m_printer->supportedDuplexModes().indexOf(m_printer->defaultDuplexMode()));
+        setQuality(m_printer->supportedPrintQualities().indexOf(m_printer->defaultPrintQuality()));
     }
-
-    setColorModel(m_printer->supportedColorModels().indexOf(m_printer->defaultColorModel()));
-    setDuplexMode(m_printer->supportedDuplexModes().indexOf(m_printer->defaultDuplexMode()));
-    setQuality(m_printer->supportedPrintQualities().indexOf(m_printer->defaultPrintQuality()));
 }
 
 QStringList PrinterJob::messages() const
@@ -385,7 +396,6 @@ void PrinterJob::setPrinter(QSharedPointer<Printer> printer)
 
         Q_EMIT printerChanged();
    }
-   loadDefaults();
 }
 
 void PrinterJob::setPrintRange(const QString &printRange)
@@ -481,30 +491,44 @@ bool PrinterJob::deepCompare(QSharedPointer<PrinterJob> other) const
     // Return true if they are the same
     return collate() == other->collate()
             && colorModel() == other->colorModel()
+            && completedTime() == other->completedTime()
             && copies() == other->copies()
+            && creationTime() == other->creationTime()
             && duplexMode() == other->duplexMode()
+            && impressionsCompleted() == other->impressionsCompleted()
             && landscape() == other->landscape()
+            && messages() == other->messages()
             && printRange() == other->printRange()
             && printRangeMode() == other->printRangeMode()
+            && processingTime() == other->processingTime()
             && quality() == other->quality()
             && reverse() == other->reverse()
+            && size() == other->size()
             && state() == other->state()
-            && title() == other->title();
+            && title() == other->title()
+            && user() == other->user();
 }
 
 void PrinterJob::updateFrom(QSharedPointer<PrinterJob> other)
 {
     setCollate(other->collate());
     setColorModel(other->colorModel());
+    setCompletedTime(other->completedTime());
     setCopies(other->copies());
+    setCreationTime(other->creationTime());
     setDuplexMode(other->duplexMode());
+    setImpressionsCompleted(other->impressionsCompleted());
     setLandscape(other->landscape());
+    setMessages(other->messages());
     setPrintRange(other->printRange());
     setPrintRangeMode(other->printRangeMode());
+    setProcessingTime(other->processingTime());
     setQuality(other->quality());
     setReverse(other->reverse());
+    setSize(other->size());
     setState(other->state());
     setTitle(other->title());
+    setUser(other->user());
 }
 
 QString PrinterJob::user() const

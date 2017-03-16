@@ -25,6 +25,7 @@
 #include <cups/ipp.h>
 #include <cups/ppd.h>
 
+#include <QMutex>
 #include <QString>
 #include <QStringList>
 
@@ -125,6 +126,7 @@ private:
     http_t *m_connection;
     ipp_status_t m_lastStatus = IPP_OK;
     mutable QString m_internalStatus = QString::null;
+    QMutex m_thread_lock;
 };
 
 
