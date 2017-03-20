@@ -64,20 +64,18 @@ PrinterModel::~PrinterModel()
 
 void PrinterModel::printerLoaded(QSharedPointer<Printer> printer)
 {
-    // Find and possibly replace an old printer.
-    for (int i=0; i < m_printers.count(); i++) {
-        auto oldPrinter = m_printers.at(i);
-        if (printer->name() == oldPrinter->name()) {
-            if (!oldPrinter->deepCompare(printer)) {
-                updatePrinter(oldPrinter, printer);
-            }
+    // If there is an existing printer then get it
+    QSharedPointer<Printer> oldPrinter = getPrinterByName(printer->name());
 
-            // We're done.
-            return;
+    if (oldPrinter) {
+        // Check if the existing printer needs updating
+        if (!oldPrinter->deepCompare(printer)) {
+            updatePrinter(oldPrinter, printer);
         }
+    } else {
+        // There isn't an existing printer so add it
+        addPrinter(printer, CountChangeSignal::Emit);
     }
-
-    addPrinter(printer, CountChangeSignal::Emit);
 }
 
 void PrinterModel::printerModified(const QString &printerName)
@@ -97,6 +95,12 @@ void PrinterModel::printerAdded(
     Q_UNUSED(printerState);
     Q_UNUSED(printerStateReason);
     Q_UNUSED(acceptingJobs);
+
+    // If there isn't an existing printer then add a proxy printer
+    if (!getPrinterByName(printerName)) {
+        auto p = QSharedPointer<Printer>(new Printer(new PrinterBackend(printerName)));
+        addPrinter(p);
+    }
 
     m_backend->requestPrinter(printerName);
 }
