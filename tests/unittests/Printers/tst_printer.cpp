@@ -348,6 +348,28 @@ private Q_SLOTS:
         );
         QCOMPARE(proxy->sourceModel()->objectName(), jobs.objectName());
     }
+
+    /* There was a bug causing QML thread assertion to fail. The assertion
+    requires all QObjects accessed from QML to be in the same thread as QML.
+    For newly loaded non-proxy printers, this was not the case. This test
+    serves as a regression test, as well as a place where we can make sure
+    every QObject of the Printer API moves thread when the printer itself
+    moves.
+
+    For POD, this is inconsequential. */
+    void testPrinterMovesProperlyFromThread()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+
+        Printer p(backend);
+        QThread thread;
+        p.moveToThread(&thread);
+
+        QCOMPARE(p.thread(), &thread);
+
+        // Ideally, all QObjects in the Printer API needs to be tested here.
+        QCOMPARE(p.jobs()->thread(), &thread);
+    }
 private:
     QString m_printerName = "my-printer";
     MockPrinterBackend *m_backend = nullptr;
