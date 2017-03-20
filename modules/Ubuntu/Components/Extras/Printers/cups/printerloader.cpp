@@ -18,6 +18,7 @@
 #include "backend/backend_cups.h"
 #include "printerloader.h"
 
+#include <QApplication>
 #include <QPrinterInfo>
 
 class PrinterCupsBackend;
@@ -47,6 +48,8 @@ void PrinterLoader::load()
     }
 
     auto p = QSharedPointer<Printer>(new Printer(backend));
+
+    p->moveToThread(QApplication::instance()->thread());
 
     Q_EMIT loaded(p);
     Q_EMIT finished();
