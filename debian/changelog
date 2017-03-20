@@ -1,3 +1,12 @@
+ubuntu-ui-extras (0.2+17.04.20170301.2-0ubuntu1) zesty; urgency=medium
+
+  [ Andrew Hayzen, Jonas G. Drange ]
+  * Add printer-components from ubuntu-settings-components to ubuntu-ui-
+    extras (original branch https://code.launchpad.net/~phablet-
+    team/ubuntu-settings-components/printer-components)
+
+ -- Andrew Hayzen <ahayzen@gmail.com>  Wed, 01 Mar 2017 22:24:08 +0000
+
 ubuntu-ui-extras (0.2+17.04.20170222-0ubuntu1) zesty; urgency=medium
 
   [ Andrew Hayzen ]
