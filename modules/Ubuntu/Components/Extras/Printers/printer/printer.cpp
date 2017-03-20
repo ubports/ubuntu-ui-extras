@@ -29,6 +29,7 @@ Printer::Printer(PrinterBackend *backend, QObject *parent)
 {
     loadAttributes();
 
+    m_jobs.setParent(this);
     m_jobs.filterOnPrinterName(name());
 
     QObject::connect(m_backend, &PrinterBackend::printerStateChanged,
