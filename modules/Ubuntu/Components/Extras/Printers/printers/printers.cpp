@@ -130,11 +130,21 @@ QAbstractItemModel* Printers::allPrintersWithPdf()
 
 QAbstractItemModel* Printers::remotePrinters()
 {
-    m_devices.load();
-    auto ret = &m_devices;
+    /* Lazily initialize this model. Local printers are discerned from remotes
+    by checking if they are remote. */
+    if (!m_remotePrinters.sourceModel()) {
+        m_remotePrinters.setSourceModel(&m_model);
+        m_remotePrinters.filterOnRemote(true);
+        m_remotePrinters.filterOnPdf(false);
+        m_remotePrinters.invalidate();
+        m_remotePrinters.sort(0, Qt::DescendingOrder);
+    }
+
+    auto ret = &m_remotePrinters;
     QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
     return ret;
 }
+
 QAbstractItemModel* Printers::localPrinters()
 {
     /* Lazily initialize this model. Local printers are discerned from remotes
@@ -142,7 +152,9 @@ QAbstractItemModel* Printers::localPrinters()
     if (!m_localPrinters.sourceModel()) {
         m_localPrinters.setSourceModel(&m_model);
         m_localPrinters.filterOnRemote(false);
+        m_localPrinters.filterOnPdf(false);
         m_localPrinters.setSortRole(PrinterModel::Roles::DefaultPrinterRole);
+        m_localPrinters.invalidate();
         m_localPrinters.sort(0, Qt::DescendingOrder);
     }
 
@@ -161,6 +173,14 @@ QAbstractItemModel* Printers::printJobs()
 QAbstractItemModel* Printers::drivers()
 {
     auto ret = &m_drivers;
+    QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
+    return ret;
+}
+
+QAbstractItemModel* Printers::devices()
+{
+    m_devices.load();
+    auto ret = &m_devices;
     QQmlEngine::setObjectOwnership(ret, QQmlEngine::CppOwnership);
     return ret;
 }
