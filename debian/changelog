@@ -1,7 +1,8 @@
 ubuntu-ui-extras (0.3+17.04.20170301.2-0ubuntu2) UNRELEASED; urgency=medium
 
   [ Andrew Hayzen, Jonas G. Drange ]
-  
+  * Adds devices as an model on Printers, and re-instates remote printer model on Printers.
+  * makes sure the backend is refreshed on enable/disable
   * If printerAdded is called ensure there is always a proxy printer
         corrects thread affinity for printerloaded printers, as well as any qobject children it might have
   * Remove PrinterQueue.qml example and add missing job methods to Printers.qml example, so we have only one example
