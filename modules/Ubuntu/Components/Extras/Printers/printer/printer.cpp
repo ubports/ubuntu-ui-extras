@@ -302,6 +302,7 @@ void Printer::setEnabled(const bool enabled)
         if (!reply.isEmpty()) {
             qWarning() << Q_FUNC_INFO << "failed to set enabled:" << reply;
         }
+        m_backend->refresh();
     }
 }
 

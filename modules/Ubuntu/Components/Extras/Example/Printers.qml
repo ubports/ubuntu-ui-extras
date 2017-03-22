@@ -685,7 +685,7 @@ MainView {
                             verticalCenter: parent.verticalCenter
                         }
                         property var target
-                        Component.onCompleted: target = Printers.remotePrinters
+                        Component.onCompleted: target = Printers.devices
                         running: target.searching
                     }
                 }
@@ -699,7 +699,7 @@ MainView {
                         topMargin: units.gu(2)
                     }
                     height: contentItem.childrenRect.height
-                    model: Printers.remotePrinters
+                    model: Printers.devices
                     delegate: ListItem {
                         height: modelLayout.height + (divider.visible ? divider.height : 0)
                         ListItemLayout {
