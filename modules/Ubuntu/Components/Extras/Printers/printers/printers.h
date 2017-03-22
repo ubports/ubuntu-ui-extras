@@ -41,6 +41,7 @@ class PRINTERS_DECL_EXPORT Printers : public QObject
     Q_PROPERTY(QAbstractItemModel* localPrinters READ localPrinters CONSTANT)
     Q_PROPERTY(QAbstractItemModel* printJobs READ printJobs CONSTANT)
     Q_PROPERTY(QAbstractItemModel* drivers READ drivers CONSTANT)
+    Q_PROPERTY(QAbstractItemModel* devices READ devices CONSTANT)
     Q_PROPERTY(QString driverFilter READ driverFilter WRITE setDriverFilter NOTIFY driverFilterChanged)
     Q_PROPERTY(QString defaultPrinterName READ defaultPrinterName WRITE setDefaultPrinterName NOTIFY defaultPrinterNameChanged)
     Q_PROPERTY(QString lastMessage READ lastMessage CONSTANT)
@@ -58,6 +59,7 @@ public:
     QAbstractItemModel* localPrinters();
     QAbstractItemModel* printJobs();
     QAbstractItemModel* drivers();
+    QAbstractItemModel* devices();
     QString driverFilter() const;
     QString defaultPrinterName() const;
     QString lastMessage() const;
