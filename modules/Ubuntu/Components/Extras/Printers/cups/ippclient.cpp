@@ -25,6 +25,7 @@
 
 #include <QDebug>
 #include <QDateTime>
+#include <QtAlgorithms>
 #include <QTimeZone>
 #include <QUrl>
 
@@ -173,6 +174,30 @@ bool IppClient::printerAddWithPpdFile(const QString &printerName,
     return postRequest(request, ppdFileName.toUtf8(), CupsResourceAdmin);
 }
 
+bool IppClient::printerHoldJob(const QString &printerName, const int jobId)
+{
+    ipp_t *request = ippNewRequest(IPP_HOLD_JOB);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+
+    ippAddInteger(request, IPP_TAG_OPERATION, IPP_TAG_INTEGER,
+                  "job-id", jobId);
+
+    return sendRequest(request, CupsResourceJobs);
+}
+
+bool IppClient::printerReleaseJob(const QString &printerName, const int jobId)
+{
+    ipp_t *request = ippNewRequest(IPP_RELEASE_JOB);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+
+    ippAddInteger(request, IPP_TAG_OPERATION, IPP_TAG_INTEGER,
+                  "job-id", jobId);
+
+    return sendRequest(request, CupsResourceJobs);
+}
+
 bool IppClient::printerSetDefault(const QString &printerName)
 {
     return sendNewSimpleRequest(CUPS_SET_DEFAULT, printerName.toUtf8(),
@@ -225,9 +250,46 @@ bool IppClient::printerSetAcceptJobs(const QString &printerName,
     }
 }
 
+bool IppClient::printerSetCopies(const QString &printerName, const int &copies)
+{
+    ipp_t *request;
+
+    if (!isPrinterNameValid(printerName)) {
+        setInternalStatus(QString("%1 is not a valid printer name.").arg(printerName));
+        return false;
+    }
+    request = ippNewRequest(CUPS_ADD_MODIFY_PRINTER);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+    ippAddInteger(request, IPP_TAG_PRINTER, IPP_TAG_INTEGER,
+                  "copies-default", copies);
+    /* TODO: The request will fail if this was a printer class, and it should
+    be retried. */
+    return sendRequest(request, CupsResourceAdmin);
+}
+
+bool IppClient::printerSetShared(const QString &printerName, const bool shared)
+{
+    ipp_t *request;
+
+    if (!isPrinterNameValid(printerName)) {
+        setInternalStatus(QString("%1 is not a valid printer name.").arg(printerName));
+        return false;
+    }
+
+    request = ippNewRequest(CUPS_ADD_MODIFY_PRINTER);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
+    ippAddBoolean(request, IPP_TAG_OPERATION,
+                  "printer-is-shared", shared ? 1 : 0);
+    /* TODO: The request will fail if this was a printer class, and it should
+    be retried. */
+
+    return sendRequest(request, CupsResourceAdmin);
+}
 
 bool IppClient::printerClassSetInfo(const QString &name,
-                                       const QString &info)
+                                    const QString &info)
 {
     if (!isPrinterNameValid(name)) {
         setInternalStatus(QString("%1 is not a valid printer name.").arg(name));
@@ -336,18 +398,99 @@ bool IppClient::printerClassSetOption(const QString &name,
     return retval;
 }
 
-QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)
+QMap<QString, QVariant> IppClient::printerGetAttributes(
+    const QString &printerName, const QStringList &attributes)
+{
+    QMap<QString, QVariant> result;
+    QList<QByteArray*> attrByteArrays;
+    ipp_t *request;
+    ipp_attribute_t *attr;
+
+    if (attributes.isEmpty()) {
+        return result;
+    }
+
+    int i;
+    size_t n = attributes.size();
+    char **attrs;
+    attrs = (char**) malloc ((n + 1) * sizeof (char *));
+
+    /* This is some trickery to compensate for a lack of C array/pointer
+    skills. The VLA attrs gets the underlying data structure of a QByterArray
+    on the heap. When cups is done with it, and in the end of this method,
+    the QByteArrays are deleted, and attrs is freed. */
+    for (i = 0; i < ((int) n); i++) {
+        QByteArray *array = new QByteArray(attributes.value(i).toLocal8Bit());
+        attrByteArrays << array;
+        attrs[i] = array->data();
+    }
+    attrs[n] = NULL;
+
+    request = ippNewRequest(IPP_GET_PRINTER_ATTRIBUTES);
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, QString());
+    ippAddStrings(request, IPP_TAG_OPERATION, IPP_TAG_KEYWORD,
+                  "requested-attributes", attributes.size(), NULL, attrs);
+    auto resource = getResource(CupsResource::CupsResourceRoot);
+
+    ipp_t *reply;
+    reply = cupsDoRequest(m_connection, request, resource.toUtf8());
+
+    if (!isReplyOk(reply, false)) {
+        qWarning() << Q_FUNC_INFO << "failed to get attributes"
+                   << attributes << "for printer" << printerName;
+    } else {
+        for (attr = ippFirstAttribute(reply); attr; attr = ippNextAttribute(reply)) {
+            while (attr && ippGetGroupTag(attr) != IPP_TAG_PRINTER)
+                attr = ippNextAttribute(reply);
+
+            if (!attr)
+                break;
+
+            for (; attr && ippGetGroupTag(attr) == IPP_TAG_PRINTER;
+                 attr = ippNextAttribute(reply)) {
+
+                /* TODO: Here we need to take into account that the returned
+                attributes could be lists and other things. */
+                result[ippGetName(attr)] = getAttributeValue(attr);
+
+                if (!attr)
+                    break;
+            }
+        }
+    }
+
+    if (reply)
+        ippDelete(reply);
+
+    qDeleteAll(attrByteArrays);
+    free(attrs);
+
+    return result;
+}
+
+QMap<QString, QVariant> IppClient::printerGetJobAttributes(const QString &printerName,
+                                                           const int jobId)
 {
     ipp_t *request;
     QMap<QString, QVariant> map;
 
+    // Try to get the lock, if we can't after 5 seconds then fail and return
+    if (!m_thread_lock.tryLock(5000)) {
+        qWarning() << "Unable to get lock for IppClient::printerGetJobAttributes."
+                   << "Unable to load attributes for job:" << jobId << " for "
+                   << printerName;
+        return map;
+    }
+
     // Construct request
     request = ippNewRequest(IPP_GET_JOB_ATTRIBUTES);
-    QString uri = QStringLiteral("ipp://localhost/jobs/") + QString::number(jobId);
-    qDebug() << "URI:" << uri;
 
-    ippAddString(request, IPP_TAG_OPERATION, IPP_TAG_URI, "job-uri", NULL, uri.toStdString().data());
+    addPrinterUri(request, printerName);
+    addRequestingUsername(request, NULL);
 
+    ippAddInteger(request, IPP_TAG_OPERATION, IPP_TAG_INTEGER,
+                  "job-id", jobId);
 
     // Send request and construct reply
     ipp_t *reply;
@@ -365,13 +508,16 @@ QMap<QString, QVariant> IppClient::printerGetJobAttributes(const int jobId)
             map.insert(ippGetName(attr), value);
         }
     } else {
-        qWarning() << "Not able to get attributes of job:" << jobId;
+        qWarning() << "Not able to get attributes of job:" << jobId << " for "
+                   << printerName;
     }
 
     // Destruct the reply if valid
     if (reply) {
         ippDelete(reply);
     }
+
+    m_thread_lock.unlock();
 
     return map;
 }
@@ -972,8 +1118,8 @@ QVariant IppClient::getAttributeValue(ipp_attribute_t *attr, int index) const
         case IPP_TAG_DATE: {
             time_t time = ippDateToTime(ippGetDate(attr, index));
             QDateTime datetime;
-            datetime.setTimeZone(QTimeZone::systemTimeZone());
             datetime.setTime_t(time);
+            datetime.setTimeZone(QTimeZone::utc());
 
             var = QVariant::fromValue<QDateTime>(datetime);
             break;
@@ -985,4 +1131,12 @@ QVariant IppClient::getAttributeValue(ipp_attribute_t *attr, int index) const
     }
 
     return var;
+}
+
+bool IppClient::getDevices(cups_device_cb_t callback, void *context) const
+{
+    auto reply = cupsGetDevices(m_connection, CUPS_TIMEOUT_DEFAULT,
+                                CUPS_INCLUDE_ALL, CUPS_EXCLUDE_NONE, callback,
+                                context);
+    return reply == IPP_OK;
 }

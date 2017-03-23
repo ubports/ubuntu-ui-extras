@@ -29,17 +29,20 @@ add_library(UbuntuComponentsExtrasPrintersQml SHARED
     backend/backend_cups.cpp
     backend/backend_pdf.cpp
 
+    cups/devicesearcher.cpp
     cups/ippclient.cpp
+    cups/jobloader.cpp
     cups/printerdriverloader.cpp
     cups/printerloader.cpp
 
+    models/devicemodel.cpp
     models/drivermodel.cpp
     models/jobmodel.cpp
     models/printermodel.cpp
 
     printer/printer.cpp
     printer/printerjob.cpp
-    printer/printersignalhandler.cpp
+    printer/signalratelimiter.cpp
     printers/printers.cpp
 
     enums.h

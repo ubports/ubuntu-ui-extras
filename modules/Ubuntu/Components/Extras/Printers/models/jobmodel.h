@@ -20,6 +20,7 @@
 #include "printers_global.h"
 #include "backend/backend.h"
 #include "printer/printerjob.h"
+#include "printer/signalratelimiter.h"
 
 #include <QAbstractListModel>
 #include <QByteArray>
@@ -30,6 +31,8 @@
 #include <QTimer>
 #include <QVariant>
 
+class PrinterBackend;
+class PrinterJob;
 class PRINTERS_DECL_EXPORT JobModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -51,6 +54,7 @@ public:
         CopiesRole,
         CreationTimeRole,
         DuplexRole,
+        HeldRole,
         ImpressionsCompletedRole,
         LandscapeRole,
         MessagesRole,
@@ -75,23 +79,46 @@ public:
     int count() const;
 
     Q_INVOKABLE QVariantMap get(const int row) const;
-    QSharedPointer<PrinterJob> getJobById(const int &id);
+    QSharedPointer<PrinterJob> getJob(const QString &printerName, const int &id);
+
+    void updateJobPrinter(QSharedPointer<PrinterJob> job, QSharedPointer<Printer> printer);
 private:
+    void addJob(QSharedPointer<PrinterJob> job);
+    void removeJob(QSharedPointer<PrinterJob> job);
+    void updateJob(QSharedPointer<PrinterJob> Job);
+
     PrinterBackend *m_backend;
 
     QList<QSharedPointer<PrinterJob>> m_jobs;
+    SignalRateLimiter m_signalHandler;
 private Q_SLOTS:
-    void update();
-    void jobSignalCatchAll(const QString &text, const QString &printer_uri,
-                           const QString &printer_name, uint printer_state,
-                           const QString &printer_state_reasons,
-                           bool printer_is_accepting_jobs, uint job_id,
-                           uint job_state, const QString &job_state_reasons,
-                           const QString &job_name,
-                           uint job_impressions_completed);
+    void jobCreated(const QString &text, const QString &printer_uri,
+                    const QString &printer_name, uint printer_state,
+                    const QString &printer_state_reasons,
+                    bool printer_is_accepting_jobs, uint job_id,
+                    uint job_state, const QString &job_state_reasons,
+                    const QString &job_name,
+                    uint job_impressions_completed);
+    void jobState(const QString &text, const QString &printer_uri,
+                  const QString &printer_name, uint printer_state,
+                  const QString &printer_state_reasons,
+                  bool printer_is_accepting_jobs, uint job_id,
+                  uint job_state, const QString &job_state_reasons,
+                  const QString &job_name,
+                  uint job_impressions_completed);
+    void jobCompleted(const QString &text, const QString &printer_uri,
+                      const QString &printer_name, uint printer_state,
+                      const QString &printer_state_reasons,
+                      bool printer_is_accepting_jobs, uint job_id,
+                      uint job_state, const QString &job_state_reasons,
+                      const QString &job_name,
+                      uint job_impressions_completed);
+    void jobSignalPrinterModified(const QString &printerName);
+    void updateJob(QString printerName, int jobId, QMap<QString, QVariant> attributes);
 
 Q_SIGNALS:
     void countChanged();
+    void forceJobRefresh(const QString &printerName, const int jobId);
 };
 
 class PRINTERS_DECL_EXPORT JobFilter : public QSortFilterProxyModel
@@ -102,13 +129,19 @@ public:
     explicit JobFilter(QObject *parent = Q_NULLPTR);
     ~JobFilter();
 
-    Q_INVOKABLE QVariantMap get(const int row) const;
-
     void filterOnPrinterName(const QString &name);
     int count() const;
+public Q_SLOTS:
+    QVariantMap get(const int row) const;
+
+    void filterOnActive();
+    void filterOnQueued();
+    void filterOnPaused();
 protected:
     virtual bool filterAcceptsRow(
         int sourceRow, const QModelIndex &sourceParent) const override;
+    virtual bool lessThan(const QModelIndex &source_left,
+                          const QModelIndex &source_right) const;
 
 Q_SIGNALS:
     void countChanged();
@@ -120,6 +153,15 @@ private Q_SLOTS:
 private:
     QString m_printerName = QString::null;
     bool m_printerNameFilterEnabled = false;
+
+    bool m_activeFilterEnabled = false;
+    QSet<PrinterEnum::JobState> m_activeStates;
+
+    bool m_queuedFilterEnabled = false;
+    QSet<PrinterEnum::JobState> m_queuedStates;
+
+    bool m_pausedFilterEnabled = false;
+    QSet<PrinterEnum::JobState> m_pausedStates;
 };
 
 #endif // USC_JOB_MODEL_H

@@ -22,6 +22,8 @@ add_test(tst_printerjob testPrintersPrinterJob)
 add_executable(testPrintersPrinters tst_printers.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersPrinters UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
 add_test(tst_printers testPrintersPrinters)
+set_tests_properties(tst_printers PROPERTIES
+    ENVIRONMENT "XDG_DATA_DIRS=${CMAKE_CURRENT_SOURCE_DIR}/testdata")
 
 add_executable(testPrintersPrinterModel tst_printermodel.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersPrinterModel UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
@@ -43,6 +45,14 @@ add_executable(testPrintersJobFilter tst_jobfilter.cpp ${MOCK_SOURCES})
 target_link_libraries(testPrintersJobFilter UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
 add_test(tst_jobfilter testPrintersJobFilter)
 
-add_executable(testPrintersSignalHandler tst_signalhandler.cpp ${MOCK_SOURCES})
-target_link_libraries(testPrintersSignalHandler UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
-add_test(tst_signalhandler testPrintersSignalHandler)
+add_executable(testPrintersSignalRateLimiter tst_signalratelimiter.cpp ${MOCK_SOURCES})
+target_link_libraries(testPrintersSignalRateLimiter UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
+add_test(tst_signalratelimiter testPrintersSignalRateLimiter)
+
+add_executable(testPrintersDevice tst_printerdevice.cpp ${MOCK_SOURCES})
+target_link_libraries(testPrintersDevice UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
+add_test(tst_printerdevice testPrintersDevice)
+
+add_executable(testPrintersDeviceModel tst_printerdevicemodel.cpp ${MOCK_SOURCES})
+target_link_libraries(testPrintersDeviceModel UbuntuComponentsExtrasPrintersQml Qt5::Test Qt5::Gui)
+add_test(tst_printerdevicemodel testPrintersDeviceModel)

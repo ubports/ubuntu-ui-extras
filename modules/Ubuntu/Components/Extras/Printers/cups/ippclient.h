@@ -19,11 +19,13 @@
 
 #include "structs.h"
 
+#include <cups/adminutil.h>
 #include <cups/cups.h>
 #include <cups/http.h>
 #include <cups/ipp.h>
 #include <cups/ppd.h>
 
+#include <QMutex>
 #include <QString>
 #include <QStringList>
 
@@ -51,17 +53,25 @@ public:
                                const QString &ppdFileName,
                                const QString &info,
                                const QString &location);
+    bool printerHoldJob(const QString &printerName, const int jobId);
+    bool printerReleaseJob(const QString &printerName, const int jobId);
     bool printerSetDefault(const QString &printerName);
     bool printerSetEnabled(const QString &printerName, const bool enabled);
     bool printerSetAcceptJobs(const QString &printerName, const bool accept,
                               const QString &reason);
+    bool printerSetCopies(const QString &printerName, const int &copies);
+    bool printerSetShared(const QString &printerName, const bool shared);
     bool printerClassSetInfo(const QString &name, const QString &info);
     bool printerClassSetOption(const QString &name, const QString &option,
                                const QStringList &values);
     ppd_file_t* getPpdFile(const QString &name, const QString &instance) const;
     cups_dest_t* getDest(const QString &name, const QString &instance) const;
 
-    QMap<QString, QVariant> printerGetJobAttributes(const int jobId);
+    // Fetch more attributes, as normally just a small subset is fetched.
+    QMap<QString, QVariant> printerGetAttributes(const QString &printerName,
+        const QStringList &attributes);
+    QMap<QString, QVariant> printerGetJobAttributes(const QString &printerName,
+                                                    const int jobId);
 
     QString getLastError() const;
 
@@ -73,6 +83,7 @@ public:
     );
     int createSubscription();
     void cancelSubscription(const int &subscriptionId);
+    bool getDevices(cups_device_cb_t callback, void *context) const;
 
 private:
     enum CupsResource
@@ -115,6 +126,7 @@ private:
     http_t *m_connection;
     ipp_status_t m_lastStatus = IPP_OK;
     mutable QString m_internalStatus = QString::null;
+    QMutex m_thread_lock;
 };
 
 
