@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "printersignalhandler.h"
+#include "signalratelimiter.h"
 
-PrinterSignalHandler::PrinterSignalHandler(int triggerEventDelay,
+SignalRateLimiter::SignalRateLimiter(int triggerEventDelay,
                                            QObject *parent)
     : QObject(parent)
 {
@@ -24,11 +24,11 @@ PrinterSignalHandler::PrinterSignalHandler(int triggerEventDelay,
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(process()));
 }
 
-PrinterSignalHandler::~PrinterSignalHandler()
+SignalRateLimiter::~SignalRateLimiter()
 {
 }
 
-void PrinterSignalHandler::process()
+void SignalRateLimiter::process()
 {
     Q_FOREACH(auto printer, m_unprocessed) {
         Q_EMIT printerModified(printer);
@@ -37,7 +37,7 @@ void PrinterSignalHandler::process()
     m_timer.stop();
 }
 
-void PrinterSignalHandler::onPrinterModified(
+void SignalRateLimiter::onPrinterModified(
     const QString &text, const QString &printerUri,
     const QString &printerName, uint printerState,
     const QString &printerStateReason, bool acceptingJobs)
@@ -49,11 +49,22 @@ void PrinterSignalHandler::onPrinterModified(
     Q_UNUSED(printerStateReason);
     Q_UNUSED(acceptingJobs);
 
+    // Track when the first item was added to the unprocessed queue
+    if (m_unprocessed.count() == 0) {
+        m_unprocessed_time = QDateTime::currentDateTime();
+    }
+
     m_unprocessed << printerName;
     m_timer.start();
+
+    // Ensure that process is fired if we have reached four times
+    // longer than the timer, this is due to many signals coming in rapidly
+    if (m_unprocessed_time.msecsTo(QDateTime::currentDateTime()) > m_timer.interval() * 4) {
+        process();
+    }
 }
 
-void PrinterSignalHandler::onPrinterStateChanged(
+void SignalRateLimiter::onPrinterStateChanged(
     const QString &text, const QString &printerUri,
     const QString &printerName, uint printerState,
     const QString &printerStateReason, bool acceptingJobs)
@@ -64,6 +75,17 @@ void PrinterSignalHandler::onPrinterStateChanged(
     Q_UNUSED(printerStateReason);
     Q_UNUSED(acceptingJobs);
 
+    // Track when the first item was added to the unprocessed queue
+    if (m_unprocessed.count() == 0) {
+        m_unprocessed_time = QDateTime::currentDateTime();
+    }
+
     m_unprocessed << printerName;
     m_timer.start();
+
+    // Ensure that process is fired if we have reached four times
+    // longer than the timer, this is due to many signals coming in rapidly
+    if (m_unprocessed_time.msecsTo(QDateTime::currentDateTime()) > m_timer.interval() * 4) {
+        process();
+    }
 }
