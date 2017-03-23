@@ -51,17 +51,17 @@ MainView {
                 }
             }
 
-            Component.onCompleted: {
-                printer.description;
-            }
-
             Flickable {
                 id: printerFlickable
                 anchors.fill: parent
-
+                contentHeight: contentItem.childrenRect.height
                 Loader {
                     id: printerPageBitsLoader
-                    anchors.fill: parent
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+
                     sourceComponent: printer.isLoaded ? printerPageLoaded : printerPageNotYetLoaded
                 }
             }
@@ -70,7 +70,7 @@ MainView {
                 id: printerPageLoaded
 
                 Column {
-                    spacing: units.gu(2)
+                    height: childrenRect.height + anchors.topMargin
                     anchors {
                         top: parent.top
                         topMargin: units.gu(2)
@@ -88,6 +88,31 @@ MainView {
                         control: Switch {
                             checked: printer.printerEnabled
                             onCheckedChanged: printer.printerEnabled = checked
+                        }
+                    }
+
+                    ListItems.SingleValue {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        text: "Status"
+
+                        value: {
+                            var state;
+                            if (printer.state == PrinterEnum.IdleState) {
+                                state = i18n.tr("Idle");
+                            } else if (printer.state == PrinterEnum.AbortedState) {
+                                state = i18n.tr("Aborted");
+                            } else if (printer.state == PrinterEnum.ActiveState) {
+                                state = i18n.tr("Active");
+                            } else if (printer.state == PrinterEnum.ErrorState) {
+                                state = i18n.tr("Stopped");
+                            }
+                            return "%1 — %2"
+                                .arg(state)
+                                .arg(printer.lastMessage ?
+                                     printer.lastMessage : i18n.tr("No messages"));
                         }
                     }
 
@@ -109,25 +134,30 @@ MainView {
                             left: parent.left
                             right: parent.right
                         }
+                        text: "Shared"
+
+                        control: Switch {
+                            checked: printer.shared
+                            onCheckedChanged: printer.shared = checked
+                        }
+                    }
+
+                    ListItems.Standard {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
                         text: "Jobs"
                         progression: true
                         onClicked: pageStack.push(jobPage, { printer: printer })
                     }
 
-                    Label {
+                    ListItems.Standard {
                         anchors {
                             left: parent.left
                             right: parent.right
-                            margins: units.gu(2)
                         }
                         text: "Description"
-                    }
-
-                    ListItems.SingleControl {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
 
                         control: TextField {
                            anchors {
@@ -139,6 +169,27 @@ MainView {
                             text: printer.description
                             onTextChanged: printer.description = text
                         }
+                    }
+
+                    ListItems.Standard {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        text: "Copies"
+
+                        control: TextField {
+                            id: copiesField
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            text: printer.copies
+                            validator: IntValidator {
+                                bottom: 1
+                                top: 999
+                            }
+                            width: units.gu(10)
+                            onTextChanged: printer.copies = text
+                        }
+
                     }
 
 
@@ -200,7 +251,65 @@ MainView {
                                 selectedIndex = printer.printQuality
                         }
                     }
+
+                    ListItems.SingleControl {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        control: Button {
+                            text: "Print test page"
+                            onClicked: Printers.printTestPage(printer.name)
+                        }
+                    }
+
+                    ListItems.SingleValue {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        text: "Device URI"
+                        value: printer.deviceUri
+                    }
                 }
+            }
+        }
+    }
+
+    Component {
+        id: jobDelegate
+
+        ListItem {
+            height: modelLayout.height + (divider.visible ? divider.height : 0)
+            trailingActions: ListItemActions {
+                actions: [
+                    Action {
+                        iconName: model.held ? "media-playback-start" : "media-playback-pause"
+                        text: model.held ? "Release" : "Hold"
+
+                        onTriggered: {
+                            if (model.held) {
+                                Printers.releaseJob(model.printerName, model.id);
+                            } else {
+                                Printers.holdJob(model.printerName, model.id);
+                            }
+                        }
+                    },
+                    Action {
+                        iconName: "cancel"
+                        text: "Cancel"
+
+                        onTriggered: Printers.cancelJob(model.printerName, model.id);
+                    }
+                ]
+            }
+
+            ListItemLayout {
+                id: modelLayout
+                title.text: displayName
+                subtitle.text: "Printing " + model.impressionsCompleted + " pages" + "\n" + model.printerName
+                subtitle.wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                subtitle.maximumLineCount: 3
             }
         }
     }
@@ -219,25 +328,10 @@ MainView {
                 id: jobList
                 anchors.fill: parent
                 model: printer.jobs
-                delegate: ListItem {
-                    height: jobLayout.height + (divider.visible ? divider.height : 0)
-                    ListItemLayout {
-                        id: jobLayout
-                        title.text: displayName
-
-                        Icon {
-                            id: icon
-                            width: height
-                            height: units.gu(2.5)
-                            name: "stock_document"
-                            SlotsLayout.position: SlotsLayout.First
-                        }
-                    }
-                }
+                delegate: jobDelegate
             }
         }
     }
-
 
     Component {
         id: allJobsPage
@@ -252,21 +346,7 @@ MainView {
                 id: jobsList
                 anchors.fill: parent
                 model: Printers.printJobs
-                delegate: ListItem {
-                    height: jobsLayout.height + (divider.visible ? divider.height : 0)
-                    ListItemLayout {
-                        id: jobsLayout
-                        title.text: displayName
-
-                        Icon {
-                            id: icon
-                            width: height
-                            height: units.gu(2.5)
-                            name: "stock_document"
-                            SlotsLayout.position: SlotsLayout.First
-                        }
-                    }
-                }
+                delegate: jobDelegate
             }
         }
     }
@@ -338,8 +418,17 @@ MainView {
 
                         ProgressionSlot {}
                     }
-                    onClicked: pageStack.push(printerPage, { printer: model })
+                    onClicked: {
+                        Printers.loadPrinter(model.name);
+                        pageStack.push(printerPage, { printer: model });
+                    }
                 }
+            }
+
+            Label {
+                anchors.centerIn: parent
+                visible: printerList.count === 0
+                text: "No printers found"
             }
         }
     }
@@ -423,9 +512,7 @@ MainView {
                 }
             }
 
-            Component.onCompleted: {
-                Printers.prepareToAddPrinter();
-            }
+            Component.onCompleted: Printers.prepareToAddPrinter()
 
             Timer {
                 id: okTimer
@@ -436,14 +523,12 @@ MainView {
             Flickable {
                 id: addPrinterFlickable
                 anchors.fill: parent
+                contentHeight: contentItem.childrenRect.height
 
                 Column {
                     id: addPrinterCol
                     property bool enabled: true
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
+                    anchors { left: parent.left; right: parent.right }
 
                     Item {
                         id: errorMessageContainer
@@ -476,10 +561,7 @@ MainView {
 
                     ListItems.ValueSelector {
                         id: driverSelector
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Choose driver"
                         values: [
                             "Select printer from database",
@@ -489,10 +571,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Filter drivers"
                         control: TextField {
                             id: driverFilter
@@ -559,10 +638,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Printer name"
                         control: TextField {
                             id: printerName
@@ -572,10 +648,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Description (optional)"
                         control: TextField {
                             id: printerDescription
@@ -585,10 +658,7 @@ MainView {
                     }
 
                     ListItems.Standard {
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                        }
+                        anchors { left: parent.left; right: parent.right }
                         text: "Location (optional)"
                         control: TextField {
                             id: printerLocation
@@ -596,6 +666,93 @@ MainView {
                         }
                         enabled: parent.enabled
                     }
+                }
+
+                Label {
+                    id: remotePrintersLabel
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: units.gu(2)
+                        top: addPrinterCol.bottom
+                    }
+                    text: "Other printers"
+
+                    ActivityIndicator {
+                        id: remotePrintersSearchIndicator
+                        anchors {
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
+                        property var target
+                        Component.onCompleted: target = Printers.devices
+                        running: target.searching
+                    }
+                }
+
+                ListView {
+                    id: remotePrintersList
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: remotePrintersLabel.bottom
+                        topMargin: units.gu(2)
+                    }
+                    height: contentItem.childrenRect.height
+                    model: Printers.devices
+                    delegate: ListItem {
+                        height: modelLayout.height + (divider.visible ? divider.height : 0)
+                        ListItemLayout {
+                            id: modelLayout
+                            title.text: displayName
+                            subtitle.text: {
+                                if (type == PrinterEnum.LPDType) return "LPD";
+                                if (type == PrinterEnum.IppSType) return "IppS";
+                                if (type == PrinterEnum.Ipp14Type) return "Ipp14";
+                                if (type == PrinterEnum.HttpType) return "Http";
+                                if (type == PrinterEnum.BehType) return "Beh";
+                                if (type == PrinterEnum.SocketType) return "Socket";
+                                if (type == PrinterEnum.HttpsType) return "Https";
+                                if (type == PrinterEnum.IppType) return "Ipp";
+                                if (type == PrinterEnum.HPType) return "HP";
+                                if (type == PrinterEnum.USBType) return "USB";
+                                if (type == PrinterEnum.HPFaxType) return "HPFax";
+                                if (type == PrinterEnum.DNSSDType) return "DNSSD";
+                                else return "Unknown protocol";
+                            }
+
+                            Icon {
+                                id: icon
+                                width: height
+                                height: units.gu(2.5)
+                                name: "network-printer-symbolic"
+                                SlotsLayout.position: SlotsLayout.First
+                            }
+
+                            Button {
+                                text: "Select printer"
+                                onClicked: {
+                                    var suggestedPrinterName = (" " + displayName).slice(1);
+                                    suggestedPrinterName = suggestedPrinterName.replace(/\ /g, "\-");
+                                    printerUri.text = uri;
+                                    printerName.text = suggestedPrinterName;
+                                    printerDescription.text = info;
+                                    printerLocation.text = location;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Label {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: remotePrintersLabel.bottom
+                        topMargin: units.gu(2)
+                    }
+                    text: "No other printers found"
+                    visible: !remotePrintersSearchIndicator.running && remotePrintersList.count == 0
                 }
             }
         }

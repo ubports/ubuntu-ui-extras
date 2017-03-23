@@ -21,7 +21,7 @@
 
 #include "models/jobmodel.h"
 #include "printer/printer.h"
-#include "printer/printersignalhandler.h"
+#include "printer/signalratelimiter.h"
 
 #include <QAbstractListModel>
 #include <QByteArray>
@@ -47,9 +47,13 @@ public:
         DuplexRole,
         SupportedDuplexModesRole,
         NameRole,
+        DeviceUriRole,
+        HostNameRole,
+        MakeRole,
+        LocationRole,
         EnabledRole,
         AcceptJobsRole,
-        PdfModeRole,
+        SharedRole,
         PrintQualityRole,
         SupportedPrintQualitiesRole,
         DescriptionRole,
@@ -68,6 +72,9 @@ public:
 
         /* Indicates that this printers has no associated PPD. */
         IsRawRole,
+        IsRemoteRole,
+        LastMessageRole,
+        CopiesRole,
         JobRole,
         LastRole = JobRole,
     };
@@ -92,13 +99,12 @@ private:
         const CountChangeSignal &notify = CountChangeSignal::Defer);
     void removePrinter(QSharedPointer<Printer> printer,
         const CountChangeSignal &notify = CountChangeSignal::Defer);
-    void movePrinter(const int &from, const int &to);
     void updatePrinter(QSharedPointer<Printer> old,
                        QSharedPointer<Printer> newPrinter);
     PrinterBackend *m_backend;
 
     QList<QSharedPointer<Printer>> m_printers;
-    PrinterSignalHandler m_signalHandler;
+    SignalRateLimiter m_signalHandler;
 
 private Q_SLOTS:
     void printerLoaded(QSharedPointer<Printer> printer);
@@ -127,6 +133,7 @@ public:
     void filterOnState(const PrinterEnum::State &state);
     void filterOnRecent(const bool recent);
     void filterOnPdf(const bool pdf);
+    void filterOnRemote(const bool remote);
 
     int count() const;
 protected:
@@ -149,6 +156,8 @@ private:
     bool m_recentEnabled = false;
     bool m_pdfEnabled = false;
     bool m_pdf = false;
+    bool m_remoteEnabled = false;
+    bool m_remote = false;
 };
 
 #endif // USC_PRINTER_MODEL_H

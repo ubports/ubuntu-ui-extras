@@ -14,31 +14,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "printer/printersignalhandler.h"
+#ifndef USC_PRINTERS_CUPS_JOBLOADER_H
+#define USC_PRINTERS_CUPS_JOBLOADER_H
 
-#include <QDebug>
+#include "printer/printer.h"
+#include "printer/printerjob.h"
+
+#include <QList>
 #include <QObject>
-#include <QSignalSpy>
-#include <QTest>
+#include <QSharedPointer>
 
-class TestSignalHandler : public QObject
+class JobLoader : public QObject
 {
     Q_OBJECT
-private Q_SLOTS:
-    void testEmptyCount()
-    {
-        PrinterSignalHandler handler(500);
-        QSignalSpy modifiedSpy(&handler, SIGNAL(printerModified(const QString&)));
+    PrinterBackend *m_backend;
+    int m_job_id;
+    QString m_printer_name;
+public:
+    explicit JobLoader(PrinterBackend *backend,
+                       QString printerName, int jobId,
+                       QObject *parent = Q_NULLPTR);
+    ~JobLoader();
 
-        for (int i = 0; i < 500; i++) {
-            handler.onPrinterStateChanged("spam!", "ipp://bar/baz", "printer-a", 0, "none", true);
-        }
+public Q_SLOTS:
+    void load();
 
-        modifiedSpy.wait(1000);
-        QCOMPARE(modifiedSpy.count(), 1);
-    }
+Q_SIGNALS:
+    void finished();
+    void loaded(QString, int, QMap<QString, QVariant>);
 };
 
-QTEST_GUILESS_MAIN(TestSignalHandler)
-#include "tst_signalhandler.moc"
-
+#endif // USC_PRINTERS_CUPS_JOBLOADER_H

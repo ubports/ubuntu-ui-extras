@@ -40,7 +40,7 @@ public:
 
     virtual bool holdsDefinition() const override
     {
-        return true;
+        return m_holdsDefinition;
     }
 
     virtual QString printerAdd(const QString &name,
@@ -105,6 +105,19 @@ public:
         return returnValue;
     }
 
+    virtual QString printerSetCopies(const QString &name, const int &copies)
+    {
+        printerOptions[name].insert("Copies", copies);
+        return returnValue;
+    }
+
+    virtual QString printerSetShared(const QString &name,
+                                     const bool shared) override
+    {
+        printerOptions[name].insert("Shared", shared);
+        return returnValue;
+    }
+
     virtual QString printerSetInfo(const QString &name,
                                    const QString &info) override
     {
@@ -163,6 +176,32 @@ public:
         }
     }
 
+    virtual void holdJob(const QString &printerName, const int jobId) override
+    {
+        // Change the faked job state
+        Q_FOREACH(auto job, m_jobs) {
+            if (job->printerName() == printerName
+                    && job->jobId() == jobId) {
+                job->setState(PrinterEnum::JobState::Held);
+            }
+        }
+
+        Q_EMIT jobState("", "", printerName, 1, "", true, jobId, static_cast<uint>(PrinterEnum::JobState::Held), "", "", 1);
+    }
+
+    virtual void releaseJob(const QString &printerName, const int jobId) override
+    {
+        // Change the faked job state
+        Q_FOREACH(auto job, m_jobs) {
+            if (job->printerName() == printerName
+                    && job->jobId() == jobId) {
+                job->setState(PrinterEnum::JobState::Pending);
+            }
+        }
+
+        Q_EMIT jobState("", "", printerName, 1, "", true, jobId, static_cast<uint>(PrinterEnum::JobState::Pending), "", "", 1);
+    }
+
     virtual int printFileToDest(const QString &filepath,
                                 const QString &title,
                                 const cups_dest_t *dest) override
@@ -184,9 +223,39 @@ public:
     virtual QMap<QString, QVariant> printerGetJobAttributes(
             const QString &name, const int jobId) override
     {
-        Q_UNUSED(name);
-        Q_UNUSED(jobId);
-        return QMap<QString, QVariant>();
+        QMap<QString, QVariant> attributes;
+
+        Q_FOREACH(auto job, m_jobs) {
+            if (job->printerName() == name
+                    && job->jobId() == jobId) {
+                // Emulate reverse of PrinterJob::loadAttributes
+                // using local jobs defined in tests
+                attributes.insert("Collate", job->collate());
+                attributes.insert("copies", job->copies());
+                attributes.insert("ColorModel", job->getColorModel().name);
+                attributes.insert("CompletedTime", job->completedTime());
+                attributes.insert("CreationTime", job->creationTime());
+                attributes.insert("Duplex", Utils::duplexModeToPpdChoice(job->getDuplexMode()));
+                attributes.insert("impressionsCompleted", job->impressionsCompleted());
+                attributes.insert("landscape", job->landscape());
+                attributes.insert("messages", job->messages());
+                if (job->printRangeMode() == PrinterEnum::PrintRange::AllPages) {
+                    attributes.insert("page-ranges", QStringList());
+                } else {
+                    attributes.insert("page-ranges", job->printRange().split(QLocale::system().groupSeparator()));
+                }
+                attributes.insert("ProcessingTime", job->processingTime());
+                attributes.insert("Quality", job->getPrintQuality().name);
+                attributes.insert("OutputOrder", job->reverse() ? "Reverse" : "Normal");
+                attributes.insert("State", static_cast<int>(job->state()));
+                attributes.insert("Size", job->size());
+                attributes.insert("User", job->user());
+
+                break;
+            }
+        }
+
+        return attributes;
     }
 
     virtual QString printerName() const override
@@ -207,6 +276,11 @@ public:
     virtual QString makeAndModel() const override
     {
         return m_makeAndModel;
+    }
+
+    virtual bool isRemote() const override
+    {
+        return m_remote;
     }
 
     virtual PrinterEnum::State state() const override
@@ -287,6 +361,17 @@ public:
         m_requestedPrinters << printerName;
     }
 
+    virtual void requestJobExtendedAttributes(QSharedPointer<Printer> printer, QSharedPointer<PrinterJob> job) override
+    {
+        QMap<QString, QVariant> attributes = printerGetJobAttributes(printer->name(), job->jobId());
+
+        Q_EMIT jobLoaded(printer->name(), job->jobId(), attributes);
+    }
+
+    virtual PrinterEnum::PrinterType type() const override
+    {
+        return m_type;
+    }
 
     void mockPrinterAdded(
         const QString &text,
@@ -339,6 +424,34 @@ public:
         );
     }
 
+    void mockJobCompleted(
+        const QString &text, const QString &printer_uri,
+        const QString &printer_name, uint printer_state,
+        const QString &printer_state_reasons, bool printer_is_accepting_jobs,
+        uint job_id, uint job_state, const QString &job_state_reasons,
+        const QString &job_name, uint job_impressions_completed)
+    {
+        Q_EMIT jobCompleted(
+            text, printer_uri, printer_name, printer_state,
+            printer_state_reasons, printer_is_accepting_jobs, job_id,
+            job_state, job_state_reasons, job_name, job_impressions_completed
+        );
+    }
+
+    void mockJobState(
+        const QString &text, const QString &printer_uri,
+        const QString &printer_name, uint printer_state,
+        const QString &printer_state_reasons, bool printer_is_accepting_jobs,
+        uint job_id, uint job_state, const QString &job_state_reasons,
+        const QString &job_name, uint job_impressions_completed)
+    {
+        Q_EMIT jobState(
+            text, printer_uri, printer_name, printer_state,
+            printer_state_reasons, printer_is_accepting_jobs, job_id,
+            job_state, job_state_reasons, job_name, job_impressions_completed
+        );
+    }
+
     void mockDriversLoaded(const QList<PrinterDriver> &drivers)
     {
         Q_EMIT printerDriversLoaded(drivers);
@@ -354,6 +467,11 @@ public:
         Q_EMIT printerLoaded(printer);
     }
 
+    void mockDeviceFound(const Device &device)
+    {
+        Q_EMIT deviceFound(device);
+    }
+
     QString returnValue = QString::null;
 
     // Map from printer to key/val.
@@ -365,6 +483,9 @@ public:
     QMap<QString, QString> locations;
     QMap<QString, PrinterEnum::ErrorPolicy> errorPolicies;
     QMap<QString, PrinterEnum::OperationPolicy> operationPolicies;
+
+    bool m_holdsDefinition = true;
+    bool m_remote = false;
 
     QString m_description = QString::null;
     QString m_location = QString::null;
@@ -382,6 +503,8 @@ public:
     QList<QSharedPointer<Printer>> m_availablePrinters;
     QList<QSharedPointer<PrinterJob>> m_jobs;
     QStringList m_requestedPrinters;
+
+    PrinterEnum::PrinterType m_type = PrinterEnum::PrinterType::ProxyType;
 
 Q_SIGNALS:
     void printToFile(const QString &filepath, const QString &title);

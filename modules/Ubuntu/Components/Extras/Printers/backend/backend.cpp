@@ -91,6 +91,22 @@ QString PrinterBackend::printerSetAcceptJobs(
     return QString();
 }
 
+QString PrinterBackend::printerSetCopies(const QString &name,
+                                         const int &copies)
+{
+    Q_UNUSED(name);
+    Q_UNUSED(copies);
+    return QString();
+}
+
+QString PrinterBackend::printerSetShared(const QString &name,
+                                         const bool shared)
+{
+    Q_UNUSED(name);
+    Q_UNUSED(shared);
+    return QString();
+}
+
 QString PrinterBackend::printerSetInfo(const QString &name,
                                        const QString &info)
 {
@@ -139,6 +155,18 @@ void PrinterBackend::cancelJob(const QString &name, const int jobId)
     Q_UNUSED(name);
 }
 
+void PrinterBackend::holdJob(const QString &name, const int jobId)
+{
+    Q_UNUSED(jobId);
+    Q_UNUSED(name);
+}
+
+void PrinterBackend::releaseJob(const QString &name, const int jobId)
+{
+    Q_UNUSED(jobId);
+    Q_UNUSED(name);
+}
+
 int PrinterBackend::printFileToDest(const QString &filepath,
                             const QString &title,
                             const cups_dest_t *dest)
@@ -152,6 +180,14 @@ int PrinterBackend::printFileToDest(const QString &filepath,
 QList<QSharedPointer<PrinterJob>> PrinterBackend::printerGetJobs()
 {
     return QList<QSharedPointer<PrinterJob>>{};
+}
+
+QSharedPointer<PrinterJob> PrinterBackend::printerGetJob(
+        const QString &printerName, const int jobId)
+{
+    Q_UNUSED(printerName);
+    Q_UNUSED(jobId);
+    return QSharedPointer<PrinterJob>(Q_NULLPTR);
 }
 
 QMap<QString, QVariant> PrinterBackend::printerGetJobAttributes(
@@ -180,6 +216,11 @@ QString PrinterBackend::location() const
 QString PrinterBackend::makeAndModel() const
 {
     return QString();
+}
+
+bool PrinterBackend::isRemote() const
+{
+    return false;
 }
 
 PrinterEnum::State PrinterBackend::state() const
@@ -246,6 +287,13 @@ QSharedPointer<Printer> PrinterBackend::getPrinter(const QString &printerName)
 QString PrinterBackend::defaultPrinterName()
 {
     return QString();
+}
+
+void PrinterBackend::requestJobExtendedAttributes(
+        QSharedPointer<Printer> printer, QSharedPointer<PrinterJob> job)
+{
+    Q_UNUSED(printer);
+    Q_UNUSED(job);
 }
 
 void PrinterBackend::requestPrinterDrivers()
