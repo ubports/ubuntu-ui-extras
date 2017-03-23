@@ -84,6 +84,87 @@ public:
     }
 };
 
+struct Device
+{
+public:
+    QString cls;
+    QString id;
+    QString info;
+    QString makeModel;
+    QString uri;
+    QString location;
+    PrinterEnum::DeviceType type()
+    {
+        auto parts = uri.split(":", QString::SkipEmptyParts);
+        QString scheme = parts.size() > 0 ? parts[0] : QStringLiteral("");
+        if (scheme == QStringLiteral("dnssd"))
+            return PrinterEnum::DeviceType::DNSSDType;
+        else if (scheme == QStringLiteral("lpd"))
+            return PrinterEnum::DeviceType::LPDType;
+        else if (scheme == QStringLiteral("ipps"))
+            return PrinterEnum::DeviceType::IppSType;
+        else if (scheme == QStringLiteral("ipp14"))
+            return PrinterEnum::DeviceType::Ipp14Type;
+        else if (scheme == QStringLiteral("http"))
+            return PrinterEnum::DeviceType::HttpType;
+        else if (scheme == QStringLiteral("beh"))
+            return PrinterEnum::DeviceType::BehType;
+        else if (scheme == QStringLiteral("socket"))
+            return PrinterEnum::DeviceType::SocketType;
+        else if (scheme == QStringLiteral("https"))
+            return PrinterEnum::DeviceType::HttpsType;
+        else if (scheme == QStringLiteral("ipp"))
+            return PrinterEnum::DeviceType::IppType;
+        else if (scheme == QStringLiteral("hp"))
+            return PrinterEnum::DeviceType::HPType;
+        else if (scheme == QStringLiteral("usb"))
+            return PrinterEnum::DeviceType::USBType;
+        else if (scheme == QStringLiteral("hpfax"))
+            return PrinterEnum::DeviceType::HPFaxType;
+        else
+            return PrinterEnum::DeviceType::UnknownType;
+    }
+
+    QString toString() const {
+        /* 1. Split the id, which is of format "KEY:VAL; … KEYN:VALN;" into
+               ["KEY:VAL", …, "KEYN:VALN"]
+           2. Split each pair into
+               ["KEY", "VAL"] … ["KEYN", "VALN"]*/
+        QMap<QString, QString> idMap;
+        auto pairs = id.split(";");
+        Q_FOREACH(const QString &pair, pairs) {
+            auto keyValue = pair.split(":");
+
+            /* Sometimes key,val pairs are not terminated by ";". We just
+            use the first value in that case. E.g.:
+                "MFG:HP MDL:Laserfjert;"
+            Will give "HP" as MFG, and "" as MDL. */
+            if (keyValue.size() >= 2) {
+                idMap[keyValue[0]] = keyValue[1];
+            }
+        }
+        auto mfg = idMap.value("MFG", "");
+        auto mdl = idMap.value("MDL", "");
+
+        /* If the MDL field contains CMD, somebody forgot to terminate, and we
+        remove it. */
+        if (mdl.contains("CMD")) {
+            mdl = mdl.split("CMD")[0];
+        }
+
+        return QString("%1 %2").arg(mfg).arg(mdl);
+    }
+
+    bool operator==(const Device &other)
+    {
+        return ((cls == other.cls) && (id == other.id) && (info == other.info) &&
+                (makeModel == other.makeModel) && (uri == other.uri) &&
+                (location == other.location));
+    }
+};
+
+
+
 Q_DECLARE_TYPEINFO(ColorModel, Q_PRIMITIVE_TYPE);
 Q_DECLARE_METATYPE(ColorModel)
 
@@ -93,5 +174,8 @@ Q_DECLARE_METATYPE(PrintQuality)
 Q_DECLARE_TYPEINFO(PrinterDriver, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(PrinterDriver)
 Q_DECLARE_METATYPE(QList<PrinterDriver>)
+
+Q_DECLARE_TYPEINFO(Device, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(Device)
 
 #endif // USC_PRINTERS_STRUCTS_H

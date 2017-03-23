@@ -60,6 +60,54 @@ private Q_SLOTS:
         m_instance->setDescription(desc);
         QCOMPARE(m_backend->infos.value(m_printerName), desc);
     }
+    void testDeviceUri()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert(
+            "DeviceUri", "/dev/null");
+        Printer p(backend);
+        QCOMPARE(p.deviceUri(), (QString) "/dev/null");
+    }
+    void testLastMessage()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert(
+            "StateMessage", "died");
+        Printer p(backend);
+        QCOMPARE(p.lastMessage(), (QString) "died");
+    }
+    void testMakeModel()
+    {
+        m_backend->m_makeAndModel = "make and model";
+        QCOMPARE(m_instance->make(), m_backend->makeAndModel());
+    }
+    void testLocation()
+    {
+        m_backend->m_location = "location";
+        QCOMPARE(m_instance->location(), m_backend->location());
+    }
+    void testCopies()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert("Copies", "2");
+        Printer p(backend);
+        QCOMPARE(p.copies(), 2);
+    }
+    void testSetCopies()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+        backend->printerOptions[m_printerName].insert("Copies", "2");
+        Printer p(backend);
+        p.setCopies(5);
+        QCOMPARE(backend->printerOptions[m_printerName].value("Copies").toInt(), 5);
+    }
+    void testRemote()
+    {
+        m_backend->m_remote = false;
+        QCOMPARE(m_instance->isRemote(), m_backend->isRemote());
+        m_backend->m_remote = true;
+        QCOMPARE(m_instance->isRemote(), m_backend->isRemote());
+    }
     void testSupportedDuplexModes_data()
     {
         QTest::addColumn<QList<PrinterEnum::DuplexMode>>("modes");
@@ -263,6 +311,32 @@ private Q_SLOTS:
         p2.setAcceptJobs(false);
         QVERIFY(!backend->printerOptions[m_printerName]["AcceptJobs"].toBool());
     }
+    void testShared()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+
+        backend->printerOptions[m_printerName].insert("Shared", false);
+        Printer p(backend);
+        QVERIFY(!p.shared());
+
+        backend->printerOptions[m_printerName].insert("Shared", true);
+        Printer p2(backend);
+        QVERIFY(p2.shared());
+    }
+    void testSetShared()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+
+        backend->printerOptions[m_printerName].insert("Shared", false);
+        Printer p(backend);
+        p.setShared(true);
+        QVERIFY(backend->printerOptions[m_printerName]["Shared"].toBool());
+
+        backend->printerOptions[m_printerName].insert("Shared", true);
+        Printer p2(backend);
+        p2.setShared(false);
+        QVERIFY(!backend->printerOptions[m_printerName]["Shared"].toBool());
+    }
     void testJobs()
     {
         JobModel jobs;
@@ -273,6 +347,28 @@ private Q_SLOTS:
             m_instance->jobs()
         );
         QCOMPARE(proxy->sourceModel()->objectName(), jobs.objectName());
+    }
+
+    /* There was a bug causing QML thread assertion to fail. The assertion
+    requires all QObjects accessed from QML to be in the same thread as QML.
+    For newly loaded non-proxy printers, this was not the case. This test
+    serves as a regression test, as well as a place where we can make sure
+    every QObject of the Printer API moves thread when the printer itself
+    moves.
+
+    For POD, this is inconsequential. */
+    void testPrinterMovesProperlyFromThread()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend(m_printerName);
+
+        Printer p(backend);
+        QThread thread;
+        p.moveToThread(&thread);
+
+        QCOMPARE(p.thread(), &thread);
+
+        // Ideally, all QObjects in the Printer API needs to be tested here.
+        QCOMPARE(p.jobs()->thread(), &thread);
     }
 private:
     QString m_printerName = "my-printer";

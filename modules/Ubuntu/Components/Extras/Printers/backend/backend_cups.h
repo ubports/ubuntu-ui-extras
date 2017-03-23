@@ -55,6 +55,10 @@ public:
         const QString &name,
         const bool accept,
         const QString &reason = QString::null) override;
+    virtual QString printerSetCopies(
+        const QString &name, const int &copies) override;
+    virtual QString printerSetShared(const QString &name,
+                                     const bool shared) override;
     virtual QString printerSetInfo(const QString &name,
                                    const QString &info) override;
     virtual QString printerAddOption(const QString &name,
@@ -71,15 +75,20 @@ public:
                                   const PrinterJob *options) override;
 
     virtual void cancelJob(const QString &name, const int jobId) override;
+    virtual void holdJob(const QString &name, const int jobId) override;
+    virtual void releaseJob(const QString &name, const int jobId) override;
     virtual int printFileToDest(const QString &filepath,
                                 const QString &title,
                                 const cups_dest_t *dest) override;
     virtual QList<QSharedPointer<PrinterJob>> printerGetJobs() override;
+    virtual QSharedPointer<PrinterJob> printerGetJob(
+            const QString &printerName, const int jobId) override;
 
     virtual QString printerName() const override;
     virtual QString description() const override;
     virtual QString location() const override;
     virtual QString makeAndModel() const override;
+    virtual bool isRemote() const override;
 
     virtual PrinterEnum::State state() const override;
     virtual QList<QPageSize> supportedPageSizes() const override;
@@ -96,6 +105,10 @@ public:
     virtual QStringList availablePrinterNames() override;
     virtual QSharedPointer<Printer> getPrinter(const QString &printerName) override;
     virtual QString defaultPrinterName() override;
+
+    virtual void requestJobExtendedAttributes(
+            QSharedPointer<Printer> printer,
+            QSharedPointer<PrinterJob> job) override;
     virtual void requestPrinterDrivers() override;
     virtual void requestPrinter(const QString &printerName) override;
     virtual QMap<QString, QVariant> printerGetJobAttributes(
@@ -104,6 +117,11 @@ public:
 public Q_SLOTS:
     virtual void refresh() override;
     void createSubscription();
+
+    /* Starts a search for devices. Devices are synonymous with network devices
+    that may potentially be queues. This search will take at minimum 5 seconds,
+    normally longer. */
+    void searchForDevices();
 
 Q_SIGNALS:
     void cancelWorkers();
@@ -120,16 +138,22 @@ private:
     QString getPrinterInstance(const QString &name) const;
     cups_dest_t* getDest(const QString &name) const;
     ppd_file_t* getPpd(const QString &name) const;
+    bool isExtendedAttribute(const QString &attributeName) const;
+
     const QStringList m_knownQualityOptions;
+    const QStringList m_extendedAttributeNames;
     IppClient *m_client;
     QPrinterInfo m_info;
     OrgCupsCupsdNotifierInterface *m_notifier;
     int m_cupsSubscriptionId;
     mutable QMap<QString, cups_dest_t*> m_dests; // Printer name, dest.
     mutable QMap<QString, ppd_file_t*> m_ppds; // Printer name, ppd.
-    QSet<QString> m_activeRequests;
+    QSet<QString> m_activePrinterRequests;
+    QSet<QPair<QString, int>> m_activeJobRequests;
 
 private Q_SLOTS:
+    void onJobLoaded(QString printerName, int jobId,
+                     QMap<QString, QVariant> attributes);
     void onPrinterLoaded(QSharedPointer<Printer> printer);
 };
 

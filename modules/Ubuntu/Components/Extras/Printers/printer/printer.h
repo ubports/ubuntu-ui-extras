@@ -49,17 +49,24 @@ public:
     QStringList supportedDuplexStrings() const;
     PrinterEnum::DuplexMode defaultDuplexMode() const;
     QString name() const;
+    QString deviceUri() const;
+    QString make() const;
     PrintQuality defaultPrintQuality() const;
     QList<PrintQuality> supportedPrintQualities() const;
     QString description() const;
+    QString location() const;
     QPageSize defaultPageSize() const;
     QList<QPageSize> supportedPageSizes() const;
     PrinterEnum::AccessControl accessControl() const;
     PrinterEnum::ErrorPolicy errorPolicy() const;
     PrinterEnum::State state() const;
+    bool shared() const;
     bool acceptJobs() const;
     bool holdsDefinition() const;
+    bool isRemote() const;
+    QString lastMessage() const;
     QAbstractItemModel* jobs();
+    int copies() const;
 
     PrinterEnum::PrinterType type() const;
 
@@ -68,9 +75,11 @@ public:
     void setDefaultDuplexMode(const PrinterEnum::DuplexMode &duplexMode);
     void setEnabled(const bool enabled);
     void setAcceptJobs(const bool accepting);
+    void setShared(const bool shared);
     void setDefaultPrintQuality(const PrintQuality &quality);
     void setDefaultPageSize(const QPageSize &pageSize);
     void setJobModel(JobModel* jobModel);
+    void setCopies(const int &copies);
 
     bool deepCompare(QSharedPointer<Printer> other) const;
     void updateFrom(QSharedPointer<Printer> other);
@@ -79,10 +88,22 @@ public:
 public Q_SLOTS:
     int printFile(const QString &filepath, const PrinterJob *options);
 
+private Q_SLOTS:
+    void onPrinterStateChanged(
+        const QString &text, const QString &printerUri,
+        const QString &printerName, uint printerState,
+        const QString &printerStateReason, bool acceptingJobs
+    );
+
 private:
-    void loadAcceptJobs();
-    void loadColorModel();
-    void loadPrintQualities();
+    void updateAcceptJobs(const QMap<QString, QVariant> &serverAttrs);
+    void updateColorModel(const QMap<QString, QVariant> &serverAttrs);
+    void updatePrintQualities(const QMap<QString, QVariant> &serverAttrs);
+    void updateLastMessage(const QMap<QString, QVariant> &serverAttrs);
+    void updateDeviceUri(const QMap<QString, QVariant> &serverAttrs);
+    void updateCopies(const QMap<QString, QVariant> &serverAttrs);
+    void updateShared(const QMap<QString, QVariant> &serverAttrs);
+    void loadAttributes();
 
     JobFilter m_jobs;
     PrinterBackend *m_backend;
@@ -91,6 +112,11 @@ private:
     PrintQuality m_defaultPrintQuality;
     QList<PrintQuality> m_supportedPrintQualities;
     bool m_acceptJobs;
+    bool m_shared;
+    QString m_deviceUri;
+    int m_copies;
+
+    QString m_stateMessage;
 };
 
 #endif // USC_PRINTERS_PRINTER_H
