@@ -36,14 +36,17 @@ private Q_SLOTS:
     void init()
     {
         m_backend = new MockPrinterBackend(m_printerName);
-        m_instance = new Printer(m_backend);
+        m_instance = QSharedPointer<Printer>(new Printer(m_backend));
     }
     void cleanup()
     {
-        QSignalSpy destroyedSpy(m_instance, SIGNAL(destroyed(QObject*)));
-        m_instance->deleteLater();
+        QSignalSpy destroyedSpy(m_instance.data(), SIGNAL(destroyed(QObject*)));
+        m_instance.clear();
         QTRY_COMPARE(destroyedSpy.count(), 1);
-        delete m_backend;
+
+        if (m_backend) {
+            delete m_backend;
+        }
     }
     void testName()
     {
@@ -370,10 +373,92 @@ private Q_SLOTS:
         // Ideally, all QObjects in the Printer API needs to be tested here.
         QCOMPARE(p.jobs()->thread(), &thread);
     }
+
+    void testUpdateFrom()
+    {
+        // Setup any variables for flipped values
+        bool newAcceptJobs = !m_instance->acceptJobs();
+        int newCopies = m_instance->copies() + 1;
+        QString newDeviceUri = m_instance->deviceUri() + "/test";
+        bool newShared = !m_instance->shared();
+        QString newLastMessage = m_instance->lastMessage() + "test";
+
+        // Setup color model and quality models
+        ColorModel colorA;
+        colorA.text = "ColorA";
+
+        ColorModel defaultColorModel;
+        defaultColorModel.text = "ColorB";
+        QList<ColorModel> colorModels({colorA, defaultColorModel});
+
+        PrintQuality qualityA;
+        qualityA.name = "QualityA";
+
+        PrintQuality defaultPrintQuality;
+        defaultPrintQuality.name = "QualityB";
+        QList<PrintQuality> qualities({qualityA, defaultPrintQuality});
+
+        QList<PrinterEnum::DuplexMode> duplexModes({
+            PrinterEnum::DuplexMode::DuplexNone,
+            PrinterEnum::DuplexMode::DuplexLongSide,
+            PrinterEnum::DuplexMode::DuplexShortSide,
+            PrinterEnum::DuplexMode::DuplexShortSide
+        });
+
+        auto newDefaultDuplexMode = m_instance->defaultDuplexMode() == PrinterEnum::DuplexMode::DuplexNone
+                ? PrinterEnum::DuplexMode::DuplexShortSide
+                : PrinterEnum::DuplexMode::DuplexNone;
+
+        // Create a printer that has different settings to the default
+        QString printerName = "test-printer-b";
+
+        MockPrinterBackend *backend = new MockPrinterBackend(printerName);
+        backend->printerOptions[printerName].insert("AcceptJobs", newAcceptJobs);
+        backend->printerOptions[printerName].insert("Copies", QString::number(newCopies));
+        backend->printerOptions[printerName].insert("DefaultColorModel", QVariant::fromValue(defaultColorModel));
+        backend->printerOptions[printerName].insert("DefaultPrintQuality", QVariant::fromValue(defaultPrintQuality));
+        backend->printerOptions[printerName].insert(
+            "DeviceUri", newDeviceUri);
+        backend->printerOptions[printerName].insert("Shared", newShared);
+        backend->printerOptions[printerName].insert(
+            "StateMessage", newLastMessage);
+        backend->printerOptions[printerName].insert(
+            "SupportedColorModels", QVariant::fromValue(colorModels));
+        backend->printerOptions[printerName].insert(
+            "SupportedPrintQualities", QVariant::fromValue(qualities));
+
+        backend->m_supportedDuplexModes = duplexModes;
+        backend->printerOptions[printerName].insert(
+            "Duplex", Utils::duplexModeToPpdChoice(newDefaultDuplexMode));
+
+        QSharedPointer<Printer> p = QSharedPointer<Printer>(new Printer(backend));
+
+        qDebug() << p->deviceUri();
+
+        // Update the default printer from this
+        m_instance->updateFrom(p);
+
+        // Check we have the new values
+        QCOMPARE(m_instance->acceptJobs(), newAcceptJobs);
+        QCOMPARE(m_instance->copies(), newCopies);
+        QCOMPARE(m_instance->defaultColorModel(), defaultColorModel);
+        QCOMPARE(m_instance->defaultPrintQuality(), defaultPrintQuality);
+        QCOMPARE(m_instance->deviceUri(), newDeviceUri);
+        QCOMPARE(m_instance->shared(), newShared);
+        QCOMPARE(m_instance->lastMessage(), newLastMessage);
+        QCOMPARE(m_instance->supportedColorModels(), colorModels);
+        QCOMPARE(m_instance->supportedPrintQualities(), qualities);
+
+        // We test that the duplexModes have changed to check that the backend
+        // has changed, as m_backend is private we can't check directly
+        QCOMPARE(m_instance->defaultDuplexMode(), newDefaultDuplexMode);
+        QCOMPARE(m_instance->supportedDuplexModes(), duplexModes);
+    }
+
 private:
     QString m_printerName = "my-printer";
     MockPrinterBackend *m_backend = nullptr;
-    Printer *m_instance = nullptr;
+    QSharedPointer<Printer> m_instance;
 };
 
 QTEST_GUILESS_MAIN(TestPrinter)
