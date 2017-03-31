@@ -433,8 +433,6 @@ private Q_SLOTS:
 
         QSharedPointer<Printer> p = QSharedPointer<Printer>(new Printer(backend));
 
-        qDebug() << p->deviceUri();
-
         // Update the default printer from this
         m_instance->updateFrom(p);
 
