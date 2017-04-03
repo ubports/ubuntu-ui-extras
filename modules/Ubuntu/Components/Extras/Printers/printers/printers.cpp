@@ -298,6 +298,10 @@ void Printers::provisionPrinter(const QString &name)
     // We mimic what System Config Printer does here.
     m_backend->printerSetEnabled(name, true);
     m_backend->printerSetAcceptJobs(name, true);
+
+    if (m_allPrinters.count() == 0) {
+        setDefaultPrinterName(name);
+    }
 }
 
 bool Printers::removePrinter(const QString &name)

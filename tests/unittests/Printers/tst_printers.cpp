@@ -327,6 +327,30 @@ private Q_SLOTS:
         QList<QVariant> args = printFileSpy.takeFirst();
         QCOMPARE(args.at(0).toString(), target);
     }
+
+    /* Test that a printer is 1) enabled and 2) set to accepting jobs upon
+    creation. Also, if the printer is the only printer, make it the default. */
+    void testPrinterProvisioning()
+    {
+        MockPrinterBackend *backend = new MockPrinterBackend;
+        Printers p(backend);
+        p.addPrinter("printer-a", "some-ppd", "ipp://foo/bar", "", "");
+
+        // Create the printer, and make it appear in the printer model.
+        MockPrinterBackend *printerBackend = new MockPrinterBackend("printer-a");
+        auto printer = QSharedPointer<Printer>(new Printer(printerBackend));
+        backend->mockPrinterLoaded(printer);
+        p.loadPrinter("printer-a");
+
+        QVERIFY(backend->enableds.contains("printer-a"));
+        QVERIFY(backend->printerOptions["printer-a"].value("AcceptJobs").toBool());
+        QCOMPARE(backend->m_defaultPrinterName, (QString) "printer-a");
+
+        p.addPrinter("printer-b", "some-ppd", "ipp://bar/baz", "", "");
+        QVERIFY(backend->enableds.contains("printer-b"));
+        QVERIFY(backend->printerOptions["printer-b"].value("AcceptJobs").toBool());
+        QCOMPARE(backend->m_defaultPrinterName, (QString) "printer-a");
+    }
 };
 
 QTEST_GUILESS_MAIN(TestPrinters)
