@@ -304,6 +304,43 @@ private Q_SLOTS:
         QCOMPARE(m_instance->title(), title);
     }
 
+    void testSetPrinterLoadDefaults()
+    {
+        ColorModel a;
+        a.colorType = PrinterEnum::ColorModelType::GrayType;
+        a.text = "Gray";
+
+        ColorModel b;
+        b.colorType = PrinterEnum::ColorModelType::ColorType;
+        b.text = "RGB";
+        QList<ColorModel> models({a, b});
+
+
+        MockPrinterBackend *backend1 = new MockPrinterBackend("printer1");
+        backend1->printerOptions["printer1"].insert("SupportedColorModels", QVariant::fromValue(models));
+        backend1->printerOptions["printer1"].insert("DefaultColorModel", QVariant::fromValue(a));
+        QSharedPointer<Printer> printer1 = QSharedPointer<Printer>(new Printer(backend1));
+
+        MockPrinterBackend *backend2 = new MockPrinterBackend("printer2");
+        backend2->printerOptions["printer2"].insert("SupportedColorModels", QVariant::fromValue(models));
+        backend2->printerOptions["printer2"].insert("DefaultColorModel", QVariant::fromValue(b));
+        QSharedPointer<Printer> printer2 = QSharedPointer<Printer>(new Printer(backend2));
+
+        // Base case
+        m_instance->setPrinter(printer1);
+        qDebug() << m_instance->colorModel() << models.indexOf(a);
+        QCOMPARE(m_instance->colorModel(), models.indexOf(a));
+        QCOMPARE(m_instance->getColorModel().text, a.text);
+        QCOMPARE(m_instance->colorModelType(), a.colorType);
+
+        // Change to a different printer and check the default updates
+        m_instance->setPrinter(printer2);
+        qDebug() << m_instance->colorModel() << models.indexOf(b);
+        QCOMPARE(m_instance->colorModel(), models.indexOf(b));
+        QCOMPARE(m_instance->getColorModel().text, b.text);
+        QCOMPARE(m_instance->colorModelType(), b.colorType);
+    }
+
     void testState()
     {
         QCOMPARE(m_instance->state(), PrinterEnum::JobState::Pending);

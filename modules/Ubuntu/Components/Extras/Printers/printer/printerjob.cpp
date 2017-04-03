@@ -215,13 +215,11 @@ void PrinterJob::loadDefaults()
         return;
     }
 
-    if (jobId() > 0) {
-        loadAttributes(
-            m_backend->printerGetJobAttributes(
-                printerName(), jobId()
-            )
-        );
-    } else {
+    // Only load the defaults if this isn't a loaded job
+    // as this is when user is making a job and has changed the printer
+    // TODO: should this be in onPrinterAboutToChange and should that only
+    // run if jobId <= 0 ?
+    if (jobId() <= 0) {
         setColorModel(m_printer->supportedColorModels().indexOf(m_printer->defaultColorModel()));
         setDuplexMode(m_printer->supportedDuplexModes().indexOf(m_printer->defaultDuplexMode()));
         setQuality(m_printer->supportedPrintQualities().indexOf(m_printer->defaultPrintQuality()));
@@ -400,6 +398,9 @@ void PrinterJob::setPrinter(QSharedPointer<Printer> printer)
             m_printerName = printer->name();
             Q_EMIT printerNameChanged();
         }
+
+        // When the printer changes ensure we update any defaults
+        loadDefaults();
 
         Q_EMIT printerChanged();
    }
