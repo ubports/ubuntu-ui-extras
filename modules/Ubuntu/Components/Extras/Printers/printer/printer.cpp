@@ -410,6 +410,7 @@ void Printer::updateFrom(QSharedPointer<Printer> other)
     // Note: do not use loadAttributes otherwise can cause UI block
     m_acceptJobs = other->m_acceptJobs;
     m_backend = other->m_backend;
+    m_copies = other->m_copies;
     m_defaultColorModel = other->m_defaultColorModel;
     m_defaultPrintQuality = other->m_defaultPrintQuality;
     m_deviceUri = other->m_deviceUri;
