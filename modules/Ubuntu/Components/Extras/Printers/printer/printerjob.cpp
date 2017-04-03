@@ -215,10 +215,8 @@ void PrinterJob::loadDefaults()
         return;
     }
 
-    // Only load the defaults if this isn't a loaded job
-    // as this is when user is making a job and has changed the printer
-    // TODO: should this be in onPrinterAboutToChange and should that only
-    // run if jobId <= 0 ?
+    // Only load the defaults if this isn't a job in the queue (one which has a
+    // jobId) as this is when user is making a job and has changed the printer
     if (jobId() <= 0) {
         setColorModel(m_printer->supportedColorModels().indexOf(m_printer->defaultColorModel()));
         setDuplexMode(m_printer->supportedDuplexModes().indexOf(m_printer->defaultDuplexMode()));
