@@ -36,13 +36,15 @@ public:
 
     bool operator==(const ColorModel& a) const
     {
-        return (name == a.name && originalOption == a.originalOption);
+        return (name == a.name && originalOption == a.originalOption
+                && text == a.text && colorType == a.colorType);
     }
     bool operator!=(const ColorModel& a) const
     {
         return !(*this == a);
     }
     void operator=(const ColorModel &m) {
+        colorType = m.colorType;
         name = m.name;
         text = m.text;
         originalOption = m.originalOption;
