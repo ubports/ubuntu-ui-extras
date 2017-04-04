@@ -108,7 +108,7 @@ Q_SIGNALS:
     void driverFilterChanged();
 
 private:
-    void provisionPrinter(const QString &name);
+    void provisionPrinter(const QString &name, const bool setAsDefault);
     PrinterBackend *m_backend;
     DeviceModel m_devices;
     DriverModel m_drivers;
