@@ -263,6 +263,8 @@ bool Printers::addPrinter(const QString &name, const QString &ppd,
                           const QString &device, const QString &description,
                           const QString &location)
 {
+    bool setAsDefault = m_allPrinters.count() == 0;
+
     QString reply = m_backend->printerAdd(name, device, ppd, description,
                                           location);
     if (!reply.isEmpty()) {
@@ -270,7 +272,7 @@ bool Printers::addPrinter(const QString &name, const QString &ppd,
         return false;
     }
 
-    provisionPrinter(name);
+    provisionPrinter(name, setAsDefault);
 
     return true;
 }
@@ -281,6 +283,8 @@ bool Printers::addPrinterWithPpdFile(const QString &name,
                                      const QString &description,
                                      const QString &location)
 {
+    bool setAsDefault = m_allPrinters.count() == 0;
+
     QString reply = m_backend->printerAddWithPpd(name, device, ppdFileName,
                                                  description, location);
     if (!reply.isEmpty()) {
@@ -288,18 +292,18 @@ bool Printers::addPrinterWithPpdFile(const QString &name,
         return false;
     }
 
-    provisionPrinter(name);
+    provisionPrinter(name, setAsDefault);
 
     return true;
 }
 
-void Printers::provisionPrinter(const QString &name)
+void Printers::provisionPrinter(const QString &name, const bool setAsDefault)
 {
     // We mimic what System Config Printer does here.
     m_backend->printerSetEnabled(name, true);
     m_backend->printerSetAcceptJobs(name, true);
 
-    if (m_allPrinters.count() == 0) {
+    if (setAsDefault) {
         setDefaultPrinterName(name);
     }
 }
