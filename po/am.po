@@ -7,15 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 10:42+0000\n"
+"POT-Creation-Date: 2017-03-21 15:33+0100\n"
 "PO-Revision-Date: 2016-01-22 14:48+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
-"X-Generator: Launchpad (build 18332)\n"
+"X-Launchpad-Export-Date: 2017-04-05 07:20+0000\n"
+"X-Generator: Launchpad (build 18335)\n"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
+msgid "Aborted"
+msgstr "ተቋርጧል"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
+msgid "Active"
+msgstr "ንቁ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -24,11 +32,11 @@ msgstr "መሰረዣ"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
-msgstr ""
+msgstr "ቀለም"
 
-#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:53
+#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr ""
+msgstr "PDF መፍጠሪያ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
@@ -43,17 +51,25 @@ msgstr "ጨርሷል"
 msgid "Enhancing photo..."
 msgstr "የ ፎቶ ጥራት መጨመሪያ..."
 
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
+msgid "Idle"
+msgstr "ስራ ፈት"
+
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
-msgstr ""
+msgstr "በ ረጅሙ ጠርዝ በኩል (መደበኛ)"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
+msgid "No messages"
+msgstr "ምንም መልእክት የለም"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr ""
+msgstr "መደበኛ"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr ""
+msgstr "በ አንድ ጎን በኩል"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
@@ -77,7 +93,15 @@ msgstr "ማዞሪያ"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr ""
+msgstr "በ አጭሩ ጠርዝ በኩል (መገልበጫ)"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
+msgid "Stopped"
+msgstr "ተቋርጧል"
+
+#: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:387
+msgid "Test page"
+msgstr "መሞከሪያ ገጽ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."

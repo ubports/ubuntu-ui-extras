@@ -7,15 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 10:42+0000\n"
+"POT-Creation-Date: 2017-03-21 15:33+0100\n"
 "PO-Revision-Date: 2016-02-03 12:03+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
-"X-Generator: Launchpad (build 18332)\n"
+"X-Launchpad-Export-Date: 2017-04-05 07:20+0000\n"
+"X-Generator: Launchpad (build 18335)\n"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
+msgid "Aborted"
+msgstr "Aborted"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
+msgid "Active"
+msgstr "Active"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -26,7 +34,7 @@ msgstr "Cancel"
 msgid "Color"
 msgstr "Colour"
 
-#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:53
+#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
 msgstr "Create PDF"
 
@@ -43,9 +51,17 @@ msgstr "Done"
 msgid "Enhancing photo..."
 msgstr "Enhancing photo..."
 
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
+msgid "Idle"
+msgstr "Idle"
+
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
 msgstr "Long Edge (Standard)"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
+msgid "No messages"
+msgstr "No messages"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
@@ -78,6 +94,14 @@ msgstr "Rotate"
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
 msgstr "Short Edge (Flip)"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
+msgid "Stopped"
+msgstr "Stopped"
+
+#: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:387
+msgid "Test page"
+msgstr "Test page"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."

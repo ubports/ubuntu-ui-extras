@@ -7,82 +7,107 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 10:42+0000\n"
+"POT-Creation-Date: 2017-03-21 15:33+0100\n"
 "PO-Revision-Date: 2016-01-11 23:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
-"X-Generator: Launchpad (build 18332)\n"
+"X-Launchpad-Export-Date: 2017-04-05 07:20+0000\n"
+"X-Generator: Launchpad (build 18335)\n"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
+msgid "Aborted"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
+msgid "Active"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 msgid "Cancel"
-msgstr ""
+msgstr "ยกเลิก"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
-msgstr ""
+msgstr "สี"
 
-#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:53
+#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr ""
+msgstr "สร้าง PDF"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 msgid "Crop"
-msgstr ""
+msgstr "ครอบตัด"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr ""
+msgstr "เสร็จสมบูรณ์"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
+msgstr "กำลังปรับแต่งรูปภาพ..."
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
+msgid "Idle"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
+msgstr "ขอบยาว (มาตรฐาน)"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
+msgid "No messages"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr ""
+msgstr "ปกติ"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr ""
+msgstr "ด้านเดียว"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr ""
+msgstr "ทำซ้ำ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr ""
+msgstr "ทำกลับรูปภาพ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 msgid "Revert to Original"
-msgstr ""
+msgstr "คืนกลับค่าดั้งเดิม"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr ""
+msgstr "คืนกลับค่าดั้งเดิม"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr ""
+msgstr "หมุนภาพ"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
 msgstr ""
 
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
+msgid "Stopped"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:387
+msgid "Test page"
+msgstr ""
+
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
 msgstr ""
+"การกระทำนี้จะยกเลิกการแก้ไขทั้งหมด รวมทั้งการกระทำต่าง ๆ ในวาระที่ผ่านมาด้วย"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr ""
+msgstr "เลิกทำ"

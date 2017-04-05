@@ -7,15 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 10:42+0000\n"
+"POT-Creation-Date: 2017-03-21 15:33+0100\n"
 "PO-Revision-Date: 2016-01-11 23:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French (Canada) <fr_CA@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
-"X-Generator: Launchpad (build 18332)\n"
+"X-Launchpad-Export-Date: 2017-04-05 07:20+0000\n"
+"X-Generator: Launchpad (build 18335)\n"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
+msgid "Aborted"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
+msgid "Active"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -24,11 +32,11 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
-msgstr ""
+msgstr "Couleur"
 
-#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:53
+#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr ""
+msgstr "Créer un PDF"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
@@ -43,17 +51,25 @@ msgstr "Terminé"
 msgid "Enhancing photo..."
 msgstr "Amélioration de la photo..."
 
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
+msgid "Idle"
+msgstr ""
+
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
+msgstr "Bord long (normal)"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
+msgid "No messages"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr ""
+msgstr "Un coté"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
@@ -77,6 +93,14 @@ msgstr "Rotation"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
+msgstr "Bord court (retourné)"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
+msgid "Stopped"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:387
+msgid "Test page"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
