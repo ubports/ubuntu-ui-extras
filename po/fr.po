@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-03-21 15:33+0100\n"
-"PO-Revision-Date: 2016-01-12 19:42+0000\n"
+"PO-Revision-Date: 2017-07-14 13:00+0000\n"
 "Last-Translator: Anne017 <anneonyme017@openmailbox.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-04-05 07:20+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
+"X-Launchpad-Export-Date: 2017-07-15 05:42+0000\n"
+"X-Generator: Launchpad (build 18419)\n"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr ""
+msgstr "Annulé"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
-msgstr ""
+msgstr "Actif"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -53,7 +53,7 @@ msgstr "Amélioration de la photo..."
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
 msgid "Idle"
-msgstr ""
+msgstr "En attente"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
@@ -61,7 +61,7 @@ msgstr "Bord long (standard)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
-msgstr ""
+msgstr "Pas de message"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
@@ -93,15 +93,15 @@ msgstr "Faire pivoter"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr "Bord court (retourné)"
+msgstr "Bord court (pivotée)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr ""
+msgstr "Arrêté"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:387
 msgid "Test page"
-msgstr ""
+msgstr "Page de test"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
