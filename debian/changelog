@@ -1,3 +1,9 @@
+ubuntu-ui-extras (0.4+ubports) vivid; urgency=medium
+
+  * Imported to UBports
+
+ -- UBports auto importer <infra@ubports.com>  Thu, 17 Aug 2017 14:20:56 +0200
+
 ubuntu-ui-extras (0.3+17.04.20170323-0ubuntu1) zesty; urgency=medium
 
   [ Andrew Hayzen, Jonas G. Drange ]
