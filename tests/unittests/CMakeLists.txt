@@ -35,4 +35,4 @@ generate_tests(
     tst_PhotoEditorPhotoImageProvider
     )
 
-add_subdirectory(Printers)
+#add_subdirectory(Printers)
