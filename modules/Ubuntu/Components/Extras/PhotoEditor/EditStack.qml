@@ -125,7 +125,7 @@ Item {
     }
 
     property Action revertAction: Action {
-            text: i18n.dtr("ubuntu-ui-extras", "Revert to Original")
+            text: i18n.dtr("ubuntu-ui-extras", "Revert to original")
             iconSource: Qt.resolvedUrl("assets/edit_revert.png")
             enabled: actionsEnabled &&
                      (level > 0 || (!_revertedInThisSession && _pristineFileExists))
