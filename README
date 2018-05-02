@@ -3,6 +3,15 @@ level of quality for inclusion in the toolkit (https://launchpad.net/ubuntu-ui-t
 - lack of documentation
 - lack of automated tests
 
+= Dependencies =
+
+    $ apt-get install qtcore5-dev
+                      qtbase5-dev
+                      qtdeclarative5-dev
+                      libexiv2-dev
+                      libcups2-dev
+
+
 = Building =
 
 The build system uses cmake.
@@ -33,4 +42,3 @@ Then do the following:
 You can get a list of all available tests with the following command:
 
     $ autopilot list ubuntu_ui_extras
-
