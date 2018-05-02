@@ -11,6 +11,7 @@ level of quality for inclusion in the toolkit (https://launchpad.net/ubuntu-ui-t
                       libexiv2-dev
                       libcups2-dev
 
+    install the cmake-extras from the ubports github
 
 = Building =
 
