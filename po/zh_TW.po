@@ -6,16 +6,25 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-02-21 10:42+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-04 12:56+0200\n"
 "PO-Revision-Date: 2016-01-11 23:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
 "X-Generator: Launchpad (build 18332)\n"
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
+msgid "Aborted"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
+msgid "Active"
+msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -26,7 +35,7 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
-#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:53
+#: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
 msgstr ""
 
@@ -43,8 +52,16 @@ msgstr "完成"
 msgid "Enhancing photo..."
 msgstr "強化照片中..."
 
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
+msgid "Idle"
+msgstr ""
+
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
+msgid "No messages"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
@@ -77,6 +94,14 @@ msgstr "旋轉"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
+msgid "Stopped"
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
+msgid "Test page"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
