@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Ripristina foto"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Ripristina originale"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Ripristina l'originale"
@@ -113,6 +110,9 @@ msgstr ""
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Annulla"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Ripristina originale"
 
 #~ msgid "Include location"
 #~ msgstr "Includi posizione"

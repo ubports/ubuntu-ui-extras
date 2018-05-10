@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Assevel ar skeudenn"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Distreiñ d'ar stumm orin"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Distreiñ d'ar stumm orin"
@@ -111,3 +108,6 @@ msgstr "Nullet e vo an holl gemmoù, re an dalc'hoù a-raok hag all."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Dizober"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Distreiñ d'ar stumm orin"

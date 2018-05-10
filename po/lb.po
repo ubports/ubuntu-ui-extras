@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Fotto zerécksetzen"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Original rëm hierstellen"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Original rëm hierstellen"
@@ -111,3 +108,6 @@ msgstr "Heimadder ginn all Ännerunge verworf, och déi vu vireschte Sëtzungen.
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Réckgängeg"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Original rëm hierstellen"

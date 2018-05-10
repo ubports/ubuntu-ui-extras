@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Taswiir uyduur"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Aslih uduur"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Aslih uduur"
@@ -113,3 +110,6 @@ msgstr ""
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Eybex"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Aslih uduur"

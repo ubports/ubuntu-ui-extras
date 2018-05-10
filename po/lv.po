@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Atjaunot fotogrāfiju"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Atjaunot uz oriģinālu"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Atjaunot uz oriģinālu"
@@ -111,3 +108,6 @@ msgstr "Tas atsauks visus rediģējumus, tai skaitā iepriekšējā sesijā veik
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Atsaukt"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Atjaunot uz oriģinālu"

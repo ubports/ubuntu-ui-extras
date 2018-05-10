@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Поврати слику"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Врати на изворно"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Врати на изворно"
@@ -111,3 +108,6 @@ msgstr "Ово ће поништити све измене, укључујући
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Опозови"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Врати на изворно"

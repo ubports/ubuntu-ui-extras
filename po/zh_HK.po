@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "還原照片"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "還原至原始狀態"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "恢復原始狀態"
@@ -111,3 +108,6 @@ msgstr "這將撤消所有的編輯，包括那些從以前的會話。"
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "撤銷"
+
+#~ msgid "Revert to Original"
+#~ msgstr "還原至原始狀態"
