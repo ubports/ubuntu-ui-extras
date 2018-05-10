@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "שחזור התמונה"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "שחזור למקור"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "שחזור למקור"
@@ -111,3 +108,6 @@ msgstr "פעולה זו תבטל את כל העריכות, לרבות אלו מ�
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "החזרה"
+
+#~ msgid "Revert to Original"
+#~ msgstr "שחזור למקור"

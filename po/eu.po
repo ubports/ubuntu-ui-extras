@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Leheneratu argazkia"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Leheneratu jatorrizkora"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Leheneratu jatorrizkora"
@@ -111,3 +108,6 @@ msgstr "Honek aldaketa guztiak desegingo ditu, baita aurreko saioetakoak ere."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Desegin"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Leheneratu jatorrizkora"

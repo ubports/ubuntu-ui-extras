@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Dychwelyd Llun i'r Gwreiddiol"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Dychwelyd i'r Gwreiddiol"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Dychwelyd i'r gwreiddiol"
@@ -111,3 +108,6 @@ msgstr "Bydd hyn yn dadwneud y golygu i gyd gan gynnwys sesiynau blaenorol."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Dadwneud"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Dychwelyd i'r Gwreiddiol"

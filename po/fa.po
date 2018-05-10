@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "برگرداندن عکس"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "برگرداندن به اصلی"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "برگرداندن به اصلی"
@@ -111,3 +108,6 @@ msgstr "این کار تمام ویرایش‌ها را، شامل ویرایش�
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "بر‌گرداندن"
+
+#~ msgid "Revert to Original"
+#~ msgstr "برگرداندن به اصلی"

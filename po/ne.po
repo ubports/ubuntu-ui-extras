@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "तस्विर परिवर्तन उल्टाउनुहोस"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "मुल तस्विरमा उल्टाउनुहोस"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "मुल तस्विरमा उल्टाउनुहोस"
@@ -111,3 +108,6 @@ msgstr "यसले अघिल्लो सत्र सहित सबै �
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "पुर्वस्थितिमा फर्काउनुहोस्"
+
+#~ msgid "Revert to Original"
+#~ msgstr "मुल तस्विरमा उल्टाउनुहोस"

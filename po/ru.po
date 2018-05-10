@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Восстановить снимок"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Вернуться к оригиналу"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Вернуться к оригиналу"
@@ -111,3 +108,6 @@ msgstr "Это отменит все изменения, включая изме
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Отменить"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Вернуться к оригиналу"

@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Till an dealbh"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Till dhan tionndadh tùsail"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Till dhan tionndadh tùsail"
@@ -113,3 +110,6 @@ msgstr ""
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Neo-dhèan"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Till dhan tionndadh tùsail"

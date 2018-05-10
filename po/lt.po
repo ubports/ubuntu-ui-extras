@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "Sugrąžinti nuotrauką"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "Sugrąžinti į pradinę"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "Sugrąžinti į pradinę"
@@ -113,3 +110,6 @@ msgstr ""
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Atšaukti"
+
+#~ msgid "Revert to Original"
+#~ msgstr "Sugrąžinti į pradinę"

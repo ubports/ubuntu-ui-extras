@@ -81,9 +81,6 @@ msgid "Revert Photo"
 msgstr "ፎቶ እንደ ነበር መመለሻ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-msgid "Revert to Original"
-msgstr "ወደ ነበረበት መመለሻ"
-
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
 msgstr "ወደ ነበረበት መመለሻ"
@@ -111,3 +108,6 @@ msgstr "ሁሉንም እርማት መተው: ቀደም ያለውንም ክፍለ
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "መተው"
+
+#~ msgid "Revert to Original"
+#~ msgstr "ወደ ነበረበት መመለሻ"
