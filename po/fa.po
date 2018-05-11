@@ -108,6 +108,3 @@ msgstr "این کار تمام ویرایش‌ها را، شامل ویرایش�
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "بر‌گرداندن"
-
-#~ msgid "Revert to Original"
-#~ msgstr "برگرداندن به اصلی"

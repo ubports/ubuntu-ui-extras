@@ -105,24 +105,8 @@ msgstr "Página de teste"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Isto vai desfazer todas as edições, incluíndo as de sessões anteriores."
+msgstr "Isto vai desfazer todas as edições, incluíndo as de sessões anteriores."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Desfazer"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Reverter para o original"
-
-#~ msgid "Include location"
-#~ msgstr "Incluir localização"
-
-#~ msgid "Your photo has been uploaded"
-#~ msgstr "A sua foto foi carregada"
-
-#~ msgid "Post"
-#~ msgstr "Publicar"
-
-#~ msgid "There was a problem uploading your photo"
-#~ msgstr "Ocorreu um problema ao carregar a sua foto"

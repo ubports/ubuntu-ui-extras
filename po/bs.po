@@ -108,6 +108,3 @@ msgstr "Ovo će vratiti sva editovanja,uključujći i ona iz prošlih sesija."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Poništi"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Vrati na original"

@@ -105,12 +105,8 @@ msgstr "Pàgina de prova"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Això desfarà totes les modificacions, incloent-hi les de sessions anteriors."
+msgstr "Això desfarà totes les modificacions, incloent-hi les de sessions anteriors."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Desfés"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Reverteix a l'original"

@@ -108,6 +108,3 @@ msgstr "ሁሉንም እርማት መተው: ቀደም ያለውንም ክፍለ
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "መተው"
-
-#~ msgid "Revert to Original"
-#~ msgstr "ወደ ነበረበት መመለሻ"

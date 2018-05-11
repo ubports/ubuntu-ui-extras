@@ -108,6 +108,3 @@ msgstr "Ово ће поништити све измене, укључујући
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Опозови"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Врати на изворно"

@@ -103,13 +103,8 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Duma tekke daffeynaani edde anuk, wadir yaduureenim fakut tanim inkih wadir "
-"gacse le."
+msgstr "Duma tekke daffeynaani edde anuk, wadir yaduureenim fakut tanim inkih wadir gacse le."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Eybex"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Aslih uduur"

@@ -105,12 +105,8 @@ msgstr "Testseite"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Hiermit werden alle Änderungen verworfen, auch die aus vorherigen Sitzungen."
+msgstr "Hiermit werden alle Änderungen verworfen, auch die aus vorherigen Sitzungen."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Rückgängig"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Original wiederherstellen"

@@ -103,12 +103,8 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Dit zal alle bewerkingen ongedaan maken, inclusief die van vorige sessies."
+msgstr "Dit zal alle bewerkingen ongedaan maken, inclusief die van vorige sessies."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Ongedaan maken"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Herstellen naar origineel"

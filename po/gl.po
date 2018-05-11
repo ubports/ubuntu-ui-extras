@@ -108,6 +108,3 @@ msgstr "Desfará todas as modificacións incluídas as de sesións anteriores."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Desfacer"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Reverter ao orixinal"

@@ -108,6 +108,3 @@ msgstr "Ovo će poništiti sve promjene, uključujući one iz prve sesije."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Poništi"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Vrati na izvorno"

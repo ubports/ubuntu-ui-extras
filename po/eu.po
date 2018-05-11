@@ -108,6 +108,3 @@ msgstr "Honek aldaketa guztiak desegingo ditu, baita aurreko saioetakoak ere."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Desegin"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Leheneratu jatorrizkora"

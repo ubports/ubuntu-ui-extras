@@ -103,25 +103,8 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Questo annullerà tutte le modifiche, incluse quelle delle precedenti "
-"sessioni."
+msgstr "Questo annullerà tutte le modifiche, incluse quelle delle precedenti sessioni."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Annulla"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Ripristina originale"
-
-#~ msgid "Include location"
-#~ msgstr "Includi posizione"
-
-#~ msgid "Post"
-#~ msgstr "Pubblica"
-
-#~ msgid "There was a problem uploading your photo"
-#~ msgstr "Si è verificato un problema durante il caricamento della foto"
-
-#~ msgid "Your photo has been uploaded"
-#~ msgstr "La foto è stata caricata"

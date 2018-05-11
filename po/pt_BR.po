@@ -103,12 +103,8 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Isto irá desfazer todas as edições, incluindo aquelas das sessões anteriores."
+msgstr "Isto irá desfazer todas as edições, incluindo aquelas das sessões anteriores."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Desfazer"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Reverter para o original"

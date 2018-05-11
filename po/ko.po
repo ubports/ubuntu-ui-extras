@@ -108,6 +108,3 @@ msgstr "이전 세션에서 한 것을 포함해 모든 편집 작업을 취소�
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "실행 취소"
-
-#~ msgid "Revert to Original"
-#~ msgstr "원래 이미지로 돌려놓기"

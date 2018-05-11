@@ -108,6 +108,3 @@ msgstr "Aceasta va anula toate modificările, inclusiv cele efectuate anterior"
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Anulare"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Revenire la original"

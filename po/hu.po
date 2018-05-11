@@ -108,6 +108,3 @@ msgstr "Ez minden szerkesztést visszavon, beleértve a korábban történteket 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Visszavonás"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Visszatérés az eredetihez"
