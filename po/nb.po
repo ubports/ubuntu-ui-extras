@@ -107,4 +107,4 @@ msgstr "Dette tilbakestiller alle endringer, inkludert endringer fra tidligere Ã
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr "Angre""
+msgstr "Angre"
