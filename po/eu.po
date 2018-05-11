@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-05-11 20:39+0000\n"
+"PO-Revision-Date: 2018-05-11 20:59+0000\n"
 "Last-Translator: Mikel Larrea <developer@larreamikel.com>\n"
 "Language-Team: Basque <https://translate.ubports.com/projects/ubports/ubuntu-"
 "ui-extras/eu/>\n"
@@ -35,11 +35,11 @@ msgstr "Ezeztatu"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
-msgstr ""
+msgstr "Kolorez"
 
 #: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr ""
+msgstr "Sortu PDF-a"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
