@@ -107,4 +107,4 @@ msgstr "Þetta mun afturkalla allar breytingar, þar með taldar breytingar úr 
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr "Afturkalla""
+msgstr "Afturkalla"
