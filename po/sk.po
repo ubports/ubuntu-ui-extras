@@ -108,6 +108,3 @@ msgstr "Vráti späť všetky úpravy, vrátane tých z predchádzajúcich relá
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Vrátiť späť"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Vrátiť do pôvodného stavu"

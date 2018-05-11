@@ -103,13 +103,8 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Neo-dhèanaidh seo a h-uile atharrachadh, a' ghabhail a-steach an fheadhainn "
-"on na seiseanan roimhe."
+msgstr "Neo-dhèanaidh seo a h-uile atharrachadh, a' ghabhail a-steach an fheadhainn on na seiseanan roimhe."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Neo-dhèan"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Till dhan tionndadh tùsail"

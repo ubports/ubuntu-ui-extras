@@ -103,13 +103,8 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Αυτή η ενέργεια θα αναιρέσει όλες τις αλλαγές, συμπεριλαμβανομένων και αυτών "
-"από προηγούμενες συνεδρίες."
+msgstr "Αυτή η ενέργεια θα αναιρέσει όλες τις αλλαγές, συμπεριλαμβανομένων και αυτών από προηγούμενες συνεδρίες."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Αναίρεση"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Επαναφορά στην αρχική"

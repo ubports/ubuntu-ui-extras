@@ -108,6 +108,3 @@ msgstr "Tas atsauks visus rediģējumus, tai skaitā iepriekšējā sesijā veik
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Atsaukt"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Atjaunot uz oriģinālu"

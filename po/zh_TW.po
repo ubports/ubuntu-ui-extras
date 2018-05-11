@@ -110,6 +110,3 @@ msgstr "這會取消所有的編輯動作，包括先前作業階段編輯過的
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "復原"
-
-#~ msgid "Revert to Original"
-#~ msgstr "還原至原始"

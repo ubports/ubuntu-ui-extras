@@ -108,6 +108,3 @@ msgstr "ھازىرقى ۋە ئالدىنقى ئەڭگىمەلەردىكى بار
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "يېنىۋال"
-
-#~ msgid "Revert to Original"
-#~ msgstr "ئەسلىگە قايتۇر"

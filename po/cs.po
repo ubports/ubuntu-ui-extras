@@ -110,6 +110,3 @@ msgstr "Toto odstraní všechny úpravy, včetně všech předchozích sezení."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Zpět"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Vrátit zpět na původní"

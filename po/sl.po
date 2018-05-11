@@ -108,6 +108,3 @@ msgstr "To bo razveljavilo vsa urejanja, vključno s tistimi iz prejšnjih sej."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Razveljavi"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Povrni na izvirnik"

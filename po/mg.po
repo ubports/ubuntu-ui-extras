@@ -108,15 +108,3 @@ msgstr ""
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr ""
-
-#~ msgid "Include location"
-#~ msgstr "Ampidiro ilay toerana"
-
-#~ msgid "Your photo has been uploaded"
-#~ msgstr "Ny sarinao dia tafiditra soa aman-tsara"
-
-#~ msgid "Post"
-#~ msgstr "Apetaho"
-
-#~ msgid "There was a problem uploading your photo"
-#~ msgstr "Nisy olana tamin'ny nampidirana ilay sary"

@@ -108,6 +108,3 @@ msgstr "Это отменит все изменения, включая изме
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Отменить"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Вернуться к оригиналу"

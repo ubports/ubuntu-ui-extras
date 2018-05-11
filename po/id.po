@@ -110,6 +110,3 @@ msgstr "Ini akan mengembalikan semua perubahan, termasuk dari sesi sebelumnya."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Undo"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Kembali ke Aslinya"

@@ -108,6 +108,3 @@ msgstr "Heimadder ginn all Ännerunge verworf, och déi vu vireschte Sëtzungen.
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Réckgängeg"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Original rëm hierstellen"

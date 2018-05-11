@@ -108,6 +108,3 @@ msgstr "Eko bwákisa manso o sali, na mpe ya baye ya sesio ya kala."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Bwákisa"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Zonga na Ebandeli"

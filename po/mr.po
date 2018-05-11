@@ -108,6 +108,3 @@ msgstr "हे, मागील सत्रातून समाविष्�
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "पूर्ववत करा"
-
-#~ msgid "Revert to Original"
-#~ msgstr "मूळ स्थितीत आणा"

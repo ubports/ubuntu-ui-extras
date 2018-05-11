@@ -108,6 +108,3 @@ msgstr "Bydd hyn yn dadwneud y golygu i gyd gan gynnwys sesiynau blaenorol."
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Dadwneud"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Dychwelyd i'r Gwreiddiol"

@@ -103,13 +103,8 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Tai atšauks visus redagavimus, įskaitant tuos, kurie buvo atlikti "
-"ankstesniuose seansuose."
+msgstr "Tai atšauks visus redagavimus, įskaitant tuos, kurie buvo atlikti ankstesniuose seansuose."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Atšaukti"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Sugrąžinti į pradinę"

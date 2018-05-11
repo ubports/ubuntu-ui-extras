@@ -108,6 +108,3 @@ msgstr "Önceki oturumlarında dahil olacak şekilde tüm düzenlemeleri geri al
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
 msgstr "Geri Al"
-
-#~ msgid "Revert to Original"
-#~ msgstr "Aslına Döndür"
