@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-05-11 21:15+0000\n"
-"Last-Translator: Tatuus <tatuus@riseup.net>\n"
+"PO-Revision-Date: 2018-05-12 20:04+0000\n"
+"Last-Translator: Veli-Matti Rautiainen <velraut@gmail.com>\n"
 "Language-Team: Finnish <https://translate.ubports.com/projects/ubports"
 "/ubuntu-ui-extras/fi/>\n"
 "Language: fi\n"
@@ -25,23 +25,19 @@ msgid "Aborted"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
-#, fuzzy
 msgid "Active"
 msgstr "Aktiivinen"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
-#, fuzzy
 msgid "Cancel"
-msgstr "Keskeytä"
+msgstr "Peruuta"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
-#, fuzzy
 msgid "Color"
 msgstr "Väri"
 
 #: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
-#, fuzzy
 msgid "Create PDF"
 msgstr "Luo PDF"
 
