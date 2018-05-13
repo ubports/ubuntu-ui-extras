@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-05-11 21:13+0000\n"
+"PO-Revision-Date: 2018-05-12 18:01+0000\n"
 "Last-Translator: Simone <19simok89@gmail.com>\n"
 "Language-Team: Italian <https://translate.ubports.com/projects/ubports"
 "/ubuntu-ui-extras/it/>\n"
@@ -55,25 +55,24 @@ msgid "Enhancing photo..."
 msgstr "Miglioramento foto..."
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
-#, fuzzy
 msgid "Idle"
 msgstr "Inattiva"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
-msgstr ""
+msgstr "Lato lungo"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
-msgstr ""
+msgstr "Nessun messaggio"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr ""
+msgstr "Normale"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr ""
+msgstr "Unilaterale"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
@@ -94,15 +93,15 @@ msgstr "Ruota"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr ""
+msgstr "Lato corto"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr ""
+msgstr "Bloccata"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
-msgstr ""
+msgstr "Pagina di prova"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
