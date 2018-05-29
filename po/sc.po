@@ -8,101 +8,106 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2018-05-29 11:37+0000\n"
+"Last-Translator: Flavia <flavia.efloris@gmail.com>\n"
+"Language-Team: Sardinian <https://translate.ubports.com/projects/ubports"
+"/ubuntu-ui-extras/sc/>\n"
 "Language: sc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.15\n"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr ""
+msgstr "Annulladu"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
-msgstr ""
+msgstr "Ativa"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
-msgstr ""
+msgstr "Colore"
 
 #: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr ""
+msgstr "Crea PDF"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 msgid "Crop"
-msgstr ""
+msgstr "Sega"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr ""
+msgstr "Fatu"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr ""
+msgstr "Megiorende sa fotografia..."
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
 msgid "Idle"
-msgstr ""
+msgstr "Inativa"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
-msgstr ""
+msgstr "Ala longa (Istandard)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
-msgstr ""
+msgstr "Perunu messàgiu"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr ""
+msgstr "Normale"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr ""
+msgstr "A un'ala"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr ""
+msgstr "Torra a fàghere"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr ""
+msgstr "Riprìstina sa fotografia"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr ""
+msgstr "Riprìstina a s'originale"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr ""
+msgstr "Gira"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr ""
+msgstr "Ala curtza (Acovecada)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr ""
+msgstr "Blocada"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
-msgstr ""
+msgstr "Pàgina de proa"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
 msgstr ""
+"Custu at a iscontzare totus is modìficas, puru cussas de is sessiones "
+"pretzedentes."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr ""
+msgstr "Iscontza"
