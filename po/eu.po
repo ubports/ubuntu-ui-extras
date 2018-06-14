@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-05-11 20:59+0000\n"
-"Last-Translator: Mikel Larrea <developer@larreamikel.com>\n"
+"PO-Revision-Date: 2018-06-14 12:54+0000\n"
+"Last-Translator: Aitzol Berasategi <aitzol76@gmail.com>\n"
 "Language-Team: Basque <https://translate.ubports.com/projects/ubports/ubuntu-"
 "ui-extras/eu/>\n"
 "Language: eu\n"
@@ -48,7 +48,7 @@ msgstr "Moztu"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr "Eginda"
+msgstr "Egina"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
