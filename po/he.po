@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-05-11 20:57+0000\n"
+"PO-Revision-Date: 2018-06-24 20:13+0000\n"
 "Last-Translator: Eran <etherpulse@gmail.com>\n"
 "Language-Team: Hebrew <https://translate.ubports.com/projects/ubports/ubuntu-"
 "ui-extras/he/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr ""
+msgstr "בוטל"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
@@ -64,15 +64,15 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
-msgstr ""
+msgstr "אין הודעות"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr ""
+msgstr "רגיל"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr ""
+msgstr "חד צדדי"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
@@ -97,11 +97,11 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr ""
+msgstr "עצר"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
-msgstr ""
+msgstr "דף בדיקה"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
