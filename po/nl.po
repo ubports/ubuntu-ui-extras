@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-05-12 20:06+0000\n"
+"PO-Revision-Date: 2018-05-21 10:32+0000\n"
 "Last-Translator: Joachim Lazaroms <joachim.pc@gmail.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/ubports/ubuntu-"
 "ui-extras/nl/>\n"
@@ -25,7 +25,6 @@ msgid "Aborted"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
-#, fuzzy
 msgid "Active"
 msgstr "Actief"
 

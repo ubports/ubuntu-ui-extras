@@ -1,112 +1,113 @@
-# Hebrew translation for ubuntu-ui-extras
-# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
 # This file is distributed under the same license as the ubuntu-ui-extras package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-06-24 20:13+0000\n"
-"Last-Translator: Eran <etherpulse@gmail.com>\n"
-"Language-Team: Hebrew <https://translate.ubports.com/projects/ubports/ubuntu-"
-"ui-extras/he/>\n"
-"Language: he\n"
+"PO-Revision-Date: 2018-05-29 11:37+0000\n"
+"Last-Translator: Flavia <flavia.efloris@gmail.com>\n"
+"Language-Team: Sardinian <https://translate.ubports.com/projects/ubports"
+"/ubuntu-ui-extras/sc/>\n"
+"Language: sc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.15\n"
-"X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr "בוטל"
+msgstr "Annulladu"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
-msgstr "פעיל"
+msgstr "Ativa"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 msgid "Cancel"
-msgstr "ביטול"
+msgstr "Annulla"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
-msgstr "צבע"
+msgstr "Colore"
 
 #: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr "יצירת PDF"
+msgstr "Crea PDF"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 msgid "Crop"
-msgstr "חיתוך"
+msgstr "Sega"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr "בוצע"
+msgstr "Fatu"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "התמונה משתפרת…"
+msgstr "Megiorende sa fotografia..."
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
 msgid "Idle"
-msgstr ""
+msgstr "Inativa"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
-msgstr ""
+msgstr "Ala longa (Istandard)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
-msgstr "אין הודעות"
+msgstr "Perunu messàgiu"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr "רגיל"
+msgstr "Normale"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr "חד צדדי"
+msgstr "A un'ala"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr "ביצוע חוזר"
+msgstr "Torra a fàghere"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr "שחזור התמונה"
+msgstr "Riprìstina sa fotografia"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr "שחזור למקור"
+msgstr "Riprìstina a s'originale"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr "סיבוב"
+msgstr "Gira"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr ""
+msgstr "Ala curtza (Acovecada)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr "עצר"
+msgstr "Blocada"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
-msgstr "דף בדיקה"
+msgstr "Pàgina de proa"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr "פעולה זו תבטל את כל העריכות, לרבות אלו מההפעלות הקודמות."
+msgstr ""
+"Custu at a iscontzare totus is modìficas, puru cussas de is sessiones "
+"pretzedentes."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr "החזרה"
+msgstr "Iscontza"
