@@ -19,7 +19,7 @@
 #include "components.h"
 #include "example/example-model.h"
 
-#include "photoeditor/photo-data.h"
+#include "photoeditor/photo-metadata.h"
 #include "photoeditor/photo-image-provider.h"
 #include "photoeditor/file-utils.h"
 
@@ -31,8 +31,8 @@ void Components::registerTypes(const char *uri)
     qmlRegisterType<ExampleModel>(uri, 0, 2, "ExampleModel");
 
     // PhotoEditor component
-    qmlRegisterType<PhotoData>(uri, 0, 2, "PhotoData");
-    qmlRegisterSingletonType<FileUtils>(uri, 0, 2, "FileUtils",
+    qmlRegisterType<PhotoEditor::PhotoMetadata>(uri, 0, 2, "PhotoMetadata");
+    qmlRegisterSingletonType<PhotoEditor::FileUtils>(uri, 0, 2, "FileUtils",
                                         exportFileUtilsSingleton);
 
     // TabsBar component
@@ -54,5 +54,5 @@ QObject* Components::exportFileUtilsSingleton(QQmlEngine *engine,
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
 
-    return new FileUtils();
+    return new PhotoEditor::FileUtils();
 }

@@ -69,7 +69,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: units.gu(2)
             Button {
-                text: i18n.dtr("ubuntu-ui-extras", "Done")
+                text: i18n.tr("Done")
                 color: UbuntuColors.green
                 enabled: adjuster.enabled
                 onTriggered: {
@@ -78,7 +78,7 @@ Rectangle {
                 }
             }
             Button {
-                text: i18n.dtr("ubuntu-ui-extras", "Cancel")
+                text: i18n.tr("Cancel")
                 color: UbuntuColors.red
                 enabled: adjuster.enabled
                 onTriggered: {

@@ -50,6 +50,11 @@ Column {
                 action: modelData
                 enabled: bar.enabled
 
+                Rectangle {
+                    anchors.fill: parent
+                    color: pressed ? Qt.rgba(1.0, 1.0, 1.0, 0.3) : Qt.rgba(0.0, 0.0, 0.0, 0.0)
+                }
+
                 Icon {
                     anchors.centerIn: parent
                     name: modelData.iconName
@@ -57,6 +62,7 @@ Column {
                     width: units.gu(3)
                     height: units.gu(3)
                     opacity: modelData.enabled && parent.enabled ? 1.0 : 0.5
+                    color: "white"
                 }
             }
         }

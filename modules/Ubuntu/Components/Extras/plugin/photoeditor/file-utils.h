@@ -19,6 +19,8 @@
 
 #include <QObject>
 
+namespace PhotoEditor {
+
 class FileUtils : public QObject
 {
     Q_OBJECT
@@ -38,5 +40,7 @@ public:
 
     Q_INVOKABLE bool exists(QString path) const;
 };
+
+}
 
 #endif // PHOTOUTILS_H

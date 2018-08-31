@@ -22,6 +22,8 @@
 #include <QFileInfo>
 #include <QTemporaryDir>
 
+namespace PhotoEditor {
+
 FileUtils::FileUtils(QObject *parent) :
     QObject(parent)
 {
@@ -61,23 +63,7 @@ bool FileUtils::copy(QString sourceFile, QString destinationFile) const
 {
     if (sourceFile.isEmpty() || destinationFile.isEmpty()) return false;
 
-    if (QFileInfo(destinationFile).exists()) {
-        QFile src(sourceFile);
-        QFile dst(destinationFile);
-
-        if (!src.open(QIODevice::ReadOnly) || !dst.open(QIODevice::WriteOnly)) {
-            return false;
-        }
-
-        if (dst.write(src.readAll()) < 0) {
-            return false;
-        }
-
-        src.close();
-        dst.close();
-        return true;
-    }
-
+    if (QFileInfo(destinationFile).exists()) QFile::remove(destinationFile);
     return QFile::copy(sourceFile, destinationFile);
 }
 
@@ -85,23 +71,7 @@ bool FileUtils::rename(QString sourceFile, QString destinationFile) const
 {
     if (sourceFile.isEmpty() || destinationFile.isEmpty()) return false;
 
-    if (QFileInfo(destinationFile).exists()) {
-        QFile src(sourceFile);
-        QFile dst(destinationFile);
-
-        if (!src.open(QIODevice::ReadOnly) || !dst.open(QIODevice::WriteOnly)) {
-            return false;
-        }
-
-        if (dst.write(src.readAll()) < 0) {
-            return false;
-        }
-
-        src.close();
-        dst.close();
-        return QFile::remove(sourceFile);
-    }
-
+    if (QFileInfo(destinationFile).exists()) QFile::remove(destinationFile);
     return QFile::rename(sourceFile, destinationFile);
 }
 
@@ -126,4 +96,6 @@ QString FileUtils::nameFromPath(QString path) const
 bool FileUtils::exists(QString path) const
 {
     return QFileInfo::exists(path);
+}
+
 }

@@ -20,6 +20,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
+import QtHalide 0.1
 import "GraphicsRoutines.js" as GraphicsRoutines
 
 /*!
@@ -30,7 +31,7 @@ Rectangle {
 
     color: "black"
 
-    property alias targetPhoto: original.source
+    property alias targetPhoto: original.image
 
     property string matteColor: "black"
     property real matteOpacity: 0.6
@@ -41,12 +42,7 @@ Rectangle {
     signal canceled()
 
     function computeRectSet() {
-        var actualImage = Qt.rect(
-            (original.width - original.paintedWidth) / 2.0,
-            (original.height - original.paintedHeight) / 2.0,
-            original.paintedWidth,
-            original.paintedHeight
-        );
+        var actualImage = Qt.rect(0, 0, original.width, original.height);
         var photoPreview = GraphicsRoutines.fitRect(viewport, actualImage);
 
         var unfitCrop = Qt.rect(0, 0, photoPreview.width, photoPreview.height);
@@ -102,7 +98,7 @@ Rectangle {
         }
     }
 
-    Image {
+    HalideImageRenderer {
         id: original
 
         x: viewport.x
@@ -111,30 +107,23 @@ Rectangle {
         height: viewport.height
         transformOrigin: Item.TopLeft
         fillMode: Image.PreserveAspectFit
-        cache: false
-        sourceSize {
-            width: original.width
-            height: original.height
-        }
 
-        onStatusChanged: {
-            if (status == Image.Ready) {
-                var rects = computeRectSet();
+        onImageChanged: {
+            var rects = computeRectSet();
 
-                overlay.initialFrameX = rects.cropFrame.x;
-                overlay.initialFrameY = rects.cropFrame.y;
-                overlay.initialFrameWidth = rects.cropFrame.width;
-                overlay.initialFrameHeight = rects.cropFrame.height;
+            overlay.initialFrameX = rects.cropFrame.x;
+            overlay.initialFrameY = rects.cropFrame.y;
+            overlay.initialFrameWidth = rects.cropFrame.width;
+            overlay.initialFrameHeight = rects.cropFrame.height;
 
-                overlay.resetFor(rects);
-                overlay.visible = true;
+            overlay.resetFor(rects);
+            overlay.visible = true;
 
-                x = rects.photoExtent.x;
-                y = rects.photoExtent.y;
-                width = rects.photoPreview.width;
-                height = rects.photoPreview.height;
-                scale = rects.photoExtentScale;
-            }
+            x = rects.photoExtent.x;
+            y = rects.photoExtent.y;
+            width = rects.photoPreview.width;
+            height = rects.photoPreview.height;
+            scale = rects.photoExtentScale;
         }
     }
 }

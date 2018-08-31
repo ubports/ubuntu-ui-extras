@@ -37,6 +37,7 @@ Depends: ${misc:Depends},
          qml-module-qtquick2,
          qml-module-ubuntu-components,
          qml-module-qtquick-window2,
+         qtdeclarative5-halide-plugin0.1,
 Provides: qtdeclarative5-ubuntu-ui-extras0.1
 Conflicts: qtdeclarative5-ubuntu-ui-extras0.1
 Replaces: qtdeclarative5-ubuntu-ui-extras0.1

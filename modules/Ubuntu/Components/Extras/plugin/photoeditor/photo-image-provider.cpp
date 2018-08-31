@@ -19,10 +19,8 @@
 
 #include "photo-image-provider.h"
 
-#include <QtGlobal>
 #include <QtCore/QFileInfo>
 #include <QtGui/QImageReader>
-
 #include <exiv2/exiv2.hpp>
 
 const char* PhotoImageProvider::PROVIDER_ID = "photo";
@@ -60,9 +58,6 @@ QImage PhotoImageProvider::requestImage(const QString& id,
     }
 
     QImageReader reader(filePath);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
-    reader.setAutoTransform(true);
-#endif
     QSize fullSize = reader.size();
     QSize loadSize(fullSize);
 

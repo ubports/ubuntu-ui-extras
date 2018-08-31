@@ -1,3 +1,9 @@
+ubuntu-ui-extras (0.5+ubports) xenial; urgency=medium
+
+  * Halide
+
+ -- Bjarne Roß <nfsprodriver@t-online.de>  Fri, 31 Jan 2018 02:14:30 +0100
+
 ubuntu-ui-extras (0.4+ubports) xenial; urgency=medium
 
   * Imported to UBports

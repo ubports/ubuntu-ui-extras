@@ -1,5 +1,10 @@
 include(FindPkgConfig)
 pkg_check_modules(EXIV2 REQUIRED exiv2)             # photoeditor
+pkg_check_modules(HALIDE Halide)
+
+# Necessary to use Halide's Generators
+add_definitions("-std=c++11")
+add_definitions("-fno-rtti")
 
 set(PLUGIN_SRC
     components.cpp
@@ -11,12 +16,9 @@ set(EXAMPLE_PLUGIN_SRC
 
 set(PHOTO_EDITOR_PLUGIN_SRC
     photoeditor/file-utils.cpp
-    photoeditor/orientation.cpp
-    photoeditor/photo-data.cpp
     photoeditor/photo-image-provider.cpp
     photoeditor/photo-metadata.cpp
-    photoeditor/imaging.cpp
-    photoeditor/photo-edit-thread.cpp
+    photoeditor/generator_transform.cpp
     )
 
 set(TABS_BAR_PLUGIN_SRC

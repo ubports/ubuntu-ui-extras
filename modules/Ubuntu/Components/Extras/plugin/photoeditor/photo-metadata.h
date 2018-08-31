@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -13,55 +13,68 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors:
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_METADATA_H_
-#define GALLERY_PHOTO_METADATA_H_
+#ifndef PHOTO_METADATA_H
+#define PHOTO_METADATA_H
 
-// util
-#include "orientation.h"
-
-#include <QDateTime>
-#include <QFileInfo>
-#include <QObject>
-#include <QString>
-#include <QSet>
-#include <QTransform>
-#include <QImage>
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QFutureWatcher>
+#include <QtGui/QImage>
 
 #include <exiv2/exiv2.hpp>
 
-/*!
- * \brief The PhotoMetadata class
- */
+enum Orientation {
+    ORIGINAL_ORIENTATION = 0,
+    MIN_ORIENTATION = 1,
+    TOP_LEFT_ORIGIN = 1,
+    TOP_RIGHT_ORIGIN = 2,
+    BOTTOM_RIGHT_ORIGIN = 3,
+    BOTTOM_LEFT_ORIGIN = 4,
+    LEFT_TOP_ORIGIN = 5,
+    RIGHT_TOP_ORIGIN = 6,
+    RIGHT_BOTTOM_ORIGIN = 7,
+    LEFT_BOTTOM_ORIGIN = 8,
+    MAX_ORIENTATION = 8
+};
+namespace PhotoEditor {
+
 class PhotoMetadata : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString fileName READ fileName WRITE setFileName NOTIFY fileNameChanged)
+    Q_PROPERTY(int orientation READ orientation WRITE setOrientation NOTIFY orientationChanged)
+    Q_PROPERTY(bool saving READ saving NOTIFY savingChanged)
+
 public:
-    static PhotoMetadata* fromFile(const char* filepath);
-    static PhotoMetadata* fromFile(const QFileInfo& file);
+    PhotoMetadata();
 
-    QDateTime exposureTime() const;
-    Orientation orientation() const;
-    QTransform orientationTransform() const;
-    OrientationCorrection orientationCorrection() const;
+    QString fileName() const;
+    int orientation() const;
+    bool saving() const;
 
-    void setOrientation(Orientation orientation);
-    void setDateTimeDigitized(const QDateTime& digitized);
+    void setFileName(QString fileName);
+    void setOrientation(int orientation);
 
+    Q_INVOKABLE void saveImage(QImage image);
+    Q_INVOKABLE void save();
+
+Q_SIGNALS:
+    void fileNameChanged();
+    void orientationChanged();
+    void savingChanged();
+
+protected:
     void updateThumbnail(QImage image);
-    void copyTo(PhotoMetadata* other) const;
-    bool save() const;
+    void doSaveImage(QImage image);
+    void doSave();
 
 private:
-    PhotoMetadata(const char* filepath);
-    
     Exiv2::Image::AutoPtr m_image;
-    QSet<QString> m_keysPresent;
-    QFileInfo m_fileSourceInfo;
+    QString m_fileName;
+    QFutureWatcher<void> m_saveWatcher;
 };
-
-#endif // GALLERY_PHOTO_METADATA_H_
+}
+#endif // PHOTO_METADATA_H
