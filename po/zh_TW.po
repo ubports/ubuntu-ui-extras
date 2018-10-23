@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-10-23 10:49+0000\n"
+"PO-Revision-Date: 2018-10-25 10:38+0000\n"
 "Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "ubports/ubuntu-ui-extras/zh_Hant/>\n"
@@ -27,7 +27,7 @@ msgstr "已中止"
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 #, fuzzy
 msgid "Active"
-msgstr "啟動"
+msgstr "活躍"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -35,7 +35,6 @@ msgid "Cancel"
 msgstr "取消"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
-#, fuzzy
 msgid "Color"
 msgstr "顏色"
 
@@ -71,7 +70,7 @@ msgstr "無訊息"
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 #, fuzzy
 msgid "Normal"
-msgstr "標準"
+msgstr "正常標準"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 #, fuzzy
