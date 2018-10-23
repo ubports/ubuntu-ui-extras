@@ -6,9 +6,17 @@
 
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 
+ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+	CONFIGURE_OPTS += -DENABLE_TESTS=OFF
+endif
+
 %:
 	dh $@ --parallel --fail-missing
-	
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		$(CONFIGURE_OPTS)
+
 override_dh_auto_build:
 	dh_auto_build
 	$(MAKE) -C obj-$(DEB_HOST_GNU_TYPE) ubuntu-ui-extras.pot

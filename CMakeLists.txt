@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8.9)
 # Standard install paths
 include(GNUInstallDirs)
 
+option(ENABLE_TESTS "Build test programs" ON)
+
 # enable QML debugging
 if(CMAKE_BUILD_TYPE MATCHES DEBUG OR CMAKE_BUILD_TYPE MATCHES "Debug")
     add_definitions(-DQT_QML_DEBUG)
@@ -29,7 +31,8 @@ set (GETTEXT_PACKAGE "ubuntu-ui-extras")
 
 add_subdirectory(modules)
 
-enable_testing()
-
-add_subdirectory(tests)
+if(ENABLE_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 add_subdirectory(po)
