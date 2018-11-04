@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-07-21 09:02+0000\n"
+"PO-Revision-Date: 2018-10-31 21:13+0000\n"
 "Last-Translator: ierihon <idekovets@mail.ru>\n"
-"Language-Team: Russian <https://translate.ubports.com/projects/ubports"
-"/ubuntu-ui-extras/ru/>\n"
+"Language-Team: Russian <https://translate.ubports.com/projects/ubports/"
+"ubuntu-ui-extras/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 3.0.1\n"
 "X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
@@ -27,7 +27,7 @@ msgstr "Отменено"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
-msgstr ""
+msgstr "Активный"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -61,7 +61,7 @@ msgstr "Простаивает"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
-msgstr ""
+msgstr "Длинный край (стандартный)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
@@ -94,7 +94,7 @@ msgstr "Вращать"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr ""
+msgstr "Короткий край (флип)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
