@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-11-22 13:54+0000\n"
+"PO-Revision-Date: 2018-11-25 00:01+0000\n"
 "Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <https://translate.ubports.com/projects/"
 "ubports/ubuntu-ui-extras/zh_Hant_HK/>\n"
@@ -105,7 +105,7 @@ msgstr "測試頁"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr "這將撤消所有的編輯，包括那些從以前的會話。"
+msgstr "將撤消所有編輯，包括以前會話中編輯。"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
