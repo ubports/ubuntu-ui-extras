@@ -40,7 +40,7 @@ Item {
     property list<Action> toolActions: [
         Action {
             objectName: "cropButton"
-            text: i18n.tr("Crop")
+            text: i18n.dtr("ubuntu-ui-extras", "Crop")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_crop.png")
             onTriggered: {
                 photoData.isLongOperation = false;
@@ -49,7 +49,7 @@ Item {
         },
         Action {
             objectName: "rotateButton"
-            text: i18n.tr("Rotate")
+            text: i18n.dtr("ubuntu-ui-extras", "Rotate")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate_right.png")
             onTriggered: {
                 photoData.isLongOperation = false;
@@ -193,8 +193,8 @@ Item {
           Dialog {
               id: revertPrompt
               objectName: "revertPromptDialog"
-              title: i18n.tr("Revert to original")
-              text: i18n.tr("This will undo all edits, including those from previous sessions.")
+              title: i18n.dtr("ubuntu-ui-extras", "Revert to original")
+              text: i18n.dtr("ubuntu-ui-extras", "This will undo all edits, including those from previous sessions.")
 
               Row {
                   id: row
@@ -203,13 +203,13 @@ Item {
                   Button {
                       objectName: "cancelRevertButton"
                       width: parent.width/2
-                      text: i18n.tr("Cancel")
+                      text: i18n.dtr("ubuntu-ui-extras", "Cancel")
                       onClicked: PopupUtils.close(revertPrompt)
                   }
                   Button {
                       objectName: "confirmRevertButton"
                       width: parent.width/2
-                      text: i18n.tr("Revert Photo")
+                      text: i18n.dtr("ubuntu-ui-extras", "Revert Photo")
                       color: UbuntuColors.green
                       onClicked: {
                           PopupUtils.close(revertPrompt)
@@ -223,7 +223,7 @@ Item {
     BusyIndicator {
         id: busyIndicator
         anchors.centerIn: parent
-        text: i18n.tr("Enhancing photo...")
+        text: i18n.dtr("ubuntu-ui-extras", "Enhancing photo...")
         running: photoData.busy
         longOperation: photoData.isLongOperation
     }
