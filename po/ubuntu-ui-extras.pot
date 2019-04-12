@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-04 12:56+0200\n"
+"POT-Creation-Date: 2019-04-12 09:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,8 +25,8 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
+#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:215
 msgid "Cancel"
 msgstr ""
 
@@ -38,8 +38,8 @@ msgstr ""
 msgid "Create PDF"
 msgstr ""
 
-#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
+#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 msgid "Crop"
 msgstr ""
 
@@ -47,8 +47,12 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
+#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:235
 msgid "Enhancing photo..."
+msgstr ""
+
+#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:61
+msgid "Exposure"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
@@ -75,12 +79,12 @@ msgstr ""
 msgid "Redo"
 msgstr ""
 
-#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
+#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:221
 msgid "Revert Photo"
 msgstr ""
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
-#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
+#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:205
 msgid "Revert to original"
 msgstr ""
 
@@ -100,7 +104,7 @@ msgstr ""
 msgid "Test page"
 msgstr ""
 
-#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
+#: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 msgid "This will undo all edits, including those from previous sessions."
 msgstr ""
 
