@@ -55,6 +55,15 @@ Item {
                 photoData.isLongOperation = false;
                 photoData.rotateRight()
             }
+        },
+        Action {
+            objectName: "exposureButton"
+            text: i18n.tr("Exposure")
+            iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_exposure.png")
+            onTriggered: {
+                photoData.isLongOperation = false;
+                exposureSelector.start("image://photo/" + photoData.path);
+            }
         }
     ]
 
