@@ -105,7 +105,7 @@ void PhotoEditThread::run()
     }
 
     bool saved = image.save(m_photo->file().filePath(),
-                            m_photo->fileFormat().toStdString().c_str(), 90);
+                            m_photo->fileFormat().toStdString().c_str(), -1);
     if (!saved)
         qWarning() << "Error saving edited" << m_photo->file().filePath();
 
