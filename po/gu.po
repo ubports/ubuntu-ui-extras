@@ -1,112 +1,111 @@
-# Chinese (Simplified) translation for ubuntu-ui-extras
-# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
 # This file is distributed under the same license as the ubuntu-ui-extras package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2019-04-24 21:35+0000\n"
-"Last-Translator: 不朽正义 <tanyongle0633@gmail.com>\n"
-"Language-Team: Chinese (Simplified) <https://translate.ubports.com/projects/"
-"ubports/ubuntu-ui-extras/zh_Hans/>\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2019-04-11 17:24+0000\n"
+"Last-Translator: Aashrut <Aashrut99@gmail.com>\n"
+"Language-Team: Gujarati <https://translate.ubports.com/projects/ubports/"
+"ubuntu-ui-extras/gu/>\n"
+"Language: gu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.2.2\n"
-"X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr "终止"
+msgstr "રદ કરેલું"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
-msgstr "活动"
+msgstr "સક્રિય"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 msgid "Cancel"
-msgstr "取消"
+msgstr "રદ કરો"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
-msgstr "颜色"
+msgstr "રંગ"
 
 #: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr "创建PDF"
+msgstr "PDF બનાવવો"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 msgid "Crop"
-msgstr "裁剪"
+msgstr "ક્રોપ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr "完成"
+msgstr "પૂર્ણ થયું"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "增强照片……"
+msgstr "ફોટો સુધારી રહ્યા છીએ..."
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
 msgid "Idle"
-msgstr "空闲"
+msgstr "નિષ્ક્રિય"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
-msgstr "长边（标准）"
+msgstr "લાંબી એજ(પ્રમાણિત)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
-msgstr "没有通知"
+msgstr "કોઇ સંદેશાઓ નથી"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr "标准"
+msgstr "સામાન્ય"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
-msgstr "单方面"
+msgstr "એક બાજુવાળું"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr "还原"
+msgstr "ફરીથી કરો"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr "恢复照片"
+msgstr "ફોટો પાછો ફેરવો"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr "恢复原状"
+msgstr "મૂળ સ્વરૂપે પાછા ફેરવો"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr "旋转"
+msgstr "ફેરવો"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr "短边（翻转）"
+msgstr "ટૂંકી એજ (ફેરવો)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr "停止"
+msgstr "અટકી ગયું"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
-msgstr "测试页面"
+msgstr "પરીક્ષણ પૃષ્ઠ"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr "这将撤消所有编辑，包括之前的编辑。"
+msgstr "આ બધા સુધારા પૂર્વરત્ કરશે, અગાઉના સત્રના સમાવેશ સાથે."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr "撤销"
+msgstr "પૂર્વરત્ કરો"
