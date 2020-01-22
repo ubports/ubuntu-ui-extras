@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
-import Ubuntu.Components.Popups 1.0
+import QtQuick 2.9
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.Extras 0.2
 import "PhotoEditor"
 
@@ -198,36 +198,36 @@ Item {
     }
 
     Component {
-          id: revertPromptComponent
-          Dialog {
-              id: revertPrompt
-              objectName: "revertPromptDialog"
-              title: i18n.dtr("ubuntu-ui-extras", "Revert to original")
-              text: i18n.dtr("ubuntu-ui-extras", "This will undo all edits, including those from previous sessions.")
+        id: revertPromptComponent
+        Dialog {
+            id: revertPrompt
+            objectName: "revertPromptDialog"
+            title: i18n.dtr("ubuntu-ui-extras", "Revert to original")
+            text: i18n.dtr("ubuntu-ui-extras", "This will undo all edits, including those from previous sessions.")
 
-              Row {
-                  id: row
-                  width: parent.width
-                  spacing: units.gu(1)
-                  Button {
-                      objectName: "cancelRevertButton"
-                      width: parent.width/2
-                      text: i18n.dtr("ubuntu-ui-extras", "Cancel")
-                      onClicked: PopupUtils.close(revertPrompt)
-                  }
-                  Button {
-                      objectName: "confirmRevertButton"
-                      width: parent.width/2
-                      text: i18n.dtr("ubuntu-ui-extras", "Revert Photo")
-                      color: UbuntuColors.green
-                      onClicked: {
-                          PopupUtils.close(revertPrompt)
-                          stack.revertToPristine()
-                      }
-                  }
-              }
-          }
-     }
+            Row {
+                id: row
+                width: parent.width
+                spacing: units.gu(1)
+                Button {
+                    objectName: "cancelRevertButton"
+                    width: parent.width/2
+                    text: i18n.dtr("ubuntu-ui-extras", "Cancel")
+                    onClicked: PopupUtils.close(revertPrompt)
+                }
+                Button {
+                    objectName: "confirmRevertButton"
+                    width: parent.width/2
+                    text: i18n.dtr("ubuntu-ui-extras", "Revert Photo")
+                    color: theme.palette.normal.negative
+                    onClicked: {
+                        PopupUtils.close(revertPrompt)
+                        stack.revertToPristine()
+                    }
+                }
+            }
+        }
+    }
 
     BusyIndicator {
         id: busyIndicator

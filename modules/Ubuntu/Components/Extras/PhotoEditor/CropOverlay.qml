@@ -18,8 +18,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.9
+import Ubuntu.Components 1.3
 import "GraphicsRoutines.js" as GraphicsRoutines
 
 /* A CropOverlay is a semi-transparent surface that floats over the photo. It

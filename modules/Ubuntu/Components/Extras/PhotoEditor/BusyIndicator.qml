@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.9
+import Ubuntu.Components 1.3
 
 Item {
     id: busy
@@ -30,7 +30,7 @@ Item {
     UbuntuShape {
         id: busyUbuntuShape
         objectName: "busyUbuntuShape"
-        color: "white"
+        backgroundColor: themes.palette.normal.background
         anchors.centerIn: parent
         width: parent.width + units.gu(4)
         height: parent.height + units.gu(4)

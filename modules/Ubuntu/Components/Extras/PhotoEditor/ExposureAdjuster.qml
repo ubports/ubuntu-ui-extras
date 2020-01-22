@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.9
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Extras 0.2
 
 // When the photo editor uses a proper PageStack this will switch back to being
@@ -70,7 +70,6 @@ Rectangle {
             spacing: units.gu(2)
             Button {
                 text: i18n.dtr("ubuntu-ui-extras", "Cancel")
-                gradient: UbuntuColors.greyGradient
                 enabled: adjuster.enabled
                 onTriggered: {
                     targetImage.source = "";
@@ -79,12 +78,12 @@ Rectangle {
             }
             Button {
                 text: i18n.dtr("ubuntu-ui-extras", "Done")
-                color: UbuntuColors.green
+                color: theme.palette.normal.positive
                 enabled: adjuster.enabled
                 onTriggered: {
                     targetImage.source = "";
                     confirm();
-                }              
+                }
             }
         }
     }
