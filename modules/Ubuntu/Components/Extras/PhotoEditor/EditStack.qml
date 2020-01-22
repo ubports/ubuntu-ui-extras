@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.9
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Extras 0.2
 
 Item {
