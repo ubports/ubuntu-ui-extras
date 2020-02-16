@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2018-12-13 22:29+0000\n"
-"Last-Translator: P_E_T_O <peto.bena@gmail.com>\n"
+"PO-Revision-Date: 2020-02-16 19:20+0000\n"
+"Last-Translator: dano6 <dano.kutka@gmail.com>\n"
 "Language-Team: Slovak <https://translate.ubports.com/projects/ubports/"
 "ubuntu-ui-extras/sk/>\n"
 "Language: sk\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.8\n"
 "X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr "Zrušený"
+msgstr "Zrušené"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
@@ -52,7 +52,7 @@ msgstr "Hotovo"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "Vylepšenie fotografie..."
+msgstr "Vylepšujem fotografie..."
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
 msgid "Idle"
@@ -76,7 +76,7 @@ msgstr "Jednostranný"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:121
 msgid "Redo"
-msgstr "Znova"
+msgstr "Opakovať"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
@@ -97,7 +97,7 @@ msgstr "Krátka hrana (obrátené)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr "Zastavený"
+msgstr "Zastavené"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
@@ -109,4 +109,4 @@ msgstr "Vráti späť všetky úpravy, vrátane tých z predchádzajúcich relá
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
-msgstr "Vrátiť späť"
+msgstr "Späť"
