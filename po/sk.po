@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2020-02-16 19:20+0000\n"
+"PO-Revision-Date: 2020-02-25 16:21+0000\n"
 "Last-Translator: dano6 <dano.kutka@gmail.com>\n"
 "Language-Team: Slovak <https://translate.ubports.com/projects/ubports/"
 "ubuntu-ui-extras/sk/>\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr "Zrušené"
+msgstr "Zrušená"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
-msgstr "Aktívne"
+msgstr "Aktívna"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -56,7 +56,7 @@ msgstr "Vylepšujem fotografie..."
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
 msgid "Idle"
-msgstr "Nečinný"
+msgstr "Nečinná"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
@@ -97,7 +97,7 @@ msgstr "Krátka hrana (obrátené)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr "Zastavené"
+msgstr "Zastavená"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
