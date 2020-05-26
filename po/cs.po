@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2020-02-29 18:21+0000\n"
+"PO-Revision-Date: 2020-05-20 22:24+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/ubports/"
 "ubuntu-ui-extras/cs/>\n"
@@ -97,7 +97,7 @@ msgstr "Krátká strana (převrátit)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr "Zastavit"
+msgstr "Zastaveno"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
@@ -105,7 +105,7 @@ msgstr "Testovací stránka"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr "Toto odstraní všechny úpravy, včetně všech předchozích sezení."
+msgstr "Toto odstraní všechny úpravy, včetně těch z předchozích sezení."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
