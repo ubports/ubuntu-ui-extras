@@ -19,8 +19,6 @@ import Ubuntu.Components 1.3
 
 Item {
     id: busy
-    width: childrenRect.width
-    height: childrenRect.height
     property alias text: label.text
     property alias running: spinner.running
     property bool longOperation: false
@@ -30,7 +28,7 @@ Item {
     UbuntuShape {
         id: busyUbuntuShape
         objectName: "busyUbuntuShape"
-        backgroundColor: themes.palette.normal.background
+        backgroundColor: theme.palette.normal.background
         anchors.centerIn: parent
         width: parent.width + units.gu(4)
         height: parent.height + units.gu(4)
@@ -41,7 +39,6 @@ Item {
         id: busyColumn
         objectName: "busyColumn"
         anchors.centerIn: parent
-        width: childrenRect.width
         spacing: units.gu(2)
 
         ActivityIndicator {
