@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2019-07-16 07:48+0000\n"
-"Last-Translator: Yasser Lotfy <yasser-lotfy@hotmail.com>\n"
+"PO-Revision-Date: 2020-11-06 05:37+0000\n"
+"Last-Translator: abidin <abidin24@tutanota.com>\n"
 "Language-Team: Arabic <https://translate.ubports.com/projects/ubports/"
 "ubuntu-ui-extras/ar/>\n"
 "Language: ar\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 3.11.3\n"
 "X-Launchpad-Export-Date: 2017-03-19 06:38+0000\n"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr ""
+msgstr "أُلغي"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
@@ -32,7 +32,7 @@ msgstr "نشطة"
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
 msgid "Cancel"
-msgstr "إلغاء"
+msgstr "ألغ"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:44
 msgid "Color"
@@ -49,15 +49,16 @@ msgstr "اقتصاص"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr ""
+msgstr "تم"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr ""
+msgstr "يحسن الصورة…"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
+#, fuzzy
 msgid "Idle"
-msgstr ""
+msgstr "ساكن"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
@@ -65,11 +66,11 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:115
 msgid "No messages"
-msgstr ""
+msgstr "لا رسائل"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr ""
+msgstr "عادي"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
@@ -81,16 +82,16 @@ msgstr "أعِد"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr ""
+msgstr "اعكس الصورة"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr ""
+msgstr "استعِد الحالة الأصلية"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
-msgstr "تدوير"
+msgstr "أدر"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
@@ -98,15 +99,15 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
-msgstr ""
+msgstr "متوقف"
 
 #: modules/Ubuntu/Components/Extras/Printers/printers/printers.cpp:395
 msgid "Test page"
-msgstr ""
+msgstr "صفحة الاختبار"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
+msgstr "هذا سيلغي كل التغييرات، حتى التي تمت في الجلسات السابقة."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
