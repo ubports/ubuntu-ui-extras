@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2020-11-06 05:37+0000\n"
+"PO-Revision-Date: 2020-11-13 19:53+0000\n"
 "Last-Translator: abidin <abidin24@tutanota.com>\n"
 "Language-Team: Arabic <https://translate.ubports.com/projects/ubports/"
 "ubuntu-ui-extras/ar/>\n"
@@ -27,7 +27,7 @@ msgstr "أُلغي"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
-msgstr "نشطة"
+msgstr "نشط"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:206
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:81
@@ -40,12 +40,12 @@ msgstr "اللون"
 
 #: modules/Ubuntu/Components/Extras/Printers/models/printermodel.cpp:54
 msgid "Create PDF"
-msgstr "انشاء PDF"
+msgstr "انشئ PDF"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:43
 #: modules/Ubuntu/Components/Extras/PhotoEditor/CropOverlay.qml:349
 msgid "Crop"
-msgstr "اقتصاص"
+msgstr "قص"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
@@ -56,7 +56,6 @@ msgid "Enhancing photo..."
 msgstr "يحسن الصورة…"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
-#, fuzzy
 msgid "Idle"
 msgstr "ساكن"
 
