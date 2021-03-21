@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ubuntu-ui-extras\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-04 12:56+0200\n"
-"PO-Revision-Date: 2020-11-23 04:15+0000\n"
+"PO-Revision-Date: 2020-12-26 13:26+0000\n"
 "Last-Translator: Zmicer <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://translate.ubports.com/projects/ubports/"
 "ubuntu-ui-extras/be/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:106
 msgid "Aborted"
-msgstr "Адменена"
+msgstr "Перарвана"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:108
 msgid "Active"
@@ -49,15 +49,15 @@ msgstr "Абрэзаць"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/ExposureAdjuster.qml:72
 msgid "Done"
-msgstr "Зроблена"
+msgstr "Завершана"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "Палепшыць фотаздымак"
+msgstr "Паляпшэнне фотаздымка…"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:104
 msgid "Idle"
-msgstr "Бяздзейны"
+msgstr "Бяздзейнічае"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:61
 msgid "Long Edge (Standard)"
@@ -69,7 +69,7 @@ msgstr "Няма паведамленняў"
 
 #: modules/Ubuntu/Components/Extras/Printers/backend/backend_pdf.cpp:47
 msgid "Normal"
-msgstr "Нармальны"
+msgstr "Звычайны"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:64
 msgid "One Sided"
@@ -86,7 +86,7 @@ msgstr "Аднавіць фотаздымак"
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:128
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr "Да арыгіналу"
+msgstr "Вярнуцца да арыгінала"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:52
 msgid "Rotate"
@@ -94,7 +94,7 @@ msgstr "Павярнуць"
 
 #: modules/Ubuntu/Components/Extras/Printers/utils.h:59
 msgid "Short Edge (Flip)"
-msgstr "Кароткі край (фліп)"
+msgstr "Кароткі край (гартанне)"
 
 #: modules/Ubuntu/Components/Extras/Example/Printers.qml:110
 msgid "Stopped"
@@ -106,7 +106,7 @@ msgstr "Тэставая старонка"
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr "Гэта скасуе ўсе змены, улучаючы змены з папярэдніх сэсій."
+msgstr "Гэта скасуе ўсе змены, уключаючы змены з папярэдніх сеансаў."
 
 #: modules/Ubuntu/Components/Extras/PhotoEditor/EditStack.qml:114
 msgid "Undo"
