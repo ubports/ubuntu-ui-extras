@@ -1,4 +1,4 @@
-project(ubuntu-ui-extras-translations)
+project(lomiri-ui-extras-translations)
 
 include(FindGettext)
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
@@ -20,7 +20,7 @@ add_custom_target(${POT_FILE} ALL
                           --keyword=dtr:2 --keyword=dtr:2,3
                           --keyword=tr --keyword=tr:1,2
                           --keyword=__
-                          --package-name=ubuntu-ui-extras
+                          --package-name=lomiri-ui-extras
                           --copyright-holder='Canonical Ltd.'
                           ${I18N_SRC_FILES})
 

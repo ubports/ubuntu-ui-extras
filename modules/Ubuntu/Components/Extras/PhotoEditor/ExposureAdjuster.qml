@@ -69,7 +69,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: units.gu(2)
             Button {
-                text: i18n.dtr("ubuntu-ui-extras", "Cancel")
+                text: i18n.dtr("lomiri-ui-extras", "Cancel")
                 enabled: adjuster.enabled
                 onTriggered: {
                     targetImage.source = "";
@@ -77,7 +77,7 @@ Rectangle {
                 }
             }
             Button {
-                text: i18n.dtr("ubuntu-ui-extras", "Done")
+                text: i18n.dtr("lomiri-ui-extras", "Done")
                 color: theme.palette.normal.positive
                 enabled: adjuster.enabled
                 onTriggered: {

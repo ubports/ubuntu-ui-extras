@@ -1,5 +1,5 @@
-Ubuntu exta components are a collection of components that does not have the necessary
-level of quality for inclusion in the toolkit (https://launchpad.net/ubuntu-ui-toolkit):
+Lomiri exta components are a collection of components that does not have the necessary
+level of quality for inclusion in the toolkit (https://github.com/ubports/ubuntu-ui-extras):
 - lack of documentation
 - lack of automated tests
 
@@ -38,8 +38,8 @@ To run the tests, you will need to install python-autopilot and libautopilot-qt.
 Then do the following:
 
     $ cd tests/autopilot/
-    $ autopilot run ubuntu_ui_extras
+    $ autopilot run lomiri_ui_extras
 
 You can get a list of all available tests with the following command:
 
-    $ autopilot list ubuntu_ui_extras
+    $ autopilot list lomiri_ui_extras

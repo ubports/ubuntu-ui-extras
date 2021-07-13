@@ -17,7 +17,7 @@ macro(generate_tests)
         qt5_use_modules(${test} Core Qml Quick Test)
         target_link_libraries(${test}
             ${TPL_QT5_LIBRARIES}
-            ubuntu-ui-extras-plugin
+            lomiri-ui-extras-plugin
             )
         add_test(${test} 
             ${CMAKE_CURRENT_BINARY_DIR}/${test}
