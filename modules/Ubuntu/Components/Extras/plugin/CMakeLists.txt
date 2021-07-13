@@ -27,10 +27,10 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-add_library(ubuntu-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS}
+add_library(lomiri-ui-extras-plugin SHARED ${PLUGIN_SRC} ${PLUGIN_HDRS}
             ${EXAMPLE_PLUGIN_SRC} ${PHOTO_EDITOR_PLUGIN_SRC} ${TABS_BAR_PLUGIN_SRC})
-qt5_use_modules(ubuntu-ui-extras-plugin Core Qml Quick Xml Widgets)
-target_link_libraries(ubuntu-ui-extras-plugin
+qt5_use_modules(lomiri-ui-extras-plugin Core Qml Quick Xml Widgets)
+target_link_libraries(lomiri-ui-extras-plugin
     ${EXIV2_LIBRARIES}
     )
 
@@ -38,21 +38,21 @@ target_link_libraries(ubuntu-ui-extras-plugin
 set(QT_IMPORTS_DIR "${CMAKE_INSTALL_LIBDIR}/qt5/qml")
 
 set(PLUGIN_DIR ${QT_IMPORTS_DIR}/Ubuntu/Components/Extras)
-install(TARGETS ubuntu-ui-extras-plugin DESTINATION ${PLUGIN_DIR})
+install(TARGETS lomiri-ui-extras-plugin DESTINATION ${PLUGIN_DIR})
 
 # copy the product of the build (plugin binary) to the test directory before
 # unit tests are run, so it can be loaded by them.
 # Also copy it one directory up so it can be loaded by autopilot tests when
 # running them uninstalled.
 add_custom_command(
-            TARGET ubuntu-ui-extras-plugin
+            TARGET lomiri-ui-extras-plugin
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
-                $<TARGET_FILE:ubuntu-ui-extras-plugin>
+                $<TARGET_FILE:lomiri-ui-extras-plugin>
                 ${CMAKE_BINARY_DIR}/tests/unittests/Ubuntu/Components/Extras/)
 add_custom_command(
-            TARGET ubuntu-ui-extras-plugin
+            TARGET lomiri-ui-extras-plugin
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
-                $<TARGET_FILE:ubuntu-ui-extras-plugin>
+                $<TARGET_FILE:lomiri-ui-extras-plugin>
                 ../)

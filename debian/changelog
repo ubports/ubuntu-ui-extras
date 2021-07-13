@@ -1,3 +1,13 @@
+lomiri-ui-extras (0.5+ubports) focal; urgency=medium
+
+  * Rename to lomiri-ui-extras
+  * Disable qml tests
+  * Specify the domain "lomiri-ui-extras" for i18n messages
+  * Build for focal
+
+ -- Aaron Kimmig <aaron@nanu-c.org>  Sun, 07 Jan 2018 23:38:30 +0100
+
+
 ubuntu-ui-extras (0.4+ubports) xenial; urgency=medium
 
   * Imported to UBports

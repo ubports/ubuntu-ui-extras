@@ -1,4 +1,4 @@
-project(ubuntu-ui-extras)
+project(lomiri-ui-extras)
 cmake_minimum_required(VERSION 2.8.9)
 
 # Standard install paths
@@ -27,7 +27,7 @@ add_custom_target(NON_COMPILED_TARGET ALL SOURCES ${NON_COMPILED_FILES})
 
 # for dh_translations to extract the domain
 # (regarding syntax consistency, see http://pad.lv/1181187)
-set (GETTEXT_PACKAGE "ubuntu-ui-extras")
+set (GETTEXT_PACKAGE "lomiri-ui-extras")
 
 add_subdirectory(modules)
 

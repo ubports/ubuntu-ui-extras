@@ -19,4 +19,4 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	dh_auto_build
-	$(MAKE) -C obj-$(DEB_HOST_GNU_TYPE) ubuntu-ui-extras.pot
+	$(MAKE) -C obj-$(DEB_HOST_GNU_TYPE) lomiri-ui-extras.pot

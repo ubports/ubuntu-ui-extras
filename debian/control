@@ -1,7 +1,7 @@
-Source: ubuntu-ui-extras
+Source: lomiri-ui-extras
 Section: x11
 Priority: optional
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Maintainer: UBports Developers <developers@ubports.com>
 Build-Depends: cmake (>= 2.8.9),
                cmake-extras (>= 0.10),
                debhelper (>= 9),
@@ -16,31 +16,26 @@ Build-Depends: cmake (>= 2.8.9),
                qtdeclarative5-dev-tools,
                qml-module-qtquick2,
                qml-module-qttest,
-               qml-module-ubuntu-components,
-               qml-module-ubuntu-test,
+               qml-module-lomiri-components,
+               qml-module-lomiri-test,
                xvfb,
 Standards-Version: 3.9.4
-Homepage: https://launchpad.net/ubuntu-ui-extras
-# If you aren't a member of ~ubuntu-sdk-team but need to upload packaging 
-# changes, just go ahead. ~ubuntu-sdk-team will notice and sync up the code
-# again.
-Vcs-Bzr: https://code.launchpad.net/~ubuntu-sdk-team/ubuntu-ui-extras/trunk
-Vcs-Browser: http://bazaar.launchpad.net/~ubuntu-sdk-team/ubuntu-ui-extras/trunk/files
+Homepage: https://github.com/ubports/ubuntu-ui-extras
 X-Ubuntu-Use-Langpack: yes
 
-Package: qtdeclarative5-ubuntu-ui-extras0.2
+Package: qtdeclarative5-lomiri-ui-extras0.2
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          libqt5printsupport5,
          qml-module-qtqml-models2,
          qml-module-qtquick2,
-         qml-module-ubuntu-components,
+         qml-module-lomiri-components,
          qml-module-qtquick-window2,
-Provides: qtdeclarative5-ubuntu-ui-extras0.1
-Conflicts: qtdeclarative5-ubuntu-ui-extras0.1
-Replaces: qtdeclarative5-ubuntu-ui-extras0.1
-Description: Ubuntu UI Extra Components
+Provides: qtdeclarative5-lomiri-ui-extras0.1
+Conflicts: qtdeclarative5-ubuntu-ui-extras0.2
+Replaces: qtdeclarative5-ubuntu-ui-extras0.2
+Description: Lomiri UI Extra Components
  A collection of UI components that for various reasons can't be included in
- the main Ubuntu UI toolkit - mostly because of the level of quality, lack of
+ the main Lomiri UI toolkit - mostly because of the level of quality, lack of
  documentation and/or lack of automated tests.

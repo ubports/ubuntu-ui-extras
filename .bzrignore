@@ -23,8 +23,8 @@ po/*.gmo
 obj-*
 debian/files
 debian/tmp/
-debian/qtdeclarative5-ubuntu-ui-extras-plugin/
-debian/qtdeclarative5-ubuntu-ui-extras-plugin-autopilot/
+debian/qtdeclarative5-lomiri-ui-extras-plugin/
+debian/qtdeclarative5-lomiri-ui-extras-plugin-autopilot/
 debian/*.debhelper
 debian/*.debhelper.log
 debian/*.substvars
